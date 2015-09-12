@@ -5,4 +5,4 @@ sensible hacker defaults for CentOS
 
     git clone https://github.com/jakebrinkmann/dotfiles.git ~/.dotfiles
     cd ~/.dotfiles
-    sh setup.sh
+    bash setup.sh
