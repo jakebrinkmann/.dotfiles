@@ -1,0 +1,42 @@
+### MATPLOTLIBRC FORMAT
+#### CONFIGURATION BEGINS HERE
+backend      : Qt4Agg
+backend.qt4 : PyQt4        # PyQt4 | PySide
+
+### LINES
+lines.markeredgewidth  : 1     # the line width around the marker symbol
+    
+### FONT
+font.family         : serif
+font.size           : 16.0
+
+### AXES
+axes.grid           : True   # display grid or not
+axes.labelsize      : x-large  # fontsize of the x any y labels
+axes.axisbelow      : True   # whether axis gridlines and ticks are below
+                               # the axes elements (lines, text, etc)
+### TICKS
+xtick.major.size     : 6      # major tick size in points
+xtick.minor.size     : 3      # minor tick size in points
+xtick.major.width    : 1    # major tick width in points
+xtick.minor.width    : 1    # minor tick width in points
+xtick.labelsize      : x-large # fontsize of the tick labels
+ytick.major.size     : 6      # major tick size in points
+ytick.minor.size     : 3      # minor tick size in points
+ytick.major.width    : 1    # major tick width in points
+ytick.minor.width    : 1    # minor tick width in points
+ytick.labelsize      : x-large # fontsize of the tick labels
+
+### Legend
+legend.numpoints     : 1      # the number of points in the legend line
+legend.handletextpad : 0.3    # the space between the legend line and legend text in fraction of fontsize
+legend.frameon       : False   # whether or not to draw a frame around legend
+
+
+### FIGURE
+figure.figsize   : 12, 8    # figure size in inches
+
+### SAVING FIGURES
+path.simplify : True   # When True, simplify paths by removing "invisible"
+
+savefig.format      : pdf      # png, ps, pdf, svg
