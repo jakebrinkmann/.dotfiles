@@ -13,10 +13,6 @@ function symlink_force(){
 }
 
 echo "Installing..."
-
-cd ~/.dots
-
 echo "Forcing symlink creation. Godspeed!"
 symlink_force
-
 echo "Done."
