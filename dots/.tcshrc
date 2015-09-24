@@ -30,4 +30,12 @@ endif
 
 ################################################################################
 
+############################### Converting .ps #################################
+# # usage: ps2png image1.ps image2.png
+alias ps2png "convert -flatten -rotate 270 -background white -density 300 -gravity center -trim"
+# # usage: manyps2png images.ps
+alias manyps2png "mogrify -format png -page A4 -density 300 -gravity center -rotate 270 -background white -trim"
+# # usage: png2pdf image.pdf
+alias png2pdf 'convert *.png -quality 100 -units PixelsPerInch -density 72x72'
+
 
