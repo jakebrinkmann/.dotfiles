@@ -11,3 +11,5 @@
     tool = vimdiff
 [alias]
 	webui = !$HOME/.git-webui/release/libexec/git-core/git-webui
+[credential]
+	helper = cache
