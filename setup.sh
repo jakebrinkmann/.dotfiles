@@ -14,7 +14,7 @@ function symlink_force(){
 
 echo "Installing..."
 
-cd ~/.dotfiles
+cd ~/.dots
 
 echo "Forcing symlink creation. Godspeed!"
 symlink_force
