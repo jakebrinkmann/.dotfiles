@@ -1,5 +1,6 @@
 #!/bin/tcsh
-#######################Setting the user prompt #############################
+################################################################################
+########################## Set the user prompt #################################
 
 set     red="%{\033[1;31m%}"
 set   green="%{\033[0;32m%}"
@@ -17,7 +18,6 @@ breaksw
 unset red green yellow blue magenta cyan white end folder
 
 ################################################################################
-
 ################################ X11 Forwarding ################################
 
 if ($?DISPLAY == 0) then
@@ -29,7 +29,6 @@ if ($?DISPLAY == 0) then
 endif
 
 ################################################################################
-
 ############################### Converting .ps #################################
 # # usage: ps2png image1.ps image2.png
 alias ps2png "convert -flatten -rotate 270 -background white -density 300 -gravity center -trim"
@@ -38,4 +37,9 @@ alias manyps2png "mogrify -format png -page A4 -density 300 -gravity center -rot
 # # usage: png2pdf image.pdf
 alias png2pdf 'convert *.png -quality 100 -units PixelsPerInch -density 72x72'
 
+######################### Quick alias shortcuts ################################
+alias d 'date "+%j/%Y [%m/%d] %H:%M:%S (%I:%M%p) %Z"'
+alias c 'clear; cal -j; d'
+alias t "top -M -u ${USER}; c"
+alias n 'echo -ne "\033]0;Notebook\007"; jupyter notebook'
 
