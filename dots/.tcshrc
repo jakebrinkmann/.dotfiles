@@ -13,7 +13,6 @@ set     end="%{\033[0m%}"
 set  folder="%{\033]0;%~\007%}"
 
 set prompt="${folder}${green}%n${blue}@%m${end}> "
-breaksw
 
 unset red green yellow blue magenta cyan white end folder
 
