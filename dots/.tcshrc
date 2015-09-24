@@ -18,4 +18,16 @@ unset red green yellow blue magenta cyan white end folder
 
 ################################################################################
 
+################################ X11 Forwarding ################################
+
+if ($?DISPLAY == 0) then
+  if ($?REMOTEHOST) then
+    setenv DISPLAY ${REMOTEHOST}:0
+  else
+    setenv DISPLAY :0
+  endif
+endif
+
+################################################################################
+
 
