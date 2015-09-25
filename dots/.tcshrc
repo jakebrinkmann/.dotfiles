@@ -12,9 +12,11 @@ set   white="%{\033[0;37m%}"
 set     end="%{\033[0m%}"
 set  folder="%{\033]0;%~\007%}"
 
+alias GIT_BRANCH_CMD "sh -c 'git branch --no-color 2> /dev/null' | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1) /'"
 set prompt="${folder}${green}%n${blue}@%m${end}> "
+alias precmd 'set prompt="${folder}${green}%n${blue}@%m${red}`GIT_BRANCH_CMD`${end}> "'
 
-unset red green yellow blue magenta cyan white end folder
+#unset red green yellow blue magenta cyan white end folder
 
 ################################################################################
 ################################ X11 Forwarding ################################
