@@ -4,12 +4,16 @@
 [core]
     editor = vim -c vsplit -c'e SCRATCH' -c'setlocal bt=nofile ft=diff' -c'r!git diff --cached' -c 1
 [diff]
-    tool = vimdiff
+	tool = vimdiff
 [color]
     ui = auto
 [merge]
     tool = vimdiff
 [alias]
 	webui = !$HOME/.git-webui/release/libexec/git-core/git-webui
+	dt = difftool
+	df = diff
 [credential]
 	helper = cache
+[difftool]
+	prompt = false
