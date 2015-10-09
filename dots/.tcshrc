@@ -44,3 +44,8 @@ alias c 'clear; cal -j; d'
 alias t "top -M -u ${USER}; c"
 alias n 'echo -ne "\033]0;Notebook\007"; jupyter notebook'
 
+######################## System Specific #######################################
+if ( -f "${HOME}/.custom.tcsh" ) then
+	source "${HOME}/.custom.tcsh"
+endif
+
