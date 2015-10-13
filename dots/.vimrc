@@ -3,3 +3,5 @@ filetype indent plugin on
 set background=dark
 autocmd BufNewFile,BufRead *.md set filetype=markdown
 autocmd BufWritePre *.{py,pro} :%s/^\s*__updated__\zs.*\ze/\=strftime(' = "%Y-%m-%d"')
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/
