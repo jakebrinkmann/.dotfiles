@@ -1,6 +1,6 @@
 [user]
 	name = Jake Brinkmann
-	email = jake.brinkmann@ssaihq.com
+	email = jakebrinkmann@gmail.com
 [core]
     editor = vim -c vsplit -c'e SCRATCH' -c'setlocal bt=nofile ft=diff' -c'r!git diff --cached' -c 1
 [diff]
