@@ -16,8 +16,7 @@ Plugin 'nvie/vim-flake8'
 Plugin 'bling/vim-airline'
 Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdtree'
-Plugin 'jnurmine/Zenburn'
-Plugin 'altercation/vim-colors-solarized'
+Plugin 'nanotech/jellybeans.vim' 
 
 call vundle#end()
 filetype plugin indent on
@@ -36,14 +35,7 @@ nnoremap <C-n> :NERDTreeToggle<CR>
 
 syntax enable
 set background=dark
-let g:solarized_termcolors=256
-let g:solarized_degrade = 0
-let g:solarized_bold = 1
-let g:solarized_underline = 1
-let g:solarized_italic = 1
-let g:solarized_contrast = "normal"
-let g:solarized_visibility= "normal"
-colorscheme solarized
+colorscheme jellybeans
 call togglebg#map("<F5>")
 
 set cursorline
