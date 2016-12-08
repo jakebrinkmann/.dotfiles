@@ -36,7 +36,6 @@ nnoremap <C-n> :NERDTreeToggle<CR>
 syntax enable
 set background=dark
 colorscheme jellybeans
-call togglebg#map("<F5>")
 
 set cursorline
 
