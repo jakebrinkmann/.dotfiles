@@ -5,6 +5,13 @@ if [ -f ~/.bashrc ]; then
         . ~/.bashrc
 fi
 
+alias ll='ls -l'                              # long list
+
+export HISTSIZE=1000
+export HISTFILESIZE=2000
+#### export HISTFILE=~/.bash_eternal_history
+#### PROMPT_COMMAND="history -a; history -c; history -r; ${PROMPT_COMMAND}"
+
 # User specific environment and startup programs
 
 PATH=$PATH:$HOME/bin
