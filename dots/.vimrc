@@ -32,6 +32,8 @@ let g:airline_theme='wombat'
 set laststatus=2
 
 nnoremap <C-n> :NERDTreeToggle<CR>
+let g:NERDTreeDirArrowExpandable = '+'
+let g:NERDTreeDirArrowCollapsible = 'v'
 
 syntax enable
 set background=dark
