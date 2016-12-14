@@ -39,6 +39,9 @@ syntax enable
 set background=dark
 colorscheme jellybeans
 
+set hlsearch
+hi Search ctermbg=1
+
 set cursorline
 
 " Allow easy window control
