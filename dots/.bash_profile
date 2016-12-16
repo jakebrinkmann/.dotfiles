@@ -25,3 +25,6 @@ alias d='date "+%j/%Y [%m/%d] %H:%M:%S (%I:%M%p) %Z"'
 alias c='clear; cal -j; d'
 alias t="top -M -u ${USER}; c"
 
+if [ -f ~/.custom.bashrc ]; then
+        . ~/.custom.bashrc
+fi
