@@ -15,9 +15,11 @@ Plugin 'vim-scripts/indentpython.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'nvie/vim-flake8'
 Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdtree'
 Plugin 'nanotech/jellybeans.vim' 
+Bundle 'klen/python-mode'
 
 call vundle#end()
 filetype plugin indent on
