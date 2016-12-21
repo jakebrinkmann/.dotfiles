@@ -3,7 +3,7 @@ set term=xterm-256color
 set t_Co=256
 set nu " Line Numbers
 autocmd BufNewFile,BufRead *.md set filetype=markdown
-autocmd BufWritePre *.{py,pro} :%s/^\s*__updated__\zs.*\ze/\=strftime(" = '%Y-%m-%d'")
+autocmd BufWritePre *.{py,pro} :silent! %s/^\s*__updated__\zs.*\ze/\=strftime(" = '%Y-%m-%d'")
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
