@@ -29,6 +29,7 @@ set foldlevel=99
 nnoremap <space> za
 
 let python_highlight_all=1
+let mapleader = ","
 syntax on
 
 let g:airline_theme='wombat'
