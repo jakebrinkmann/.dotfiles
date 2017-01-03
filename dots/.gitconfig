@@ -8,7 +8,7 @@
 [color]
     ui = auto
 [merge]
-    tool = vimdiff
+    tool = fugitive
 [alias]
 	webui = !$HOME/.git-webui/release/libexec/git-core/git-webui
 	dt = difftool
@@ -20,3 +20,5 @@
 	helper = cache
 [difftool]
 	prompt = false
+[mergetool "fugitive"]
+        cmd = vim -f -c \"Gdiff\" \"$MERGED\"
