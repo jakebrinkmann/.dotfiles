@@ -56,3 +56,4 @@ nmap <silent> <C-l> :wincmd l<CR>
 
 " Add json prettify
 nnoremap <F5> :%!python -m json.tool<CR>
+nnoremap <F6> :%!xmllint --format %<CR>
