@@ -19,6 +19,7 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdtree'
 Plugin 'nanotech/jellybeans.vim' 
+Plugin 'elzr/vim-json'
 Bundle 'klen/python-mode'
 
 call vundle#end()
