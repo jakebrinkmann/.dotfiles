@@ -4,6 +4,7 @@ set t_Co=256
 set nu " Line Numbers
 autocmd BufNewFile,BufRead *.md set filetype=markdown
 autocmd BufWritePre *.{py,pro} :silent! %s/^\s*__updated__\zs.*\ze/\=strftime(" = '%Y-%m-%d'")
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 set colorcolumn=80
 set nocompatible
 filetype off
