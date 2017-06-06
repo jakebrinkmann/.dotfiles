@@ -16,6 +16,9 @@
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author-date-order
 	pr = "!f() { git fetch origin refs/pull/$1/head:pr/$1; } ; f"
 	pr-clean = "!git for-each-ref refs/heads/pr/* --format='%(refname)' | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done"
+	lad = log --all --decorate
+	ap = add --patch
+	rh = reset HEAD
 [credential]
 	helper = cache
 [difftool]
