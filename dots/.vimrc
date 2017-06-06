@@ -29,10 +29,12 @@ filetype plugin indent on
 set foldmethod=indent
 set foldlevel=99
 nnoremap <space> za
+nmap <c-z> :w<CR>
+imap <c-z> <Esc>:w<CR>a
 
 let python_highlight_all=1
-let mapleader = ","
 syntax on
+let mapleader = ","
 
 let g:airline_theme='wombat'
 set laststatus=2
