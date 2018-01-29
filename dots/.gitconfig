@@ -1,8 +1,11 @@
 [user]
 	name = Jake Brinkmann
 	email = jakebrinkmann@gmail.com
+	signingkey = 49C6AA5C8E3ADAEC
 [core]
     editor = vim -c vsplit -c'e SCRATCH' -c'setlocal bt=nofile ft=diff' -c'r!git diff --cached' -c 1
+	preloadindex = true
+	fscache = true
 [diff]
 	tool = vimdiff
 [color]
@@ -19,9 +22,14 @@
 	lad = log --all --decorate
 	ap = add --patch
 	rh = reset HEAD
+	rsoft = reset --soft HEAD^
 [credential]
 	helper = cache
 [difftool]
 	prompt = false
 [mergetool "fugitive"]
-        cmd = vim -f -c \"Gdiff\" \"$MERGED\"
+	cmd = vim -f -c \"Gdiff\" \"$MERGED\"
+[commit]
+	gpgsign = true
+[gc]
+	auto = 256
