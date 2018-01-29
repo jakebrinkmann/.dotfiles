@@ -1,7 +1,6 @@
 ### MATPLOTLIBRC FORMAT
 #### CONFIGURATION BEGINS HERE
-backend      : Qt4Agg
-backend.qt4 : PyQt4        # PyQt4 | PySide
+backend      : Qt5Agg
 
 ### LINES
 lines.markeredgewidth  : 1     # the line width around the marker symbol
@@ -35,6 +34,7 @@ legend.frameon       : False   # whether or not to draw a frame around legend
 
 ### FIGURE
 figure.figsize   : 12, 8    # figure size in inches
+figure.facecolor : w        # remove transparency
 
 ### SAVING FIGURES
 path.simplify : True   # When True, simplify paths by removing "invisible"
