@@ -5,7 +5,7 @@ sensible hacker defaults for CentOS
 
 Download/Install this project:
 ```bash
-git clone https://github.com/jakebrinkmann/dotfiles.git ~/.dots
+git clone git@github.com:jakebrinkmann/dotfiles.git ~/.dots
 cd ~/.dots
 bash setup.sh
 ```
@@ -16,3 +16,4 @@ bash setup.sh
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 vim # :BundleInstall
 ```
+
