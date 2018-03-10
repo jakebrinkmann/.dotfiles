@@ -43,7 +43,7 @@ let g:NERDTreeDirArrowCollapsible = '/'
 
 syntax enable
 set background=dark
-colorscheme jellybeans
+silent! colorscheme jellybeans
 
 set hlsearch
 hi Search ctermbg=1
