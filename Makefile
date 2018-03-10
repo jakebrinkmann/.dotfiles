@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := build
 VERSION    := `cat version.txt`
-REPO       := jbrinkmann/dotfiles
+REPO       := $DOCKER_USER/dotfiles
 BRANCH     := $(or $(TRAVIS_BRANCH),`git rev-parse --abbrev-ref HEAD | tr / -`)
 COMMIT     := $(or $(TRAVIS_COMMIT),`git rev-parse HEAD`)
 COMMIT_TAG := $(REPO):$(COMMIT)
