@@ -1,1 +1,8 @@
 language: c
+sudo: required
+services:
+  - docker
+script: /usr/bin/true
+deploy:
+  - provider: script
+    script: make all
