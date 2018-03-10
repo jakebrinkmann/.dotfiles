@@ -6,3 +6,6 @@ script: make build
 deploy:
   - provider: script
     script: make all
+    on:
+      all_branches: true
+
