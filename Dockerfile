@@ -5,7 +5,7 @@ RUN useradd -m jake \
 	&& echo 'jake ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/jake \
 	&& chmod 0440 /etc/sudoers.d/jake \
 	&& mkdir -p /home/jake \
-	&& chmown -R jake:jake /home/jake
+	&& chown -R jake:jake /home/jake
 USER jake
 ENV HOME=/home/jake
 
