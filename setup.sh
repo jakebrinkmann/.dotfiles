@@ -1,16 +1,13 @@
 #!/bin/bash
 
 PREFIX=${PREFIX:-${HOME}}
+DOTFILES_ROOT=./dots
 
 function symlink_force(){
-    for file in `ls -A ${PWD}/dots`; do
-        if [[ -a ${PREFIX}/${file} ]] ; then
-            if [[ ! -L ${PREFIX}/${file} ]]; then
-                echo "Moving ${PREFIX}/${file} to ${PREFIX}/${file}.backup"
-                mv -f ${PREFIX}/${file} ${PREFIX}/${file}.backup
-            fi
-        fi
-        ln -sf "${PWD}/dots/${file}" ${PREFIX}/${file}
+    for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name '*.symlink' -not -path '*.git*')
+      do
+        dst="${PREFIX}/.$(basename "${src%.*}")"
+        ln -sf $(readlink -f ${src}) ${dst}
     done
 }
 
