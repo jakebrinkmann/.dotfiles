@@ -1,6 +1,7 @@
 filetype indent plugin on
 "set term=xterm-256color
-set t_Co=256
+set term=builtin_ansi
+"set t_Co=256
 set nu " Line Numbers
 autocmd BufNewFile,BufRead *.md set filetype=markdown
 autocmd BufWritePre *.{py,pro} :silent! %s/^\s*__updated__\zs.*\ze/\=strftime(" = '%Y-%m-%d'")
