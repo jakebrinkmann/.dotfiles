@@ -12,3 +12,4 @@ RUN cd ${HOME}/.dots \
 RUN chown -R jake:jake ${HOME}
 
 USER jake
+WORKDIR /home/jake
