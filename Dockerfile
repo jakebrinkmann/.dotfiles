@@ -1,5 +1,5 @@
 FROM centos:7
-RUN yum install -y vim git which wget httpie sudo
+RUN yum install -y vim git which wget httpie sudo tmux epel-release emacs
 
 RUN useradd -m jake \
 	&& echo 'jake ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/jake \
