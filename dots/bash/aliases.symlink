@@ -1,0 +1,8 @@
+#!/bin/bash
+alias ll='ls -l'                              # long list
+alias d='date "+%j/%Y [%m/%d] %H:%M:%S (%I:%M%p) %Z"'
+alias c='clear; cal -j; d'
+alias t="top -M -u ${USER}; c"
+alias grep="grep --color=auto"
+alias map="xargs -n1"
+
