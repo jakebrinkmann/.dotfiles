@@ -15,6 +15,7 @@ echo "Installing..."
 echo "Forcing symlink creation. Godspeed!"
 symlink_force
 echo "Installing Vundle for Vim..."
+mkdir -p ${PREFIX}/.vim/bundle
 git clone https://github.com/VundleVim/Vundle.vim.git ${PREFIX}/.vim/bundle/Vundle.vim
 vim +PluginInstall +qall
 echo "Done."
