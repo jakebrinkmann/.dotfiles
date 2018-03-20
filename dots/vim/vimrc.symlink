@@ -1,10 +1,9 @@
 filetype indent plugin on
-"set term=xterm-256color
-set term=builtin_ansi
-"set t_Co=256
+" set term=xterm-256color
+" set term=builtin_ansi
+set t_Co=256
 set nu " Line Numbers
 autocmd BufNewFile,BufRead *.md set filetype=markdown
-autocmd BufWritePre *.{py,pro} :silent! %s/^\s*__updated__\zs.*\ze/\=strftime(" = '%Y-%m-%d'")
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 set colorcolumn=80
 set nocompatible
@@ -16,11 +15,12 @@ Plugin 'nanotech/jellybeans.vim'
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'scrooloose/syntastic'
-Plugin 'bling/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdtree'
 Plugin 'elzr/vim-json'
+Plugin 'stephpy/vim-yaml'
+Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
 call vundle#end()
 filetype plugin indent on
@@ -33,6 +33,8 @@ imap <c-z> <Esc>:w<CR>a
 
 let python_highlight_all=1
 syntax on
+" Put syntastic in passive mode (To run, :SyntasticCheck)
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
 let mapleader = ","
 
 let g:airline_theme='wombat'
@@ -43,8 +45,8 @@ let g:NERDTreeDirArrowExpandable = '+'
 let g:NERDTreeDirArrowCollapsible = '/'
 
 syntax enable
-set background=dark
 silent! colorscheme jellybeans
+set background=dark
 
 set hlsearch
 hi Search ctermbg=1
@@ -60,3 +62,7 @@ nmap <silent> <C-l> :wincmd l<CR>
 " Add json prettify
 nnoremap <F5> :%!python -m json.tool<CR>
 nnoremap <F6> :%!xmllint --format %<CR>
+
+" GVim
+set guioptions-=m  "remove menu bar
+set guioptions-=T  "remove toolbar
