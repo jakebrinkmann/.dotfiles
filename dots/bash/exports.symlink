@@ -1,2 +1,5 @@
 #!/bin/bash
 
+export WORKSPC="${HOME}/dev"
+export DOCKERIMAGES="${HOME}/docker"
+

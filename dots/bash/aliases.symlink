@@ -5,6 +5,11 @@ alias c='clear; cal -j; d'
 alias t="top -M -u ${USER}; c"
 alias grep="grep --color=auto"
 
+# Configure tmux to flash red on bell
+alias bell="echo -e '\a'"
+alias tmux='tmux -2'
+alias ta='tmux a'
+
 # Easier navigation: .., ..., ...., ....., ~ and -
 alias ..="cd .."
 alias ...="cd ../.."
