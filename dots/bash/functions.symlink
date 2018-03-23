@@ -16,6 +16,6 @@ docker-ls() { ls -F --color=auto --show-control-chars -ltrh $DOCKERIMAGES; }
 docker-save() { docker save $1 | bzip2 > $DOCKERIMAGES/$2; }
 docker-load() { bunzip2 -c $DOCKERIMAGES/$1 | docker load; }
 # ..... Pretty Print
-docker-ps() { docker ps --format "table {{.Names}} \t{{.ID}} \t{{.Status}}"; }
+docker-ps() { docker ps --format "table {{.Names}} \t{{.ID}} \t{{.Status}} \t{{.Ports}}"; }
 docker-imgs() { docker images --format "table {{.Repository}} \t{{.Tag}} \t{{.CreatedSince}}"; }
 # ============================
