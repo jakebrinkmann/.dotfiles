@@ -5,15 +5,17 @@ h() { grep "$1" "${HOME}/.bash_eternal_history"; }
 
 
 # ========== Docker ==========
+# ..... Cleanup
 docker-clean() { docker rm $(docker ps -f status=paused -f status=exited -q); docker rmi $(docker images -f dangling=true -aq); }
 docker-clean-v() { docker-clean; docker volume rm $(docker volume ls -qf dangling=true); }
 docker-shutdown() { docker rm --force $(docker ps -aq); }
 docker-shutdown-v() { docker-shutdown; docker volume rm $(docker volume ls -q); }
 docker-destroy() { docker-shutdown-v;  docker rmi -f $(docker images -q); docker network rm $(docker network ls -q); }
-
+# ..... Archive
 docker-ls() { ls -F --color=auto --show-control-chars -ltrh $DOCKERIMAGES; }
 docker-save() { docker save $1 | bzip2 > $DOCKERIMAGES/$2; }
 docker-load() { bunzip2 -c $DOCKERIMAGES/$1 | docker load; }
+# ..... Pretty Print
 docker-ps() { docker ps --format "table {{.Names}} \t{{.ID}} \t{{.Status}}"; }
-
+docker-imgs() { docker images --format "table {{.Repository}} \t{{.Tag}} \t{{.CreatedSince}}"; }
 # ============================
