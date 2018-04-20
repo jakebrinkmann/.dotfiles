@@ -132,6 +132,7 @@ set -g message-bg colour166
 
 # Tmux disable ^D without exit {
 set-environment -g 'IGNOREEOF' 2
+bind -n C-d  send-keys -t . 'logout' Enter
 # }
 
 
