@@ -1,5 +1,12 @@
 #!/bin/bash
 
+export HISTFILESIZE=
+export HISTSIZE=
+export HISTCONTROL=erasedups
+export HISTFILE="${HOME}/.bash_eternal_history"
+export HISTTIMEFORMAT="[%F %T] "
+
 export WORKSPC="${HOME}/dev"
 export DOCKERIMAGES="${HOME}/docker"
+export EDITOR='vim'
 
