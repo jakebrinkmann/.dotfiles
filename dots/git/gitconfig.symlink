@@ -23,6 +23,8 @@
 	ap = add --patch
 	rh = reset HEAD
 	rsoft = reset --soft HEAD^
+	# git checkout master; git ms feature/branch
+	ms = merge --squash
 [credential]
 	helper = cache
 [difftool]
