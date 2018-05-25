@@ -135,6 +135,10 @@ set-environment -g 'IGNOREEOF' 2
 bind -n C-d  send-keys -t . 'logout' Enter
 # }
 
+# Keep usable window area in sync {
+set-window-option -g aggressive-resize
+# }
+
 
 ###########
 ### END ###
