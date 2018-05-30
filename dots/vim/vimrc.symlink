@@ -12,16 +12,17 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
-Plugin 'nanotech/jellybeans.vim'
-Plugin 'tmhedberg/SimpylFold'
+Plugin 'nanotech/jellybeans.vim'             " Cool VIM themes
+Plugin 'tmhedberg/SimpylFold'                " Hide indented code
 Plugin 'vim-scripts/indentpython.vim'
-Plugin 'scrooloose/syntastic'
-Plugin 'tpope/vim-fugitive'
-Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'                " Lint Checkers
+Plugin 'tpope/vim-fugitive'                  " Git Diff Checker
+Plugin 'scrooloose/nerdtree'                 " File system tree
 Plugin 'elzr/vim-json'
 Plugin 'stephpy/vim-yaml'
-Plugin 'bling/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+Plugin 'bling/vim-airline'                   " Cool toolbar
+Plugin 'vim-airline/vim-airline-themes'      " Cool toolbar themes
+Plugin 'tpope/vim-unimpaired'                " Common key-mappings
 
 call vundle#end()
 filetype plugin indent on
@@ -34,8 +35,18 @@ imap <c-z> <Esc>:w<CR>a
 
 let python_highlight_all=1
 syntax on
+" Setup syntastic {
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_python_checkers = ['pylint', 'flake8', 'pyflakes', 'pycodestyle', 'pydocstyle']
+
 " Put syntastic in passive mode (To run, :SyntasticCheck)
 let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
+" }
 let mapleader = ","
 
 let g:airline_theme='wombat'
@@ -60,10 +71,14 @@ nmap <silent> <C-j> :wincmd j<CR>
 nmap <silent> <C-h> :wincmd h<CR>
 nmap <silent> <C-l> :wincmd l<CR>
 
-" Add json prettify
-nnoremap <F5> :%!python -m json.tool<CR>
-nnoremap <F6> :%!xmllint --format %<CR>
-
 " GVim
 set guioptions-=m  "remove menu bar
 set guioptions-=T  "remove toolbar
+
+" Helpful shortcuts {
+nnoremap <F2> :BundleInstall<CR>
+nnoremap <F5> :SyntasticCheck<CR>
+nnoremap <F7> :%!python -m json.tool<CR>
+nnoremap <F6> :%!xmllint --format %<CR>
+" }
+
