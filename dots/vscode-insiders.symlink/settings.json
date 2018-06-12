@@ -1,11 +1,16 @@
 {
+    "git.enabled": true,
+    "git.path": "C:\\git-sdk-64\\mingw64\\bin\\git.exe",
+    "gitlens.blame.avatars": false,
     "gitlens.advanced.messages": {
         "suppressShowKeyBindingsNotice": true
-    },
+    }, 
+    "gitlens.outputLevel": "verbose",
+
     "editor.rulers": [
         80
     ],
-    "git.path": "C:\\git-sdk-64\\usr\\bin\\git.exe",
+
     "terminal.integrated.shell.windows": "C:\\git-sdk-64\\usr\\bin\\bash.exe",
     "terminal.integrated.shellArgs.windows": [
         "--login",
@@ -14,6 +19,7 @@
         "CHERE_INVOKING": "1",
         "MSYSTEM": "MINGW64",
     },
+
     "python.linting.pylintEnabled": true,
     "python.pythonPath": "C:\\ProgramData\\Anaconda3\\python.exe",
 
