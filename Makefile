@@ -12,6 +12,7 @@ build:
 
 tag:
 	@docker tag $(COMMIT_TAG) $(BRANCH_TAG)
+	@$(shell [ $(BRANCH) == master ] && docker tag $(COMMIT_TAG) $(REPO):latest)
 
 login:
 	@$(if $(and $(DOCKER_USER), $(DOCKER_PASS)), docker login -u $(DOCKER_USER) -p $(DOCKER_PASS), docker login)
