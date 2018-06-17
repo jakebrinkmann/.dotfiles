@@ -1,4 +1,4 @@
-# dotfiles
+# dotfiles [![Build Status][tb]][tt] [![Docker Pulls][db]][dh]
 sensible hacker defaults for CentOS
 
 ## Installation 
@@ -9,8 +9,6 @@ git clone git@github.com:jakebrinkmann/dotfiles.git ~/.dots
 cd ~/.dots
 bash setup.sh
 ```
-
-[![Build Status][tb]][tt] [![Docker Pulls][db]][dh]
 
 [tb]: https://img.shields.io/travis/jakebrinkmann/dotfiles/master.svg?style=flat-square 
 [tt]: https://travis-ci.org/jakebrinkmann/dotfiles 
