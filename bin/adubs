@@ -57,7 +57,7 @@ _curl() {
 
 main() {
 	cmd=$1;
-	case cmd in
+	case $cmd in
 		running)
 			running
 			;;
