@@ -6,7 +6,7 @@
 
 # List currently running EC2 instances, currently billed charges
 running() { 
-    export AWS_INSTANCE=$(aws ec2 describe-instances \
+    AWS_INSTANCE=$(aws ec2 describe-instances \
             --filters "Name=instance-state-name,Values=running" \
             --query "Reservations[0].Instances[0].InstanceId" \
             --output text) \
@@ -14,7 +14,7 @@ running() {
 } 
 # List EC2 instances available to be started
 not-running() { 
-    export AWS_INSTANCE=$(aws ec2 describe-instances \
+    AWS_INSTANCE=$(aws ec2 describe-instances \
             --filters "Name=instance-state-name,Values=stopped" \
             --query "Reservations[0].Instances[0].InstanceId" \
             --output text) \
@@ -28,7 +28,8 @@ _start() {
 }
 # Reboot running EC2 instance
 _restart() { 
-    aws ec2 reboot-instances --instance-ids $AWS_INSTANCE \
+    running \
+    && aws ec2 reboot-instances --instance-ids $AWS_INSTANCE \
         && echo $AWS_INSTANCE; 
 }
 # Get the Public IP Address of running EC2 instance
@@ -41,7 +42,8 @@ host() {
 } 
 # Used to turn off EC2 instance, to stop billing charges
 _stop() { 
-    aws ec2 stop-instances --instance-ids $AWS_INSTANCE \
+    running \
+    && aws ec2 stop-instances --instance-ids $AWS_INSTANCE \
         && echo $AWS_INSTANCE; 
 } 
 # Uses security group with SSH over TCP on Port 22
@@ -80,7 +82,7 @@ main() {
 			_curl
 			;;
 		*)
-			host
+			echo 'adubs {running,not-running,start,restart,stop,ssh,curl}'
 			;;
 	esac
 }
