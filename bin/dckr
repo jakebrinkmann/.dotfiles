@@ -1,0 +1,93 @@
+#!/bin/bash
+#--------------------------------------------------------------------------
+# Usage:
+#	dckr {clean,shutdown,shutdown-v,destroy,ls,save,load,ps,imgs}
+#--------------------------------------------------------------------------
+
+clean() {
+    containers=$(docker ps -a -q -f status=dead -f status=paused -f status=exited )
+    nlines=$(echo "$containers" | wc -l)
+    if [[ nlines -gt 1 ]]; then
+            docker rm -v $containers;
+    fi
+    
+    images=$(docker images -f "dangling=true" -q)
+    nlines=$(echo "$images" | wc -l)
+    if [[ nlines -gt 1 ]]; then
+            docker rmi $images
+    fi
+    
+    volumes=$(docker volume ls -f dangling=true -q)
+    nlines=$(echo "$volumes" | wc -l)
+    if [[ nlines -gt 1 ]]; then
+            docker volume rm $volumes
+    fi
+}
+
+shutdown() { 
+	docker rm --force $(docker ps -aq); 
+}
+shutdown-v() { 
+	docker-shutdown; 
+	docker volume rm $(docker volume ls -q); 
+}
+destroy() { 
+	docker-shutdown-v;  
+	docker rmi -f $(docker images -q); 
+	docker network rm $(docker network ls -q); 
+}
+
+# ..... Archive
+_ls() { 
+	ls -F --color=auto --show-control-chars -ltrh $DOCKERIMAGES; 
+}
+save() { 
+	docker save $1 | bzip2 > $DOCKERIMAGES/$2; 
+}
+load() { 
+	bunzip2 -c $DOCKERIMAGES/$1 | docker load; 
+}
+
+# ..... Pretty Print
+ps() { 
+	docker ps --format "table {{.Names}} \t{{.ID}} \t{{.Status}} \t{{.Ports}}"; 
+}
+imgs() { 
+	docker images --format "table {{.Repository}} \t{{.Tag}} \t{{.CreatedSince}}"; 
+}
+
+main() {
+	cmd=$1;
+
+	case cmd in 
+		clean)
+			clean
+			;;
+		shutdown)
+			shutdown
+			;;
+		shutdown-v)
+			shutdown-v
+			;;
+		destroy)
+			destroy
+			;;
+		ls)
+			_ls
+			;;
+		save)
+			save
+			;;
+		load)
+			load
+			;;
+		ps)
+			ps
+			;;
+		imgs)
+			imgs
+			;;
+	esac
+}
+
+main "$@"

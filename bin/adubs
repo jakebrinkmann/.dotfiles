@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+#--------------------------------------------------------------------------
+# Usage:
+# 	adubs {running,not-running,start,restart,stop,ssh,curl}
+#--------------------------------------------------------------------------
+
+# List currently running EC2 instances, currently billed charges
+running() { 
+    export AWS_INSTANCE=$(aws ec2 describe-instances \
+            --filters "Name=instance-state-name,Values=running" \
+            --query "Reservations[0].Instances[0].InstanceId" \
+            --output text) \
+        && echo $AWS_INSTANCE; 
+} 
+# List EC2 instances available to be started
+not-running() { 
+    export AWS_INSTANCE=$(aws ec2 describe-instances \
+            --filters "Name=instance-state-name,Values=stopped" \
+            --query "Reservations[0].Instances[0].InstanceId" \
+            --output text) \
+        && echo $AWS_INSTANCE; 
+} 
+# Start a stopped EC2 instance
+_start() { 
+	not-running \
+        && aws ec2 start-instances --instance-ids $AWS_INSTANCE \
+        && echo $AWS_INSTANCE; 
+}
+# Reboot running EC2 instance
+_restart() { 
+    aws ec2 reboot-instances --instance-ids $AWS_INSTANCE \
+        && echo $AWS_INSTANCE; 
+}
+# Get the Public IP Address of running EC2 instance
+host() { 
+    export AWS_HOST=$(aws ec2 describe-instances \
+            --instance-ids $AWS_INSTANCE \
+            --query 'Reservations[0].Instances[0].PublicIpAddress' \
+            --output text) \
+        && echo $AWS_HOST; 
+} 
+# Used to turn off EC2 instance, to stop billing charges
+_stop() { 
+    aws ec2 stop-instances --instance-ids $AWS_INSTANCE \
+        && echo $AWS_INSTANCE; 
+} 
+# Uses security group with SSH over TCP on Port 22
+_ssh() { 
+    host \
+        && ssh -i "$AWS_SSH_KEYPAIR" ec2-user@$AWS_HOST; 
+}
+# Custom security group for TCP on Port 8080
+_curl() {
+    host \
+        && curl "$AWS_HOST:8080";
+}
+
+main() {
+	cmd=$1;
+	case cmd in
+		running)
+			running
+			;;
+		not-running)
+			not-running
+			;;
+		start)
+			_start
+			;;
+		restart)
+			_restart
+			;;
+		stop)
+			_stop
+			;;
+		ssh)
+			_ssh
+			;;
+		curl)
+			_curl
+			;;
+		*)
+			host
+			;;
+	esac
+}
+
+main "$@"
