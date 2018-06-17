@@ -6,13 +6,15 @@ COMMIT     := $(or $(TRAVIS_COMMIT),`git rev-parse HEAD`)
 COMMIT_TAG := $(REPO):$(COMMIT)
 BRANCH_TAG := $(REPO):$(BRANCH)-$(VERSION)
 
-
 build:
 	@docker build -f Dockerfile -t $(COMMIT_TAG) --rm=true --compress $(PWD)
 
 tag:
 	@docker tag $(COMMIT_TAG) $(BRANCH_TAG)
-	@$(shell [ $(BRANCH) == master ] && docker tag $(COMMIT_TAG) $(REPO):latest)
+ifeq ($(BRANCH),master)
+	@docker tag $(COMMIT_TAG) $(REPO):latest
+endif
+
 
 login:
 	@$(if $(and $(DOCKER_USER), $(DOCKER_PASS)), docker login -u $(DOCKER_USER) -p $(DOCKER_PASS), docker login)
