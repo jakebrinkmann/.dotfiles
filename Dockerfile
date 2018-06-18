@@ -1,5 +1,5 @@
 FROM centos:7
-RUN yum install -y vim git which wget httpie sudo tmux epel-release emacs
+RUN yum install -y vim git which wget httpie sudo tmux epel-release emacs java-1.8.0-openjdk
 
 RUN cd /usr/local/bin \
 	&& curl -fsSLo boot \
