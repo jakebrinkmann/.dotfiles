@@ -4,20 +4,16 @@
 function symlink_force(){
     # Runtime Configurations! (or, runcoms)
     ROOT=./dots
-    PREFIX=${PREFIX:-${HOME}}
-    mkdir -p $PREFIX
     for src in $(find -H "$ROOT" -name '*.symlink' -not -path '*.git*'); do
-        dst="${PREFIX}/.$(basename "${src%.*}")"
-        ln -sf $(readlink -f ${src}) ${dst}
+        dst="${PREFIX:-${HOME}}/.$(basename "${src%.*}")"
+        ln -sf $(readlink -f $src) $dst
     done
 
     # Functions!
     ROOT=./bin
-    PREFIX=${PREFIX:-/usr/local/bin}
-    mkdir -p $PREFIX
-    for file in $(find "${ROOT}" -type f ); do
+    for file in $(find "$ROOT" -type f ); do
 	    f=$(basename $file);
-	    ln -sf $(readlink -f $file) ${PREFIX}/$f; 
+	    ln -sf $(readlink -f $file) ${PREFIX:-/usr/local/bin}/$f; 
     done
 }
 echo "Installing..."
