@@ -1,10 +1,5 @@
 FROM centos:7
-RUN yum install -y vim git which wget httpie sudo tmux epel-release emacs java-1.8.0-openjdk
-
-RUN cd /usr/local/bin \
-	&& curl -fsSLo boot \
-	https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh \
-	&& chmod 755 boot
+RUN yum install -y vim git which wget httpie sudo tmux epel-release
 
 RUN useradd -m jake \
 	&& echo 'jake ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/jake \
