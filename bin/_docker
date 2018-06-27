@@ -27,12 +27,12 @@ clean() {
 shutdown() { 
 	docker rm --force $(docker ps -aq); 
 }
-shutdown-v() { 
-	docker-shutdown; 
+rm_volumes() {
 	docker volume rm $(docker volume ls -q); 
 }
 destroy() { 
-	docker-shutdown-v;  
+	shutdown
+	rm_volumes
 	docker rmi -f $(docker images -q); 
 	docker network rm $(docker network ls -q); 
 }
@@ -66,8 +66,8 @@ main() {
 		shutdown)
 			shutdown
 			;;
-		shutdown-v)
-			shutdown-v
+		rm_volumes)
+			rm_volumes
 			;;
 		destroy)
 			destroy
