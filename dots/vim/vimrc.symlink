@@ -23,6 +23,8 @@ Plugin 'stephpy/vim-yaml'
 Plugin 'bling/vim-airline'                   " Cool toolbar
 Plugin 'vim-airline/vim-airline-themes'      " Cool toolbar themes
 Plugin 'tpope/vim-unimpaired'                " Common key-mappings
+Plugin 'sheerun/vim-polyglot'                " Language packs
+Plugin 'ryanoasis/vim-devicons'              " Adds icons to Plugins
 
 call vundle#end()
 filetype plugin indent on
@@ -33,6 +35,11 @@ nnoremap <space> za
 nmap <c-z> :w<CR>
 imap <c-z> <Esc>:w<CR>a
 
+" Setup nerd-fonts {
+set guifont=DroidSansMonoPLNerd:h12
+set encoding=utf-8
+let g:airline_powerline_fonts=1
+" }
 let python_highlight_all=1
 syntax on
 " Setup syntastic {
