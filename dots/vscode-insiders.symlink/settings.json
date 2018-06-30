@@ -1,4 +1,10 @@
 {
+    "files.eol": "\n",
+    "editor.tabSize": 2,
+    "editor.rulers": [
+        80
+    ],
+
     "git.enabled": true,
     "git.path": "C:\\git-sdk-64\\mingw64\\bin\\git.exe",
     "gitlens.blame.avatars": false,
@@ -7,22 +13,25 @@
     }, 
     "gitlens.outputLevel": "verbose",
 
-    "editor.rulers": [
-        80
-    ],
-
     "terminal.integrated.shell.windows": "C:\\git-sdk-64\\usr\\bin\\bash.exe",
     "terminal.integrated.shellArgs.windows": [
-        "--login",
+        "--login"
     ],
     "terminal.integrated.env.windows": {
         "CHERE_INVOKING": "1",
-        "MSYSTEM": "MINGW64",
+        "MSYSTEM": "MINGW64"
     },
 
     "python.linting.pylintEnabled": true,
     "python.linting.pydocstyleEnabled": true,
     "python.linting.pep8Enabled": true,
-    "python.pythonPath": "C:\\ProgramData\\Anaconda3\\python.exe"
+    "python.pythonPath": "C:\\ProgramData\\Anaconda3\\python.exe",
+    "[python]": {
+        "editor.tabSize": 4
+    },
 
+    "eslint.enable": true,
+    "editor.formatOnSave": true,
+    "javascript.format.enable": false,
+    "prettier.eslintIntegration": true
 }
