@@ -36,3 +36,5 @@
 	gpgsign = true
 [gc]
 	auto = 256
+[help]
+	autocorrect = 1
