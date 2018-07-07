@@ -34,7 +34,7 @@
 [mergetool "fugitive"]
 	cmd = vim -f -c \"Gdiff\" \"$MERGED\"
 [commit]
-	gpgsign = true
+	gpgsign = false
 [gc]
 	auto = 256
 [help]

@@ -1,8 +1,4 @@
 #!/bin/bash
-#--------------------------------------------------------------------------
-# Usage:
-#	dckr {clean,shutdown,shutdown-v,destroy,ls,save,load,ps,imgs}
-#--------------------------------------------------------------------------
 
 clean() {
     containers=$(docker ps -a -q -f status=dead -f status=paused -f status=exited )
@@ -87,6 +83,9 @@ main() {
 		imgs)
 			imgs
 			;;
+		*)
+			echo "Usage:"
+			echo "	_docker {clean,shutdown,rm_volumes,destroy,ls,save,load,ps,imgs}"
 	esac
 }
 

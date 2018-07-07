@@ -1,9 +1,4 @@
 #!/usr/bin/env bash
-#--------------------------------------------------------------------------
-# Usage:
-# 	adubs {running,not-running,start,restart,stop,ssh,curl}
-#--------------------------------------------------------------------------
-
 # List currently running EC2 instances, currently billed charges
 running() { 
     AWS_INSTANCE=$(aws ec2 describe-instances \
@@ -82,7 +77,8 @@ main() {
 			_curl
 			;;
 		*)
-			echo 'adubs {running,not-running,start,restart,stop,ssh,curl}'
+                        echo "Usage:"
+                        echo "	_aws {running,not-running,start,restart,stop,ssh,curl}"
 			;;
 	esac
 }
