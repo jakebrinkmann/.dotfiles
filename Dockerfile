@@ -1,5 +1,4 @@
 FROM centos:7
-RUN yum install -y vim git which wget httpie sudo tmux epel-release
 
 RUN useradd -m jake \
 	&& echo 'jake ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/jake \
@@ -8,6 +7,7 @@ RUN useradd -m jake \
 ENV HOME=/home/jake
 COPY . ${HOME}/.dots
 RUN cd ${HOME}/.dots \
+	&& bash setup/centos/install_rpms.sh \
 	&& bash setup.sh
 RUN chown -R jake:jake ${HOME}
 
