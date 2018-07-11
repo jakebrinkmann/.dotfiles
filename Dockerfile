@@ -1,6 +1,7 @@
 FROM centos:7
 
-RUN useradd -m jake \
+RUN yum install -y sudo \
+	&& useradd -m jake \
 	&& echo 'jake ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/jake \
 	&& chmod 0440 /etc/sudoers.d/jake
 
