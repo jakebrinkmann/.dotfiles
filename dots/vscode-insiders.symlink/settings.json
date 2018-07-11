@@ -1,18 +1,19 @@
 {
     "files.eol": "\n",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSaveTimeout": 3750,
     "editor.tabSize": 2,
     "editor.rulers": [
         80
     ],
-
     "git.enabled": true,
     "git.path": "C:\\git-sdk-64\\mingw64\\bin\\git.exe",
     "gitlens.blame.avatars": false,
     "gitlens.advanced.messages": {
         "suppressShowKeyBindingsNotice": true
-    }, 
+    },
     "gitlens.outputLevel": "verbose",
-
     "terminal.integrated.shell.windows": "C:\\git-sdk-64\\usr\\bin\\bash.exe",
     "terminal.integrated.shellArgs.windows": [
         "--login"
@@ -21,7 +22,7 @@
         "CHERE_INVOKING": "1",
         "MSYSTEM": "MINGW64"
     },
-
+    "shellcheck.executablePath": "C:\\Program Files\\shellcheck\\shellcheck-stable.exe",
     "python.linting.pylintEnabled": true,
     "python.linting.pydocstyleEnabled": true,
     "python.linting.pep8Enabled": true,
@@ -29,9 +30,15 @@
     "[python]": {
         "editor.tabSize": 4
     },
-
     "eslint.enable": true,
-    "editor.formatOnSave": true,
     "javascript.format.enable": false,
-    "prettier.eslintIntegration": true
+    "prettier.eslintIntegration": true,
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "html",
+        "vue"
+    ],
+    "prettier.singleQuote": true,
+    "prettier.semi": false
 }
