@@ -8,8 +8,9 @@ RUN yum install -y sudo \
 ENV HOME=/home/jake
 COPY . ${HOME}/.dots
 RUN cd ${HOME}/.dots \
-	&& bash setup/centos/install_rpms.sh \
-	&& bash setup.sh
+	&& setup/centos/install_rpms.sh \
+	&& setup/centos/install_git.sh \
+	&& ./setup.sh
 RUN chown -R jake:jake ${HOME}
 
 USER jake
