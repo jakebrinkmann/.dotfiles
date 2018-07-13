@@ -21,16 +21,9 @@ _stop() {
 	_reset
 }
 
-_nodes() {
-	kubectl get nodes
-}
-
-_deploys() {
-	kubectl get deployment
-}
-
-_services() {
-	kubectl get service
+_list() {
+	set -x
+	kubectl get nodes,deployment,svc,po,pvc
 }
 
 main() {
@@ -46,18 +39,12 @@ main() {
 		"reset") 
 			_reset
 			;;
-		"nodes") 
-			_nodes
-			;;
-		"deploys") 
-			_deploys
-			;;
-		"services") 
-			_services
+		"list") 
+			_list
 			;;
 		*) 
 			echo 'Usage: '
-			echo '	_kube {start,stop,reset,nodes,deploys,services}'
+			echo '	_kube {start,stop,reset,list}'
 			;;
 	esac
 }
