@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+_reset() {
+	sudo kubeadm reset
+}
+
+_start() {
+	# Start the cluster as master
+	sudo kubeadm init
+	sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+	# Allow networking
+	kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+	# Allow master to schedule pods
+	kubectl taint nodes --all node-role.kubernetes.io/master-
+	kubectl cluster-info
+}
+
+_stop() {
+	kubectl drain node/${HOSTNAME,,} --delete-local-data --force --ignore-daemonsets
+	kubectl delete node ${HOSTNAME,,}
+	_reset
+}
+
+_nodes() {
+	kubectl get nodes
+}
+
+_deploys() {
+	kubectl get deployment
+}
+
+_services() {
+	kubectl get service
+}
+
+main() {
+	cmd=$1
+	case $cmd 
+	in
+		"start") 
+			_start
+			;;
+		"stop") 
+			_stop
+			;;
+		"reset") 
+			_reset
+			;;
+		"nodes") 
+			_nodes
+			;;
+		"deploys") 
+			_deploys
+			;;
+		"services") 
+			_services
+			;;
+		*) 
+			echo 'Usage: '
+			echo '	_kube {start,stop,reset,nodes,deploys,services}'
+			;;
+	esac
+}
+
+main $@
+
