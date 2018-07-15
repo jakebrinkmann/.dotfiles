@@ -11,7 +11,7 @@ sudo yum-config-manager --enable docker-ce-test
 sudo yum install -y docker-ce
 sudo systemctl start docker
 
-sudo curl -L https://raw.githubusercontent.com/docker/docker/v$(docker version --format '{{.Server.Version}}')/contrib/completion/bash/docker -o /etc/bash_completion.d/docker
+sudo curl -L https://raw.githubusercontent.com/docker/cli/v$(docker version --format '{{.Server.Version}}')/contrib/completion/bash/docker -o /etc/bash_completion.d/docker
 
 COMPOSE_VERSION=`git ls-remote https://github.com/docker/compose | grep refs/tags | grep -oP "[0-9]+\.[0-9][0-9]+\.[0-9]+.*$" | tail -n 1`
 sudo sh -c "curl -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose"
