@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -x
 clean() {
     containers=$(docker ps -a -q -f status=dead -f status=paused -f status=exited )
     nlines=$(echo "$containers" | wc -l)
