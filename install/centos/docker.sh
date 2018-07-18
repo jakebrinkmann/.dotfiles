@@ -9,6 +9,7 @@ sudo yum-config-manager \
 sudo yum-config-manager --enable docker-ce-edge
 sudo yum-config-manager --enable docker-ce-test
 sudo yum install -y docker-ce
+echo '{ "experimental": true }' | sudo tee -a /etc/docker/daemon.json
 sudo systemctl start docker
 
 sudo curl -L https://raw.githubusercontent.com/docker/cli/v$(docker version --format '{{.Server.Version}}')/contrib/completion/bash/docker -o /etc/bash_completion.d/docker
