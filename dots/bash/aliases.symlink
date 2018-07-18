@@ -7,6 +7,7 @@ alias grep="grep --color=auto"
 
 # Configure tmux to flash red on bell
 alias bell="echo -e '\a'"
+alias wbell='for x in $(seq 1 60); do bell; sleep 1; done'
 alias tmux='tmux -2'
 alias ta='tmux a'
 
