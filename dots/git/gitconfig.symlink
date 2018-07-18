@@ -27,6 +27,8 @@
 	rsoft = reset --soft HEAD^
 	# git checkout master; git ms feature/branch
 	ms = merge --squash
+	gw = push origin HEAD:refs/for/master%wip
+	gr = push origin HEAD:refs/for/master%ready
 [credential]
 	helper = cache
 [difftool]
