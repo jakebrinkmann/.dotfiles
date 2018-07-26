@@ -35,6 +35,9 @@ nnoremap <space> za
 nmap <c-z> :w<CR>
 imap <c-z> <Esc>:w<CR>a
 
+" Setup fugitive {
+set diffopt+=vertical
+" }
 " Setup nerd-fonts {
 set guifont=DroidSansMonoPLNerd:h12
 set encoding=utf-8
