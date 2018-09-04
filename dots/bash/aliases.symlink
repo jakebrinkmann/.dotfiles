@@ -1,4 +1,5 @@
 #!/bin/bash
+alias ls='ls --color=auto'                    # ubuntu wsl?
 alias ll='ls -l'                              # long list
 alias d='date "+%j/%Y [%m/%d] %H:%M:%S (%I:%M%p) %Z"'
 alias c='clear; cal -j; d'
