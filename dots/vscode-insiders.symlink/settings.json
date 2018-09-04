@@ -1,21 +1,20 @@
 {
     "files.eol": "\n",
     "files.trimTrailingWhitespace": true,
-    "editor.formatOnSave": true,
-    "editor.formatOnPaste": true,
-    "editor.formatOnSaveTimeout": 3750,
+    // "editor.formatOnSave": true,
+    // "editor.formatOnPaste": true,
+    // "editor.formatOnSaveTimeout": 3750,
     "editor.tabSize": 2,
     "editor.rulers": [
         80
     ],
     "git.enabled": true,
-    "git.path": "C:\\git-sdk-64\\mingw64\\bin\\git.exe",
     "gitlens.blame.avatars": false,
     "gitlens.advanced.messages": {
         "suppressShowKeyBindingsNotice": true
     },
     "gitlens.outputLevel": "verbose",
-    "terminal.integrated.shell.windows": "C:\\git-sdk-64\\usr\\bin\\bash.exe",
+    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\bash.exe",
     "terminal.integrated.shellArgs.windows": [
         "--login"
     ],
@@ -29,26 +28,28 @@
     "python.linting.pep8Enabled": true,
     "python.pythonPath": "C:\\ProgramData\\Anaconda3\\python.exe",
     "[python]": {
-        "editor.tabSize": 4
+        "editor.tabSize": 4,
+        "editor.formatOnSave": false,
+        "editor.formatOnPaste": false
     },
     "eslint.enable": true,
     "javascript.format.enable": false,
     "eslint.validate": [
         {
             "language": "vue",
-            "autoFix": true
+            // "autoFix": true
         },
         {
             "language": "javascript",
-            "autoFix": true
+            // "autoFix": true
         },
         {
             "language": "javascriptreact",
-            "autoFix": true
+            // "autoFix": true
         },
         {
             "language": "html",
-            "autoFix": true
+            // "autoFix": true
         }
     ],
     "prettier.singleQuote": true,
@@ -61,7 +62,8 @@
     "vetur.format.defaultFormatterOptions": {
         "js-beautify-html": {
             // js-beautify-html settings, see https://github.com/vuejs/vetur/blob/master/server/src/modes/template/services/htmlFormat.ts
-            "wrap_attributes": "force-aligned"
+            "wrap_attributes": "force-aligned",
+            "wrap_line_length": 80
         }
     },
     "[sql]": {
@@ -79,5 +81,6 @@
         "git-commit": true,
         "plaintext": true,
         "json": true
-    }
+    },
+    "workbench.startupEditor": "welcomePage"
 }
