@@ -13,3 +13,4 @@ export EDITOR='vim'
 #### # To connect from WSL to Docker4windows Daemon
 #### # (requires exposing daemon over tcp without TLS...)
 #### export DOCKER_HOST=tcp://0.0.0.0:2375
+#### export DOCKER_TLS_VERIFY=1
