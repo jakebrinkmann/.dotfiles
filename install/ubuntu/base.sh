@@ -2,10 +2,13 @@
 # Installs apt packages needed by other packages
 
 apt update
-apt install -y \
+apt upgrade
+apt install -y --fix-missing \
 	apt-transport-https \
 	ca-certificates \
 	curl \
 	software-properties-common \
-	openssl
+	openssl \
+	jq \
+	python-dev
 
