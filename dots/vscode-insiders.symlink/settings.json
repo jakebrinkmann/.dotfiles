@@ -82,5 +82,9 @@
         "plaintext": true,
         "json": true
     },
-    "workbench.startupEditor": "welcomePage"
+    "workbench.startupEditor": "welcomePage",
+    "breadcrumbs.enabled": true,
+    "files.associations": {
+        "Pipfile": "ini"
+    }
 }
