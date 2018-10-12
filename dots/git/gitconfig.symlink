@@ -20,6 +20,8 @@
 	dt = difftool
 	df = diff
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author-date-order
+	ll = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author-date-order
+	lf = log --pretty=fuller # Log the entire commit message
 	pr = "!f() { git fetch origin refs/pull/$1/head:pr/$1; } ; f"
 	pr-clean = "!git for-each-ref refs/heads/pr/* --format='%(refname)' | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done"
 	lad = log --all --decorate
@@ -28,9 +30,10 @@
 	rsoft = reset --soft HEAD^
 	# git checkout master; git ms feature/branch
 	ms = merge --squash
-	gw = push origin HEAD:refs/for/master%wip
-	gr = push origin HEAD:refs/for/master%ready
+	gw = push gerrit HEAD:refs/for/master%wip
+	gr = push gerrit HEAD:refs/for/master%ready
 	cane = commit --amend --no-edit
+	permission-reset = !git diff -p -R --no-color | grep -E \"^(diff|(old|new) mode)\" --color=never | git apply
 [credential]
 	helper = cache
 [difftool]
