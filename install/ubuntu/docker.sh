@@ -14,9 +14,11 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 apt-key fingerprint 0EBFCD88
 
 # Setup the apt repository for e.g. bionic (18.04)
+# (NOTE: Cosmic (18.10) is not yet supported,
+#  use `bionic` instead of `lsb_release -cs`)
 add-apt-repository \
 	"deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-	$(lsb_release -cs) $DOCKER_CHANNEL"
+	bionic $DOCKER_CHANNEL"
 
 # Install Docker (from edge repository)
 apt update
