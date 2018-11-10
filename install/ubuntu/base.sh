@@ -5,6 +5,7 @@ apt update
 apt upgrade
 apt install -y --fix-missing \
         vim \
+	build-essential \
 	apt-transport-https \
 	ca-certificates \
 	curl \
