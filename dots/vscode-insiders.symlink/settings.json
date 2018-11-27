@@ -83,6 +83,7 @@
         "json": true
     },
     "workbench.startupEditor": "welcomePage",
+    "workbench.colorTheme": "Night Owl",
     "breadcrumbs.enabled": true,
     "files.associations": {
         "Pipfile": "ini"
