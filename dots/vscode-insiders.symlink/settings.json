@@ -22,11 +22,10 @@
         "CHERE_INVOKING": "1",
         "MSYSTEM": "MINGW64"
     },
-    "shellcheck.executablePath": "C:\\Program Files\\shellcheck\\shellcheck-stable.exe",
     "python.linting.pylintEnabled": true,
     "python.linting.pydocstyleEnabled": true,
     "python.linting.pep8Enabled": true,
-    "python.pythonPath": "C:\\ProgramData\\Anaconda3\\python.exe",
+    "python.pythonPath": "/usr/bin/python",
     "[python]": {
         "editor.tabSize": 4,
         "editor.formatOnSave": false,
@@ -87,5 +86,6 @@
     "breadcrumbs.enabled": true,
     "files.associations": {
         "Pipfile": "ini"
-    }
+    },
+    "explorer.confirmDelete": false
 }
