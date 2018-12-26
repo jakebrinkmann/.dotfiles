@@ -6,4 +6,10 @@
                                "when": "terminalFocus"   },
   { "key": "ctrl+shift+t",  "command": "workbench.action.terminal.new",
                                "when": "terminalFocus"  },
+  { "key": "meta+ctrl+shift+alt+down",
+                            "command": "editor.action.copyLinesDownAction",
+                               "when": "editorTextFocus && !editorReadonly" },
+  { "key": "meta+ctrl+shift+alt+up",
+                            "command": "editor.action.copyLinesUpAction",
+                               "when": "editorTextFocus && !editorReadonly" },
 ]
