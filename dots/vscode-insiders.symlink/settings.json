@@ -96,4 +96,5 @@
         "Pipfile": "ini"
     },
     "explorer.confirmDelete": false,
+    "terminal.integrated.rendererType": "dom",
 }
