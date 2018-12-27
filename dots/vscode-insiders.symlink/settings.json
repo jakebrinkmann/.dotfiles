@@ -31,6 +31,9 @@
     "python.linting.pep8Args": ["--max-line-length=88" ],
     "python.formatting.blackArgs": ["--safe", "--quiet"],
     "python.pythonPath": "/usr/bin/python",
+    "python.unitTest.pyTestArgs": [],
+    "python.unitTest.pyTestEnabled": true,
+    "python.unitTest.pyTestPath": "pytest",
     "[python]": {
         "editor.tabSize": 4,
         "editor.formatOnSave": true,
@@ -92,5 +95,5 @@
     "files.associations": {
         "Pipfile": "ini"
     },
-    "explorer.confirmDelete": false
+    "explorer.confirmDelete": false,
 }
