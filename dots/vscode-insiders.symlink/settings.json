@@ -6,7 +6,7 @@
     // "editor.formatOnSaveTimeout": 3750,
     "editor.tabSize": 2,
     "editor.rulers": [
-        80
+      88
     ],
     "editor.insertSpaces": true,
     "editor.detectIndentation": false,
@@ -28,6 +28,7 @@
     "python.linting.pylintEnabled": true,
     "python.linting.pydocstyleEnabled": true,
     "python.linting.pep8Enabled": true,
+    "python.linting.pep8Args": ["--max-line-length=88" ],
     "python.formatting.blackArgs": ["--safe", "--quiet"],
     "python.pythonPath": "/usr/bin/python",
     "[python]": {
