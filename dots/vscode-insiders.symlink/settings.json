@@ -96,5 +96,5 @@
         "Pipfile": "ini"
     },
     "explorer.confirmDelete": false,
-    "terminal.integrated.rendererType": "dom",
+    "window.zoomLevel": 0.00001,
 }
