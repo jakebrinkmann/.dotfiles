@@ -1,100 +1,97 @@
 {
-    "files.eol": "\n",
-    "files.trimTrailingWhitespace": true,
-    // "editor.formatOnSave": true,
-    // "editor.formatOnPaste": true,
-    // "editor.formatOnSaveTimeout": 3750,
-    "editor.tabSize": 2,
-    "editor.rulers": [
-      88
-    ],
-    "editor.insertSpaces": true,
-    "editor.detectIndentation": false,
-    "git.enabled": true,
-    "gitlens.blame.avatars": false,
-    "gitlens.advanced.messages": {
-        "suppressShowKeyBindingsNotice": true
+  "window.zoomLevel": 0.00001,
+  "window.restoreWindows": "none",
+  "explorer.confirmDelete": false,
+  "files.eol": "\n",
+  "files.trimTrailingWhitespace": true,
+  // "editor.formatOnSave": true,
+  // "editor.formatOnPaste": true,
+  // "editor.formatOnSaveTimeout": 3750,
+  "editor.tabSize": 2,
+  "editor.rulers": [88],
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "git.enabled": true,
+  "gitlens.blame.avatars": false,
+  "gitlens.advanced.messages": {
+    "suppressShowKeyBindingsNotice": true
+  },
+  "gitlens.outputLevel": "verbose",
+  "terminal.integrated.shell.windows": "C:\\Windows\\System32\\bash.exe",
+  "terminal.integrated.shellArgs.windows": ["--login"],
+  "terminal.integrated.env.windows": {
+    "CHERE_INVOKING": "1",
+    "MSYSTEM": "MINGW64"
+  },
+  "python.formatting.provider": "black",
+  "python.linting.pylintEnabled": true,
+  "python.linting.pydocstyleEnabled": true,
+  "python.linting.pep8Enabled": true,
+  "python.linting.pep8Args": ["--max-line-length=88"],
+  "python.formatting.blackArgs": ["--safe", "--quiet"],
+  "python.pythonPath": "/usr/bin/python",
+  "python.unitTest.pyTestArgs": [],
+  "python.unitTest.pyTestEnabled": true,
+  "python.unitTest.pyTestPath": "pytest",
+  "[python]": {
+    "editor.tabSize": 4,
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": false
+  },
+  "eslint.enable": true,
+  "javascript.format.enable": false,
+  "eslint.validate": [
+    {
+      "language": "vue"
+      // "autoFix": true
     },
-    "gitlens.outputLevel": "verbose",
-    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\bash.exe",
-    "terminal.integrated.shellArgs.windows": [
-        "--login"
-    ],
-    "terminal.integrated.env.windows": {
-        "CHERE_INVOKING": "1",
-        "MSYSTEM": "MINGW64"
+    {
+      "language": "javascript"
+      // "autoFix": true
     },
-    "python.formatting.provider": "black",
-    "python.linting.pylintEnabled": true,
-    "python.linting.pydocstyleEnabled": true,
-    "python.linting.pep8Enabled": true,
-    "python.linting.pep8Args": ["--max-line-length=88" ],
-    "python.formatting.blackArgs": ["--safe", "--quiet"],
-    "python.pythonPath": "/usr/bin/python",
-    "python.unitTest.pyTestArgs": [],
-    "python.unitTest.pyTestEnabled": true,
-    "python.unitTest.pyTestPath": "pytest",
-    "[python]": {
-        "editor.tabSize": 4,
-        "editor.formatOnSave": true,
-        "editor.formatOnPaste": false
+    {
+      "language": "javascriptreact"
+      // "autoFix": true
     },
-    "eslint.enable": true,
-    "javascript.format.enable": false,
-    "eslint.validate": [
-        {
-            "language": "vue",
-            // "autoFix": true
-        },
-        {
-            "language": "javascript",
-            // "autoFix": true
-        },
-        {
-            "language": "javascriptreact",
-            // "autoFix": true
-        },
-        {
-            "language": "html",
-            // "autoFix": true
-        }
-    ],
-    "prettier.singleQuote": true,
-    "prettier.semi": false,
-    "prettier.eslintIntegration": false,
-    "html.format.enable": true,
-    "vetur.format.defaultFormatter.html": "js-beautify-html",
-    "vetur.format.defaultFormatter.js": "prettier",
-    "vetur.format.defaultFormatter.css": "prettier",
-    "vetur.format.defaultFormatterOptions": {
-        "js-beautify-html": {
-            // js-beautify-html settings, see https://github.com/vuejs/vetur/blob/master/server/src/modes/template/services/htmlFormat.ts
-            "wrap_attributes": "force-aligned",
-            "wrap_line_length": 80
-        }
-    },
-    "[sql]": {
-        "editor.formatOnSave": false,
-        "editor.formatOnPaste": false
-    },
-    "[makefile]": {
-        "editor.formatOnSave": true,
-        "editor.formatOnPaste": true,
-        "editor.tabSize": 4,
-        "editor.insertSpaces": false
-    },
-    "emojisense.languages": {
-        "markdown": true,
-        "git-commit": true,
-        "plaintext": true,
-        "json": true
-    },
-    "workbench.startupEditor": "welcomePage",
-    "workbench.colorTheme": "Night Owl",
-    "breadcrumbs.enabled": true,
-    "files.associations": {
-        "Pipfile": "ini"
-    },
-    "explorer.confirmDelete": false,
-    "window.zoomLevel": 0.00001,
+    {
+      "language": "html"
+      // "autoFix": true
+    }
+  ],
+  "prettier.singleQuote": true,
+  "prettier.semi": false,
+  "prettier.eslintIntegration": false,
+  "html.format.enable": true,
+  "vetur.format.defaultFormatter.html": "js-beautify-html",
+  "vetur.format.defaultFormatter.js": "prettier",
+  "vetur.format.defaultFormatter.css": "prettier",
+  "vetur.format.defaultFormatterOptions": {
+    "js-beautify-html": {
+      // js-beautify-html settings, see https://github.com/vuejs/vetur/blob/master/server/src/modes/template/services/htmlFormat.ts
+      "wrap_attributes": "force-aligned",
+      "wrap_line_length": 80
+    }
+  },
+  "[sql]": {
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false
+  },
+  "[makefile]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.tabSize": 4,
+    "editor.insertSpaces": false
+  },
+  "emojisense.languages": {
+    "markdown": true,
+    "git-commit": true,
+    "plaintext": true,
+    "json": true
+  },
+  "workbench.startupEditor": "welcomePage",
+  "workbench.colorTheme": "Night Owl",
+  "breadcrumbs.enabled": true,
+  "files.associations": {
+    "Pipfile": "ini"
+  },
 }
