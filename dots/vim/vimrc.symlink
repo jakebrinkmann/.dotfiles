@@ -13,7 +13,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 Plugin 'nanotech/jellybeans.vim'             " Cool VIM themes
-Plugin 'tmhedberg/SimpylFold'                " Hide indented code
+"Plugin 'tmhedberg/SimplyFold'                " Hide indented code
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'scrooloose/syntastic'                " Lint Checkers
 Plugin 'tpope/vim-fugitive'                  " Git Diff Checker
@@ -25,6 +25,7 @@ Plugin 'vim-airline/vim-airline-themes'      " Cool toolbar themes
 Plugin 'tpope/vim-unimpaired'                " Common key-mappings
 Plugin 'sheerun/vim-polyglot'                " Language packs
 Plugin 'ryanoasis/vim-devicons'              " Adds icons to Plugins
+Plugin 'haishanh/night-owl.vim'              " Dark Theme
 
 call vundle#end()
 filetype plugin indent on
@@ -75,14 +76,23 @@ nnoremap <C-n> :NERDTreeToggle<CR>
 let g:NERDTreeDirArrowExpandable = '+'
 let g:NERDTreeDirArrowCollapsible = '/'
 
+" Setup night-owl {
+""""" for vim >8.0
+if (has("termguicolors"))
+ set termguicolors
+endif
+" }
+
 syntax enable
-silent! colorscheme jellybeans
+" silent! colorscheme jellybeans
+silent! colorscheme night-owl
 set background=dark
 
 set hlsearch
 hi Search ctermbg=1
 
 set cursorline
+
 
 " Allow easy window control
 nmap <silent> <C-k> :wincmd k<CR>
