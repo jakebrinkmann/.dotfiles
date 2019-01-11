@@ -6,7 +6,7 @@ set nu " Line Numbers
 autocmd BufNewFile,BufRead *.md set filetype=markdown
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType python setlocal ts=4 sts=4 sw=4 expandtab
-set colorcolumn=80
+set colorcolumn=88
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
