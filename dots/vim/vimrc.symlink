@@ -25,7 +25,8 @@ Plugin 'vim-airline/vim-airline-themes'      " Cool toolbar themes
 Plugin 'tpope/vim-unimpaired'                " Common key-mappings
 Plugin 'sheerun/vim-polyglot'                " Language packs
 Plugin 'ryanoasis/vim-devicons'              " Adds icons to Plugins
-Plugin 'haishanh/night-owl.vim'              " Dark Theme
+" Plugin 'haishanh/night-owl.vim'              " Dark Theme
+
 
 call vundle#end()
 filetype plugin indent on
@@ -84,8 +85,7 @@ endif
 " }
 
 syntax enable
-" silent! colorscheme jellybeans
-silent! colorscheme night-owl
+silent! colorscheme jellybeans
 set background=dark
 
 set hlsearch
