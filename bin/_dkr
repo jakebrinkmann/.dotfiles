@@ -6,13 +6,13 @@ clean() {
     if [[ nlines -gt 1 ]]; then
             docker rm -v $containers;
     fi
-    
+
     images=$(docker images -f "dangling=true" -q)
     nlines=$(echo "$images" | wc -l)
     if [[ nlines -gt 1 ]]; then
             docker rmi $images
     fi
-    
+
     volumes=$(docker volume ls -f dangling=true -q)
     nlines=$(echo "$volumes" | wc -l)
     if [[ nlines -gt 1 ]]; then
@@ -20,42 +20,43 @@ clean() {
     fi
 }
 
-shutdown() { 
-	docker rm --force $(docker ps -aq); 
+shutdown() {
+	docker rm --force $(docker ps -aq);
 }
 rm_volumes() {
-	docker volume rm $(docker volume ls -q); 
+	docker volume rm $(docker volume ls -q);
 }
-destroy() { 
+destroy() {
 	shutdown
 	rm_volumes
-	docker rmi -f $(docker images -q); 
-	docker network rm $(docker network ls -q); 
+	docker rmi -f $(docker images -q);
+	docker network rm $(docker network ls -q);
 }
 
 # ..... Archive
-_ls() { 
-	ls -F --color=auto --show-control-chars -ltrh $DOCKERIMAGES; 
+_ls() {
+	ls -F --color=auto --show-control-chars -ltrh $DOCKERIMAGES;
 }
-save() { 
-	docker save $1 | bzip2 > $DOCKERIMAGES/$2; 
+save() {
+	docker save $1 | bzip2 > $DOCKERIMAGES/$2;
 }
-load() { 
-	bunzip2 -c $DOCKERIMAGES/$1 | docker load; 
+load() {
+	bunzip2 -c $DOCKERIMAGES/$1 | docker load;
 }
 
 # ..... Pretty Print
-ps() { 
-	docker ps --format "table {{.Names}} \t{{.ID}} \t{{.Status}} \t{{.Ports}}"; 
+ps() {
+	docker ps --format "table {{.Names}} \t{{.ID}} \t{{.Status}} \t{{.Ports}}";
 }
-imgs() { 
-	docker images --format "table {{.Repository}} \t{{.Tag}} \t{{.CreatedSince}}"; 
+imgs() {
+	docker images --format \
+		"table {{.Repository}} \t{{.Tag}} \t{{.CreatedSince}}";
 }
 
 main() {
 	cmd=$1;
 
-	case $cmd in 
+	case $cmd in
 		clean)
 			clean
 			;;
