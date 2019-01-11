@@ -39,6 +39,9 @@ nnoremap <space> za
 nmap <c-z> :w<CR>
 imap <c-z> <Esc>:w<CR>a
 
+" Show dots for spaces (listchars)
+set lcs+=space:·
+
 " Setup fugitive {
 set diffopt+=vertical
 " }
