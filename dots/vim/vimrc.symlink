@@ -93,6 +93,10 @@ hi Search ctermbg=1
 
 set cursorline
 
+" Red highlight for whitespace {
+highlight RedundantSpaces ctermbg=red guibg=red
+match RedundantSpaces /\s\+$/
+" }
 
 " Allow easy window control
 nmap <silent> <C-k> :wincmd k<CR>
@@ -106,8 +110,10 @@ set guioptions-=T  "remove toolbar
 
 " Helpful shortcuts {
 nnoremap <F2> :BundleInstall<CR>
+""" remove all trailing whitespace
+nnoremap <F3> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 nnoremap <F5> :SyntasticCheck<CR>
-nnoremap <F7> :%!python -m json.tool<CR>
 nnoremap <F6> :%!xmllint --format %<CR>
+nnoremap <F7> :%!python -m json.tool<CR>
 " }
 
