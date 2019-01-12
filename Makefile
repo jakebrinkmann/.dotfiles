@@ -1,33 +1,76 @@
 .DEFAULT_GOAL := build
-VERSION    := `cat version.txt`
-REPO       := $(DOCKER_USER)/dotfiles
-BRANCH     := $(or $(TRAVIS_BRANCH),`git rev-parse --abbrev-ref HEAD | tr / -`)
-COMMIT     := $(or $(TRAVIS_COMMIT),`git rev-parse HEAD`)
-COMMIT_TAG := $(REPO):$(COMMIT)
-BRANCH_TAG := $(REPO):$(BRANCH)-$(VERSION)
+# Docker image name and tag (e.g. reg/image)
+REGISTRY := $(or $(DOCKER_USER), jbrinkmann)/
+IMAGE := dotfiles
+# The git branch name (e.g. primary, develop, ...)
+BRANCH := $(or $(TRAVIS_BRANCH),`git rev-parse --abbrev-ref HEAD | tr / -`)
+# Latest git tag (e.g. 0.0.0-1)
+VERSION := $(shell git describe --tags |sed 's/-g[a-z0-9]\{7\}//')
+# Include the branch name when not on primary (e.g. reg/image:0.0.0-1-develop)
+TAG := $(shell if [ "$(BRANCH)" = "primary" ]; \
+			then echo "$(REGISTRY)$(IMAGE):$(VERSION)"; \
+			else echo "$(REGISTRY)$(IMAGE):$(VERSION)-$(BRANCH)"; \
+		fi)
+# Additionally, include the git commit hash
+COMMIT := $(or $(TRAVIS_COMMIT),`git rev-parse --short HEAD`)
 
-build:
-	@docker build -f Dockerfile -t $(COMMIT_TAG) --rm=true --compress $(PWD)
+.PHONY: image
+image: ## Build the Dockerfile as an image.
+	# TODO: use `--squash` when it is no longer experimental
+	docker build --rm=true --compress --force-rm \
+		-t $(TAG) $(CURDIR)
 
-tag:
-	@docker tag $(COMMIT_TAG) $(BRANCH_TAG)
-ifeq ($(BRANCH),master)
-	@docker tag $(COMMIT_TAG) $(REPO):latest
+.PHONY: tag
+tag: ## Tagging with the commit hash allows immutable deploys.
+	docker tag $(TAG) $(TAG)-$(COMMIT)
+ifeq ($(BRANCH),primary)
+	docker tag $(TAG) $(REGISTRY)$(IMAGE):latest
 endif
 
-
-login:
+.PHONY: login
+login: ## Login to Docker registry.
 	@$(if $(and $(DOCKER_USER), $(DOCKER_PASS)), docker login -u $(DOCKER_USER) -p $(DOCKER_PASS), docker login)
 
-push: login
-	docker push $(REPO)
+.PHONY: push
+push: login ## Publish image to Docker registry.
+	docker push $(REGISTRY)$(IMAGE)
 
-debug:
-	@echo "VERSION:    $(VERSION)"
-	@echo "REPO:       $(REPO)"
+.PHONY: debug
+debug: ## Echo resolved variables.
+	@echo "REGISTRY:   $(REGISTRY)"
+	@echo "IMAGE:      $(IMAGE)"
 	@echo "BRANCH:     $(BRANCH)"
-	@echo "COMMIT_TAG: $(COMMIT_TAG)"
-	@echo "BRANCH_TAG: $(BRANCH_TAG)"
+	@echo "VERSION:    $(VERSION)"
+	@echo "TAG:        $(TAG)"
+	@echo "COMMIT:     $(COMMIT)"
 
-all: debug build tag push
+# if this session isn't interactive, then we don't want to allocate a
+# TTY, which would fail, but if it is interactive, we do want to attach
+# so that the user can send e.g. ^C through.
+# https://github.com/jessfraz/dockerfiles/blob/master/Makefile#L35
+INTERACTIVE := $(shell [ -t 0 ] && echo 1 || echo 0)
+ifeq ($(INTERACTIVE), 1)
+	DOCKER_FLAGS += -t
+endif
 
+.PHONY: run
+run: ## Run the Dockerfile in a container.
+	docker run --rm -i $(DOCKER_FLAGS) \
+		--name $(IMAGE) \
+		$(TAG) || exit 0
+
+.PHONY: format
+format: ## Check the source code formatting.
+	black $(CURDIR)/subimage
+	pydocstyle $(CURDIR)/subimage
+
+.PHONY: clean
+clean: clean-docker ## Clean up everything.
+
+.PHONY: clean-docker
+clean-docker:
+	@docker rmi -f $(shell docker images |grep $(REGISTRY)$(IMAGE) |awk '{print $$3}')
+	@docker rmi -f $(shell docker images --filter dangling=true -q)
+
+help:
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
