@@ -6,8 +6,6 @@ apt-get update
 
 # Allow `--fix-missing` to fetch required deps not already installed.
 apt-get install --assume-yes --fix-missing \
-  vim \
-  git \
   build-essential \
   apt-transport-https \
   ca-certificates \
@@ -15,5 +13,8 @@ apt-get install --assume-yes --fix-missing \
   wget \
   software-properties-common \
   openssl \
+  python-dev \
+  git \
+  vim \
   jq \
-  python-dev
+  httpie
