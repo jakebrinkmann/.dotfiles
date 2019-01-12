@@ -83,5 +83,8 @@ clean-docker:
 	@docker rmi -f $(shell docker images |grep $(REGISTRY)$(IMAGE) |awk '{print $$3}')
 	@docker rmi -f $(shell docker images --filter dangling=true -q)
 
+.PHONY: all
+all: debug image tag push
+
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
