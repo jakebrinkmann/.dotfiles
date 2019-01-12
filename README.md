@@ -1,16 +1,96 @@
-# dotfiles [![Build Status][tb]][tt] [![Docker Pulls][db]][dh]
-sensible hacker defaults for CentOS
+# dotfiles
+> I'm going to lay this brick as perfectly as a brick can be laid 🧱
 
-## Installation 
+[![Build Status][travis-image]][travis-url]
+[![Docker Hub Status][docker-image]][docker-url]
+[![GitHub release][github-image]][github-url]
 
-Download/Install this project:
+[travis-image]: https://img.shields.io/travis/jakebrinkmann/dotfiles/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/jakebrinkmann/dotfiles
+[docker-image]: https://img.shields.io/docker/automated/jbrinkmann/dotfiles.svg?style=flat-square
+[docker-url]: https://hub.docker.com/r/jbrinkmann/dotfiles/tags/
+[github-image]: https://img.shields.io/github/last-commit/jakebrinkmann/dotfiles.svg?style=flat-square
+[github-url]: https://github.com/jakebrinkmann/dotfiles
+
+sensible hacker defaults focused towards a reusable Debian ([Stretch][deb-rel-url]) docker runtime environment
+[deb-rel-url]: https://www.debian.org/releases/
+
+![](https://user-images.githubusercontent.com/4110571/51054150-734f3700-15a1-11e9-9939-4a14269b2685.png)
+
+#### Contents
+
+* [About](#about-)
+* [Dependencies](#dependencies-)
+* [Usage](#usage-)
+* [Development](#development-)
+* [Meta](#meta-)
+
+## About [&#x219F;](#contents)
+
+The project has multiple main topics, summarized here:
+
+* `dotfiles`: the "[runcoms](https://en.wikipedia.org/wiki/Run_commands)" (init configs) of the tools I use
+* `setups`: scripts to bootstrap the installation of tools
+* `docker`: pre-existing environment with all tools installed
+* `ci`: run builds after every pushed commit
+
+It is expected that this project only contains generic tools.
+Other language-specific environments are then children of this base project.
+
+However, the `dotfiles` and `setups` should work on any debian system, and not be coupled to Docker/CI.
+
+## Dependencies [&#x219F;](#contents)
+
+These tools must first be installed on the system:
+
+* [Docker](https://docs.docker.com/install/)
+
+## Usage [&#x219F;](#contents)
+
+To quickly run the pre-built environment:
+
+```sh
+docker pull jbrinkmann/dotfiles:latest
+```
+
+This project has a quick-start to jump into the latest image:
+
+```sh
+# Note: this will run a release version tag
+#       which should match the `:latest` tag
+make run
+```
+
+
+## Development  [&#x219F;](#contents)
+
+To Download/Install this project directly onto a host machine (helpful when I want to fly native on a machine, without the additional overhead of containers... trading off for reproducibility in my environment, though):
+
 ```bash
 git clone git@github.com:jakebrinkmann/dotfiles.git ~/.dots
 cd ~/.dots
 bash setup.sh
 ```
 
-[tb]: https://img.shields.io/travis/jakebrinkmann/dotfiles/master.svg?style=flat-square 
-[tt]: https://travis-ci.org/jakebrinkmann/dotfiles 
-[db]: https://img.shields.io/docker/automated/jbrinkmann/dotfiles.svg?style=flat-square 
-[dh]: https://hub.docker.com/r/jbrinkmann/dotfiles/tags/
+To build the Docker image locally:
+
+```sh
+# docker build ...
+make image
+```
+
+
+## Meta [&#x219F;](#contents)
+
+Jake Brinkmann – [@jakebrinkmann](https://twitter.com/jakebrinkmann) – jakebrinkmann@gmail.com
+
+Distributed under the MIT license. See ``LICENSE.txt`` for more information.
+
+This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) and [Conventional Commit Messages](https://www.conventionalcommits.org/en/v1.0.0-beta.2/#summary).
+
+[https://github.com/jakebrinkmann/leads-tracker](https://github.com/jakebrinkmann//leads-tracker)
+
+---
+---
+
+[&#x219F; Back to Top &#x219F;](#readme)
