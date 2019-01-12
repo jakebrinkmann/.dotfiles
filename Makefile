@@ -53,10 +53,21 @@ ifeq ($(INTERACTIVE), 1)
 	DOCKER_FLAGS += -t
 endif
 
+# if we're running inside Docker Toolbox (Windows/Mac) then we need
+# to change the socket (named pipe) to communicate with the host system
+# docker daemon (otherwise, we cannot develop docker inside this dev-env)
+NIXHOST := $(shell [ -e /var/run/docker.sock ] && echo 1 || echo 0)
+ifeq ($(NIXHOST), 1)
+	SOCKETLOC += /var/run/docker.sock:/var/run/docker.sock
+else
+	SOCKETLOC += \\.\pipe\docker_engine:\\.\pipe\docker_engine
+endif
+
 .PHONY: run
 run: ## Run the Dockerfile in a container.
 	docker run --rm -i $(DOCKER_FLAGS) \
 		--name $(IMAGE) \
+		-v $(SOCKETLOC) \
 		$(TAG) || exit 0
 
 .PHONY: format
