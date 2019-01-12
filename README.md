@@ -23,6 +23,7 @@ sensible hacker defaults focused towards a reusable Debian ([Stretch][deb-rel-ur
 * [Dependencies](#dependencies-)
 * [Usage](#usage-)
 * [Development](#development-)
+* [Contributing](#contributing-)
 * [Meta](#meta-)
 
 ## About [&#x219F;](#contents)
@@ -79,6 +80,10 @@ To build the Docker image locally:
 make image
 ```
 
+
+## Contributing  [&#x219F;](#contents)
+
+No contribution is too small!
 
 ## Meta [&#x219F;](#contents)
 
