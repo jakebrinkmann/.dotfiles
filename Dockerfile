@@ -22,20 +22,23 @@ RUN apt-get update \
 COPY . $HOME/.dots
 RUN cd $HOME/.dots \
 	&& ./install/deb/base.sh \
-	&& ./install/deb/docker.sh \
 	&& ./setup.sh
 
 # As root, need to change ownership of copied files.
 RUN chown -R $USERNAME:$USERNAME $HOME
-
-# Configure how to run the image in a container.
 USER $USERNAME
 WORKDIR $HOME
+
+# Install, and allow ourselves to run, docker
+ENV USER=$USERNAME
+RUN	sudo ./.dots/install/deb/docker.sh
+
+# Configure how to run the image in a container.
 VOLUME [ $HOME ]
 ENTRYPOINT [ "/bin/bash" ]
 CMD [ "--login" ]
 
-# Example execution:
+# Example execution to enable editing code on host:
 #   docker run --rm -it \
-#     -v $PWD:/home/$USERNAME \
+#     -v $PWD:/home/$USERNAME:rw \
 #     $IMAGE
