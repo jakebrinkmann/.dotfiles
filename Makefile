@@ -58,9 +58,9 @@ endif
 # docker daemon (otherwise, we cannot develop docker inside this dev-env)
 NIXHOST := $(shell [ -e /var/run/docker.sock ] && echo 1 || echo 0)
 ifeq ($(NIXHOST), 1)
-	SOCKETLOC += /var/run/docker.sock:/var/run/docker.sock
+	SOCKETLOC += /var/run/docker.sock:/var/run/docker.sock:ro
 else
-	SOCKETLOC += \\.\pipe\docker_engine:\\.\pipe\docker_engine
+	SOCKETLOC += \\.\pipe\docker_engine:\\.\pipe\docker_engine:ro
 endif
 
 .PHONY: run

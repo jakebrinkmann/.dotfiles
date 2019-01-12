@@ -27,11 +27,14 @@ RUN cd $HOME/.dots \
 # As root, need to change ownership of copied files.
 RUN chown -R $USERNAME:$USERNAME $HOME
 USER $USERNAME
+ENV USER=$USERNAME
 WORKDIR $HOME
 
 # Install, and allow ourselves to run, docker
-ENV USER=$USERNAME
-RUN	sudo ./.dots/install/deb/docker.sh
+# NOTE: docker.sh fails to add us to the docker
+#       group because $USER is `root` behind sudo
+RUN	sudo ./.dots/install/deb/docker.sh \
+      && sudo usermod -aG docker $USERNAME
 
 # Configure how to run the image in a container.
 VOLUME [ $HOME ]
