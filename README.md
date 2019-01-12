@@ -94,7 +94,7 @@ Distributed under the MIT license. See ``LICENSE.txt`` for more information.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) and [Conventional Commit Messages](https://www.conventionalcommits.org/en/v1.0.0-beta.2/#summary).
 
-[https://github.com/jakebrinkmann/leads-tracker](https://github.com/jakebrinkmann//leads-tracker)
+[https://github.com/jakebrinkmann/dotfiles](https://github.com/jakebrinkmann//dotfiles)
 
 ---
 ---
