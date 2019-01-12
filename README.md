@@ -13,6 +13,7 @@
 [github-url]: https://github.com/jakebrinkmann/dotfiles
 
 sensible hacker defaults focused towards a reusable Debian ([Stretch][deb-rel-url]) docker runtime environment
+
 [deb-rel-url]: https://www.debian.org/releases/
 
 ![](https://user-images.githubusercontent.com/4110571/51054150-734f3700-15a1-11e9-9939-4a14269b2685.png)
