@@ -7,4 +7,10 @@ if [ ! -f /.dockerenv ]; then
 fi
 
 alias GIT_BRANCH_CMD="sh -c 'git branch --no-color 2> /dev/null' | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'"
-PS1="\[\033]0;\h: \w\007\]\n\`if [ \$? = 0 ]; then echo \[\e[33m\]\t\[\e[0m\]; else echo \[\e[31m\]\t\[\e[0m\]; fi\`"' \[\033[33;1m\]\w\[\033[35m\] `GIT_BRANCH_CMD`\n\[\033[m\]['$PROMPTCOLORS']\$ '
+
+unset PS1
+PS1+="\[\033]0;\h: \w\007\]\n"
+PS1+="\`if [ \$? = 0 ]; then echo \[\e[33m\]\t\[\e[0m\]; else echo \[\e[31m\]\t\[\e[0m\]; fi\` "
+PS1+='\[\033[m\]'$PROMPTCOLORS' '
+PS1+='\[\033[33;1m\]\w\[\033[35m\] `GIT_BRANCH_CMD` \[\033[m\]\n'
+PS1+='\[\033[m\]\$ '
