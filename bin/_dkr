@@ -58,6 +58,14 @@ imgs() {
    "table {{.Repository}} \t{{.Tag}} \t{{.CreatedSince}}";
 }
 
+run() {
+  # run jbrinkmann/el-clj
+  docker run -it --rm \
+    --name ${1#*/} \
+    -v $HOME/projects:/opt/projects:ro \
+    $1
+}
+
 main() {
   cmd=$1;
 
@@ -89,9 +97,12 @@ main() {
     imgs)
       imgs
       ;;
+    run)
+      run "${@:2}"
+      ;;
     *)
       echo "Usage:"
-      echo "  _docker {clean,shutdown,rm_volumes,destroy,ls,save,load,ps,imgs}"
+      echo "  _docker {clean,shutdown,rm_volumes,destroy,ls,save,load,ps,imgs,run}"
   esac
 }
 
