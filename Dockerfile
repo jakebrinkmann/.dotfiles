@@ -7,8 +7,9 @@ ARG USERNAME=hydrogen
 ENV HOME=/home/$USERNAME
 
 # Invincibility Boost.
-RUN apt-get update \
-      && apt-get install --assume-yes sudo \
+RUN echo 'APT::Get::Assume-Yes "true";' >> /etc/apt/apt.conf \
+      && apt-get update \
+      && apt-get install sudo \
       && useradd -m -s /bin/bash $USERNAME \
       && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/$USERNAME \
       && chmod 0440 /etc/sudoers.d/$USERNAME
