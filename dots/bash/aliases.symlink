@@ -25,3 +25,5 @@ alias -- -="cd -"
 # find . -name .gitattributes | map dirname
 alias map="xargs -n1"
 
+# Disable GUI
+alias emacs="emacs -nw"
