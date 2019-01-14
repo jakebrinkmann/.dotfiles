@@ -29,4 +29,5 @@ MiscSlimTabs=TRUE
 MiscNewTabAdjacent=TRUE
 CommandLoginShell=TRUE
 BackgroundMode=TERMINAL_BACKGROUND_TRANSPARENT
+ShortcutsNoMnemonics=TRUE
 
