@@ -1,4 +1,4 @@
-.DEFAULT_GOAL := build
+.DEFAULT_GOAL := image
 # Docker image name and tag (e.g. reg/image)
 REGISTRY := $(or $(DOCKER_USER), jbrinkmann)/
 IMAGE := dotfiles
@@ -69,11 +69,6 @@ run: ## Run the Dockerfile in a container.
 		--name $(IMAGE) \
 		-v $(SOCKETLOC) \
 		$(TAG) || exit 0
-
-.PHONY: format
-format: ## Check the source code formatting.
-	black $(CURDIR)/subimage
-	pydocstyle $(CURDIR)/subimage
 
 .PHONY: clean
 clean: clean-docker ## Clean up everything.
