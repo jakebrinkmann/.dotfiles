@@ -59,13 +59,28 @@ imgs() {
 }
 
 run() {
-  # run jbrinkmann/el-clj
+  # Usage: run jbrinkmann/el-clj
+  # Usage (DinD): run jbrinkmann/el-clj -p
+
+  # if we're running inside Docker Toolbox (Windows/Mac) then we need
+  # to change the socket (named pipe) to communicate with the host system
+  # docker daemon (otherwise, we cannot develop docker inside this dev-env)
+  if [[ ( "$2" -eq "-p" ) && ( -e /var/run/docker.sock ) ]]; then
+    SOCKETLOC="/var/run/docker.sock"
+  else
+    SOCKETLOC="\\.\pipe\docker_engine"
+  fi
+
+  # Convert the full registry path to only the image name
+  # e.g. jbrinkmann/el-clj:3.0.0 ==> el-clj
   IMAGENAME=${1#*/}
   docker run -it --rm \
     --name ${IMAGENAME%%:*} \
-    -v $HOME/projects:/opt/projects:ro \
+    --user $(id -u):$(id -g) \
+    -v $HOME/projects:/opt/projects:rw \
+    -v $SOCKETLOC:$SOCKETLOC:ro \
     $1
-  unset IMAGENAME
+  unset IMAGENAME SOCKETLOC
 }
 
 main() {
