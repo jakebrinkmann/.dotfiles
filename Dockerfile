@@ -25,24 +25,18 @@ RUN cd $HOME/.dots \
       && ./install/deb/base.sh \
       && ./setup.sh
 
+# Install, and allow ourselves to run, docker
+# NOTE: docker group to avoid needing sudo
+RUN ./.dots/install/deb/docker.sh \
+      && usermod -aG docker $USERNAME
+
 # As root, need to change ownership of copied files.
 RUN chown -R $USERNAME:$USERNAME $HOME
 USER $USERNAME
 ENV USER=$USERNAME
 WORKDIR $HOME
 
-# Install, and allow ourselves to run, docker
-# NOTE: docker.sh fails to add us to the docker
-#       group because $USER is `root` behind sudo
-RUN sudo ./.dots/install/deb/docker.sh \
-      && sudo usermod -aG docker $USERNAME
-
 # Configure how to run the image in a container.
 VOLUME [ $HOME ]
 ENTRYPOINT [ "/bin/bash" ]
 CMD [ "--login" ]
-
-# Example execution to enable editing code on host:
-#   docker run --rm -it \
-#     -v $PWD:/home/$USERNAME:rw \
-#     $IMAGE
