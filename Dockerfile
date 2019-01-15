@@ -27,7 +27,7 @@ RUN cd $HOME/.dots \
 
 # Install, and allow ourselves to run, docker
 # NOTE: docker group to avoid needing sudo
-RUN ./.dots/install/deb/docker.sh \
+RUN $HOME/.dots/install/deb/docker.sh \
       && usermod -aG docker $USERNAME
 
 # As root, need to change ownership of copied files.
