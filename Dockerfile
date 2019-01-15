@@ -2,8 +2,8 @@
 # More tags: //hub.docker.com/_/debian/
 FROM debian:stretch
 
-# What am I? Who will I become?
-ARG USERNAME=hydrogen
+# The docker user seems like a good choice here
+ARG USERNAME=docker
 ENV HOME=/home/$USERNAME
 
 # Invincibility Boost.
