@@ -5,7 +5,7 @@ export DOCKER_CHANNEL=edge
 export COMPOSE_VERSION=`git ls-remote https://github.com/docker/compose | grep refs/tags | grep -oP "[0-9]+\.[0-9][0-9]+\.[0-9]+.*$" | tail -n 1`
 
 # Stop install if an error is encountered
-set -e 
+set -e
 
 # Add Docker's official GPG key
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
@@ -28,7 +28,9 @@ apt install -y docker-ce
 systemctl enable docker.service
 
 # Allow the current user to run Docker without sudo
-usermod -aG docker ${USER}
+if [[ -n "$USER" && "$USER" -ne "root" ]]; then
+  usermod -aG docker ${USER}
+fi
 
 # Install docker-compose
 sh -c "curl -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose"
