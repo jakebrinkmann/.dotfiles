@@ -76,8 +76,8 @@ run() {
   # e.g. jbrinkmann/el-clj:3.0.0 ==> el-clj
   IMAGENAME=${1#*/}
   docker run -it --rm \
-    --name ${IMAGENAME%%:*} \
-    --user $(id -u):$(id -g) \
+    --name ${IMAGENAME%%:*}-$(date +%M) \
+    --user $(id -u) \
     -v $HOME/projects:/opt/projects:rw \
     -v $SOCKETLOC:$SOCKETLOC:ro \
     $1
