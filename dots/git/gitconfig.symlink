@@ -34,6 +34,7 @@
 	gr = push gerrit HEAD:refs/for/master%ready
 	cane = commit --amend --no-edit
 	permission-reset = !git diff -p -R --no-color | grep -E \"^(diff|(old|new) mode)\" --color=never | git apply
+	opt = push origin primary --tags
 [credential]
 	helper = cache
 [difftool]
