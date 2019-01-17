@@ -14,7 +14,7 @@ function symlink_force(){
     command -v sudo > /dev/null && CANSUDO="sudo"
     for file in $(find "$ROOT" -type f ); do
 	    f=$(basename $file);
-	    $CANSUDO ln -sf $(readlink -f $file) ${PREFIX:-/usr/local/bin}/$f; 
+	    $CANSUDO ln -sf $(readlink -f $file) ${PREFIX:-/usr/local/bin}/$f;
     done
 }
 echo "Installing..."
