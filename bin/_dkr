@@ -70,6 +70,7 @@ run() {
     else
       SOCKETLOC="\\.\pipe\docker_engine"
     fi
+    SOCKETLOC="-v $SOCKETLOC:$SOCKETLOC:ro"
   fi
 
   # Convert the full registry path to only the image name
@@ -79,8 +80,8 @@ run() {
     --name ${IMAGENAME%%:*}-$(date +%M) \
     --user $(id -u) \
     -v $HOME/projects:/opt/projects:rw \
-    -v $SOCKETLOC:$SOCKETLOC:ro \
-    $1
+    $SOCKETLOC \
+    $1 "${@:2}"
   unset IMAGENAME SOCKETLOC
 }
 
