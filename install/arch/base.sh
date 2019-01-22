@@ -4,4 +4,7 @@
 pacman -Syy
 
 # Install dependencies
-pacman -S vim
+pacman -S \
+  vim \
+  emacs \
+  adobe-source-code-pro-fonts
