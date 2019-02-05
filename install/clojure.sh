@@ -53,7 +53,7 @@ chmod 755 /usr/local/bin/boot
 # Verify installation, and download any required core libraries
 for CMD in \
     'clojure -e "(clojure-version)"' \
-        'lein version' \
+        'LEIN_ROOT=1 lein self-install' \
         'BOOT_AS_ROOT=yes boot -V'; do
     echo -n "Running '$CMD' ... "
     eval $CMD &>/dev/null
