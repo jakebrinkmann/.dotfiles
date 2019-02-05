@@ -46,6 +46,14 @@ RUN cd $HOME/.dots \
   && usermod -aG docker $DOCKER_USER
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+FROM base as py
+
+# Install both Pipenv (python/PyPi) & Conda (non-wheel binaries)
+# TODO: add pipenv
+RUN cd $HOME/.dots \
+  && ./install/conda.sh
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 FROM base as node
 
 # TODO:
