@@ -44,3 +44,10 @@ FROM base as dkr
 RUN cd $HOME/.dots \
   && ./install/docker.sh \
   && usermod -aG docker $DOCKER_USER
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+FROM base as node
+
+# TODO:
+RUN cd $HOME/.dots \
+  && ./install/nodejs.sh
