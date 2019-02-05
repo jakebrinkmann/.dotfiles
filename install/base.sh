@@ -22,6 +22,8 @@ COMMON_PKGS="
 
 # Distro-speciic Dependencies =====================================
 if [ -n "$(type yum 2>/dev/null)" ]; then       ## CentOS/Fedora ##
+    # Allow up-to-date version of git
+    rpm -U http://opensource.wandisco.com/centos/7/git/x86_64/wandisco-git-release-7-2.noarch.rpm
     # all common and extra-packages
     yum install --assumeyes \
         epel-release \
