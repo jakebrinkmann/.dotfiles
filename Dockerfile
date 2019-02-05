@@ -59,3 +59,10 @@ FROM base as node
 # TODO:
 RUN cd $HOME/.dots \
   && ./install/nodejs.sh
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+FROM base as clj
+
+# TODO:
+RUN cd $HOME/.dots \
+  && ./install/clojure.sh
