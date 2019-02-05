@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Installs docker libraries and tools
-# NOTE: community edition is maintained TODO: by who?
-# NOTE: edge allows more experimental features
+# NOTE: community edition is open-source (instead of enterprise)
+# NOTE: edge (now nightly) channel allows experimental features
 
 # I <3 living on the edge
-DOCKER_CHANNEL=edge
+DOCKER_CHANNEL=nightly
 COMPOSE_VERSION=`git ls-remote https://github.com/docker/compose | grep refs/tags | grep -oP "[0-9]+\.[0-9][0-9]+\.[0-9]+.*$" | tail -n 1`
 
 # All must be run as root
@@ -15,8 +15,9 @@ COMPOSE_VERSION=`git ls-remote https://github.com/docker/compose | grep refs/tag
 
 # Distro-speciic Dependencies =====================================
 if [ -n "$(type yum 2>/dev/null)" ]; then       ## CentOS/Fedora ##
-    # TODO: provide reference to docker-volume and device-mapper
-    # TODO: is it still necessary?
+    # Dependencies for yum-config and devicemapper storage layer
+    # TODO: overlay2 storage layer is recommended?
+    # //docs.docker.com/install/linux/docker-ce/centos/
     yum install --assumeyes \
         yum-utils \
 	      device-mapper-persistent-data \
@@ -25,31 +26,47 @@ if [ -n "$(type yum 2>/dev/null)" ]; then       ## CentOS/Fedora ##
     yum-config-manager \
 	      --add-repo \
 	      https://download.docker.com/linux/centos/docker-ce.repo
-    yum-config-manager --enable docker-ce-edge
-    yum install --assumeyes docker-ce
-    # WARNING: enabling experimental features might mean incompatabilities with peers...
-    echo '{ "experimental": true }' | sudo tee -a /etc/docker/daemon.json
+    yum-config-manager --enable docker-ce-$DOCKER_CHANNEL
+    yum install --assumeyes \
+        docker-ce \
+        docker-cli \
+        containerd.io
 elif [ -n "$(type pacman 2>/dev/null)" ]; then   ## Arch/Manjaro ##
     # Install (--sync/-S) docker container suite
     pacman -S --noconfirm docker
-    # Also the docker-compose orchestra
-    pacman -S --noconfirm docker-compose
 elif [ -n "$(type apt-get 2>/dev/null)" ]; then ## Debian/Ubuntu ##
+    # Allow APT to install from HTTPS repository
+    apt-get install --assume-yes \
+            apt-transport-https
+    # Set environment variables for our distro, e.g. debian/ubuntu
+    . /etc/*release
     # Add Docker's official GPG key
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+    curl -fsSL https://download.docker.com/linux/$ID/gpg | apt-key add -
     # Verify the fingerprint
     apt-key fingerprint 0EBFCD88
     # Setup the apt repository for e.g. bionic (18.04)
-    # (NOTE: Cosmic (18.10) is not yet supported,
-    #  use `bionic` instead of `lsb_release -cs`)
+    # NOTE: some may not be supported yet, so need to fall-back
     add-apt-repository \
-	      "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-	bionic $DOCKER_CHANNEL"
-    # Install Docker (from edge repository)
-    apt update
-    apt install -y docker-ce
+        "deb [arch=amd64] https://download.docker.com/linux/$ID \
+        $(lsb_release -cs) \
+        $DOCKER_CHANNEL"
+    # Update metadata cache, to find new repository
+    apt-get update
+    # Install Docker (from nightly repository)
+    apt-get install --assume-yes \
+            docker-ce \
+            docker-ce-cli \
+            containerd.io
 fi
 # =================================================================
+
+# WARNING: enabling experimental features might mean incompatabilities with peers...
+tee /etc/docker/daemon.json <<__END__
+{
+     "experimental": true,
+     "storage-driver": "overlay2"
+}
+__END__
 
 # Install docker-compose (python script)
 curl -fsSL -o /usr/local/bin/docker-compose \
@@ -63,9 +80,9 @@ systemctl start docker.service
 
 # Install bash-completion
 # TODO: requires that docker-daemon is running (to get version)
-curl -fsSL -o /etc/bash_completion.d/docker \
-     https://raw.githubusercontent.com/docker/cli/v$(docker version --format '{{.Server.Version}}')/contrib/completion/bash/docker
-curl -fsSL -o /etc/bash_completion.d/docker-compose \
+curl -fsSL -o /usr/share/bash-completion/completions/docker \
+     https://raw.githubusercontent.com/docker/cli/v$(docker version --format '{{.Server.Version}}' | sed 's/-.*//')/contrib/completion/bash/docker
+curl -fsSL -o /usr/share/bash-completion/completions/docker-compose \
      https://raw.githubusercontent.com/docker/compose/${COMPOSE_VERSION}/contrib/completion/bash/docker-compose
 
 # NOTE! I had this issue until after a system restart:
