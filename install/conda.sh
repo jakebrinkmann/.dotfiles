@@ -14,27 +14,22 @@ if [ -n "$(type yum 2>/dev/null)" ]; then       ## CentOS/Fedora ##
         bzip2 \
         ca-certificates
 elif [ -n "$(type pacman 2>/dev/null)" ]; then   ## Arch/Manjaro ##
-    pacman -S --noconfirm \
-           nodejs
+    true
 elif [ -n "$(type apt-get 2>/dev/null)" ]; then ## Debian/Ubuntu ##
-    # Download and setup the APT repository PGP key
-    curl -sL https://deb.nodesource.com/setup_8.x | bash -
-    # Install NodeJS
-    apt-get install --assume-yes \
-            nodejs
+    true
 fi
 # =================================================================
 
 # Download & run installer
 curl -fsSL -o /tmp/miniconda.sh \
-     https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-/bin/bash /tmp/miniconda.sh -b -p /opt/conda
+     https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+/bin/bash /tmp/miniconda.sh -b -p /opt/miniconda3
 rm /tmp/miniconda.sh
 
 # Cleanup install artifacts
-/opt/conda/bin/conda clean -tipsy
+/opt/miniconda3/bin/conda clean -tipsy
 
 # Configure environment
-ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh
+ln -s /opt/miniconda3/etc/profile.d/conda.sh /etc/profile.d/conda.sh
 echo "##### Conda profile setup" >> /etc/profile.d/conda.sh
-echo 'export PATH=/opt/conda/bin:$PATH' >> /etc/profile.d/conda.sh
+echo 'export PATH=/opt/miniconda3/bin:$PATH' >> /etc/profile.d/conda.sh
