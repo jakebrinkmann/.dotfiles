@@ -7,10 +7,10 @@ BRANCH := $(or $(TRAVIS_BRANCH),`git rev-parse --abbrev-ref HEAD | tr / -`)
 # Latest git tag (e.g. 0.0.0-1)
 VERSION := $(shell git describe --tags |sed 's/-g[a-z0-9]\{7\}//')
 # Include the branch name when not on primary (e.g. reg/image:0.0.0-1-develop)
-TAG := $(shell if [ "$(BRANCH)" = "primary" ]; \
-			then echo "$(REGISTRY)$(IMAGE):$(VERSION)"; \
-			else echo "$(REGISTRY)$(IMAGE):$(VERSION)-$(BRANCH)"; \
-		fi)
+TAG := $(shell [ "$(BRANCH)" = "primary" ] \
+			&& echo "$(REGISTRY)$(IMAGE):$(VERSION)" \
+			|| echo "$(REGISTRY)$(IMAGE):$(VERSION)-$(BRANCH)" \
+		)
 # Additionally, include the git commit hash
 COMMIT := $(or $(TRAVIS_COMMIT),`git rev-parse --short HEAD`)
 
