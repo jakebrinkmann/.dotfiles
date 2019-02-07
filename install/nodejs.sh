@@ -3,8 +3,8 @@
 
 # All must be run as root
 [ $(/usr/bin/id -u) -ne 0 ] \
-	  && echo 'Must be run as root!' \
-	  && exit 1
+    && echo 'Must be run as root!' \
+    && exit 1
 
 
 # Distro-speciic Dependencies =====================================

@@ -8,16 +8,16 @@ COMMON_PKGS="
     git
     jq
     wget
-	  curl
-	  httpie
-	  bash-completion
-	  sudo
+    curl
+    httpie
+    bash-completion
+    sudo
 "
 
 # All must be run as root
 [ $(/usr/bin/id -u) -ne 0 ] \
-	  && echo 'Must be run as root!' \
-	  && exit 1
+    && echo 'Must be run as root!' \
+    && exit 1
 
 
 # Distro-speciic Dependencies =====================================
@@ -27,13 +27,13 @@ if [ -n "$(type yum 2>/dev/null)" ]; then       ## CentOS/Fedora ##
     # all common and extra-packages
     yum install --assumeyes \
         epel-release \
-	      which \
+        which \
         $COMMON_PKGS
 elif [ -n "$(type pacman 2>/dev/null)" ]; then   ## Arch/Manjaro ##
     # NOTE: refreshing cached repo/mirrors metadata
     pacman -Syy
     pacman -S --noconfirm \
-	         which \
+           which \
            $COMMON_PKGS
 elif [ -n "$(type apt-get 2>/dev/null)" ]; then ## Debian/Ubuntu ##
     # NOTE: need to refresh (not upgrade!) cache metadata

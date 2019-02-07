@@ -9,8 +9,8 @@ COMPOSE_VERSION=`git ls-remote https://github.com/docker/compose | grep refs/tag
 
 # All must be run as root
 [ $(/usr/bin/id -u) -ne 0 ] \
-	  && echo 'Must be run as root!' \
-	  && exit 1
+    && echo 'Must be run as root!' \
+    && exit 1
 
 
 # Distro-speciic Dependencies =====================================
@@ -20,12 +20,12 @@ if [ -n "$(type yum 2>/dev/null)" ]; then       ## CentOS/Fedora ##
     # //docs.docker.com/install/linux/docker-ce/centos/
     yum install --assumeyes \
         yum-utils \
-	      device-mapper-persistent-data \
-	      lvm2
+        device-mapper-persistent-data \
+        lvm2
     # Configure Yum to allow Edge channel (for experimental features)
     yum-config-manager \
-	      --add-repo \
-	      https://download.docker.com/linux/centos/docker-ce.repo
+          --add-repo \
+          https://download.docker.com/linux/centos/docker-ce.repo
     yum-config-manager --enable docker-ce-$DOCKER_CHANNEL
     yum install --assumeyes \
         docker-ce \
@@ -60,7 +60,7 @@ elif [ -n "$(type apt-get 2>/dev/null)" ]; then ## Debian/Ubuntu ##
 fi
 # =================================================================
 
-# WARNING: enabling experimental features might mean incompatabilities with peers...
+# WARNING: experimental features might mean incompatabilities with peers...
 tee /etc/docker/daemon.json <<__END__
 {
      "experimental": true,
@@ -86,7 +86,7 @@ curl -fsSL -o /usr/share/bash-completion/completions/docker-compose \
      https://raw.githubusercontent.com/docker/compose/${COMPOSE_VERSION}/contrib/completion/bash/docker-compose
 
 # NOTE! I had this issue until after a system restart:
-# 	"docker.socket: Failed with result 'service-start-limit-hit'"
+#       "docker.socket: Failed with result 'service-start-limit-hit'"
 
 # Run a test image in a container
 CMD="docker run hello-world"
@@ -95,11 +95,11 @@ eval $CMD &> /dev/null
 
 # Display test OK/FAILED
 [ $? = 0 ] \
-	  && echo -e '\E[32m'"\033[1m[OK]\033[0m" \
-	      || echo -e '\E[31m'"\033[1m[FAIL]\033[0m"
+    && echo -e '\E[32m'"\033[1m[OK]\033[0m" \
+       || echo -e '\E[31m'"\033[1m[FAIL]\033[0m"
 
 # Display some help for our future-self
 echo
 echo 'To allow users to run docker:'
-echo '	sudo usermod -aG docker $USER'
+echo '    sudo usermod -aG docker $USER'
 

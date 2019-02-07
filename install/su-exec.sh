@@ -8,8 +8,8 @@ SU_EXEC_VERSION=v0.2
 
 # Ensure this script is run as root
 [ $(/usr/bin/id -u) -ne 0 ] \
-	  && echo 'Must be run as root!' \
-	  && exit 1
+    && echo 'Must be run as root!' \
+    && exit 1
 
 # Clone only the HEAD of the branch/tag (depth 1 === HEAD)
 cd /tmp
