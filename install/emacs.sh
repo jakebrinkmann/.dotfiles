@@ -11,19 +11,6 @@
 
 # Distro-speciic Dependencies =====================================
 if [ -n "$(type yum 2>/dev/null)" ]; then       ## CentOS/Fedora ##
-    false
-elif [ -n "$(type pacman 2>/dev/null)" ]; then   ## Arch/Manjaro ##
-    false
-elif [ -n "$(type apt-get 2>/dev/null)" ]; then ## Debian/Ubuntu ##
-    # Required to support default font displays
-    # Need both locales to avoid dpkg-reconfigure
-    apt-get install --assume-yes \
-            locales \
-            locales-all
-    update-locale LANG=$LANG
-fi
-# =================================================================
-if [ -n "$(type yum 2>/dev/null)" ]; then       ## CentOS/Fedora ##
     # Emacs is included in epel-release
     # TODO: Currently, version 24.3, spacemacs requires 24.4+
     yum install --assumeyes \

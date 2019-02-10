@@ -4,7 +4,6 @@
 
 # Common-names where possible to reduce distro-based complexity
 COMMON_PKGS="
-    vim
     git
     jq
     wget
@@ -44,6 +43,12 @@ elif [ -n "$(type apt-get 2>/dev/null)" ]; then ## Debian/Ubuntu ##
             build-essential \
             software-properties-common \
             $COMMON_PKGS
+    # Required to support default font displays
+    # Need both locales to avoid dpkg-reconfigure
+    apt-get install --assume-yes \
+            locales \
+            locales-all
+    update-locale LANG=$LANG
 fi
 # =================================================================
 
