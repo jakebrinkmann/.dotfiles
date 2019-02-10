@@ -24,7 +24,7 @@ RUN cd $HOME/.dots \
   && ./install/base.sh \
   && ./install/emacs.sh \
   && ./install/su-exec.sh \
-  && ./setup.sh
+  && ./symlinks.sh
 
 # As root, need to change ownership of copied files.
 RUN chown -R $DOCKER_USER:$DOCKER_USER $HOME
