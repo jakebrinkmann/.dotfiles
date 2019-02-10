@@ -22,9 +22,9 @@ RUN echo 'APT::Get::Assume-Yes "true";' >> /etc/apt/apt.conf \
 COPY . $HOME/.dots
 RUN cd $HOME/.dots \
   && ./install/base.sh \
-  && ./install/emacs.sh \
   && ./install/su-exec.sh \
-  && ./symlinks.sh
+  && ./symlinks.sh \
+  && ./install/emacs.sh
 
 # As root, need to change ownership of copied files.
 RUN chown -R $DOCKER_USER:$DOCKER_USER $HOME
