@@ -6,7 +6,8 @@ FROM debian:${DEBIAN_VERSION} as base
 # The docker user seems like a good choice here
 ARG DOCKER_USER=docker
 ENV HOME=/home/$DOCKER_USER \
-    DOCKER_USER=$DOCKER_USER
+    DOCKER_USER=$DOCKER_USER \
+    LANG=en_US.UTF-8
 
 # Invincibility Boost.
 RUN echo 'APT::Get::Assume-Yes "true";' >> /etc/apt/apt.conf \
@@ -21,6 +22,7 @@ RUN echo 'APT::Get::Assume-Yes "true";' >> /etc/apt/apt.conf \
 COPY . $HOME/.dots
 RUN cd $HOME/.dots \
   && ./install/base.sh \
+  && ./install/emacs.sh \
   && ./install/su-exec.sh \
   && ./setup.sh
 
