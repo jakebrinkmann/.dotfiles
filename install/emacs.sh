@@ -21,7 +21,8 @@ elif [ -n "$(type pacman 2>/dev/null)" ]; then   ## Arch/Manjaro ##
 elif [ -n "$(type apt-get 2>/dev/null)" ]; then ## Debian/Ubuntu ##
     # Install emacs
     apt-get install --assume-yes \
-            emacs
+            emacs \
+            emacs25
 fi
 # =================================================================
 
