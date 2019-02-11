@@ -78,7 +78,11 @@ run() {
   IMAGENAME=${1#*/}
   docker run -it --rm \
     --name ${IMAGENAME%%:*}-$(date +%M) \
-    -v $HOME/projects:/opt/projects:rw \
+    -v $HOME/workspace:/opt/workspace:rw \
+    -e DISPLAY=$DISPLAY \
+    -e TERM=$TERM \
+    -v $HOME/.Xauthority:/home/docker/.Xauthority \
+    --net=host \
     $SOCKETLOC \
     $1 "${@:2}"
   unset IMAGENAME SOCKETLOC
