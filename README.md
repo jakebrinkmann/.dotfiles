@@ -71,7 +71,7 @@ To Download/Install this project directly onto a host machine (helpful when I wa
 ```bash
 git clone git@github.com:jakebrinkmann/dotfiles.git ~/.dots
 cd ~/.dots
-bash setup.sh
+bash symlinks.sh
 ```
 
 To build the Docker image locally:
