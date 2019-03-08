@@ -1,3 +1,30 @@
+# Configuration tips to mitigate latency issues
+# //twitter.com/scopatz/status/1102990503128297473
+# //gist.github.com/ocefpaf/863fc5df6ed8444378fbb1211ad8feb1
+#-----------------------------------------------------------
+
+# help debug channel issues
+show_channel_urls: true
+
+# pip will always be installed with python 
+add_pip_as_python_dependency: true
+
+# strict priority and conda-forge at the top will ensure
+# that all of your packages will be from conda-forge unless they only exist on defaults
+channel_priority: strict
 channels:
   - conda-forge
   - defaults
+
+# when using "conda create" for envs these packages will always be installed
+# adjust that list according your needs
+# blas=*=openblas avoids mkl (any version with the openblas build string, =1.0=openblas)
+create_default_packages:
+  - ipykernel
+  - jupyter
+  - jupyter_contrib_nbextensions
+  - pip
+  - blas=*=openblas
+
+# faster (experimental) solver
+sat_solver: pycryptosat
