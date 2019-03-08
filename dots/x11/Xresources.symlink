@@ -6,59 +6,64 @@ Xft.autohint:  false
 Xft.hintstyle: hintslight
 Xft.lcdfilter: lcddefault
 
-! ROFI Color theme
-! ------------------------------------------------------------------------------
-! rofi.color-enabled: true
-! rofi.color-window: #393939, #393939, #268bd2
-! rofi.color-normal: #393939, #ffffff, #393939, #268bd2, #ffffff
-! rofi.color-active: #393939, #268bd2, #393939, #268bd2, #205171
-! rofi.color-urgent: #393939, #f3843d, #393939, #268bd2, #ffc39c
-
-rofi.color-enabled: true
-rofi.color-window: #1e1e20, #dc7f41, #dc7f41
-rofi.color-normal: #1e1e20, #c5c8c6, #1e1e20, #1e1e20, #dc7f41
-rofi.color-active: #1e1e20, #c5c8c6, #1e1e20, #1e1e20, #dc7f41
-rofi.color-urgent: #1e1e20, #c5c8c6, #1e1e20, #1e1e20, #dc7f41
-
-rofi.separator-style: solid
-rofi.sidebar-mode: false
-rofi.lines: 5
-rofi.font: Source Code Pro Semibold 10.5
-rofi.bw: 1
-rofi.columns: 2
-rofi.padding: 5
-rofi.fixed-num-lines: true
-rofi.hide-scrollbar: true
-! ------------------------------------------------------------------------------
-
 *background: #1e1e20
 *foreground: #c5c8c6
 *cursorColor: #c5c8c6
-*color0: #1e1e20
-*color1: #e6a57a
-*color2: #e39866
-*color3: #df8b54
-*color4: #dc7f41
-*color5: #85678f
-*color6: #b06534
-*color7: #f1cbb3
-*color8: #f4d8c6
-*color9: #e6a57a
-*color10: #e39866
-*color11: #df8b54
-*color12: #dc7f41
-*color13: #c6723a
-*color14: #b06534
-*color15: #E8E8E8
+
+! //platypus-boats.readthedocs.io/en/stable/source/Arch.html
+URxvt*colorUL: #86a2b0
+
+! black
+URxvt*color0  : #2E3436
+URxvt*color8  : #555753
+! red
+URxvt*color1  : #CC0000
+URxvt*color9  : #EF2929
+! green
+URxvt*color2  : #4E9A06
+URxvt*color10 : #8AE234
+! yellow
+URxvt*color3  : #C4A000
+URxvt*color11 : #FCE94F
+! blue
+URxvt*color4  : #3465A4
+URxvt*color12 : #729FCF
+! magenta
+URxvt*color5  : #75507B
+URxvt*color13 : #AD7FA8
+! cyan
+URxvt*color6  : #06989A
+URxvt*color14 : #34E2E2
+! white
+URxvt*color7  : #D3D7CF
+URxvt*color15 : #EEEEEC
 
 Xcursor.theme: xcursor-breeze
 Xcursor.size:                     0
 
 ! from https://www.reddit.com/r/archlinux/comments/5gntxy/urxvt_source_code_pro_font_looks_bad/
+! URxvt*font: xft:Droid Sans Mono Nerd Font Complete Mono:size=12:antialias=true:hinting=true
+! URxvt*boldFont: xft:Droid Sans Mono Nerd Font Complete Mono:size=12:antialias=true:hinting=true
+! URxvt*italicFont: xft:Droid Sans Mono Nerd Font Complete Mono:style=Oblique:size=12:antialias=true:hinting=true
+! URxvt*boldItalicFont: xft:Droid Sans Mono Nerd Font Complete Mono:style=Bold Oblique:size=12:antialias=true:hinting=true
+
+! This was close:
+! //github.com/powerline/fonts/issues/176
+! //unix.stackexchange.com/questions/323800/no-unicode-symbols-in-urxvt
+! URxvt*font: xft:Droid Sans Mono Nerd Font Complete Mono:size=12:antialias=true:hinting=true, \
+!             xft:DejaVu Serif:size=9, \
+!             xft:Symbola, \
+!             xft:Noto Emoji:minspace=False
+
+! URxvt*font: xft:Source Code Pro:size=12:antialias=true:hinting=true
+! URxvt*boldFont: xft:Source Code Pro:size=12:antialias=true:hinting=true
+! URxvt*italicFont: xft:Source Code Pro:style=Oblique:size=12:antialias=true:hinting=true
+! URxvt*boldItalicFont: xft:Source Code Pro:style=Bold Oblique:size=12:antialias=true:hinting=true
+
 URxvt*font: xft:Source Code Pro:size=12:antialias=true:hinting=true
-URxvt*boldFont: xft:Source Code Pro:size=12:antialias=true:hinting=true
-URxvt*italicFont: xft:Source Code Pro:style=Oblique:size=12:antialias=true:hinting=true
-URxvt*boldItalicFont: xft:Source Code Pro:style=Bold Oblique:size=12:antialias=true:hinting=true
+URxvt*boldFont: xft:Source Code Pro Bold:size=12:antialias=true:hinting=true
+URxvt*italicFont: xft:Source Code Pro Italic:size=12:antialias=true:hinting=true
+URxvt*boldItalicFont: xft:Source Code Pro Bold Italic:size=12:antialias=true:hinting=true
 
 ! URxvt.font:                       9x15,xft:TerminessTTFNerdFontMono
 ! alternative font settings with 'terminus':
@@ -66,8 +71,10 @@ URxvt*boldItalicFont: xft:Source Code Pro:style=Bold Oblique:size=12:antialias=t
 ! URxvt.bold.font: -xos4-terminus-bold-r-normal--16-160-72-72-c-80-iso10646-1
 !! terminus names see end of file!
 
-URxvt.depth:                      32
-URxvt.background:                 [100]#222D31
+! Maybe 24-bit colors?
+! URxvt.depth:                      32
+URxvt.depth:                      24
+URxvt.background:                 [90]#222D31
 URxvt*scrollBar:                  false
 URxvt*mouseWheelScrollPage:       false
 URxvt*cursorBlink:                true
@@ -219,6 +226,16 @@ URxvt*scrollWithBuffer:           true
 ! URxvt*tabbar-bg:                  colour
 ! URxvt*tabbar-fg:                  colour
 ! URxvt*url-launcher:               string
+
+! Highlight http links in terminal
+URxvt*url-launcher:               /usr/bin/xdg-open
+URxvt*matcher.button:             1 
+URxvt*matcher.rend.0:             Uline Bold fg5
+
+! Fix for displaying unicode characters
+! //bbs.archlinux.org/viewtopic.php?id=221329
+! //github.com/powerline/fonts/issues/176
+! URxvt*letterSpace:                1
 
 ! The Terminus font uses the following X-names:
 ! -xos4-terminus-medium-r-normal--12-120-72-72-c-60-iso10646-1
