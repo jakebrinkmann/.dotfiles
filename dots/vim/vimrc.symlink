@@ -1,7 +1,4 @@
 filetype indent plugin on
-" set term=xterm-256color
-" set term=builtin_ansi
-set t_Co=256
 set nu " Line Numbers
 autocmd BufNewFile,BufRead *.md set filetype=markdown
 autocmd FileType * setlocal ts=2 sts=2 sw=2 expandtab
@@ -27,7 +24,7 @@ Plugin 'vim-airline/vim-airline-themes'      " Cool toolbar themes
 Plugin 'tpope/vim-unimpaired'                " Common key-mappings
 Plugin 'sheerun/vim-polyglot'                " Language packs
 Plugin 'ryanoasis/vim-devicons'              " Adds icons to Plugins
-" Plugin 'haishanh/night-owl.vim'              " Dark Theme
+Plugin 'haishanh/night-owl.vim'              " Dark Theme
 
 
 call vundle#end()
@@ -90,8 +87,16 @@ endif
 " }
 
 syntax enable
-silent! colorscheme jellybeans
+
 set background=dark
+" 256 colors only if you can handle it {
+if $TERM =~ "-256color"
+  " set term=xterm-256color
+  " set term=builtin_ansi
+  set t_Co=256
+  silent! colorscheme jellybeans
+endif
+" }
 
 set hlsearch
 hi Search ctermbg=1
