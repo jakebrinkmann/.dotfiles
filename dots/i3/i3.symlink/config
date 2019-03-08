@@ -33,6 +33,7 @@ bindsym $mod+Return exec terminal -ls
 
 # kill focused window
 bindsym $mod+Shift+q kill
+bindsym F4 kill
 
 # start program launcher
 bindsym $mod+d exec --no-startup-id dmenu_recency
