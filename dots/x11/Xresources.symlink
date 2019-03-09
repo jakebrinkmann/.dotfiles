@@ -41,29 +41,32 @@ URxvt*color15 : #EEEEEC
 Xcursor.theme: xcursor-breeze
 Xcursor.size:                     0
 
-! from https://www.reddit.com/r/archlinux/comments/5gntxy/urxvt_source_code_pro_font_looks_bad/
-! URxvt*font: xft:Droid Sans Mono Nerd Font Complete Mono:size=12:antialias=true:hinting=true
-! URxvt*boldFont: xft:Droid Sans Mono Nerd Font Complete Mono:size=12:antialias=true:hinting=true
-! URxvt*italicFont: xft:Droid Sans Mono Nerd Font Complete Mono:style=Oblique:size=12:antialias=true:hinting=true
-! URxvt*boldItalicFont: xft:Droid Sans Mono Nerd Font Complete Mono:style=Bold Oblique:size=12:antialias=true:hinting=true
+! Highlight http links in terminal
+URxvt*url-launcher:               /usr/bin/xdg-open
+URxvt*matcher.button:             1 
+URxvt*matcher.rend.0:             Uline Bold fg5
 
-! This was close:
+! WHY ARE FONTS SO HARD
+! https://en.wikipedia.org/wiki/Unicode_font#Comparison_of_fonts
+
+! Fix for displaying unicode characters
+! //bbs.archlinux.org/viewtopic.php?id=221329
+! //github.com/powerline/fonts/issues/176
+! URxvt*letterSpace:                1
+
+! //www.reddit.com/r/archlinux/comments/5gntxy/urxvt_source_code_pro_font_looks_bad/
 ! //github.com/powerline/fonts/issues/176
 ! //unix.stackexchange.com/questions/323800/no-unicode-symbols-in-urxvt
-! URxvt*font: xft:Droid Sans Mono Nerd Font Complete Mono:size=12:antialias=true:hinting=true, \
-!             xft:DejaVu Serif:size=9, \
-!             xft:Symbola, \
-!             xft:Noto Emoji:minspace=False
 
-! URxvt*font: xft:Source Code Pro:size=12:antialias=true:hinting=true
-! URxvt*boldFont: xft:Source Code Pro:size=12:antialias=true:hinting=true
-! URxvt*italicFont: xft:Source Code Pro:style=Oblique:size=12:antialias=true:hinting=true
-! URxvt*boldItalicFont: xft:Source Code Pro:style=Bold Oblique:size=12:antialias=true:hinting=true
+URxvt*font: xft:Source Code Pro:size=10:antialias=true:hinting=true, \
+            xft:DroidSansMono Nerd Font Mono:size=12:antialias=true:hinting=true
+URxvt*boldFont: xft:Source Code Pro:size=12:antialias=true:hinting=true, \
+                xft:DroidSansMono Nerd Font Mono:size=12:antialias=true:hinting=true
+URxvt*italicFont: xft:Source Code Pro:style=Oblique:size=12:antialias=true:hinting=true, \
+                  xft:DroidSansMono Nerd Font Mono:style=Oblique:size=12:antialias=true:hinting=true
+URxvt*boldItalicFont: xft:Source Code Pro:style=Bold Oblique:size=12:antialias=true:hinting=true, \
+                      xft:DroidSansMono Nerd Font Mono:style=Bold Oblique:size=12:antialias=true:hinting=true
 
-URxvt*font: xft:Source Code Pro:size=12:antialias=true:hinting=true
-URxvt*boldFont: xft:Source Code Pro Bold:size=12:antialias=true:hinting=true
-URxvt*italicFont: xft:Source Code Pro Italic:size=12:antialias=true:hinting=true
-URxvt*boldItalicFont: xft:Source Code Pro Bold Italic:size=12:antialias=true:hinting=true
 
 ! URxvt.font:                       9x15,xft:TerminessTTFNerdFontMono
 ! alternative font settings with 'terminus':
@@ -71,9 +74,7 @@ URxvt*boldItalicFont: xft:Source Code Pro Bold Italic:size=12:antialias=true:hin
 ! URxvt.bold.font: -xos4-terminus-bold-r-normal--16-160-72-72-c-80-iso10646-1
 !! terminus names see end of file!
 
-! Maybe 24-bit colors?
-! URxvt.depth:                      32
-URxvt.depth:                      24
+URxvt.depth:                      32
 URxvt.background:                 [90]#222D31
 URxvt*scrollBar:                  false
 URxvt*mouseWheelScrollPage:       false
@@ -226,16 +227,6 @@ URxvt*scrollWithBuffer:           true
 ! URxvt*tabbar-bg:                  colour
 ! URxvt*tabbar-fg:                  colour
 ! URxvt*url-launcher:               string
-
-! Highlight http links in terminal
-URxvt*url-launcher:               /usr/bin/xdg-open
-URxvt*matcher.button:             1 
-URxvt*matcher.rend.0:             Uline Bold fg5
-
-! Fix for displaying unicode characters
-! //bbs.archlinux.org/viewtopic.php?id=221329
-! //github.com/powerline/fonts/issues/176
-! URxvt*letterSpace:                1
 
 ! The Terminus font uses the following X-names:
 ! -xos4-terminus-medium-r-normal--12-120-72-72-c-60-iso10646-1
