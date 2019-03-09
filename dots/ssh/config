@@ -1,0 +1,37 @@
+# SSH config file (~/.ssh/config)
+
+# Trusted Private LAN connections
+Host 192.168.*.*
+    # Enable permissions forwarding
+    ForwardAgent yes
+    ForwardX11 yes
+    ForwardX11Trusted yes
+
+# All Connections
+Host *
+    # Hash known-host names for additional security
+    HashKnownHosts yes
+    # Allow local and proxy commands
+    PermitLocalCommand yes
+    # Define auth method for passwordless login
+    PreferredAuthentications=publickey
+    ChallengeResponseAuthentication no
+    # Try to keep connections open
+    ConnectTimeout 0
+    ServerAliveInterval 30
+    ServerAliveCountMax 20
+    TCPKeepAlive yes
+    # Multiplexing shared connections to
+    # reduce setup/connect overhead ~10x
+    ControlMaster auto
+    ControlPath ~/.ssh/-%r@%h:%p
+    ControlPersist 600
+    # Hide login/server banners
+    LogLevel ERROR
+    # Forward the locale settings
+    SendEnv LANG LC_*
+    # Disable GSSAPI authentication
+    GSSAPIAuthentication no
+    GSSAPIDelegateCredentials no
+    # CVE patches
+    UseRoaming no
