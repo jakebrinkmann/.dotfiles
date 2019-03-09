@@ -1,18 +1,11 @@
-filetype indent plugin on
-set nu " Line Numbers
-autocmd BufNewFile,BufRead *.md set filetype=markdown
-autocmd FileType * setlocal ts=2 sts=2 sw=2 expandtab
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-autocmd FileType python setlocal ts=4 sts=4 sw=4 expandtab
-autocmd FileType make setlocal noexpandtab
-set colorcolumn=88
-set nocompatible
-filetype off
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" Add Vundle to runtime path, initialize plugin/extensions {
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
-Plugin 'nanotech/jellybeans.vim'             " Cool VIM themes
-"Plugin 'tmhedberg/SimplyFold'                " Hide indented code
+Plugin 'tmhedberg/SimpylFold'                " Hide indented code
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'scrooloose/syntastic'                " Lint Checkers
 Plugin 'tpope/vim-fugitive'                  " Git Diff Checker
@@ -23,18 +16,25 @@ Plugin 'bling/vim-airline'                   " Cool toolbar
 Plugin 'vim-airline/vim-airline-themes'      " Cool toolbar themes
 Plugin 'tpope/vim-unimpaired'                " Common key-mappings
 Plugin 'sheerun/vim-polyglot'                " Language packs
-Plugin 'ryanoasis/vim-devicons'              " Adds icons to Plugins
+Plugin 'nanotech/jellybeans.vim'             " Cool VIM themes
 Plugin 'haishanh/night-owl.vim'              " Dark Theme
+Plugin 'ryanoasis/vim-devicons'              " Adds icons to Plugins (...always last...)
+call vundle#end()            " required
+filetype plugin indent on    " required
+" }
 
+set number                   " Line Numbers [nu]
+set norelativenumber         " Relative to current line  [rnu]
+set nowrap                   " Display only partial long-lines
+set colorcolumn=88           " Put ruler at 88 characters
+set hlsearch                 " Turn on highlighting search-hits
+set cursorline               " Highlight current cursor-line
+set laststatus=2             " Keep statusline on all-windows=2
 
-call vundle#end()
-filetype plugin indent on
+highlight RedundantSpaces ctermbg=red guibg=red
+highlight Search ctermbg=blue ctermfg=grey
 
-set foldmethod=indent
-set foldlevel=99
-nnoremap <space> za
-nmap <c-z> :w<CR>
-imap <c-z> <Esc>:w<CR>a
+match RedundantSpaces /\s\+$/                    " Red highlight for whitespace {
 
 " Show dots for spaces (listchars)
 set listchars=eol:$,tab:>.,trail:~,extends:>,precedes:<,space:.
@@ -42,13 +42,11 @@ set listchars=eol:$,tab:>.,trail:~,extends:>,precedes:<,space:.
 " Setup fugitive {
 set diffopt+=vertical
 " }
-" Setup nerd-fonts {
-set guifont=DroidSansMonoPLNerd:h12
-set encoding=utf-8
-let g:airline_powerline_fonts=1
-" }
-let python_highlight_all=1
+
+" Enable syntax highlighting (on=override,enable=defaults) {
 syntax on
+" }
+
 " Setup syntastic {
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -67,46 +65,58 @@ let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_python_checkers = ['pylint', 'flake8', 'pyflakes', 'pycodestyle', 'pydocstyle']
 let g:syntastic_check_on_wq = 0
 
-" Put syntastic in passive mode (To run, :SyntasticCheck)
+""""" Put syntastic in passive mode (To run, :SyntasticCheck)
 let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
 " }
-let mapleader = ","
 
-let g:airline_theme='wombat'
-set laststatus=2
-
-nnoremap <C-n> :NERDTreeToggle<CR>
+" Configure NERD Tree
 let g:NERDTreeDirArrowExpandable = '+'
 let g:NERDTreeDirArrowCollapsible = '/'
 
-" Setup night-owl {
+" Setup nerd-fonts
+set guifont=DroidSansMonoPLNerd:h12
+set encoding=utf-8
+
+" Setup cool toolbar/statusline
+let g:airline_powerline_fonts=1
+let g:airline_theme='violet'
+
+" Setup night-owl
 """"" for vim >8.0
 if (has("termguicolors"))
- set termguicolors
+ " This seems to break urxvt (rxvt-unicode) 9.2 because of
+ " missing true-color (24-bit colors) support? 
+ "set termguicolors
 endif
-" }
 
-syntax enable
-
-set background=dark
 " 256 colors only if you can handle it {
 if $TERM =~ "-256color"
-  " set term=xterm-256color
-  " set term=builtin_ansi
   set t_Co=256
-  silent! colorscheme jellybeans
+  "silent! colorscheme jellybeans
+  silent! colorscheme night-owl
 endif
 " }
 
-set hlsearch
-hi Search ctermbg=1
+" GVim
+set guioptions-=m  "remove menu bar
+set guioptions-=T  "remove toolbar
 
-set cursorline
+" Code/Section folding using <Space>
+set foldmethod=indent
+set foldlevel=99
+nnoremap <space> za
 
-" Red highlight for whitespace {
-highlight RedundantSpaces ctermbg=red guibg=red
-match RedundantSpaces /\s\+$/
-" }
+" Ctrl+Z to save
+nmap <c-z> :w<CR>
+imap <c-z> <Esc>:w<CR>a
+
+" Ctrl+N to show NERDTree
+nnoremap <C-n> :NERDTreeToggle<CR>
+
+" Use "," as leader-key 
+" 	<,yos> for spellcheck
+" 	<,yol> for hidden-chars
+let mapleader = ","
 
 " Allow easy window control
 nmap <silent> <C-k> :wincmd k<CR>
@@ -114,16 +124,33 @@ nmap <silent> <C-j> :wincmd j<CR>
 nmap <silent> <C-h> :wincmd h<CR>
 nmap <silent> <C-l> :wincmd l<CR>
 
-" GVim
-set guioptions-=m  "remove menu bar
-set guioptions-=T  "remove toolbar
-
-" Helpful shortcuts {
+" Helpful shortcuts
 nnoremap <F2> :BundleInstall<CR>
 """ remove all trailing whitespace
 nnoremap <F3> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 nnoremap <F5> :SyntasticCheck<CR>
 nnoremap <F6> :%!xmllint --format %<CR>
 nnoremap <F7> :%!python -m json.tool<CR>
-" }
+
+autocmd FileType * setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType python setlocal ts=4 sts=4 sw=4 expandtab
+autocmd FileType make setlocal noexpandtab
+
+autocmd BufNewFile,BufRead *.md set filetype=markdown
+autocmd BufNewFile,BufRead *.py,*.js,*.sh
+    \ set tabstop=4 |
+    \ set softtabstop=4 |
+    \ set shiftwidth=4 |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix
+
+autocmd BufNewFile,BufRead *.yml,*.yaml
+    \ set tabstop=2 |
+    \ set softtabstop=2 |
+    \ set shiftwidth=2 |
+    \ set autoindent |
+    \ set expandtab |
+    \ set cursorcolumn
 
