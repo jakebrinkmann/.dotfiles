@@ -1,3 +1,6 @@
 [submodule "dots/emacs/emacs.d.symlink"]
 	path = dots/emacs/emacs.d.symlink
 	url = https://github.com/syl20bnr/spacemacs
+[submodule "dots/x11/iTerm2-Color-Schemes"]
+	path = dots/x11/iTerm2-Color-Schemes
+	url = git@github.com:mbadolato/iTerm2-Color-Schemes.git
