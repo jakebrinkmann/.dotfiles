@@ -13,6 +13,9 @@ URxvt*font: xft:Source Code Pro:size=13, \
             xft:Unifont:size=8, \
             xft:FreeMono:size=10
 
+! Screenshots:
+! //github.com/mbadolato/iTerm2-Color-Schemes#screenshots
+#include ".dots/dots/x11/iTerm2-Color-Schemes/Xresources/SpaceGray Eighties"
 
 Xcursor.theme: xcursor-breeze
 Xcursor.size:                     0
