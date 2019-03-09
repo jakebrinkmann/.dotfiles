@@ -8,9 +8,10 @@ Xft.lcdfilter: lcddefault
 
 ! Configure urxvt font list
 ! (note: size=10 required to keep glyph width displayable)
-URxvt*font: xft:Source Code Pro, \
+URxvt*font: xft:Source Code Pro:size=13, \
             xft:DejaVuSansMono Nerd Font Mono, \
-            xft:DejaVu Sans:size=10
+            xft:Unifont:size=8, \
+            xft:FreeMono:size=10
 
 
 Xcursor.theme: xcursor-breeze
