@@ -25,10 +25,17 @@ URxvt*url-launcher:               /usr/bin/xdg-open
 URxvt*matcher.button:             1 
 
 ! Configure X-terminals
-URxvt*scrollBar:                  false
-URxvt*mouseWheelScrollPage:       false
-URxvt*cursorBlink:                true
-URxvt*saveLines:                  5000
+URxvt*visualBell:             true
+URxvt*scrollBar:              false
+URxvt*mouseWheelScrollPage:   false
+URxvt*cursorBlink:            true
+URxvt*saveLines:              5000
+
+! Transparency/on-blur controls
+URxvt*inheritPixmap:          true
+URxvt*transparent:            true
+URxvt*shading:                5
+URxvt*fading:                 30
 
 ! Normal copy-paste keybindings without perls
 URxvt.iso14755:                   false
