@@ -45,17 +45,23 @@
                     "enabled": true,
                     "flags": 0,
                     "hotkeys": {},
-                    "id": "noise_suppress_filter",
-                    "mixers": 255,
+                    "id": "color_filter",
+                    "mixers": 0,
                     "monitoring_type": 0,
                     "muted": false,
-                    "name": "Noise Suppression",
+                    "name": "Color Correction",
                     "private_settings": {},
                     "push-to-mute": false,
                     "push-to-mute-delay": 0,
                     "push-to-talk": false,
                     "push-to-talk-delay": 0,
-                    "settings": {},
+                    "settings": {
+                        "brightness": 0.0,
+                        "contrast": 0.20000000000000001,
+                        "gamma": 0.14999999999999999,
+                        "opacity": 80,
+                        "saturation": 0.13
+                    },
                     "sync": 0,
                     "volume": 1.0
                 },
@@ -65,173 +71,40 @@
                     "enabled": true,
                     "flags": 0,
                     "hotkeys": {},
-                    "id": "gain_filter",
-                    "mixers": 255,
+                    "id": "sharpness_filter",
+                    "mixers": 0,
                     "monitoring_type": 0,
                     "muted": false,
-                    "name": "Gain",
+                    "name": "Sharpen",
                     "private_settings": {},
                     "push-to-mute": false,
                     "push-to-mute-delay": 0,
                     "push-to-talk": false,
                     "push-to-talk-delay": 0,
                     "settings": {
-                        "db": 15.0
+                        "sharpness": 0.25
                     },
                     "sync": 0,
                     "volume": 1.0
                 }
             ],
             "flags": 0,
-            "hotkeys": {
-                "libobs.mute": [
-                    {
-                        "alt": true,
-                        "control": true,
-                        "key": "OBS_KEY_M",
-                        "shift": true
-                    }
-                ],
-                "libobs.push-to-mute": [],
-                "libobs.push-to-talk": [],
-                "libobs.unmute": [
-                    {
-                        "alt": true,
-                        "control": true,
-                        "key": "OBS_KEY_M",
-                        "shift": true
-                    }
-                ]
-            },
-            "id": "alsa_input_capture",
-            "mixers": 255,
-            "monitoring_type": 0,
-            "muted": false,
-            "name": "Mic Capture",
-            "private_settings": {},
-            "push-to-mute": false,
-            "push-to-mute-delay": 0,
-            "push-to-talk": false,
-            "push-to-talk-delay": 0,
-            "settings": {
-                "device_id": "default"
-            },
-            "sync": 0,
-            "volume": 1.0
-        },
-        {
-            "deinterlace_field_order": 0,
-            "deinterlace_mode": 0,
-            "enabled": true,
-            "flags": 0,
-            "hotkeys": {
-                "OBSBasic.SelectScene": [
-                    {
-                        "alt": true,
-                        "control": true,
-                        "key": "OBS_KEY_1",
-                        "shift": true
-                    }
-                ],
-                "libobs.hide_scene_item.Mic Capture": [],
-                "libobs.hide_scene_item.Webcam Cap": [],
-                "libobs.show_scene_item.Mic Capture": [],
-                "libobs.show_scene_item.Webcam Cap": []
-            },
-            "id": "scene",
-            "mixers": 0,
-            "monitoring_type": 0,
-            "muted": false,
-            "name": "Webcam Scene",
-            "private_settings": {},
-            "push-to-mute": false,
-            "push-to-mute-delay": 0,
-            "push-to-talk": false,
-            "push-to-talk-delay": 0,
-            "settings": {
-                "custom_size": false,
-                "id_counter": 9,
-                "items": [
-                    {
-                        "align": 5,
-                        "bounds": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "bounds_align": 0,
-                        "bounds_type": 0,
-                        "crop_bottom": 0,
-                        "crop_left": 0,
-                        "crop_right": 0,
-                        "crop_top": 0,
-                        "group_item_backup": false,
-                        "id": 3,
-                        "locked": false,
-                        "name": "Mic Capture",
-                        "pos": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "private_settings": {},
-                        "rot": 0.0,
-                        "scale": {
-                            "x": 1.0,
-                            "y": 1.0
-                        },
-                        "scale_filter": "disable",
-                        "visible": true
-                    },
-                    {
-                        "align": 5,
-                        "bounds": {
-                            "x": 1440.0,
-                            "y": 1080.0
-                        },
-                        "bounds_align": 0,
-                        "bounds_type": 2,
-                        "crop_bottom": 0,
-                        "crop_left": 0,
-                        "crop_right": 0,
-                        "crop_top": 0,
-                        "group_item_backup": false,
-                        "id": 9,
-                        "locked": false,
-                        "name": "Webcam Cap",
-                        "pos": {
-                            "x": 240.0,
-                            "y": 0.0
-                        },
-                        "private_settings": {},
-                        "rot": 0.0,
-                        "scale": {
-                            "x": 1.0,
-                            "y": 1.0
-                        },
-                        "scale_filter": "disable",
-                        "visible": true
-                    }
-                ]
-            },
-            "sync": 0,
-            "volume": 1.0
-        },
-        {
-            "deinterlace_field_order": 0,
-            "deinterlace_mode": 0,
-            "enabled": true,
-            "flags": 0,
             "hotkeys": {},
-            "id": "xshm_input",
+            "id": "v4l2_input",
             "mixers": 0,
             "monitoring_type": 0,
             "muted": false,
-            "name": "Desktop Capture",
+            "name": "Webcam Cap",
             "private_settings": {},
             "push-to-mute": false,
             "push-to-mute-delay": 0,
             "push-to-talk": false,
             "push-to-talk-delay": 0,
-            "settings": {},
+            "settings": {
+                "device_id": "/dev/video0",
+                "input": 0,
+                "pixelformat": 1448695129
+            },
             "sync": 0,
             "volume": 1.0
         },
@@ -366,6 +239,122 @@
             "deinterlace_field_order": 0,
             "deinterlace_mode": 0,
             "enabled": true,
+            "flags": 0,
+            "hotkeys": {},
+            "id": "xshm_input",
+            "mixers": 0,
+            "monitoring_type": 0,
+            "muted": false,
+            "name": "Desktop Capture",
+            "private_settings": {},
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "settings": {},
+            "sync": 0,
+            "volume": 1.0
+        },
+        {
+            "deinterlace_field_order": 0,
+            "deinterlace_mode": 0,
+            "enabled": true,
+            "flags": 0,
+            "hotkeys": {
+                "OBSBasic.SelectScene": [
+                    {
+                        "alt": true,
+                        "control": true,
+                        "key": "OBS_KEY_1",
+                        "shift": true
+                    }
+                ],
+                "libobs.hide_scene_item.Mic Capture": [],
+                "libobs.hide_scene_item.Webcam Cap": [],
+                "libobs.show_scene_item.Mic Capture": [],
+                "libobs.show_scene_item.Webcam Cap": []
+            },
+            "id": "scene",
+            "mixers": 0,
+            "monitoring_type": 0,
+            "muted": false,
+            "name": "Webcam Scene",
+            "private_settings": {},
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "settings": {
+                "custom_size": false,
+                "id_counter": 9,
+                "items": [
+                    {
+                        "align": 5,
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_align": 0,
+                        "bounds_type": 0,
+                        "crop_bottom": 0,
+                        "crop_left": 0,
+                        "crop_right": 0,
+                        "crop_top": 0,
+                        "group_item_backup": false,
+                        "id": 3,
+                        "locked": false,
+                        "name": "Mic Capture",
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "private_settings": {},
+                        "rot": 0.0,
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_filter": "disable",
+                        "visible": true
+                    },
+                    {
+                        "align": 5,
+                        "bounds": {
+                            "x": 1440.0,
+                            "y": 1080.0
+                        },
+                        "bounds_align": 0,
+                        "bounds_type": 2,
+                        "crop_bottom": 0,
+                        "crop_left": 0,
+                        "crop_right": 0,
+                        "crop_top": 0,
+                        "group_item_backup": false,
+                        "id": 9,
+                        "locked": false,
+                        "name": "Webcam Cap",
+                        "pos": {
+                            "x": 240.0,
+                            "y": 0.0
+                        },
+                        "private_settings": {},
+                        "rot": 0.0,
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_filter": "disable",
+                        "visible": true
+                    }
+                ]
+            },
+            "sync": 0,
+            "volume": 1.0
+        },
+        {
+            "deinterlace_field_order": 0,
+            "deinterlace_mode": 0,
+            "enabled": true,
             "filters": [
                 {
                     "deinterlace_field_order": 0,
@@ -373,39 +362,76 @@
                     "enabled": true,
                     "flags": 0,
                     "hotkeys": {},
-                    "id": "color_filter",
-                    "mixers": 0,
+                    "id": "noise_suppress_filter",
+                    "mixers": 255,
                     "monitoring_type": 0,
                     "muted": false,
-                    "name": "Color Correction",
+                    "name": "Noise Suppression",
+                    "private_settings": {},
+                    "push-to-mute": false,
+                    "push-to-mute-delay": 0,
+                    "push-to-talk": false,
+                    "push-to-talk-delay": 0,
+                    "settings": {},
+                    "sync": 0,
+                    "volume": 1.0
+                },
+                {
+                    "deinterlace_field_order": 0,
+                    "deinterlace_mode": 0,
+                    "enabled": true,
+                    "flags": 0,
+                    "hotkeys": {},
+                    "id": "gain_filter",
+                    "mixers": 255,
+                    "monitoring_type": 0,
+                    "muted": false,
+                    "name": "Gain",
                     "private_settings": {},
                     "push-to-mute": false,
                     "push-to-mute-delay": 0,
                     "push-to-talk": false,
                     "push-to-talk-delay": 0,
                     "settings": {
-                        "opacity": 80
+                        "db": 15.0
                     },
                     "sync": 0,
                     "volume": 1.0
                 }
             ],
             "flags": 0,
-            "hotkeys": {},
-            "id": "v4l2_input",
-            "mixers": 0,
+            "hotkeys": {
+                "libobs.mute": [
+                    {
+                        "alt": true,
+                        "control": true,
+                        "key": "OBS_KEY_M",
+                        "shift": true
+                    }
+                ],
+                "libobs.push-to-mute": [],
+                "libobs.push-to-talk": [],
+                "libobs.unmute": [
+                    {
+                        "alt": true,
+                        "control": true,
+                        "key": "OBS_KEY_M",
+                        "shift": true
+                    }
+                ]
+            },
+            "id": "alsa_input_capture",
+            "mixers": 255,
             "monitoring_type": 0,
             "muted": false,
-            "name": "Webcam Cap",
+            "name": "Mic Capture",
             "private_settings": {},
             "push-to-mute": false,
             "push-to-mute-delay": 0,
             "push-to-talk": false,
             "push-to-talk-delay": 0,
             "settings": {
-                "device_id": "/dev/video0",
-                "input": 0,
-                "pixelformat": 1448695129
+                "device_id": "default"
             },
             "sync": 0,
             "volume": 1.0
