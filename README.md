@@ -5,7 +5,7 @@
 [![Docker Hub Status][docker-image]][docker-url]
 [![GitHub release][github-image]][github-url]
 
-[travis-image]: https://img.shields.io/travis/jakebrinkmann/dotfiles/master.svg?style=flat-square
+[travis-image]: https://img.shields.io/travis/jakebrinkmann/dotfiles/primary.svg?style=flat-square
 [travis-url]: https://travis-ci.org/jakebrinkmann/dotfiles
 [docker-image]: https://img.shields.io/docker/automated/jbrinkmann/dotfiles.svg?style=flat-square
 [docker-url]: https://hub.docker.com/r/jbrinkmann/dotfiles/tags/
