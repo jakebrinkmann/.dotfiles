@@ -26,6 +26,12 @@ elif [ -n "$(type apt-get 2>/dev/null)" ]; then ## Debian/Ubuntu ##
 fi
 # =================================================================
 
+
 # Download & Install enabled spacemacs plugins
 emacs -nw -batch -kill
+
+# Fix (?) for compile errors?
+rm -rf $HOME/.emacs.do/elpa
+
+# Download & Install enabled spacemacs plugins
 emacs -nw -batch --load $HOME/.emacs.d/init.el
