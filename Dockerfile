@@ -19,12 +19,19 @@ RUN echo 'APT::Get::Assume-Yes "true";' >> /etc/apt/apt.conf \
 
 # Install the base system dependencies.
 # (make language-specific envs later)
+WORKDIR $HOME/.dots
+COPY ./install/base.sh ./install/base.sh
+RUN ./install/base.sh
+COPY ./install/su-exec.sh ./install/su-exec.sh
+RUN ./install/su-exec.sh
+
+# Link files/folders in .dots/dots
 COPY . $HOME/.dots
-RUN cd $HOME/.dots \
-  && ./install/base.sh \
-  && ./install/su-exec.sh \
-  && ./symlinks.sh \
-  && ./install/emacs.sh
+RUN ./symlinks.sh
+
+# Install/configure emacs
+# (note: assumes symlinks.sh was successful)
+RUN ./install/emacs.sh
 
 # As root, need to change ownership of copied files.
 RUN chown -R $DOCKER_USER:$DOCKER_USER $HOME
