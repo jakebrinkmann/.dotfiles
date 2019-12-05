@@ -3,3 +3,13 @@
 # Find things in internal history
 h() { grep "$1" "${HOME}/.bash_eternal_history"; }
 
+# Windows Subsystem for Linux
+# TODO: Wish I didn't need to specify each
+if [[ "$(< /proc/version)" == *@(Microsoft|WSL)* ]]
+then
+  # NOTE: Aliases are not expanded in non-interactive scripts, use function exports
+  docker() { docker.exe "$@"; }
+  export -f docker
+  docker-compose() { docker-compose.exe "$@"; }
+  export -f docker-compose
+fi
