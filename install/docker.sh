@@ -41,13 +41,13 @@ elif [ -n "$(type apt-get 2>/dev/null)" ]; then ## Debian/Ubuntu ##
     # Set environment variables for our distro, e.g. debian/ubuntu
     . /etc/*release
     # Add Docker's official GPG key
-    curl -fsSL https://download.docker.com/linux/$ID/gpg | apt-key add -
+    curl -fsSL https://download.docker.com/linux/${ID-ubuntu}/gpg | apt-key add -
     # Verify the fingerprint
     apt-key fingerprint 0EBFCD88
     # Setup the apt repository for e.g. bionic (18.04)
     # NOTE: some may not be supported yet, so need to fall-back
     add-apt-repository \
-        "deb [arch=amd64] https://download.docker.com/linux/$ID \
+        "deb [arch=amd64] https://download.docker.com/linux/${ID-ubuntu} \
         $(lsb_release -cs) \
         $DOCKER_CHANNEL"
     # Update metadata cache, to find new repository
