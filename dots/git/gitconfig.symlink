@@ -12,6 +12,19 @@
 	tool = vimdiff
 [color]
     ui = auto
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red
+    new = cyan
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
 [merge]
     tool = fugitive
 	conflictstyle = merge
@@ -35,6 +48,21 @@
 	cane = commit --amend --no-edit
 	permission-reset = !git diff -p -R --no-color | grep -E \"^(diff|(old|new) mode)\" --color=never | git apply
 	opt = push origin primary --tags
+  save = !git add -A && git commit -m 'SAVEPOINT'
+  wip = !git commit -a -m wip
+  undo = reset HEAD~1 --mixed
+  wipe = !git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
+  last = !git --no-pager log -1 --oneline --color
+  # Add a file/directory to your .gitignore
+  ignore = "!f() { echo \"$1\" >> .gitignore; }; f"
+  # Fix your last commit without prompting an editor
+  oops = commit --amend --no-edit
+  # -sb for a less verbose status
+  st = status -sb
+  # Show what you've done since yesterday to prepare your standup
+  su = !"git log --reverse --branches --since='1 week ago' --author=$(git config --get user.email) --format='%C(cyan) %ad %C(yellow)%h %Creset %s %Cgreen%d' --date=local"
+  standup = "!f() { for dir in ../*; do (cd "$dir" && git su); done; }; f"
+  ready = rebase -i @{u}
 [credential]
 	helper = cache
 [difftool]

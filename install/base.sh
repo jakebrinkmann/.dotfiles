@@ -11,6 +11,7 @@ COMMON_PKGS="
     httpie
     bash-completion
     sudo
+    postgresql-client
 "
 
 # All must be run as root
