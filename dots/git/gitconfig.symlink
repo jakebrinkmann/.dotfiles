@@ -29,6 +29,8 @@
     tool = fugitive
 	conflictstyle = merge
 [alias]
+  # I have a limited number of keystrokes in my lifetime, use them wisely
+  cm = commit -m
   # Add a file/directory to your .gitignore
   ignore = "!f() { echo \"$1\" >> .gitignore; }; f"
   # Fix your last commit without prompting an editor
