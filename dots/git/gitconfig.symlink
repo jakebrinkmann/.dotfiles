@@ -65,7 +65,7 @@
   last = !git --no-pager log -1 --oneline --color
   # Show what you've done since yesterday to prepare your standup
   su = "!f() { git log --reverse --branches --since=\"$([ "$(date +%a)" = "Mon" ] && echo 'last friday' || echo 'yesterday' )\" --author=$(git config --get user.email) --format=format:'%C(cyan)%ad %C(red)(%cd) %C(yellow)%h %Creset %s %Cgreen%d' --date=local; }; f"
-  standup = "!f() { for dir in ../*; do (cd "$dir" && git su); done; }; f"
+  standup = "!f() { for dir in ../*; do (cd "$dir" && readlink -f "$dir" && git su); done; }; f"
   ready = rebase -i @{u}
 [credential]
 	helper = cache
