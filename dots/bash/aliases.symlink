@@ -29,4 +29,4 @@ alias emacs="emacs -nw"
 
 # Quick Development Shortcuts
 alias g=git
-alias c=code-insiders
+alias c=code
