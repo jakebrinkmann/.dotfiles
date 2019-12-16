@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+winenv() {
+  cmd.exe /C "echo %$*%" | tr -d '\r';
+}
+
+export WINHOME=$(wslpath "$(winenv USERPROFILE)")
