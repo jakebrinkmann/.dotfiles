@@ -14,4 +14,5 @@ h() { grep "$1" "${HOME}/.bash_eternal_history"; }
 ###   ### export -f docker-compose
 ### fi
 
-j() { cd ${HOME}/ipynb && jupyter-lab; }
+tt() { printf "\033]0;$*\007"; }
+j() { cd ${HOME}/ipynb && tt "🐍 Jupyter Lab! ⌨" && jupyter-lab; }
