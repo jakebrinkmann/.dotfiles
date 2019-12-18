@@ -8,6 +8,7 @@
 	fscache = true
 	autocrlf = false
 	eol = lf
+	excludesfile = ~/.gitignore
 [diff]
 	tool = vimdiff
 [color]
