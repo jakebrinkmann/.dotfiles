@@ -30,4 +30,4 @@ alias emacs="emacs -nw"
 # Quick Development Shortcuts
 alias g=git
 alias c=code
-alias v='source ./venv/bin/activate'
+alias venv='source ./venv/bin/activate'
