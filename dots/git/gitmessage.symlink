@@ -1,0 +1,31 @@
+# If applied, this commit will...
+# <type>[Add/Fix/Remove/Update/Refactor/Document] [issue #id] [summary]
+
+
+# Why is it necessary? (Bug fix, feature, improvements?)
+-
+# How does the change address the issue?
+-
+# What side effects does this change have?
+-
+#
+# <footer>
+#
+# ** TYPES **
+# feat (new feature)
+# fix (bug fix)
+# improvement (improvement to a current feature)
+# docs (Documentation only changes)
+# style (do not affect the meaning of the code)
+# refactor (neither fixes a bug nor adds a feature)
+# perf (improves performance)
+# test (missing tests or correcting existing tests)
+# build (build system or external dependencies)
+# ci (CI configuration files and scripts)
+# chore (don't modify src or test files)
+# revert (previous commit)
+#
+# ** FOOTERS **
+# References #1, #4, and #2.
+# Fix #1. note this marks the item as accepted
+# Closes #1 and #2. note this marks the item as accepted
