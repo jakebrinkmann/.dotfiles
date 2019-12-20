@@ -70,13 +70,15 @@
   # Undo the last commit and unstage any changes
   undo = reset HEAD~1 --mixed
   # Trash Working Files (commit changes first in case we want to recover our work)
-  wipe = !git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
+  wipe = !git add -A && git commit --no-verify -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
   # See the most recent commit
   last = !git --no-pager log -1 --oneline --color
   # Show what you've done since yesterday to prepare your standup
   su = "!f() { git log --reverse --branches --since=\"$([ "$(date +%a)" = "Mon" ] && echo 'last friday' || echo 'yesterday' )\" --author=$(git config --get user.email) --format=format:'%C(cyan)%ad %C(red)(%cd) %C(yellow)%h %Creset %s %Cgreen%d' --date=local; }; f"
   standup = "!f() { for dir in ../*; do (cd "$dir" && readlink -f "$dir" && git su); done; }; f"
   ready = rebase -i @{u}
+  # Show modified files
+  div = log --stat --no-merges --pretty='%C(yellow)%h%d %Creset%an %Cgreen%ar:%Creset %s' --graph development..
 [credential]
 	helper = cache
 [difftool]
