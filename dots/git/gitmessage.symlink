@@ -14,7 +14,7 @@
 # ** TYPES **
 # feat (new feature)
 # fix (bug fix)
-# improvement (improvement to a current feature)
+# improve (improvement to a current feature)
 # docs (Documentation only changes)
 # style (do not affect the meaning of the code)
 # refactor (neither fixes a bug nor adds a feature)

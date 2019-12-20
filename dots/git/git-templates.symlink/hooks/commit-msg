@@ -1,15 +1,22 @@
 #!/usr/bin/env python
 import re, sys, os
 
+# Hide the traceback
+sys.tracebacklimit = 0
+
 def main():
     # example:
     # feat(apikey): added the ability to add api key to configuration
-    pattern = r'(build|ci|docs|feat|fix|perf|refactor|style|test|chore|revert)(\([\w\-]+\))?:\s.*'
+    pattern = r'(build|ci|docs|feat|fix|perf|refactor|style|test|chore|revert|improve)(\([\w\-]+\))?:\s.*'
     filename = sys.argv[1]
     ss = list(filter(lambda x: not x.startswith("#"), [l.strip() for l in open(filename, 'r').readlines()]))
-    if len(ss[0]) > 50: raise Exception("summary not shorter than 50 chars")
     m = re.match(pattern, "".join(ss))
-    if m == None: raise Exception("conventional commit validation failed")
+    if len(ss[0]) > 50:
+        print("\n".join(ss))
+        raise Exception("summary not shorter than 50 chars")
+    if m == None:
+        print("\n".join(ss))
+        raise Exception("conventional commit validation failed")
 
 if __name__ == "__main__":
     main()
