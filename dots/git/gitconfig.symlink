@@ -43,14 +43,15 @@
   oops = commit --amend --no-edit
 	webui = !$HOME/.git-webui/release/libexec/git-core/git-webui
   # Show the changes in the cache/index (i.e. staged changes)
-  dc = diff --cached
+  dc = diff --cached --word-diff
   # Fetch without Checkout
   fd = fetch origin development:development
 	dt = difftool
-	df = diff
+	df = diff --word-diff
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author-date-order
 	ll = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author-date-order
 	lf = log --pretty=fuller # Log the entire commit message
+  lg-parent = "!git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author-date-order $(git rev-list --min-parents=2 --max-count=1 remotes/$(git name-rev --name-only HEAD))^..HEAD"
 	pr = "!f() { git fetch origin refs/pull/$1/head:pr/$1; } ; f"
 	pr-clean = "!git for-each-ref refs/heads/pr/* --format='%(refname)' | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done"
 	lad = log --all --decorate
@@ -64,7 +65,7 @@
 	permission-reset = !git diff -p -R --no-color | grep -E \"^(diff|(old|new) mode)\" --color=never | git apply
 	opt = push origin primary --tags
   # Checkpoint Commit (recommended instead of "stash save -u")
-  save = !git add -A && git commit -m 'SAVEPOINT'
+  save = !git add -A && git commit --no-verify -m 'SAVEPOINT'
   # Work In Progress Commit (will keep appending to previous if also wip)
   wip = "!sh -c '[ \"`git log -1 --pretty=%B`\" = \"wip\" ] && git add . && git oops || git commit -am wip'"
   # Undo the last commit and unstage any changes
@@ -79,6 +80,10 @@
   ready = rebase -i @{u}
   # Show modified files
   div = log --stat --no-merges --pretty='%C(yellow)%h%d %Creset%an %Cgreen%ar:%Creset %s' --graph development..
+  # Show all branches
+  bra = branch -vva
+  # Prune the origin branches
+  prune = remote prune origin
 [credential]
 	helper = cache
 [difftool]
