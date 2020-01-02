@@ -82,6 +82,7 @@
   div = log --stat --no-merges --pretty='%C(yellow)%h%d %Creset%an %Cgreen%ar:%Creset %s' --graph development..
   # Show all branches
   bra = branch -vva
+  brat = "!git for-each-ref --color --sort='-authordate' --format='%(color:green)%(authordate:relative)%09%(color:yellow)%(refname)%09%(color:reset) %(subject)' refs/heads | sed -e 's-refs/heads/--'"
   # Prune the origin branches
   prune = remote prune origin
 [credential]
