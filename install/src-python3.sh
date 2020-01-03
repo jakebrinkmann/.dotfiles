@@ -46,5 +46,11 @@ make -j $(nproc)
 # `altinstall` directories include major/minor version and can thus live side by side
 make altinstall
 
-# Example Test:
-# echo "PYTHON VERSION: $(python3.7 --version)"
+# Grab the major version number
+PYTHON_EXEC="python${PYTHON_VER::-2}"
+echo "PYTHON VERSION: $(${PYTHON_EXEC} --version)"
+
+# Fix for pip "No module named 'pip._vendor.retrying'"
+rm -rf /usr/local/lib/python3.7/site-packages/pip
+${PYTHON_EXEC} -m ensurepip
+curl -sS https://bootstrap.pypa.io/get-pip.py | ${PYTHON_EXEC}
