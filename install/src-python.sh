@@ -26,11 +26,13 @@ elif [ -n "$(type apt-get 2>/dev/null)" ]; then ## Debian/Ubuntu ##
         libssl-dev \
         libreadline-dev \
         libffi-dev \
+        libsqlite3-dev \
         wget
 fi
 # =================================================================
 
 # Download and extract source code
+rm -rf $INSTALL_LOC
 mkdir $INSTALL_LOC && cd $INSTALL_LOC
 curl $SRC_URL | tar xz
 
@@ -40,7 +42,7 @@ cd $SRC_DIR
 ./configure --enable-optimizations
 make -j $(nproc)
 
-# Install into system prefix (/usr) 
+# Install into system prefix (/usr/local/bin)
 # `altinstall` directories include major/minor version and can thus live side by side
 make altinstall
 
