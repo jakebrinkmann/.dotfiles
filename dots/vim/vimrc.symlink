@@ -154,3 +154,8 @@ autocmd BufNewFile,BufRead *.yml,*.yaml
     \ set expandtab |
     \ set cursorcolumn
 
+" Highlight commit message overflow
+autocmd FileType gitcommit
+    \  hi def link gitcommitOverflow Error
+    \| autocmd CursorMoved,CursorMovedI *
+        \  let &l:textwidth = line('.') == 1 ? 50 : 72
