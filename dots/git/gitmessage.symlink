@@ -27,8 +27,8 @@
 #
 
 # ** FOOTERS **
-# References #1, #4, and #2.
 # Fix #1. note this marks the item as accepted
 # Closes #1 and #2. note this marks the item as accepted
 # Supersedes and Closes !9.
+# References (re:) #1, #4, and #2.
 # Related to !3.
