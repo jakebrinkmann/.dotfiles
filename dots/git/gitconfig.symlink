@@ -39,6 +39,8 @@
   cmf = commit --no-verify -m
   # Ignore file from the staging area
   ignore = update-index --assume-unchanged
+  # Show ignore'd files
+  ignored = !git ls-files -v | grep "^[[:lower:]]"
   # Track file in the staging area
   unignore = update-index --no-assume-unchanged
   # Add a file/directory to your .gitignore
@@ -47,17 +49,30 @@
   oops = commit --no-verify --amend --no-edit
 	webui = !$HOME/.git-webui/release/libexec/git-core/git-webui
   # Show the changes in the cache/index (i.e. staged changes)
-  dc = diff --cached --word-diff
+  dc = diff --cached
+  # Show difference against development branch
+  dh = diff development..HEAD
   # Fetch without Checkout
   fd = fetch origin development:development
-	dt = difftool
-	df = diff --word-diff
+  # Use VIM ( tool = vimdiff )
+  dt = difftool
+  # Shortcut for diff
+	df = diff
+  # Instead of showing +/- lines, show in-line changes
+  dfw = --word-diff
+  # My most favorite log formatting
+  ll = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author-date-order
+  # Same as ll, with graph
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author-date-order
-	ll = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author-date-order
-	lf = log --pretty=fuller # Log the entire commit message
+  # Log the entire commit message
+  lf = log --pretty=fuller
+  # Tries to log from latest merge commit
   lg-parent = "!git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author-date-order $(git rev-list --min-parents=2 --max-count=1 remotes/$(git name-rev --name-only HEAD))^..HEAD"
-	pr = "!f() { git fetch origin refs/pull/$1/head:pr/$1; } ; f"
+  # Gerrit: Fetch a pull-request as a new branch
+  pr = "!f() { git fetch origin refs/pull/$1/head:pr/$1; } ; f"
+  # Gerrit: Clean up pull-request branches
 	pr-clean = "!git for-each-ref refs/heads/pr/* --format='%(refname)' | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done"
+  # Log all and decorate with branches
   lad = log --all --decorate
   # Stage/Unstage peice by peice
   ap = add --patch
@@ -84,6 +99,7 @@
   su = "!f() { git log --reverse --branches --since=\"$([ "$(date +%a)" = "Mon" ] && echo 'last friday' || echo 'yesterday' )\" --author=$(git config --get user.email) --format=format:'%C(cyan)%ad %C(red)(%cd) %C(yellow)%h %Creset %s %Cgreen%d' --date=local; }; f"
   standup = "!f() { for dir in ../*; do (cd "$dir" && readlink -f "$dir" && git su); done; }; f"
   ready = rebase -i @{u}
+  ready = rebase -i development
   # Show modified files
   div = log --stat --no-merges --pretty='%C(yellow)%h%d %Creset%an %Cgreen%ar:%Creset %s' --graph development..
   # Show all branches
@@ -91,6 +107,17 @@
   brat = "!git for-each-ref --color --sort='-authordate' --format='%(color:green)%(authordate:relative)%09%(color:yellow)%(refname)%09%(color:reset) %(subject)' refs/heads | sed -e 's-refs/heads/--'"
   # Prune the origin branches
   prune = remote prune origin
+  # Checkout from development
+  devb = checkout development -b
+  # Create a ref with "archive" prefix: git rem <branch name>
+  # (hidden from branch/log/tag but still in log --all)
+  archive-ref = "!git update-ref refs/archive/$(date '+%Y%m%d-%s')"
+  list-archive-ref = for-each-ref --sort=-authordate --format='%(refname) %(objectname:short) %(contents:subject)' refs/archive/
+  rem = !git archive-ref
+  lsrem = !git list-archive-ref
+  # Topic getting stuck? Put it in the attic (on hold)
+  hold = "!f() { git update-ref refs/archive/$1 refs/heads/$1 && git branch -D $1; }; f"
+  held = for-each-ref refs/archive
 [credential]
 	helper = cache
 [difftool]
