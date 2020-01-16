@@ -20,3 +20,5 @@ j() { cd ${HOME}/ipynb && tt "🐍 Jupyter Lab! ⌨" && export BROWSER="/c/Progr
 jh() { find ${HOME}/ipynb -iname "*.ipynb*" -not -ipath "*_checkpoints*" -printf "%T@ %p\n" | sort -n | cut -d " " -f 2- | sed -e 's/\(.*\)/"\1"/' | map grep --color=always "$@" /dev/null; }
 # Find files matching glob, sorted by date modified
 fr () { find ./ -iname "*"$@"*" -printf "%T@ %Td-%Tb-%TY %Tk:%TM %p\n" | sort -n | cut -d " " -f 2- | grep -i "$@" ; }
+# Clean up python stuff
+pyclean() { find . -name '*.pyc' -delete; find . -name '__pycache__' -exec rm -rf {} \;; }
