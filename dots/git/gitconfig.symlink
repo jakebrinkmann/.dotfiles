@@ -118,6 +118,8 @@
   # Topic getting stuck? Put it in the attic (on hold)
   hold = "!f() { git update-ref refs/archive/$1 refs/heads/$1 && git branch -D $1; }; f"
   held = for-each-ref refs/archive
+  # Search git history: git search <regexp>
+  search = log --all -p -G
 [credential]
 	helper = cache
 [difftool]
