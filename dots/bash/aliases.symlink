@@ -4,6 +4,7 @@ alias ll='ls -l'                              # long list
 alias d='date "+%j/%Y [%m/%d] %H:%M:%S (%I:%M%p) %Z"'
 alias t="top -M -u ${USER}; c"
 alias grep="grep --color=auto"
+alias m="find . \( ! -regex '.*/\..*' \) -printf '%T@ %Tc %p\n' | sort -n | tail -n 25"
 
 # Configure tmux to flash red on bell
 alias bell="echo -e '\a'"

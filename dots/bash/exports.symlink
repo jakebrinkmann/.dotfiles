@@ -21,3 +21,6 @@ fi
 
 # Store History Database
 export IPYTHONDIR=/tmp
+
+# Opt-out of telemetry data collection
+export SAM_CLI_TELEMETRY=0

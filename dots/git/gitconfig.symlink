@@ -37,6 +37,8 @@
   co = checkout
   cm = commit -m
   cmf = commit --no-verify -m
+  # After a git reset, make a new commit with the old message
+  cr = commit --reuse-message=HEAD@{1}
   # Ignore file from the staging area
   ignore = update-index --assume-unchanged
   # Show ignore'd files
@@ -47,6 +49,11 @@
   ignore-forever = "!f() { echo \"$1\" >> .gitignore; }; f"
   # Fix your last commit without prompting an editor
   oops = commit --no-verify --amend --no-edit
+  # Edit the last commit message
+  edit = commit --no-verify --amend
+  # Generate a patch file for the most recent commit
+  # (git am < file.patch)
+  make-patch = format-patch -1 HEAD
 	webui = !$HOME/.git-webui/release/libexec/git-core/git-webui
   # Show the changes in the cache/index (i.e. staged changes)
   dc = diff --cached
@@ -93,6 +100,8 @@
   undo = reset HEAD~1 --mixed
   # Trash Working Files (commit changes first in case we want to recover our work)
   wipe = !git add -A && git commit --no-verify -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
+  # List any recent wipes/saves
+  saves = !git reflog | grep SAVE | head -n 15
   # See the most recent commit
   last = !git --no-pager log -1 --oneline --color
   # Show what you've done since yesterday to prepare your standup
@@ -104,7 +113,7 @@
   div = log --stat --no-merges --pretty='%C(yellow)%h%d %Creset%an %Cgreen%ar:%Creset %s' --graph development..
   # Show all branches
   bra = branch -vva
-  brat = "!git for-each-ref --color --sort='-authordate' --format='%(color:green)%(authordate:relative)%09%(color:yellow)%(refname)%09%(color:reset) %(subject)' refs/heads | sed -e 's-refs/heads/--'"
+  brat = "!git for-each-ref --color --sort='-committerdate' --format='%(color:green)%(committerdate:relative)%09%(color:yellow)%(refname)%09%(color:reset) %(subject)' refs/heads | sed -e 's-refs/heads/--'"
   # Prune the origin branches
   prune = remote prune origin
   # Checkout from development
