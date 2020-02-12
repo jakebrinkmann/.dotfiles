@@ -10,7 +10,7 @@
 # Distro-speciic Dependencies =====================================
 if [ -n "$(type yum 2>/dev/null)" ]; then       ## CentOS/Fedora ##
     # Download and setup the YUM repository PGP key
-    curl -sL https://rpm.nodesource.com/setup_8.x | bash -
+    curl -sL https://rpm.nodesource.com/setup_12.x | bash -
     # Install NodeJS
     yum install --assumeyes \
         nodejs
@@ -21,7 +21,7 @@ elif [ -n "$(type pacman 2>/dev/null)" ]; then   ## Arch/Manjaro ##
            npm
 elif [ -n "$(type apt-get 2>/dev/null)" ]; then ## Debian/Ubuntu ##
     # Download and setup the APT repository PGP key
-    curl -sL https://deb.nodesource.com/setup_8.x | bash -
+    curl -sL https://deb.nodesource.com/setup_12.x | bash -
     # Install NodeJS
     apt-get install --assume-yes \
             nodejs
