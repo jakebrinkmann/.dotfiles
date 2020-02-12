@@ -11,6 +11,8 @@ def main():
     filename = sys.argv[1]
     ss = list(filter(lambda x: not x.startswith("#"), [l.strip() for l in open(filename, 'r').readlines()]))
     m = re.match(pattern, "".join(ss))
+    if ss[0].startswith('Merge branch'):
+        pass
     if len(ss[0]) > 50:
         print("\n".join(ss))
         raise Exception("summary not shorter than 50 chars")
