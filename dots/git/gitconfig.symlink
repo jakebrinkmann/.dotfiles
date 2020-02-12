@@ -101,7 +101,7 @@
   # Trash Working Files (commit changes first in case we want to recover our work)
   wipe = !git add -A && git commit --no-verify -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
   # List any recent wipes/saves
-  saves = !git reflog | grep SAVE | head -n 15
+  saves = !git reflog --format='%C(auto)%h %<|(17)%gd %C(blue)%ci%C(reset) %s' | /bin/grep --color=never SAVE | head -n 15
   # See the most recent commit
   last = !git --no-pager log -1 --oneline --color
   # Show what you've done since yesterday to prepare your standup
