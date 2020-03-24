@@ -10,7 +10,8 @@ fi
 # Install required AWS CLI
 pip3 install --user \
   awscli \
-  aws-sam-cli
+  aws-sam-cli \
+  cfn-lint
 
 echo "AWS Version: $(aws --version)"
 echo "AWS SAM Version: $(sam --version)"
