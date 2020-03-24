@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import re, sys, os
 
+TITLE_LEN = 70
+
 # Hide the traceback
 sys.tracebacklimit = 0
 
@@ -13,9 +15,9 @@ def main():
     m = re.match(pattern, "".join(ss))
     if ss[0].startswith('Merge branch'):
         return
-    if len(ss[0]) > 50:
+    if len(ss[0]) > TITLE_LEN:
         print("\n".join(ss))
-        raise Exception("summary not shorter than 50 chars")
+        raise Exception(f"summary not shorter than {TITLE_LEN} chars")
     if m == None:
         print("\n".join(ss))
         raise Exception("conventional commit validation failed")
