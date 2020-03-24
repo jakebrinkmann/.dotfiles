@@ -52,15 +52,17 @@
   # Edit the last commit message
   edit = commit --no-verify --amend
   # Generate a patch file for the most recent commit
-  # (git am < file.patch)
   make-patch = format-patch -1 HEAD
-	webui = !$HOME/.git-webui/release/libexec/git-core/git-webui
+  # (git am < file.patch)
+  apply-patch = "!f() { git am < \"$1\"; }; f"
   # Show the changes in the cache/index (i.e. staged changes)
   dc = diff --cached
   # Show difference against development branch
   dh = diff development..HEAD
   # Fetch without Checkout
   fd = fetch origin development:development
+  # Fetch origin
+  fo = !git fetch origin --prune && git remote prune origin
   # Use VIM ( tool = vimdiff )
   dt = difftool
   # Shortcut for diff
@@ -87,7 +89,9 @@
 	rh = reset HEAD
 	rsoft = reset --soft HEAD^
 	# git checkout master; git ms feature/branch
-	ms = merge --squash
+  ms = merge --squash
+  # Merge with development
+  md = merge -X theirs development
 	gw = push gerrit HEAD:refs/for/master%wip
 	gr = push gerrit HEAD:refs/for/master%ready
 	permission-reset = !git diff -p -R --no-color | grep -E \"^(diff|(old|new) mode)\" --color=never | git apply
@@ -97,16 +101,24 @@
   # Work In Progress Commit (will keep appending to previous if also wip)
   wip = "!sh -c '[ \"`git log -1 --pretty=%B`\" = \"wip\" ] && git add . && git oops || git commit -am wip'"
   # Undo the last commit and unstage any changes
-  undo = reset HEAD~1 --mixed
+  undo = reset HEAD^
   # Trash Working Files (commit changes first in case we want to recover our work)
-  wipe = !git add -A && git commit --no-verify -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
+  wipe = !git add -A && git commit --no-verify -qm 'WIPESAVE' && git reset HEAD~1 --hard
   # List any recent wipes/saves
-  saves = !git reflog --format='%C(auto)%h %<|(17)%gd %C(blue)%ci%C(reset) %s' | /bin/grep --color=never SAVE | head -n 15
+  # saves = !git reflog --format='%C(auto)%h %<|(17)%gd %C(blue)%ci%C(reset) %s' | /bin/grep --color=never SAVE | head -n 15
+  saves = !git reflog --format='%h %<|(17)%gd %ci %s' | /bin/grep --color=never SAVEPOINT | head -n 15
+  wipes = !git reflog --format='%h %<|(17)%gd %ci %s' | /bin/grep --color=never WIPESAVE | head -n 15
+  unwipe = "!f() { git cherry-pick $1 && git reset HEAD^; } ; f"
   # See the most recent commit
   last = !git --no-pager log -1 --oneline --color
+  cp = cherry-pick
+  # Back-porting a fix to another branch "cp-last prototype"
+  last-sha1 = !git log -n 1 --pretty=format:%H $1
+  cp-last = !git cherry-pick `git last-sha1 $1`
   # Show what you've done since yesterday to prepare your standup
   su = "!f() { git log --reverse --branches --since=\"$([ "$(date +%a)" = "Mon" ] && echo 'last friday' || echo 'yesterday' )\" --author=$(git config --get user.email) --format=format:'%C(cyan)%ad %C(red)(%cd) %C(yellow)%h %Creset %s %Cgreen%d' --date=local; }; f"
   standup = "!f() { for dir in ../*; do (cd "$dir" && readlink -f "$dir" && git su); done; }; f"
+  # Perform interactive rebase on upstream
   ready = rebase -i @{u}
   ready = rebase -i development
   # Show modified files
@@ -114,8 +126,6 @@
   # Show all branches
   bra = branch -vva
   brat = "!git for-each-ref --color --sort='-committerdate' --format='%(color:green)%(committerdate:relative)%09%(color:yellow)%(refname)%09%(color:reset) %(subject)' refs/heads | sed -e 's-refs/heads/--'"
-  # Prune the origin branches
-  prune = remote prune origin
   # Checkout from development
   devb = checkout development -b
   # Create a ref with "archive" prefix: git rem <branch name>
@@ -129,6 +139,10 @@
   held = for-each-ref refs/archive
   # Search git history: git search <regexp>
   search = log --all -p -G
+  # Search all history: git research <regexp>
+  research = reflog --all -p -G
+	tags = tag -l -n99
+	me-theirs = merge -X theirs
 [credential]
 	helper = cache
 [difftool]
@@ -146,3 +160,5 @@
 	templatedir = ~/.git_template
 [push]
 	default = current
+[fetch]
+	prune = true
