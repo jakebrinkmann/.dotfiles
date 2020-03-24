@@ -21,4 +21,8 @@ jh() { find ${HOME}/ipynb -iname "*.ipynb*" -not -ipath "*_checkpoints*" -printf
 # Find files matching glob, sorted by date modified
 fr () { find ./ -iname "*"$@"*" -printf "%T@ %Td-%Tb-%TY %Tk:%TM %p\n" | sort -n | cut -d " " -f 2- | grep -i "$@" ; }
 # Clean up python stuff
-pyclean() { find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf; }
+pyclean() { find . | grep -E "(__pycache__|pytest_cache|\.pyc|\.pyo$)" | xargs rm -rf; }
+# remove diacritics "echo 'āáǎàēéěèīí' | rmdia"
+rmdia() { iconv -f utf8 -t ascii//TRANSLIT//IGNORE; }
+# Search files
+search() { find . -type f -exec grep --color=always $@ {} /dev/null \; ;}
