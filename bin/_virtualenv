@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -e
+
+PYTHON="python3.8"
+
+# Make a python virtualenv
+virtualenv -p ${PYTHON} .virtualenv
+virtualenv --relocatable .virtualenv
+
+# Install useful tools
+source ./.virtualenv/bin/activate
+${PYTHON} -m \
+    pip install \
+      pylint \
+      pytest \
+      black \
+      pycodestyle \
+      pydocstyle \
+      pytest-sugar \
+      pytest-cov \
+      pytest-mock
+deactivate
