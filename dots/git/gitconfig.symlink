@@ -63,6 +63,8 @@
   fd = fetch origin development:development
   # Fetch origin
   fo = !git fetch origin --prune && git remote prune origin
+  # prune merged branches
+  brm = !sh -c 'git branch --merged | grep -v "^*" | xargs git branch -d'
   # Use VIM ( tool = vimdiff )
   dt = difftool
   # Shortcut for diff
@@ -98,12 +100,13 @@
 	opt = push origin primary --tags
   # Checkpoint Commit (recommended instead of "stash save -u")
   save = !git add -A && git commit --no-verify -m 'SAVEPOINT'
+  save = "!f() { git add -A && git commit --no-verify -m \"SAVEPOINT $@\"; } ; f"
   # Work In Progress Commit (will keep appending to previous if also wip)
   wip = "!sh -c '[ \"`git log -1 --pretty=%B`\" = \"wip\" ] && git add . && git oops || git commit -am wip'"
   # Undo the last commit and unstage any changes
   undo = reset HEAD^
   # Trash Working Files (commit changes first in case we want to recover our work)
-  wipe = !git add -A && git commit --no-verify -qm 'WIPESAVE' && git reset HEAD~1 --hard
+  wipe = "!f() { git add -A && git commit --no-verify -qm \"WIPESAVE $@\" && git reset HEAD~1 --hard; } ; f"
   # List any recent wipes/saves
   # saves = !git reflog --format='%C(auto)%h %<|(17)%gd %C(blue)%ci%C(reset) %s' | /bin/grep --color=never SAVE | head -n 15
   saves = !git reflog --format='%h %<|(17)%gd %ci %s' | /bin/grep --color=never SAVEPOINT | head -n 15
@@ -111,23 +114,29 @@
   unwipe = "!f() { git cherry-pick $1 && git reset HEAD^; } ; f"
   # See the most recent commit
   last = !git --no-pager log -1 --oneline --color
+  last = !git --no-pager log -1 --color
   cp = cherry-pick
   # Back-porting a fix to another branch "cp-last prototype"
   last-sha1 = !git log -n 1 --pretty=format:%H $1
   cp-last = !git cherry-pick `git last-sha1 $1`
-  # Show what you've done since yesterday to prepare your standup
-  su = "!f() { git log --reverse --branches --since=\"$([ "$(date +%a)" = "Mon" ] && echo 'last friday' || echo 'yesterday' )\" --author=$(git config --get user.email) --format=format:'%C(cyan)%ad %C(red)(%cd) %C(yellow)%h %Creset %s %Cgreen%d' --date=local; }; f"
-  standup = "!f() { for dir in ../*; do (cd "$dir" && readlink -f "$dir" && git su); done; }; f"
+  # check how the merge of dev into master will go:
+  # git dry dev master
+  dry = "!f() { git merge-tree `git merge-base $2 $1` $2 $1; }; f"
+  # see if there will be any conflicts merging dev into master:
+  # git conflicts dev master
+  conflicts = "!f() { git merge-tree `git merge-base $2 $1` $2 $1 | grep -A3 'changed in both'; }; f"
   # Perform interactive rebase on upstream
   ready = rebase -i @{u}
   ready = rebase -i development
+  ready = rebase -i origin/development
+  cont = rebase --continue
   # Show modified files
   div = log --stat --no-merges --pretty='%C(yellow)%h%d %Creset%an %Cgreen%ar:%Creset %s' --graph development..
   # Show all branches
   bra = branch -vva
   brat = "!git for-each-ref --color --sort='-committerdate' --format='%(color:green)%(committerdate:relative)%09%(color:yellow)%(refname)%09%(color:reset) %(subject)' refs/heads | sed -e 's-refs/heads/--'"
   # Checkout from development
-  devb = checkout development -b
+  devb = checkout origin/development -b
   # Create a ref with "archive" prefix: git rem <branch name>
   # (hidden from branch/log/tag but still in log --all)
   archive-ref = "!git update-ref refs/archive/$(date '+%Y%m%d-%s')"
@@ -142,7 +151,7 @@
   # Search all history: git research <regexp>
   research = reflog --all -p -G
 	tags = tag -l -n99
-	me-theirs = merge -X theirs
+	me-theirs = merge --no-verify -X theirs
 [credential]
 	helper = cache
 [difftool]

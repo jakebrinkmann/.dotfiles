@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import re, sys, os
 
-TITLE_LEN = 70
+TITLE_LEN = 50
 
 # Hide the traceback
 sys.tracebacklimit = 0
@@ -10,17 +10,20 @@ def main():
     # example:
     # feat(apikey): added the ability to add api key to configuration
     pattern = r'(build|ci|docs|feat|fix|perf|refactor|style|test|chore|revert|improve)(\([\w\-]+\))?:\s.*'
+    pattern = r'(build|ci|chore|docs|feat|fix|perf|refactor|revert|style|test)(\([\w\-]+\))?:\s.*'
     filename = sys.argv[1]
     ss = list(filter(lambda x: not x.startswith("#"), [l.strip() for l in open(filename, 'r').readlines()]))
     m = re.match(pattern, "".join(ss))
     if ss[0].startswith('Merge branch'):
         return
     if len(ss[0]) > TITLE_LEN:
-        print("\n".join(ss))
-        raise Exception(f"summary not shorter than {TITLE_LEN} chars")
+        # print("\n".join(ss))
+        # raise Exception(f"summary not shorter than {TITLE_LEN} chars")
+        print(f"\n     WARNING! summary not shorter than {TITLE_LEN} chars! \n")
     if m == None:
-        print("\n".join(ss))
-        raise Exception("conventional commit validation failed")
+        # print("\n".join(ss))
+        # raise Exception("conventional commit validation failed")
+        print("\n     WARNING! not a valid conventional commit! \n")
 
 if __name__ == "__main__":
     main()

@@ -1,15 +1,19 @@
 
 # If applied, this commit will...
-# <type>[Add/Fix/Remove/Update/Refactor/Document] [issue #id] [summary]
-
-# Why is it necessary? (Bug fix, feature, improvements?)
-# -
-# How does the change address the issue?
-# -
-# What side effects does this change have?
-# -
+# Short explanation of change (<50 chars)
+#  
+#  [BREAKING] FEAT|FIX|REMOVE|CHANGE|REFACTOR|DOC (component[,...]): Full log.
+#  Why is it necessary? (Bug fix, feature, improvements?)
+#  How does the change address the issue?
+#  What side effects does this change have?
+#  Explain mitigation steps for breaking change if applicable.
+#  (Wrap lines at 72 chars)
+#   
+#   DEPENDS ON (component[@hash][, component2[@hash]...])
+#    
+#    [TICKET #ID]
 #
-# <footer>
+
 #
 # ** TYPES **
 # feat (new feature)
