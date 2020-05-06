@@ -8,10 +8,16 @@ if ! [ -x "$(command -v pip3)" ]; then
 fi
 
 # Install required AWS CLI
-pip3 install --user \
+pip3 install --upgrade --user \
   awscli \
   aws-sam-cli \
-  cfn-lint
+  cfn-lint \
+  aws-cdk.core
+
+sudo npm install -g \
+    aws-cdk \
+    @aws-amplify/cli
 
 echo "AWS Version: $(aws --version)"
 echo "AWS SAM Version: $(sam --version)"
+echo "CloudFormation Linter: $(cfn-lint --version)"
