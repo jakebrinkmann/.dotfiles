@@ -60,11 +60,13 @@
   # Show difference against development branch
   dh = diff development..HEAD
   # Fetch without Checkout
-  fd = fetch origin development:development
+  # fd = fetch origin development:development
   # Fetch origin
   fo = !git fetch origin --prune && git remote prune origin
+  # remove a branch
+  brm = branch -D
   # prune merged branches
-  brm = !sh -c 'git branch --merged | grep -v "^*" | xargs git branch -d'
+  brmm = !sh -c 'git branch --merged | grep -v "^*" | xargs git branch -d'
   # Use VIM ( tool = vimdiff )
   dt = difftool
   # Shortcut for diff
@@ -114,7 +116,6 @@
   unwipe = "!f() { git cherry-pick $1 && git reset HEAD^; } ; f"
   # See the most recent commit
   last = !git --no-pager log -1 --oneline --color
-  last = !git --no-pager log -1 --color
   cp = cherry-pick
   # Back-porting a fix to another branch "cp-last prototype"
   last-sha1 = !git log -n 1 --pretty=format:%H $1
@@ -125,11 +126,12 @@
   # see if there will be any conflicts merging dev into master:
   # git conflicts dev master
   conflicts = "!f() { git merge-tree `git merge-base $2 $1` $2 $1 | grep -A3 'changed in both'; }; f"
+  # save keystrokes
+  rb = rebase
   # Perform interactive rebase on upstream
   ready = rebase -i @{u}
   ready = rebase -i development
   ready = rebase -i origin/development
-  cont = rebase --continue
   # Show modified files
   div = log --stat --no-merges --pretty='%C(yellow)%h%d %Creset%an %Cgreen%ar:%Creset %s' --graph development..
   # Show all branches
@@ -152,6 +154,7 @@
   research = reflog --all -p -G
 	tags = tag -l -n99
 	me-theirs = merge --no-verify -X theirs
+	fix-commit = commit --edit --file=.git/COMMIT_EDITMSG
 [credential]
 	helper = cache
 [difftool]

@@ -1,38 +1,39 @@
 
-# If applied, this commit will...
-# Short explanation of change (<50 chars)
-#  
-#  [BREAKING] FEAT|FIX|REMOVE|CHANGE|REFACTOR|DOC (component[,...]): Full log.
-#  Why is it necessary? (Bug fix, feature, improvements?)
-#  How does the change address the issue?
-#  What side effects does this change have?
-#  Explain mitigation steps for breaking change if applicable.
-#  (Wrap lines at 72 chars)
-#   
-#   DEPENDS ON (component[@hash][, component2[@hash]...])
-#    
-#    [TICKET #ID]
-#
-
+# type(scope?)[!]: Describe what the software does after your change...
 #
 # ** TYPES **
-# feat (new feature)
-# fix (bug fix)
-# improve (improvement to a current feature)
-# docs (Documentation only changes)
-# style (do not affect the meaning of the code)
-# refactor (neither fixes a bug nor adds a feature)
-# perf (improves performance)
-# test (missing tests or correcting existing tests)
-# build (build system or external dependencies)
-# ci (CI configuration files and scripts)
-# chore (don't modify src or test files)
-# revert (previous commit)
+# feat: :sparkles: added/changed feature
+# fix: :bug: bug fix
+# build: :construction: build system or external dependencies
+# ci:  :computer: CI configuration files and scripts
+# chore:  :ticket: don't modify src or test files
+# docs: :book: Documentation only changes
+# perf: :rocket: improves performance
+# refactor: :package: neither fixes a bug nor adds a feature
+# revert: :back: previous commit
+# style: :gem: do not affect the meaning of the code
+# test: :rotating_light: missing tests or correcting existing tests
+# BREAKING CHANGE: :interrobang: incompatible API changes
 #
-
+#
+#  - Why is it necessary? (Bug fix, feature, improvements?)
+#  - How does the change address the issue?
+#  - What side effects does this change have?
+#  - Explain mitigation steps for breaking change if applicable.
+#
+#
 # ** FOOTERS **
 # Fix #1. note this marks the item as accepted
 # Closes #1 and #2. note this marks the item as accepted
 # Supersedes and Closes !9.
 # References (re:) #1, #4, and #2.
 # Related to !3.
+#   DEPENDS ON (component[@hash][, component2[@hash]...])
+#    [TICKET #ID]
+#
+#
+# BREAKING CHANGE        Major release
+# feat:                  Minor release
+# fix:                   Patch Release
+# other                  Patch/No Release
+#
