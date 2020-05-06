@@ -15,15 +15,21 @@ not-running() {
             --output text) \
         && echo $AWS_INSTANCE; 
 } 
+# Check status of EC2 instance
+_status() {
+    if [ -z "$AWS_INSTANCE" ]; then echo "Missing AWS_INSTANCE!" && false; fi \
+        && aws ec2 describe-instance-status --instance-ids $AWS_INSTANCE \
+        && echo $AWS_INSTANCE;
+}
 # Start a stopped EC2 instance
 _start() { 
-	not-running \
+    if [ -z "$AWS_INSTANCE" ]; then not-running; fi \
         && aws ec2 start-instances --instance-ids $AWS_INSTANCE \
         && echo $AWS_INSTANCE; 
 }
 # Reboot running EC2 instance
 _restart() { 
-    running \
+    if [ -z "$AWS_INSTANCE" ]; then running; fi \
     && aws ec2 reboot-instances --instance-ids $AWS_INSTANCE \
         && echo $AWS_INSTANCE; 
 }
@@ -37,7 +43,7 @@ host() {
 } 
 # Used to turn off EC2 instance, to stop billing charges
 _stop() { 
-    running \
+    if [ -z "$AWS_INSTANCE" ]; then running; fi \
     && aws ec2 stop-instances --instance-ids $AWS_INSTANCE \
         && echo $AWS_INSTANCE; 
 } 
@@ -61,6 +67,9 @@ main() {
 		not-running)
 			not-running
 			;;
+		status)
+			_status
+			;;
 		start)
 			_start
 			;;
@@ -78,7 +87,7 @@ main() {
 			;;
 		*)
                         echo "Usage:"
-                        echo "	_aws {running,not-running,start,restart,stop,ssh,curl}"
+                        echo "	_aws {running,not-running,status,start,restart,stop,ssh,curl}"
 			;;
 	esac
 }
