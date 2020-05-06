@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Find things in internal history
-h() { grep "$1" "${HOME}/.bash_eternal_history"; }
+h() { grep -a "$1" "${HOME}/.bash_eternal_history"; }
 
 # Windows Subsystem for Linux
 # TODO: Wish I didn't need to specify each
@@ -25,4 +25,9 @@ pyclean() { find . | grep -E "(__pycache__|pytest_cache|\.pyc|\.pyo$)" | xargs r
 # remove diacritics "echo 'āáǎàēéěèīí' | rmdia"
 rmdia() { iconv -f utf8 -t ascii//TRANSLIT//IGNORE; }
 # Search files
-search() { find . -type f -exec grep --color=always $@ {} /dev/null \; ;}
+search() { find . -type f -not -ipath "*python*" -not -ipath "*aws-sam*" -not -ipath "*tests*" -not -ipath "*.git*" -exec grep --color=always $@ {} /dev/null \; ;}
+# Show what you've done since yesterday to prepare your standup
+gsup() { git log --reverse --branches --since="$([ "$(date +%a)" = "Mon" ] && echo 'last friday' || echo 'yesterday' )" --author=$(git config --get user.email) --format=format:'%C(cyan)%ad %C(red)(%cd) %C(yellow)%h %Creset %s %Cgreen%d' --date=local; };
+standup() { for dir in ~/workspace/*/*; do (cd "$dir" && readlink -f "$dir" && gsup ); done; };
+fo() { DIR1=$(pwd); for dir in ~/workspace/*/*; do cd "$dir" && pwd && git fo ; done; cd $DIR1; };
+mtime() { find . -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" "; };
