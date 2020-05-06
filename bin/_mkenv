@@ -1,19 +1,23 @@
 #!/usr/bin/env bash
 set -e
 
-PYTHON="python3.8"
+PYTHON="${PYTHON:-python3.8}"
+PREFIX="${PREFIX:-.virtualenv}"
 
 # Make a python virtualenv
-virtualenv -p ${PYTHON} .virtualenv
-virtualenv --relocatable .virtualenv
+python3 -m venv -p ${PYTHON} ${PREFIX}
+python3 -m venv --relocatable ${PREFIX}
 
 # Install useful tools
-source ./.virtualenv/bin/activate
+source ${PREFIX}/bin/activate
 ${PYTHON} -m \
     pip install \
+      pip-tools \
       pylint \
       pytest \
       black \
+      flake8 \
+      isort \
       pycodestyle \
       pydocstyle \
       pytest-sugar \
