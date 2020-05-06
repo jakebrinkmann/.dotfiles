@@ -1,6 +1,18 @@
 #!/bin/bash
-alias ls='ls --color=auto'                    # ubuntu wsl?
-alias ll='ls -l'                              # long list
+# Always copy contents of directories (r)ecursively and explain (v) what was done
+alias cp='cp -rv'
+# List contents with colors for file types, (A)lmost all hidden files
+alias ls='ls --color=auto -ACF'
+# List contents with colors for file types, (a)ll hidden entries
+alias ll='ls --color=auto -alF'
+
+# Explain (v) what was done when moving a file
+alias mv='mv -v'
+# Create any non-existent (p)arent directories and explain (v) what was done
+alias mkdir='mkdir -pv'
+# Always try to (c)ontinue getting a partially-downloaded file
+alias wget='wget -c'
+
 alias d='date "+%j/%Y [%m/%d] %H:%M:%S (%I:%M%p) %Z"'
 alias t="top -M -u ${USER}; c"
 alias grep="grep --color=auto"
@@ -33,4 +45,7 @@ alias emacs="emacs -nw"
 # Quick Development Shortcuts
 alias g=git
 alias c=code
-alias venv='source ./.virtualenv/bin/activate'
+
+# Python Environments
+alias startenv='source .virtualenv/bin/activate && which python3'
+alias stopenv='deactivate'
