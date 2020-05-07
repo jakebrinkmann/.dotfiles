@@ -1,0 +1,15 @@
+#!/bin/sh
+# If you didn't change the CHANGELOG, this script will :) 
+
+# destination of the final changelog file
+OUTPUT_FILE=CHANGELOG.md
+
+res=$(git status --porcelain | grep -c $OUTPUT_FILE)
+if [ "$res" -lt 1 ]; then
+  # generate the changelog
+  OUTPUT=$(git --no-pager log --no-merges --format="- **%aN** %s" -n 1)
+  echo "${OUTPUT}
+$(cat ${OUTPUT_FILE})" > $OUTPUT_FILE
+  echo "Populated Changelog in $OUTPUT_FILE"
+fi
+

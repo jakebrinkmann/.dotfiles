@@ -169,7 +169,7 @@
 [help]
 	autocorrect = 1
 [init]
-	templatedir = ~/.git_template
+	templatedir = ~/.git-templates
 [push]
 	default = current
 [fetch]
