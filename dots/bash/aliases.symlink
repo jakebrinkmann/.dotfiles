@@ -49,3 +49,4 @@ alias c=code
 # Python Environments
 alias startenv='source .virtualenv/bin/activate && which python3'
 alias stopenv='deactivate'
+alias archive='tar --create --gzip --verbose --file'
