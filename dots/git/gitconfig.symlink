@@ -102,7 +102,7 @@
 	opt = push origin primary --tags
   # Checkpoint Commit (recommended instead of "stash save -u")
   save = !git add -A && git commit --no-verify -m 'SAVEPOINT'
-  save = "!f() { git add -A && git commit --no-verify -m \"SAVEPOINT $@\"; } ; f"
+  save = "!f() { git add -A && git commit --no-verify -m \"SAVEPOINT $@\" && git reset HEAD^; } ; f"
   # Work In Progress Commit (will keep appending to previous if also wip)
   wip = "!sh -c '[ \"`git log -1 --pretty=%B`\" = \"wip\" ] && git add . && git oops || git commit -am wip'"
   # Undo the last commit and unstage any changes
