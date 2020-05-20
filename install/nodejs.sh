@@ -34,3 +34,4 @@ npm install --global npm
 # TODO: vue/cli is not a requirement...
 npm install --global @vue/cli
 npm install --global @vue/cli-init
+npm install --global prettier
