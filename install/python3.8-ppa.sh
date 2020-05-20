@@ -21,7 +21,13 @@ ${PYTHON} -m pip install --upgrade \
     pytest-sugar \
     pytest-mock \
     black \
-    poetry
+    poetry \
+    flynt \
+    flake8 \
+    mypy \
+    pydocstyle \
+    isort \
+    autoflake
 
 # Enable bash completions for poetry
 ${PYTHON} -m poetry completions bash > /etc/bash_completion.d/poetry.bash-completion
