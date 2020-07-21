@@ -5,16 +5,14 @@ PYTHON="${PYTHON:-python3.8}"
 PREFIX="${PREFIX:-.virtualenv}"
 
 # Make a python virtualenv
-python3 -m venv -p ${PYTHON} ${PREFIX}
-python3 -m venv --relocatable ${PREFIX}
+${PYTHON} -m venv ${PREFIX}
 
 # Install useful tools
-source ${PREFIX}/bin/activate
-${PYTHON} -m \
+${PREFIX}/bin/${PYTHON} -m \
     pip install \
       pip-tools \
       pylint \
-      pytest \
+      "pytest<5.4.0" \
       black \
       flake8 \
       isort \
@@ -23,4 +21,3 @@ ${PYTHON} -m \
       pytest-sugar \
       pytest-cov \
       pytest-mock
-deactivate
