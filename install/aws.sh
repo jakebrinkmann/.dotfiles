@@ -10,6 +10,7 @@ fi
 # Install required AWS CLI
 pip3 install --upgrade --user \
   awscli \
+  awscurl \
   aws-sam-cli \
   cfn-lint \
   aws-cdk.core
