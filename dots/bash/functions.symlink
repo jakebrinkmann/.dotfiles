@@ -25,7 +25,7 @@ pyclean() { find . | grep -E "(__pycache__|pytest_cache|\.pyc|\.pyo$)" | xargs r
 # remove diacritics "echo 'āáǎàēéěèīí' | rmdia"
 rmdia() { iconv -f utf8 -t ascii//TRANSLIT//IGNORE; }
 # Search files
-search() { find . -type f -not -ipath "*python*" -not -ipath "*aws-sam*" -not -ipath "*tests*" -not -ipath "*.git*" -exec grep --color=always $@ {} /dev/null \; ;}
+search() { find . -type f -not -ipath "*python*" -not -ipath "*node_modules*"  -not -ipath "*aws-sam*" -not -ipath "*tests*" -not -ipath "*.git*" -exec grep --color=always $@ {} /dev/null \; ;}
 # Show what you've done since yesterday to prepare your standup
 gsup() { git log --reverse --branches --since="$([ "$(date +%a)" = "Mon" ] && echo 'last friday' || echo 'yesterday' )" --author=$(git config --get user.email) --format=format:'%C(cyan)%ad %C(red)(%cd) %C(yellow)%h %Creset %s %Cgreen%d' --date=local; };
 standup() { for dir in ~/workspace/*/*; do (cd "$dir" && readlink -f "$dir" && gsup ); done; };
