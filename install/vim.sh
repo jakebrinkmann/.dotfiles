@@ -1,23 +1,23 @@
 #!/usr/bin/env bash
 # Script to install Vim (and setup Vundle)
 # Usage:
-#        sudo ./install/vim.sh
+#        ./install/vim.sh
 
 # All must be run as root
-[ $(/usr/bin/id -u) -ne 0 ] \
-    && echo 'Must be run as root!' \
+[ $(/usr/bin/id -u) -eq 0 ] \
+    && echo 'Must NOT be run as root!' \
     && exit 1
 
 
 # Distro-speciic Dependencies =====================================
 if [ -n "$(type yum 2>/dev/null)" ]; then       ## CentOS/Fedora ##
-    yum install --assumeyes \
+    sudo yum install --assumeyes \
         vim
 elif [ -n "$(type pacman 2>/dev/null)" ]; then   ## Arch/Manjaro ##
-    pacman -S --noconfirm \
+    sudo pacman -S --noconfirm \
            vim
 elif [ -n "$(type apt-get 2>/dev/null)" ]; then ## Debian/Ubuntu ##
-    apt-get install --assume-yes \
+    sudo apt-get install --assume-yes \
             vim
 fi
 # =================================================================
