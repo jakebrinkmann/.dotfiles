@@ -35,3 +35,5 @@ npm install --global npm
 npm install --global @vue/cli
 npm install --global @vue/cli-init
 npm install --global prettier
+npm install -g newman
+npm install -g wscat

@@ -3,31 +3,18 @@
 # Find things in internal history
 h() { grep -a "$1" "${HOME}/.bash_eternal_history"; }
 
-# Windows Subsystem for Linux
-# TODO: Wish I didn't need to specify each
-### if [[ "$(< /proc/version)" == *@(Microsoft|WSL)* ]]
-### then
-###   # NOTE: Aliases are not expanded in non-interactive scripts, use function exports
-###   ### docker() { docker.exe "$@"; }
-###   ### export -f docker
-###   ### docker-compose() { docker-compose.exe "$@"; }
-###   ### export -f docker-compose
-### fi
-
-tt() { printf "\033]0;$*\007"; }
-j() { cd ${HOME}/ipynb && tt "🐍 Jupyter Lab! ⌨" && export BROWSER="/c/Program Files (x86)/Google/Chrome/Application/chrome.exe" && jupyter-lab; }
-# Search my jupyter notebooks for matching terms
-jh() { find ${HOME}/ipynb -iname "*.ipynb*" -not -ipath "*_checkpoints*" -printf "%T@ %p\n" | sort -n | cut -d " " -f 2- | sed -e 's/\(.*\)/"\1"/' | map grep --color=always "$@" /dev/null; }
-# Find files matching glob, sorted by date modified
-fr () { find ./ -iname "*"$@"*" -printf "%T@ %Td-%Tb-%TY %Tk:%TM %p\n" | sort -n | cut -d " " -f 2- | grep -i "$@" ; }
-# Clean up python stuff
+# Delete python leftovers
 pyclean() { find . | grep -E "(__pycache__|pytest_cache|\.pyc|\.pyo$)" | xargs rm -rf; }
-# remove diacritics "echo 'āáǎàēéěèīí' | rmdia"
-rmdia() { iconv -f utf8 -t ascii//TRANSLIT//IGNORE; }
+
 # Search files
 search() { find . -type f -not -ipath "*python*" -not -ipath "*node_modules*"  -not -ipath "*aws-sam*" -not -ipath "*tests*" -not -ipath "*.git*" -exec grep --color=always $@ {} /dev/null \; ;}
-# Show what you've done since yesterday to prepare your standup
-gsup() { git log --reverse --branches --since="$([ "$(date +%a)" = "Mon" ] && echo 'last friday' || echo 'yesterday' )" --author=$(git config --get user.email) --format=format:'%C(cyan)%ad %C(red)(%cd) %C(yellow)%h %Creset %s %Cgreen%d' --date=local; };
-standup() { for dir in ~/workspace/*/*; do (cd "$dir" && readlink -f "$dir" && gsup ); done; };
-fo() { DIR1=$(pwd); for dir in ~/workspace/*/*; do cd "$dir" && pwd && git fo ; done; cd $DIR1; };
-mtime() { find . -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" "; };
+
+# Run newman using docker
+__newman() {
+  docker run --rm -it -v "${PWD}":/etc/newman -t postman/newman:alpine "$@";
+}
+
+# Run AWS CLI using docker
+__aws() {
+  docker run --rm -it -v ${HOME}/.aws:/root/.aws -v ${PWD}:/aws -e AWS_REGION -e AWS_PROFILE amazon/aws-cli:latest "$@";
+}

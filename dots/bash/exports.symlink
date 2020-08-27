@@ -11,16 +11,20 @@ export DOCKERIMAGES="${HOME}/docker"
 export EDITOR='vim'
 export PAGER='less -S'
 
+### NOT NEEDED WITH WSL 2
 #### # To connect from WSL to Docker4windows Daemon
 #### # (requires exposing daemon over tcp without TLS...)
-if [[ "$(< /proc/version)" == *@(Microsoft|WSL)* ]]
-then
-  export DOCKER_HOST="tcp://0.0.0.0:2375"
-  # export DOCKER_TLS_VERIFY=0
-fi
+#if [[ "$(< /proc/version)" == *@(Microsoft|WSL)* ]]
+#then
+#  export DOCKER_HOST="tcp://0.0.0.0:2375"
+#  # export DOCKER_TLS_VERIFY=0
+#fi
 
 # Store History Database
 export IPYTHONDIR=/tmp
 
 # Opt-out of telemetry data collection
 export SAM_CLI_TELEMETRY=0
+
+# Make WSL not highlight all the folders
+export LS_COLORS=$LS_COLORS:'ow=1;34:'

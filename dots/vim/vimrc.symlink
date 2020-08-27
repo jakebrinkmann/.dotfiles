@@ -1,5 +1,6 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
+set t_u7=                     " will disable requesting cursor position 
 
 " Add Vundle to runtime path, initialize plugin/extensions {
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -18,7 +19,6 @@ Plugin 'tpope/vim-unimpaired'                " Common key-mappings
 Plugin 'sheerun/vim-polyglot'                " Language packs
 Plugin 'nanotech/jellybeans.vim'             " Cool VIM themes
 Plugin 'haishanh/night-owl.vim'              " Dark Theme
-Plugin 'ryanoasis/vim-devicons'              " Adds icons to Plugins (...always last...)
 call vundle#end()            " required
 filetype plugin indent on    " required
 " }
@@ -74,7 +74,7 @@ let g:NERDTreeDirArrowExpandable = '+'
 let g:NERDTreeDirArrowCollapsible = '/'
 
 " Setup nerd-fonts
-set guifont=DroidSansMonoPLNerd:h12
+" set guifont=DroidSansMonoPLNerd:h12
 set encoding=utf-8
 
 " Setup cool toolbar/statusline
