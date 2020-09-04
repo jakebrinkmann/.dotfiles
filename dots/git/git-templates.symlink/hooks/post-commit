@@ -4,6 +4,11 @@
 # destination of the final changelog file
 OUTPUT_FILE=CHANGELOG.md
 
+if [ ! -r $OUTPUT_FILE ]; then
+  echo "$OUTPUT_FILE not found."
+  exit 0
+fi
+
 res=$(git show --stat --name-only | grep -c $OUTPUT_FILE)
 if [ "$res" -lt 1 ]; then
   # generate the changelog
