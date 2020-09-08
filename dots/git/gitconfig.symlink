@@ -9,6 +9,7 @@
 	autocrlf = false
 	eol = lf
 	excludesfile = ~/.gitignore
+	hooksPath = ~/.git-templates/hooks/
 [diff]
 	tool = vimdiff
 [color]
