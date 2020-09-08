@@ -53,3 +53,6 @@ alias stopenv='deactivate'
 # Helper aliases
 alias archive='tar --create --gzip --verbose --file'
 alias dotenv='export $(cat .env | xargs)'
+
+# Better find "fd"
+alias fd=fdfind

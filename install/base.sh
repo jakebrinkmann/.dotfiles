@@ -12,6 +12,8 @@ COMMON_PKGS="
     bash-completion
     sudo
     postgresql-client
+    bat
+    fd-find
 "
 
 # All must be run as root
