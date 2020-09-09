@@ -15,14 +15,16 @@ if [ -n "$(type yum 2>/dev/null)" ]; then       ## CentOS/Fedora ##
 elif [ -n "$(type pacman 2>/dev/null)" ]; then   ## Arch/Manjaro ##
     true
 elif [ -n "$(type apt-get 2>/dev/null)" ]; then ## Debian/Ubuntu ##
-    apt-get install --assume-yes \
+    apt update;
+    apt install --assume-yes \
+        exuberant-ctags \
         python3-pip \
-        exuberant-ctags
+        python3-venv
 fi
 # =================================================================
 
 # Install Python environment manager.
-pip3 install virtualenv
+pip3 install --upgrade virtualenv pip wheel setuptools
 echo "VirtualEnv Version: $(virtualenv --version)"
 
 #### NOTE:

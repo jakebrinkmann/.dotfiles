@@ -13,7 +13,7 @@ apt install -y \
 
 # Install PIP
 curl -sS https://bootstrap.pypa.io/get-pip.py | "${PYTHON}"
-${PYTHON} -m pip install --upgrade pip
+${PYTHON} -m pip install --upgrade pip wheel setuptools
 
 # Install my favorite tools
 ${PYTHON} -m pip install --upgrade \
