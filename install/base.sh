@@ -12,6 +12,7 @@ COMMON_PKGS="
     bash-completion
     sudo
     postgresql-client
+    postgresql-client-common
     bat
     fd-find
 "
