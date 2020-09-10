@@ -46,6 +46,7 @@ elif [ -n "$(type apt-get 2>/dev/null)" ]; then ## Debian/Ubuntu ##
     apt-get install --assume-yes --fix-missing \
             build-essential \
             software-properties-common \
+            cmake \
             $COMMON_PKGS
     # Required to support default font displays
     # Need both locales to avoid dpkg-reconfigure

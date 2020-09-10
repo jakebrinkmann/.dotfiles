@@ -1,152 +1,66 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
-set t_u7=                     " will disable requesting cursor position 
-
-" Add Vundle to runtime path, initialize plugin/extensions {
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'gmarik/Vundle.vim'
-Plugin 'elzr/vim-json'
-Plugin 'stephpy/vim-yaml'
-Plugin 'bling/vim-airline'                   " Cool toolbar
-Plugin 'vim-airline/vim-airline-themes'      " Cool toolbar themes
-Plugin 'sheerun/vim-polyglot'                " Language packs
-Plugin 'nanotech/jellybeans.vim'             " Cool VIM themes
-Plugin 'haishanh/night-owl.vim'              " Dark Theme
-call vundle#end()            " required
-filetype plugin indent on    " required
-" }
-
-set number                   " Line Numbers [nu]
-set norelativenumber         " Relative to current line  [rnu]
-set nowrap                   " Display only partial long-lines
-set colorcolumn=88           " Put ruler at 88 characters
-set hlsearch                 " Turn on highlighting search-hits
-set cursorline               " Highlight current cursor-line
-set laststatus=2             " Keep statusline on all-windows=2
-
-highlight RedundantSpaces ctermbg=red guibg=red
-highlight Search ctermbg=blue ctermfg=grey
-
-match RedundantSpaces /\s\+$/                    " Red highlight for whitespace {
-
-" Show dots for spaces (listchars)
-set listchars=eol:$,tab:>.,trail:~,extends:>,precedes:<,space:.
-
-" Setup fugitive {
-set diffopt+=vertical
-" }
-
-" Enable syntax highlighting (on=override,enable=defaults) {
 syntax on
-" }
 
-" Setup syntastic {
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+set updatetime=50            " (default is 4000 ms = 4 s)
+set cursorline               " Highlight current cursor-line
+set noerrorbells
+set tabstop=4 softtabstop=4
+set shiftwidth=4
+set expandtab
+set smartindent
+set number                   " Line Numbers
+set norelativenumber         " Relative to current line
+set nowrap
+set smartcase
+set noswapfile
+set nobackup
+set hlsearch                 " Turn on highlighting search-hits
+set incsearch                " Start searching right away
+set undodir=~/.vim/undodir
+set undofile
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_loc_list_height=5
+set colorcolumn=88
+highlight ColorColumn ctermbg=0 guibg=lightgrey
 
-let g:syntastic_warning_symbol='='
-let syntastic_style_warning_symbol='~'
-let g:syntastic_error_symbol = 'X'
-let syntastic_style_error_symbol = '!'
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_python_checkers = ['pylint', 'flake8', 'pyflakes', 'pycodestyle', 'pydocstyle']
-let g:syntastic_check_on_wq = 0
+" https://github.com/junegunn/vim-plug
+call plug#begin('~/.vim/plugged')
+Plug 'morhetz/gruvbox'
+Plug 'jremmen/vim-ripgrep'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'vim-utils/vim-man'
+Plug 'airblade/vim-gitgutter'
+Plug 'git@github.com:ctrlpvim/ctrlp.vim.git'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+Plug 'mbbill/undotree'
+call plug#end()
 
-""""" Put syntastic in passive mode (To run, :SyntasticCheck)
-let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
-" }
+" need silent! before initial installation
+silent! colorscheme gruvbox
+set background=dark
 
-" Configure NERD Tree
-let g:NERDTreeDirArrowExpandable = '+'
-let g:NERDTreeDirArrowCollapsible = '/'
+let mapleader = " "
 
-" Setup nerd-fonts
-" set guifont=DroidSansMonoPLNerd:h12
-set encoding=utf-8
-
-" Setup cool toolbar/statusline
-let g:airline_powerline_fonts=1
-let g:airline_theme='violet'
-
-" Setup night-owl
-""""" for vim >8.0
-if (has("termguicolors"))
- " This seems to break urxvt (rxvt-unicode) 9.2 because of
- " missing true-color (24-bit colors) support? 
- "set termguicolors
+if executable('rg')
+    let g:rg_derive_root = 'true'
 endif
 
-" 256 colors only if you can handle it {
-if $TERM =~ "-256color"
-  set t_Co=256
-  "silent! colorscheme jellybeans
-  silent! colorscheme night-owl
-endif
-" }
+let g:ctrlp_user_command = [ '.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+let g:ctrlp_use_caching = 0
 
-" GVim
-set guioptions-=m  "remove menu bar
-set guioptions-=T  "remove toolbar
+let g:netrw_banner = 0        " directory banner is mostly useless
+let g:netrw_liststyle = 3     " tree list view
+let g:netrw_browse_split = 2  " open files in a new vertical split
+let g:netrw_winsize = 25      " width of the directory explorer
 
-" Code/Section folding using <Space>
-set foldmethod=indent
-set foldlevel=99
-nnoremap <space> za
-
-" Ctrl+Z to save
-nmap <c-z> :w<CR>
-imap <c-z> <Esc>:w<CR>a
-
-" Ctrl+N to show NERDTree
-nnoremap <C-n> :NERDTreeToggle<CR>
-
-" Use "," as leader-key 
-" 	<,yos> for spellcheck
-" 	<,yol> for hidden-chars
-let mapleader = ","
-
-" Allow easy window control
-nmap <silent> <C-k> :wincmd k<CR>
-nmap <silent> <C-j> :wincmd j<CR>
-nmap <silent> <C-h> :wincmd h<CR>
-nmap <silent> <C-l> :wincmd l<CR>
-
-" Helpful shortcuts
-nnoremap <F2> :BundleInstall<CR>
-""" remove all trailing whitespace
-nnoremap <F3> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
-nnoremap <F5> :SyntasticCheck<CR>
-nnoremap <F6> :%!xmllint --format %<CR>
-nnoremap <F7> :%!python -m json.tool<CR>
-
-autocmd FileType * setlocal ts=2 sts=2 sw=2 expandtab
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-autocmd FileType python setlocal ts=4 sts=4 sw=4 expandtab
-autocmd FileType make setlocal noexpandtab
-
-autocmd BufNewFile,BufRead *.md set filetype=markdown
-autocmd BufNewFile,BufRead *.py,*.js,*.sh
-    \ set tabstop=4 |
-    \ set softtabstop=4 |
-    \ set shiftwidth=4 |
-    \ set expandtab |
-    \ set autoindent |
-    \ set fileformat=unix
-
-autocmd BufNewFile,BufRead *.yml,*.yaml
-    \ set tabstop=2 |
-    \ set softtabstop=2 |
-    \ set shiftwidth=2 |
-    \ set autoindent |
-    \ set expandtab |
-    \ set cursorcolumn
-
-" Highlight commit message overflow
-au FileType gitcommit setlocal textwidth=72
+nnoremap <leader>h :wincmd h<CR>
+nnoremap <leader>j :wincmd j<CR>
+nnoremap <leader>k :wincmd k<CR>
+nnoremap <leader>l :wincmd l<CR>
+nnoremap <leader>u :UndotreeShow<CR>
+nnoremap <leader>pv :wincmd v<bar> :Explore <bar> :vertical resize 30<CR>
+nnoremap <leader>ps :Rg<SPACE>
+nnoremap <silent> <leader>+ :vertical resize +5<CR>
+nnoremap <silent> <leader>- :vertical resize -5<CR>
+nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
+nnoremap <silent> <leader>gf :YcmCompleter FixIt<CR>

@@ -23,11 +23,15 @@ fi
 # =================================================================
 
 
-echo "Installing Vundle for Vim..."
-PREFIX=${PREFIX:-${HOME}}
-mkdir -p ${PREFIX}/.vim/bundle
-git clone https://github.com/VundleVim/Vundle.vim.git ${PREFIX}/.vim/bundle/Vundle.vim
-vim +PluginInstall +qall
+echo "Installing VimPlug for Vim..."
+mkdir -p ${HOME}/.vim/undodir
+curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+vim +PlugInstall +qall
+
+### # Because RipGrep conflicts with Bat:
+### apt-get download ripgrep
+### sudo dpkg --force-overwrite -i ripgrep*.deb
 
 ###### TODO: Really, will want to set this as the font in the terminal #####
 # echo "Installing Nerd Fonts..."
