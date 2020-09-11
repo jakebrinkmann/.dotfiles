@@ -45,6 +45,7 @@ alias emacs="emacs -nw"
 # Quick Development Shortcuts
 alias g=git
 alias c=code
+alias v=vim
 
 # Python Environments
 alias startenv='source .virtualenv/bin/activate && which python3'
