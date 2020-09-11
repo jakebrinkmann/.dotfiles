@@ -24,6 +24,7 @@ highlight ColorColumn ctermbg=0 guibg=lightgrey
 " https://github.com/junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'morhetz/gruvbox'
+Plug 'vim-airline/vim-airline'
 Plug 'jremmen/vim-ripgrep'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
