@@ -33,6 +33,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'git@github.com:ctrlpvim/ctrlp.vim.git'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'mbbill/undotree'
+Plug 'ambv/black'
+Plug 'vim-test/vim-test'
 call plug#end()
 
 " need silent! before initial installation
