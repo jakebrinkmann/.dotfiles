@@ -17,14 +17,38 @@ set hlsearch                 " Turn on highlighting search-hits
 set incsearch                " Start searching right away
 set undodir=~/.vim/undodir
 set undofile
+set laststatus=2             " always show the status bar
+" enable 256 colors
+set t_Co=256
+set t_ut=
+
+" indent/unindent with tab/shift-tab
+nmap <Tab> >>
+imap <S-Tab> <Esc><<i
+nmap <S-tab> <<
+vmap <Tab> >><Esc>
+vmap <S-tab> <<<Esc>
+
+" code folding
+set foldmethod=indent
+set foldlevel=99
 
 set colorcolumn=88
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
+" plugins
+let need_to_install_plugins = 0
+if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    "autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    let need_to_install_plugins = 1
+endif
+
 " https://github.com/junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'morhetz/gruvbox'
-Plug 'vim-airline/vim-airline'
+Plug 'itchyny/lightline.vim'
 Plug 'jremmen/vim-ripgrep'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
@@ -33,16 +57,29 @@ Plug 'vim-utils/vim-man'
 Plug 'airblade/vim-gitgutter'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'mbbill/undotree'
+Plug 'majutsushi/tagbar'
+Plug 'sheerun/vim-polyglot'
+Plug 'vim-python/python-syntax'
 Plug 'ambv/black'
 Plug 'vim-test/vim-test'
 Plug 'jmcantrell/vim-virtualenv'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'majutsushi/tagbar'
 call plug#end()
 
-" need silent! before initial installation
+" Auto-install plugins
+if need_to_install_plugins == 1
+    echo "Installing plugins..."
+    silent! PlugInstall
+    echo "Done!"
+    q
+endif
+
 silent! colorscheme gruvbox
 set background=dark
+set noshowmode
+let g:lightline = { 'colorscheme': 'gruvbox' }
 
 let mapleader = " "
 
@@ -53,16 +90,25 @@ endif
 let g:ctrlp_user_command = [ '.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 let g:ctrlp_use_caching = 0
 
+let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+' " define what a hidden file is
+let g:netrw_hide = 1          " hide hidden by default
 let g:netrw_banner = 0        " directory banner is mostly useless
 let g:netrw_liststyle = 3     " tree list view
-let g:netrw_browse_split = 2  " open files in a new vertical split
+let g:netrw_browse_split = 0  " open files in current pane
 let g:netrw_winsize = 25      " width of the directory explorer
 
+nnoremap <leader>p oimport pdb; pdb.set_trace()<Esc>
+nnoremap <leader><S-p> Oimport pdb; pdb.set_trace()<Esc>
+let g:python_highlight_all = 1 " enable all syntax highlighting
 let g:virtualenv_directory = $PWD " allow for local virtualenvs
 nnoremap <leader>tv :VirtualEnvActivate<SPACE>
-nnoremap <leader>tn :TestNearest<CR>
-nnoremap <leader>tf :TestFile<CR>
-nnoremap <leader>ta :TestSuite<CR>
+" running tests on different granularities
+nmap <silent> <leader>tn :TestNearest<CR>
+nmap <silent> <leader>tf :TestFile<CR>
+nmap <silent> <leader>ts :TestSuite<CR>
+nmap <silent> <leader>tl :TestLast<CR>
+nmap <silent> <leader>tg :TestVisit<CR>
+let test#strategy = "vimterminal"
 
 nnoremap <leader>u :UndotreeShow<CR>
 nnoremap <leader>pv :wincmd v<bar> :Explore <bar> :vertical resize 30<CR>
@@ -73,14 +119,23 @@ nnoremap <silent> <leader>+ :vertical resize +5<CR>
 nnoremap <silent> <leader>- :vertical resize -5<CR>
 nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
 nnoremap <silent> <leader>gf :YcmCompleter FixIt<CR>
+set shell=bash\ -l
+nnoremap <leader>tt :below terminal<CR>
+nnoremap <leader>tb :TagbarToggle<CR>
 
-" Allow easy window control
-nmap <silent> <C-k> :wincmd k<CR>
-nmap <silent> <C-j> :wincmd j<CR>
-nmap <silent> <C-h> :wincmd h<CR>
-nmap <silent> <C-l> :wincmd l<CR>
+" move through split windows
+nnoremap <silent> <C-Up> :wincmd k<CR>
+nnoremap <silent> <C-Down> :wincmd j<CR>
+nnoremap <silent> <C-Left> :wincmd h<CR>
+nnoremap <silent> <C-Right> :wincmd l<CR>
+nnoremap <silent> <C-k> :wincmd k<CR>
+nnoremap <silent> <C-j> :wincmd j<CR>
+nnoremap <silent> <C-h> :wincmd h<CR>
+nnoremap <silent> <C-l> :wincmd l<CR>
+" free the <C-L> from netrw
+nnoremap <c-r> <Plug>NetrwRefresh
 " Ctrl-C to close window
-nmap <silent> <C-c> :wincmd q<CR>
+nnoremap <silent> <C-c> :wincmd q<CR>
 " Ctrl+Z to save
 nmap <c-z> :w<CR>
 imap <c-z> <Esc>:w<CR>a
