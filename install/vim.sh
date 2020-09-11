@@ -23,11 +23,8 @@ fi
 # =================================================================
 
 
-echo "Installing VimPlug for Vim..."
 mkdir -p ${HOME}/.vim/undodir
-curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-vim +PlugInstall +qall
+vim +qall
 
 ### # Because RipGrep conflicts with Bat:
 ### apt-get download ripgrep

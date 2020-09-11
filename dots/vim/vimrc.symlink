@@ -1,33 +1,37 @@
-syntax on
 
-set updatetime=50            " (default is 4000 ms = 4 s)
-set cursorline               " Highlight current cursor-line
+" sane text files
+set fileformat=unix
+set encoding=utf-8
+set fileencoding=utf-8
+scriptencoding utf-8
+" (default is 4000 ms = 4 s)
+set updatetime=50
+" Highlight current cursor-line
+set cursorline
 set noerrorbells
 set tabstop=4 softtabstop=4
 set shiftwidth=4
 set expandtab
 set smartindent
-set number                   " Line Numbers
-set norelativenumber         " Relative to current line
+" Line Numbers
+set number
+" Relative to current line
+set norelativenumber
 set nowrap
 set smartcase
 set noswapfile
 set nobackup
-set hlsearch                 " Turn on highlighting search-hits
-set incsearch                " Start searching right away
+" Turn on highlighting search-hits
+set hlsearch
+" Start searching right away
+set incsearch
 set undodir=~/.vim/undodir
 set undofile
-set laststatus=2             " always show the status bar
+" always show the status bar
+set laststatus=2
 " enable 256 colors
 set t_Co=256
 set t_ut=
-
-" indent/unindent with tab/shift-tab
-nmap <Tab> >>
-imap <S-Tab> <Esc><<i
-nmap <S-tab> <<
-vmap <Tab> >><Esc>
-vmap <S-tab> <<<Esc>
 
 " code folding
 set foldmethod=indent
@@ -35,6 +39,13 @@ set foldlevel=99
 
 set colorcolumn=88
 highlight ColorColumn ctermbg=0 guibg=lightgrey
+
+" Trailing whitespace is an ERROR
+match Error /\s\+$/
+
+" Show dots for spaces (listchars)
+set list
+set listchars=eol:↵,tab:▸.,trail:★,precedes:←,extends:→,space:·
 
 " plugins
 let need_to_install_plugins = 0
@@ -53,14 +64,15 @@ Plug 'jremmen/vim-ripgrep'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-sensible'
+Plug 'farmergreg/vim-lastplace'
 Plug 'vim-utils/vim-man'
 Plug 'airblade/vim-gitgutter'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'mbbill/undotree'
 Plug 'majutsushi/tagbar'
 Plug 'sheerun/vim-polyglot'
-Plug 'vim-python/python-syntax'
-Plug 'ambv/black'
+Plug 'w0rp/ale'
 Plug 'vim-test/vim-test'
 Plug 'jmcantrell/vim-virtualenv'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -76,7 +88,7 @@ if need_to_install_plugins == 1
     q
 endif
 
-silent! colorscheme gruvbox
+colorscheme gruvbox
 set background=dark
 set noshowmode
 let g:lightline = { 'colorscheme': 'gruvbox' }
@@ -87,20 +99,37 @@ if executable('rg')
     let g:rg_derive_root = 'true'
 endif
 
-let g:ctrlp_user_command = [ '.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-let g:ctrlp_use_caching = 0
+" define what a hidden file is
+let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
+" hide hidden by default
+let g:netrw_hide = 1
+" directory banner is mostly useless
+let g:netrw_banner = 0
+" tree list view
+let g:netrw_liststyle = 3
+" open files in current pane
+let g:netrw_browse_split = 0
+" width of the directory explorer
+let g:netrw_winsize = 25
 
-let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+' " define what a hidden file is
-let g:netrw_hide = 1          " hide hidden by default
-let g:netrw_banner = 0        " directory banner is mostly useless
-let g:netrw_liststyle = 3     " tree list view
-let g:netrw_browse_split = 0  " open files in current pane
-let g:netrw_winsize = 25      " width of the directory explorer
+" Configure ALE Linters and Fixers
+let g:ale_linters = {
+    \'python': ['flake8']
+\}
+" $ cat ~/.config/flake8
+" [flake8]
+" max-line-length=88
+let g:ale_fixers = {
+    \'*': ['remove_trailing_lines', 'trim_whitespace'],
+    \'python': ['black', 'isort']
+\}
 
 nnoremap <leader>p oimport pdb; pdb.set_trace()<Esc>
 nnoremap <leader><S-p> Oimport pdb; pdb.set_trace()<Esc>
-let g:python_highlight_all = 1 " enable all syntax highlighting
-let g:virtualenv_directory = $PWD " allow for local virtualenvs
+" enable all syntax highlighting
+let g:python_highlight_all = 1
+" allow for local virtualenvs
+let g:virtualenv_directory = $PWD
 nnoremap <leader>tv :VirtualEnvActivate<SPACE>
 " running tests on different granularities
 nmap <silent> <leader>tn :TestNearest<CR>
@@ -123,6 +152,11 @@ set shell=bash\ -l
 nnoremap <leader>tt :below terminal<CR>
 nnoremap <leader>tb :TagbarToggle<CR>
 
+" Pretty-print JSON
+nnoremap =j :%!python -m json.tool<CR>
+" Pretty-print ALE
+nnoremap =a :ALEFix<CR>
+
 " move through split windows
 nnoremap <silent> <C-Up> :wincmd k<CR>
 nnoremap <silent> <C-Down> :wincmd j<CR>
@@ -133,9 +167,18 @@ nnoremap <silent> <C-j> :wincmd j<CR>
 nnoremap <silent> <C-h> :wincmd h<CR>
 nnoremap <silent> <C-l> :wincmd l<CR>
 " free the <C-L> from netrw
-nnoremap <c-r> <Plug>NetrwRefresh
+nnoremap <leader><leader><leader><leader><leader> <Plug>NetrwRefresh
+" Re-select visual block after indenting
+vnoremap < <gv
+vnoremap > >gv
+" Move visual block
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
 " Ctrl-C to close window
 nnoremap <silent> <C-c> :wincmd q<CR>
 " Ctrl+Z to save
 nmap <c-z> :w<CR>
 imap <c-z> <Esc>:w<CR>a
+
+" Automatically source vimrc on save.
+autocmd! bufwritepost $MYVIMRC source $MYVIMRC
