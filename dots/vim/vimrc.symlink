@@ -35,6 +35,7 @@ Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'mbbill/undotree'
 Plug 'ambv/black'
 Plug 'vim-test/vim-test'
+Plug 'jmcantrell/vim-virtualenv'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 call plug#end()
@@ -57,10 +58,17 @@ let g:netrw_liststyle = 3     " tree list view
 let g:netrw_browse_split = 2  " open files in a new vertical split
 let g:netrw_winsize = 25      " width of the directory explorer
 
+let g:virtualenv_directory = $PWD " allow for local virtualenvs
+nnoremap <leader>tv :VirtualEnvActivate<SPACE>
+nnoremap <leader>tn :TestNearest<CR>
+nnoremap <leader>tf :TestFile<CR>
+nnoremap <leader>ta :TestSuite<CR>
+
 nnoremap <leader>u :UndotreeShow<CR>
 nnoremap <leader>pv :wincmd v<bar> :Explore <bar> :vertical resize 30<CR>
 nnoremap <leader>ps :Rg<SPACE>
 nnoremap <leader>pf :Files<CR>
+nnoremap <leader>gs :Gstatus<CR>
 nnoremap <silent> <leader>+ :vertical resize +5<CR>
 nnoremap <silent> <leader>- :vertical resize -5<CR>
 nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
