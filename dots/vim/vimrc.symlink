@@ -64,7 +64,7 @@ nnoremap <leader>l :wincmd l<CR>
 nnoremap <leader>u :UndotreeShow<CR>
 nnoremap <leader>pv :wincmd v<bar> :Explore <bar> :vertical resize 30<CR>
 nnoremap <leader>ps :Rg<SPACE>
-nnoremap <leader>pf :Files<SPACE>
+nnoremap <leader>pf :Files<CR>
 nnoremap <silent> <leader>+ :vertical resize +5<CR>
 nnoremap <silent> <leader>- :vertical resize -5<CR>
 nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
