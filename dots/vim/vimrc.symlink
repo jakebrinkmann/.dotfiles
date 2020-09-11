@@ -36,6 +36,8 @@ Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'mbbill/undotree'
 Plug 'ambv/black'
 Plug 'vim-test/vim-test'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 " need silent! before initial installation
