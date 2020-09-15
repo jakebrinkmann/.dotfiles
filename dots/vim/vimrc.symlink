@@ -1,4 +1,8 @@
 
+" enter current millenium
+set nocompatible
+" enable builtin plugins
+filetype plugin on
 " sane text files
 set fileformat=unix
 set encoding=utf-8
@@ -32,6 +36,10 @@ set laststatus=2
 " enable 256 colors
 set t_Co=256
 set t_ut=
+" search into subdirectories
+set path+=**
+" cycle through matches
+set wildmenu
 
 " code folding
 set foldmethod=indent
@@ -46,6 +54,9 @@ match Error /\s\+$/
 " Show dots for spaces (listchars)
 set list
 set listchars=eol:↵,tab:▸.,trail:★,precedes:←,extends:→,space:·
+
+" SpaceVIM! SpaceMACS!
+let mapleader = " "
 
 " plugins
 let need_to_install_plugins = 0
@@ -65,10 +76,12 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-dotenv'
+Plug 'tpope/vim-vinegar'
 Plug 'farmergreg/vim-lastplace'
 Plug 'vim-utils/vim-man'
 Plug 'airblade/vim-gitgutter'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer' }
 Plug 'mbbill/undotree'
 Plug 'majutsushi/tagbar'
 Plug 'sheerun/vim-polyglot'
@@ -88,17 +101,25 @@ if need_to_install_plugins == 1
     q
 endif
 
+" Setup cursor for Windows Terminal
+if &term =~ '^xterm'
+    " normal mode
+    let &t_EI .= "\<Esc>[0 q"
+    " insert mode
+    let &t_SI .= "\<Esc>[6 q"
+endif
+
 colorscheme gruvbox
 set background=dark
 set noshowmode
 let g:lightline = { 'colorscheme': 'gruvbox' }
 
-let mapleader = " "
-
 if executable('rg')
     let g:rg_derive_root = 'true'
 endif
 
+" hide gitignored files from netrw <- Doesn't work for me :(
+" let g:netrw_list_hide= netrw_gitignore#Hide()
 " define what a hidden file is
 let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 " hide hidden by default
@@ -114,16 +135,27 @@ let g:netrw_winsize = 25
 
 " Configure ALE Linters and Fixers
 let g:ale_linters = {
-    \'python': ['flake8']
+    \'python': ['flake8'],
+    \'javascript': ['eslint']
 \}
 " $ cat ~/.config/flake8
 " [flake8]
 " max-line-length=88
 let g:ale_fixers = {
     \'*': ['remove_trailing_lines', 'trim_whitespace'],
-    \'python': ['black', 'isort']
+    \'python': ['black', 'isort'],
+    \'javascript': ['prettier'],
+    \'css': ['prettier']
 \}
+" Only run linters when specified
+let g:ale_linters_explicit = 1
 
+" Make switching buffers easier
+nnoremap <Leader>b :ls<Cr>:b<Space>
+
+" Hmmm setting up YCM for python...
+let g:ycm_python_interpreter_path = ''
+let g:ycm_python_sys_path = []
 nnoremap <leader>p oimport pdb; pdb.set_trace()<Esc>
 nnoremap <leader><S-p> Oimport pdb; pdb.set_trace()<Esc>
 " enable all syntax highlighting
@@ -132,6 +164,7 @@ let g:python_highlight_all = 1
 let g:virtualenv_directory = $PWD
 nnoremap <leader>tv :VirtualEnvActivate<SPACE>
 " running tests on different granularities
+nmap <silent> <leader>tp :TestNearest --pdb<CR>
 nmap <silent> <leader>tn :TestNearest<CR>
 nmap <silent> <leader>tf :TestFile<CR>
 nmap <silent> <leader>ts :TestSuite<CR>
@@ -139,6 +172,7 @@ nmap <silent> <leader>tl :TestLast<CR>
 nmap <silent> <leader>tg :TestVisit<CR>
 let test#strategy = "vimterminal"
 
+nnoremap <leader>tb :TagbarToggle<CR>
 nnoremap <leader>u :UndotreeShow<CR>
 nnoremap <leader>pv :wincmd v<bar> :Explore <bar> :vertical resize 30<CR>
 nnoremap <leader>ps :Rg<SPACE>
@@ -146,11 +180,14 @@ nnoremap <leader>pf :Files<CR>
 nnoremap <leader>gs :Gstatus<CR>
 nnoremap <silent> <leader>+ :vertical resize +5<CR>
 nnoremap <silent> <leader>- :vertical resize -5<CR>
+
+" Auto close preview window
+let g:ycm_autoclose_preview_window_after_completion=1
 nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
 nnoremap <silent> <leader>gf :YcmCompleter FixIt<CR>
+
 set shell=bash\ -l
 nnoremap <leader>tt :below terminal<CR>
-nnoremap <leader>tb :TagbarToggle<CR>
 
 " Pretty-print JSON
 nnoremap =j :%!python -m json.tool<CR>
@@ -180,5 +217,7 @@ nnoremap <silent> <C-c> :wincmd q<CR>
 nmap <c-z> :w<CR>
 imap <c-z> <Esc>:w<CR>a
 
+" Turn off display in QuickFixes
+autocmd FileType qf setlocal nonumber colorcolumn=
 " Automatically source vimrc on save.
 autocmd! bufwritepost $MYVIMRC source $MYVIMRC
