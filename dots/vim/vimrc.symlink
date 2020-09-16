@@ -40,6 +40,9 @@ set t_ut=
 set path+=**
 " cycle through matches
 set wildmenu
+" set splits more naturally
+set splitbelow
+set splitright
 
 " code folding
 set foldmethod=indent
