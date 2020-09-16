@@ -43,6 +43,8 @@ set wildmenu
 " set splits more naturally
 set splitbelow
 set splitright
+" dont auto-resize windows
+set noequalalways
 
 " code folding
 set foldmethod=indent
@@ -177,7 +179,7 @@ let test#strategy = "vimterminal"
 
 nnoremap <leader>tb :TagbarToggle<CR>
 nnoremap <leader>u :UndotreeShow<CR>
-nnoremap <leader>pv :wincmd v<bar> :Explore <bar> :vertical resize 30<CR>
+nnoremap <leader>pv :wincmd v<bar> :Explore <bar> :wincmd r <bar> :vertical resize 30<CR>
 nnoremap <leader>ps :Rg<SPACE>
 nnoremap <leader>pf :Files<CR>
 nnoremap <leader>gs :Gstatus<CR>
