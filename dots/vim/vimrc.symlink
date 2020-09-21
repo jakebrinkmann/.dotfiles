@@ -187,6 +187,8 @@ nnoremap <leader>pf :Files<CR>
 nnoremap <leader>gs :Gstatus<CR>
 nnoremap <silent> <leader>+ :vertical resize +5<CR>
 nnoremap <silent> <leader>- :vertical resize -5<CR>
+nnoremap <silent> <leader>. :resize +5<CR>
+nnoremap <silent> <leader>, :resize -5<CR>
 
 " Auto close preview window
 let g:ycm_autoclose_preview_window_after_completion=1
@@ -194,7 +196,7 @@ nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
 nnoremap <silent> <leader>gf :YcmCompleter FixIt<CR>
 
 set shell=bash\ -l
-nnoremap <leader>tt :below terminal<CR>
+nnoremap <leader>tt :botright terminal<CR>
 
 " Pretty-print JSON
 nnoremap =j :%!python3 -m json.tool<CR>
