@@ -168,6 +168,8 @@ let g:python_highlight_all = 1
 " allow for local virtualenvs
 let g:virtualenv_directory = $PWD
 nnoremap <leader>tv :VirtualEnvActivate<SPACE>
+" force vim-test to use pytest
+let test#python#runner = 'pytest'
 " running tests on different granularities
 nmap <silent> <leader>tp :TestNearest --pdb<CR>
 nmap <silent> <leader>tn :TestNearest<CR>
