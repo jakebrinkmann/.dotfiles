@@ -195,7 +195,7 @@ set shell=bash\ -l
 nnoremap <leader>tt :below terminal<CR>
 
 " Pretty-print JSON
-nnoremap =j :%!python -m json.tool<CR>
+nnoremap =j :%!python3 -m json.tool<CR>
 " Pretty-print ALE
 nnoremap =a :ALEFix<CR>
 
