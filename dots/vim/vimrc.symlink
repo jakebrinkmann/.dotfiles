@@ -204,10 +204,10 @@ nnoremap =j :%!python3 -m json.tool<CR>
 nnoremap =a :ALEFix<CR>
 
 " move through split windows
-nnoremap <silent> <C-Up> :wincmd k<CR>
-nnoremap <silent> <C-Down> :wincmd j<CR>
-nnoremap <silent> <C-Left> :wincmd h<CR>
-nnoremap <silent> <C-Right> :wincmd l<CR>
+nnoremap <silent> <C-Up> :wincmd K<CR>
+nnoremap <silent> <C-Down> :wincmd J<CR>
+nnoremap <silent> <C-Left> :wincmd H<CR>
+nnoremap <silent> <C-Right> :wincmd L<CR>
 nnoremap <silent> <C-k> :wincmd k<CR>
 nnoremap <silent> <C-j> :wincmd j<CR>
 nnoremap <silent> <C-h> :wincmd h<CR>
