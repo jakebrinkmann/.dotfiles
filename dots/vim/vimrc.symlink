@@ -157,6 +157,10 @@ let g:ale_linters_explicit = 1
 
 " Make switching buffers easier
 nnoremap <Leader>b :ls<Cr>:b<Space>
+" Make a new vertical split
+nnoremap <silent> <leader>n :vnew<CR>
+" Show only this window
+nnoremap <silent> <leader>o :only<CR>
 
 " Hmmm setting up YCM for python...
 let g:ycm_python_interpreter_path = ''
