@@ -117,7 +117,16 @@ endif
 colorscheme gruvbox
 set background=dark
 set noshowmode
-let g:lightline = { 'colorscheme': 'gruvbox' }
+let g:lightline = {
+    \'colorscheme': 'gruvbox',
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste' ],
+    \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+    \ },
+    \ 'component_function': {
+    \   'gitbranch': 'FugitiveHead'
+    \ },
+\ }
 
 if executable('rg')
     let g:rg_derive_root = 'true'
@@ -189,6 +198,8 @@ nnoremap <leader>pv :wincmd v<bar> :Explore <bar> :wincmd r <bar> :vertical resi
 nnoremap <leader>ps :Rg<SPACE>
 nnoremap <leader>pf :Files<CR>
 nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gd :Gdiffsplit<CR>
+nnoremap <leader>gb :Gblame<CR>
 nnoremap <silent> <leader>+ :vertical resize +5<CR>
 nnoremap <silent> <leader>- :vertical resize -5<CR>
 nnoremap <silent> <leader>. :resize +5<CR>
