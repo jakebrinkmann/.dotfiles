@@ -210,8 +210,16 @@ let g:ycm_autoclose_preview_window_after_completion=1
 nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
 nnoremap <silent> <leader>gf :YcmCompleter FixIt<CR>
 
+" Make a new terminal window
 set shell=bash\ -l
 nnoremap <leader>tt :botright terminal<CR>
+" Make vim play nice in terminal insert mode (not perfect)
+tnoremap <silent> <C-i> <C-\><C-N><CR>
+tnoremap <silent> <C-v> <C-W>""<CR>
+tnoremap <silent> <C-k> <C-W>k<CR>
+tnoremap <silent> <C-j> <C-W>j<CR>
+tnoremap <silent> <C-h> <C-W>h<CR>
+tnoremap <silent> <C-l> <C-W>l<CR>
 
 " Pretty-print JSON
 nnoremap =j :%!python3 -m json.tool<CR>
