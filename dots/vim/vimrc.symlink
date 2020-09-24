@@ -71,6 +71,10 @@ set nrformats+=alpha nrformats-=octal
 " Trailing whitespace is an ERROR
 match Error /\s\+$/
 
+" Try to highlight spelling mistakes
+hi clear SpellBad
+hi SpellBad ctermfg=NONE ctermbg=NONE cterm=underline
+
 " Show dots for spaces (listchars)
 set list
 set listchars=eol:↵,tab:▸.,trail:★,precedes:←,extends:→,space:·
@@ -78,13 +82,12 @@ set listchars=eol:↵,tab:▸.,trail:★,precedes:←,extends:→,space:·
 " SpaceVIM! SpaceMACS!
 let mapleader = " "
 
-" plugins
-let need_to_install_plugins = 0
+" Auto-install plugins
 if empty(glob('~/.vim/autoload/plug.vim'))
-    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    "autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-    let need_to_install_plugins = 1
+  silent !mkdir -p ~/.vim/autoload
+  silent !curl -fJLo ~/.vim/autoload/plug.vim
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 " https://github.com/junegunn/vim-plug
@@ -114,14 +117,6 @@ Plug 'majutsushi/tagbar'
 Plug 'kassio/neoterm'
 call plug#end()
 
-" Auto-install plugins
-if need_to_install_plugins == 1
-    echo "Installing plugins..."
-    silent! PlugInstall
-    echo "Done!"
-    q
-endif
-
 " Setup cursor for Windows Terminal
 if &term =~ '^xterm'
     " normal mode
@@ -130,8 +125,11 @@ if &term =~ '^xterm'
     let &t_SI .= "\<Esc>[6 q"
 endif
 
-let g:gruvbox_guisp_fallback = "bg"
-colorscheme gruvbox
+try
+    colorscheme gruvbox
+catch
+    colorscheme desert
+endtry
 set background=dark
 set noshowmode
 let g:lightline = {
