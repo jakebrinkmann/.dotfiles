@@ -163,6 +163,12 @@ let g:ale_fixers = {
 \}
 " Only run linters when specified
 let g:ale_linters_explicit = 1
+let g:ale_set_loclist = 0
+let g:ale_sign_error = '᙭'
+let g:ale_sign_warning = '⚬'
+let g:ale_sign_info = '⌇'
+let g:ale_sign_style_error = g:ale_sign_error
+let g:ale_sign_style_warning = g:ale_sign_warning
 
 " Make switching buffers easier
 nnoremap <Leader>b :ls<Cr>:b<Space>
@@ -174,6 +180,14 @@ nnoremap <silent> <leader>o :only<CR>
 " Hmmm setting up YCM for python...
 let g:ycm_python_interpreter_path = ''
 let g:ycm_python_sys_path = []
+" Start autocompletion after 4 chars
+let g:ycm_min_num_of_chars_for_completion = 4
+let g:ycm_min_num_identifier_candidate_chars = 4
+let g:ycm_enable_diagnostic_highlighting = 0
+" Don't show YCM's preview window
+set completeopt-=preview
+let g:ycm_add_preview_to_completeopt = 0
+
 nnoremap <leader>p oimport pdb; pdb.set_trace()<Esc>
 nnoremap <leader><S-p> Oimport pdb; pdb.set_trace()<Esc>
 " enable all syntax highlighting
@@ -197,9 +211,14 @@ nnoremap <leader>u :UndotreeShow<CR>
 nnoremap <leader>pv :wincmd v<bar> :Explore <bar> :wincmd r <bar> :vertical resize 30<CR>
 nnoremap <leader>ps :Rg<SPACE>
 nnoremap <leader>pf :Files<CR>
+
+" Fugitive Mappings
 nnoremap <leader>gs :Gstatus<CR>
-nnoremap <leader>gd :Gdiffsplit<CR>
+nnoremap <leader>gf :Gfetch<CR>
+nnoremap <leader>gh :Ghdiffsplit<CR>
+nnoremap <leader>gv :Gvdiffsplit<CR>
 nnoremap <leader>gb :Gblame<CR>
+
 nnoremap <silent> <leader>+ :vertical resize +5<CR>
 nnoremap <silent> <leader>- :vertical resize -5<CR>
 nnoremap <silent> <leader>. :resize +5<CR>
@@ -208,13 +227,12 @@ nnoremap <silent> <leader>, :resize -5<CR>
 " Auto close preview window
 let g:ycm_autoclose_preview_window_after_completion=1
 nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
-nnoremap <silent> <leader>gf :YcmCompleter FixIt<CR>
 
 " Make a new terminal window
 set shell=bash\ -l
 nnoremap <leader>tt :botright terminal<CR>
 " Make vim play nice in terminal insert mode (not perfect)
-tnoremap <silent> <C-i> <C-\><C-N><CR>
+tnoremap <silent> <C-x> <C-\><C-N><CR>
 tnoremap <silent> <C-v> <C-W>""<CR>
 tnoremap <silent> <C-k> <C-W>k<CR>
 tnoremap <silent> <C-j> <C-W>j<CR>
