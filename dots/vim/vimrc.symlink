@@ -22,6 +22,8 @@ set number
 " Relative to current line
 set norelativenumber
 set nowrap
+" Search should be case insensitive unless containing uppercase characters.
+set ignorecase
 set smartcase
 set noswapfile
 set nobackup
@@ -29,6 +31,7 @@ set nobackup
 set hlsearch
 " Start searching right away
 set incsearch
+" Enable persistent undo.
 set undodir=~/.vim/undodir
 set undofile
 " always show the status bar
@@ -45,13 +48,25 @@ set splitbelow
 set splitright
 " dont auto-resize windows
 set noequalalways
-
+" Set scroll offset so the active line stays towards the center.
+set scrolloff=8
+" Have backspace behave as it does in other applications.
+set backspace=2
 " code folding
 set foldmethod=indent
 set foldlevel=99
 
-set colorcolumn=88
+" Set the text width to 88 and create a vertical bar in 89th column. Some
+" filetypes such as gitcommit have a custom width defined and we use autocmd
+" here so our textwidth value takes precedence.
+autocmd FileType * setlocal textwidth=88
+set colorcolumn=89
 highlight ColorColumn ctermbg=0 guibg=lightgrey
+
+" Allow Ctrl-A and Ctrl-X to increment and decrement alphabetical characters.
+" Do
+" not treat numbers that begin with 0 as octal.
+set nrformats+=alpha nrformats-=octal
 
 " Trailing whitespace is an ERROR
 match Error /\s\+$/
@@ -147,6 +162,28 @@ let g:netrw_liststyle = 3
 let g:netrw_browse_split = 0
 " width of the directory explorer
 let g:netrw_winsize = 25
+" Netrw comes with lots of mappings that can lead to unintentional, accidental
+" changes. We will unmap everything and map only the functions that we need.
+function! NetrwMapping()
+    mapclear <buffer>
+    " nnoremap <silent><nowait><buffer> <C-R>
+    "             \ :call netrw#Call('NetrwRefresh', 0,
+    "             \                  netrw#Call('NetrwBrowseChgDir', 0, './'))<CR>
+    nnoremap <silent><nowait><buffer> <Left>
+                \ :call netrw#Call('NetrwBrowseUpDir', 1)<CR>
+    nnoremap <silent><nowait><buffer> <Right>
+                \ :call netrw#LocalBrowseCheck(netrw#Call('NetrwBrowseChgDir', 1,
+                \                              netrw#Call('NetrwGetWord')))<CR>
+    nmap <silent><nowait><buffer> <CR> <Right>
+    nnoremap <silent><nowait><buffer> n
+                \ :call netrw#Call('NetrwOpenFile', 1)<CR>
+    nnoremap <silent><nowait><buffer> d
+                \ :call netrw#Call('NetrwMakeDir', "")<CR>
+    nnoremap <silent><nowait><buffer> D
+                \ :call netrw#Call('NetrwLocalRm', b:netrw_curdir)<CR>
+    nmap <silent><nowait><buffer> <DEL> D
+endfunction
+autocmd filetype netrw call NetrwMapping()
 
 " Configure ALE Linters and Fixers
 let g:ale_linters = {
@@ -220,11 +257,14 @@ nnoremap <leader>ps :Rg<SPACE>
 nnoremap <leader>pf :Files<CR>
 
 " Fugitive Mappings
+nnoremap <leader>gc :Gcommit<CR>
 nnoremap <leader>gs :Gstatus<CR>
 nnoremap <leader>gf :Gfetch<CR>
 nnoremap <leader>gh :Ghdiffsplit<CR>
-nnoremap <leader>gv :Gvdiffsplit<CR>
+nnoremap <leader>gd :Gdiff<CR>
 nnoremap <leader>gb :Gblame<CR>
+nnoremap <leader>go :diffget<SPACE>
+nnoremap <leader>gp :diffput<SPACE>
 
 nnoremap <silent> <leader>+ :vertical resize +5<CR>
 nnoremap <silent> <leader>- :vertical resize -5<CR>
@@ -280,3 +320,5 @@ imap <c-z> <Esc>:w<CR>a
 autocmd FileType qf setlocal nonumber colorcolumn=
 " Automatically source vimrc on save.
 autocmd! bufwritepost $MYVIMRC source $MYVIMRC
+" Wrap long line even if the initial line is longer than textwidth.
+autocmd FileType * setlocal formatoptions-=b formatoptions-=l
