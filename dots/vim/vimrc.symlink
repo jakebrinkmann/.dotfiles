@@ -96,6 +96,7 @@ Plug 'jmcantrell/vim-virtualenv'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'majutsushi/tagbar'
+Plug 'kassio/neoterm'
 call plug#end()
 
 " Auto-install plugins
@@ -238,6 +239,12 @@ tnoremap <silent> <C-k> <C-W>k<CR>
 tnoremap <silent> <C-j> <C-W>j<CR>
 tnoremap <silent> <C-h> <C-W>h<CR>
 tnoremap <silent> <C-l> <C-W>l<CR>
+
+" NeoTERM REPLs
+nnoremap <leader>tt :Ttoggle<CR>
+tnoremap <leader>tt <C-W>:Ttoggle<CR>
+let g:neoterm_default_mod = 'botright'
+let g:neoterm_autoinsert = 1
 
 " Pretty-print JSON
 nnoremap =j :%!python3 -m json.tool<CR>
