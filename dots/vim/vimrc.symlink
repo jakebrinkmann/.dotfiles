@@ -130,6 +130,7 @@ if &term =~ '^xterm'
     let &t_SI .= "\<Esc>[6 q"
 endif
 
+let g:gruvbox_guisp_fallback = "bg"
 colorscheme gruvbox
 set background=dark
 set noshowmode
@@ -182,6 +183,8 @@ function! NetrwMapping()
     nnoremap <silent><nowait><buffer> D
                 \ :call netrw#Call('NetrwLocalRm', b:netrw_curdir)<CR>
     nmap <silent><nowait><buffer> <DEL> D
+    nnoremap <silent><nowait><buffer> P
+                \ :call netrw#Call('NetrwPrevWinOpen', 1)<CR>
 endfunction
 autocmd filetype netrw call NetrwMapping()
 
@@ -270,6 +273,9 @@ nnoremap <silent> <leader>+ :vertical resize +5<CR>
 nnoremap <silent> <leader>- :vertical resize -5<CR>
 nnoremap <silent> <leader>. :resize +5<CR>
 nnoremap <silent> <leader>, :resize -5<CR>
+
+" Toggle Spellchecking
+nnoremap <leader>s :setlocal spell! spelllang=en_us<CR>
 
 " Make a new terminal window
 set shell=bash\ -l
