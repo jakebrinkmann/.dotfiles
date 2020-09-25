@@ -238,7 +238,8 @@ nnoremap <silent> <leader>gt :YcmCompleter GoTo<CR>
 let g:python_highlight_all = 1
 " allow for local virtualenvs
 let g:virtualenv_directory = $PWD
-nnoremap <leader>tv :VirtualEnvActivate<SPACE>
+nnoremap <leader>tv :VirtualEnvActivate .virtualenv<CR>
+nnoremap <leader>te :Dotenv .env<CR>
 " force vim-test to use pytest
 let test#python#runner = 'pytest'
 " running tests on different granularities
@@ -311,8 +312,8 @@ vnoremap > >gv
 " Move visual block
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
-" Ctrl-C to close window
-nnoremap <silent> <C-c> :wincmd q<CR>
+" Ctrl-C to close current buffer
+nnoremap <silent> <C-c> :bdelete<CR>
 " Ctrl+Z to save
 nmap <c-z> :w<CR>
 imap <c-z> <Esc>:w<CR>a
