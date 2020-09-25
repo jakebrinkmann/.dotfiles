@@ -55,6 +55,8 @@ set backspace=2
 " code folding
 set foldmethod=indent
 set foldlevel=99
+" allow hidding unsaved buffers
+set hidden
 
 " Set the text width to 88 and create a vertical bar in 89th column. Some
 " filetypes such as gitcommit have a custom width defined and we use autocmd
@@ -77,7 +79,7 @@ hi SpellBad ctermfg=NONE ctermbg=NONE cterm=underline
 
 " Show dots for spaces (listchars)
 set list
-set listchars=eol:↵,tab:▸.,trail:★,precedes:←,extends:→,space:·
+set listchars=eol:↵,tab:▸\ ,trail:★,precedes:←,extends:→,space:·
 
 " SpaceVIM! SpaceMACS!
 let mapleader = " "
@@ -138,6 +140,9 @@ let g:lightline = {
     \   'left': [ [ 'mode', 'paste' ],
     \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
     \ },
+    \ 'component': {
+    \   'filename': '%t(%n)'
+    \ },
     \ 'component_function': {
     \   'gitbranch': 'FugitiveHead'
     \ },
@@ -161,6 +166,23 @@ let g:netrw_liststyle = 3
 let g:netrw_browse_split = 0
 " width of the directory explorer
 let g:netrw_winsize = 25
+
+" Make switching buffers easier
+nnoremap <Leader>b :ls<Cr>:b<Space>
+" Make a new vertical split
+nnoremap <silent> <leader>n :vnew<CR>
+" Show only this window
+nnoremap <silent> <leader>o :only<CR>
+" Make a new tab
+nnoremap <silent> <C-n> :tabnew<CR>
+" Cycle to open tabs
+nnoremap <silent> <leader><Left> gT
+nnoremap <silent> <leader><Right> gt
+" Ctrl-D to close current buffer
+nnoremap <silent> <C-c> :bdelete<CR>
+" Ctrl-C to close current window
+nnoremap <silent> <C-c> :close<CR>
+
 " Netrw comes with lots of mappings that can lead to unintentional, accidental
 " changes. We will unmap everything and map only the functions that we need.
 function! NetrwMapping()
@@ -210,13 +232,6 @@ let g:ale_sign_info = '⌇'
 let g:ale_sign_style_error = g:ale_sign_error
 let g:ale_sign_style_warning = g:ale_sign_warning
 
-" Make switching buffers easier
-nnoremap <Leader>b :ls<Cr>:b<Space>
-" Make a new vertical split
-nnoremap <silent> <leader>n :vnew<CR>
-" Show only this window
-nnoremap <silent> <leader>o :only<CR>
-
 " Hmmm setting up YCM for python...
 let g:ycm_python_interpreter_path = ''
 let g:ycm_python_sys_path = []
@@ -232,7 +247,6 @@ let g:ycm_auto_hover = ""
 " Auto close preview window
 let g:ycm_autoclose_preview_window_after_completion=1
 nnoremap <silent> <leader>gt :YcmCompleter GoTo<CR>
-
 
 " enable all syntax highlighting
 let g:python_highlight_all = 1
@@ -250,6 +264,11 @@ nmap <silent> <leader>ts :TestSuite<CR>
 nmap <silent> <leader>tl :TestLast<CR>
 nmap <silent> <leader>tg :TestVisit<CR>
 let test#strategy = "vimterminal"
+
+autocmd FileType python
+    \ inoreabbrev <buffer> pdb import pdb; pdb.set_trace()# --- BREAKPOINT ---|
+    \ inoreabbrev <buffer> raisenot raise NotImplementedError()<left>|
+    \ inoreabbrev <buffer> ass assert
 
 nnoremap <leader>tb :TagbarToggle<CR>
 nnoremap <leader>u :UndotreeShow<CR>
@@ -280,6 +299,7 @@ set shell=bash\ -l
 nnoremap <leader>tt :botright terminal<CR>
 " Make vim play nice in terminal insert mode (not perfect)
 tnoremap <silent> <C-x> <C-\><C-N><CR>
+" tnoremap <silent> <C-c> <C-W>c<CR>
 tnoremap <silent> <C-v> <C-W>""<CR>
 tnoremap <silent> <C-k> <C-W>k<CR>
 tnoremap <silent> <C-j> <C-W>j<CR>
@@ -312,8 +332,6 @@ vnoremap > >gv
 " Move visual block
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
-" Ctrl-C to close current buffer
-nnoremap <silent> <C-c> :bdelete<CR>
 " Ctrl+Z to save
 nmap <c-z> :w<CR>
 imap <c-z> <Esc>:w<CR>a
@@ -324,3 +342,14 @@ autocmd FileType qf setlocal nonumber colorcolumn=
 autocmd! bufwritepost $MYVIMRC source $MYVIMRC
 " Wrap long line even if the initial line is longer than textwidth.
 autocmd FileType * setlocal formatoptions-=b formatoptions-=l
+" resize the split panes to become equal
+autocmd VimResized * wincmd =
+
+" Spaces instead of Tabs to take over da world
+autocmd FileType * setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+autocmd FileType yaml setlocal autoindent cursorcolumn
+autocmd FileType python setlocal tabstop=4 softtabstop=4 shiftwidth=4 autoindent
+autocmd FileType make setlocal noexpandtab
+
+" Highlight commit message overflow
+autocmd FileType gitcommit setlocal textwidth=72
