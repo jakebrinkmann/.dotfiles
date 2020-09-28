@@ -141,7 +141,7 @@ let g:lightline = {
     \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
     \ },
     \ 'component': {
-    \   'filename': '%t(%n)'
+    \   'filename': '%t ᵇ%n'
     \ },
     \ 'component_function': {
     \   'gitbranch': 'FugitiveHead'
