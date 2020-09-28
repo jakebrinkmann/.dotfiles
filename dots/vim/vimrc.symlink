@@ -1,5 +1,6 @@
-
-" enter current millenium
+" Use Vim settings, rather then Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
+" (aka "enter current millenium")
 set nocompatible
 " enable builtin plugins
 filetype plugin on
@@ -13,10 +14,6 @@ set updatetime=50
 " Highlight current cursor-line
 set cursorline
 set noerrorbells
-set tabstop=4 softtabstop=4
-set shiftwidth=4
-set expandtab
-set smartindent
 " Line Numbers
 set number
 " Relative to current line
@@ -57,6 +54,11 @@ set foldmethod=indent
 set foldlevel=99
 " allow hidding unsaved buffers
 set hidden
+" To use Vim Modelines (file specific overrides):
+set modeline
+set modelines=5
+" Allow comments to be folds:
+set foldmethod=marker
 
 " Set the text width to 88 and create a vertical bar in 89th column. Some
 " filetypes such as gitcommit have a custom width defined and we use autocmd
@@ -92,6 +94,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+" Plugins {{{
 " https://github.com/junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'morhetz/gruvbox'
@@ -118,6 +121,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'majutsushi/tagbar'
 Plug 'kassio/neoterm'
 call plug#end()
+" }}}
 
 " Setup cursor for Windows Terminal
 if &term =~ '^xterm'
@@ -141,7 +145,7 @@ let g:lightline = {
     \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
     \ },
     \ 'component': {
-    \   'filename': '%t ᵇ%n'
+    \   'filename': '%t ¦ ᵇ%n'
     \ },
     \ 'component_function': {
     \   'gitbranch': 'FugitiveHead'
@@ -326,6 +330,10 @@ nnoremap <silent> <C-k> :wincmd k<CR>
 nnoremap <silent> <C-j> :wincmd j<CR>
 nnoremap <silent> <C-h> :wincmd h<CR>
 nnoremap <silent> <C-l> :wincmd l<CR>
+" make folding easy {{{
+nmap <silent> <Leader>a zc
+nmap <silent> <Leader>z zo
+" }}}
 " Re-select visual block after indenting
 vnoremap < <gv
 vnoremap > >gv
@@ -346,7 +354,7 @@ autocmd FileType * setlocal formatoptions-=b formatoptions-=l
 autocmd VimResized * wincmd =
 
 " Spaces instead of Tabs to take over da world
-autocmd FileType * setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+autocmd FileType * setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab smartindent
 autocmd FileType yaml setlocal autoindent cursorcolumn
 autocmd FileType python setlocal tabstop=4 softtabstop=4 shiftwidth=4 autoindent
 autocmd FileType make setlocal noexpandtab
