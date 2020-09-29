@@ -108,6 +108,7 @@ Plug 'jmcantrell/vim-virtualenv'
 Plug 'jremmen/vim-ripgrep'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/gv.vim'
 Plug 'kassio/neoterm'
 Plug 'majutsushi/tagbar'
 Plug 'majutsushi/tagbar'
@@ -272,7 +273,9 @@ nmap <silent> <leader>tf :TestFile<CR>
 nmap <silent> <leader>ts :TestSuite<CR>
 nmap <silent> <leader>tl :TestLast<CR>
 nmap <silent> <leader>tg :TestVisit<CR>
-let test#strategy = "vimterminal"
+let test#strategy = "neoterm"
+nnoremap <silent> <leader>tr :TREPLSendLine<CR>
+vnoremap <silent> <leader>tr :TREPLSendSelection<CR>
 
 autocmd FileType python
     \ inoreabbrev <buffer> pdb import pdb; pdb.set_trace()# --- BREAKPOINT ---|
@@ -296,6 +299,7 @@ nnoremap <leader>gd :Gdiff<CR>
 nnoremap <leader>gb :Gblame<CR>
 nnoremap <leader>go :diffget<SPACE>
 nnoremap <leader>gp :diffput<SPACE>
+nnoremap <leader>gl :GV<SPACE>
 
 nnoremap <silent> <leader>+ :vertical resize +5<CR>
 nnoremap <silent> <leader>- :vertical resize -5<CR>
@@ -308,9 +312,8 @@ nnoremap <leader>s :setlocal spell! spelllang=en_us<CR>
 " Make a new terminal window
 set shell=bash\ -l
 nnoremap <leader>tt :botright terminal<CR>
-" Make vim play nice in terminal insert mode (not perfect)
+nnoremap <silent> <C-x> i
 tnoremap <silent> <C-x> <C-\><C-N><CR>
-" tnoremap <silent> <C-c> <C-W>c<CR>
 tnoremap <silent> <C-v> <C-W>""<CR>
 tnoremap <silent> <C-k> <C-W>k<CR>
 tnoremap <silent> <C-j> <C-W>j<CR>
@@ -322,6 +325,9 @@ nnoremap <leader>tt :Ttoggle<CR>
 tnoremap <leader>tt <C-W>:Ttoggle<CR>
 let g:neoterm_default_mod = 'botright'
 let g:neoterm_autoinsert = 1
+let g:neoterm_repl_python =
+  \ ['source .virtualenv/bin/activate', 'python']
+let g:neoterm_repl_command = add(g:neoterm_repl_python, '')
 
 " Pretty-print JSON
 nnoremap =j :%!python3 -m json.tool<CR>
