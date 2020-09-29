@@ -362,3 +362,14 @@ autocmd FileType make setlocal noexpandtab
 
 " Highlight commit message overflow
 autocmd FileType gitcommit setlocal textwidth=72
+
+" jump to the last position when reopening a file
+if has("autocmd")
+  " This doesn't save folds:
+  " autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+  "   \| exe "normal! g`\"" | endif
+
+  " This saves folds:
+  autocmd BufWinLeave *.* mkview
+  autocmd BufWinEnter *.* silent loadview
+endif
