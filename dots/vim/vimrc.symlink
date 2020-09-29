@@ -102,28 +102,29 @@ endif
 " Plugins {{{
 " https://github.com/junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
-Plug 'morhetz/gruvbox'
-Plug 'itchyny/lightline.vim'
-Plug 'jremmen/vim-ripgrep'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-dotenv'
-Plug 'tpope/vim-vinegar'
-Plug 'vim-utils/vim-man'
 Plug 'airblade/vim-gitgutter'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer' }
-Plug 'mbbill/undotree'
-Plug 'majutsushi/tagbar'
-Plug 'sheerun/vim-polyglot'
-Plug 'w0rp/ale'
-Plug 'vim-test/vim-test'
+Plug 'itchyny/lightline.vim'
 Plug 'jmcantrell/vim-virtualenv'
+Plug 'jremmen/vim-ripgrep'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'majutsushi/tagbar'
 Plug 'kassio/neoterm'
+Plug 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar'
+Plug 'mbbill/undotree'
+Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
+Plug 'morhetz/gruvbox'
+Plug 'sheerun/vim-polyglot'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-dotenv'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-vinegar'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer' }
+Plug 'vim-test/vim-test'
+Plug 'vim-utils/vim-man'
+Plug 'w0rp/ale'
 call plug#end()
 " }}}
 
@@ -186,10 +187,10 @@ nnoremap <silent> <C-n> :tabnew<CR>
 " Cycle to open tabs
 nnoremap <silent> <leader><Left> gT
 nnoremap <silent> <leader><Right> gt
-" Ctrl-D to close current buffer
-nnoremap <silent> <C-c> :bdelete<CR>
-" Ctrl-C to close current window
-nnoremap <silent> <C-c> :close<CR>
+" Ctrl-D to close current buffer (:bufdelete)
+nnoremap <silent> <C-d> :Sayonara<CR>
+" Ctrl-C to close current window (:close)
+nnoremap <silent> <C-c> :Sayonara!<CR>
 
 " Netrw comes with lots of mappings that can lead to unintentional, accidental
 " changes. We will unmap everything and map only the functions that we need.
