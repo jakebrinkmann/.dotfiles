@@ -279,6 +279,7 @@ nnoremap <leader>u :UndotreeShow<CR>
 nnoremap <leader>pv :wincmd v<bar> :Explore <bar> :wincmd r <bar> :vertical resize 30<CR>
 nnoremap <leader>ps :Rg<SPACE>
 nnoremap <leader>pf :Files<CR>
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 
 " Fugitive Mappings
 nnoremap <leader>gc :Gcommit<CR>
