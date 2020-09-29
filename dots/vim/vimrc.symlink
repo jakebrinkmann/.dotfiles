@@ -28,9 +28,6 @@ set nobackup
 set hlsearch
 " Start searching right away
 set incsearch
-" Enable persistent undo.
-set undodir=~/.vim/undodir
-set undofile
 " always show the status bar
 set laststatus=2
 " enable 256 colors
@@ -49,16 +46,24 @@ set noequalalways
 set scrolloff=8
 " Have backspace behave as it does in other applications.
 set backspace=2
-" code folding
+" code folding (:help folds)
+set foldenable
 set foldmethod=indent
-set foldlevel=99
+set foldlevelstart=1
+set foldnestmax=1
+" set foldcolumn=1
 " allow hidding unsaved buffers
 set hidden
 " To use Vim Modelines (file specific overrides):
 set modeline
 set modelines=5
-" Allow comments to be folds:
-set foldmethod=marker
+
+" Enable persistent undo.
+if has('persistent_undo') && !isdirectory(expand('~').'/.vim/undodir')
+  silent !mkdir ~/.vim/undodir > /dev/null 2>&1
+elseif has('persistent_undo')
+  set undodir=~/.vim/undodir undofile
+endif
 
 " Set the text width to 88 and create a vertical bar in 89th column. Some
 " filetypes such as gitcommit have a custom width defined and we use autocmd
@@ -106,7 +111,6 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-dotenv'
 Plug 'tpope/vim-vinegar'
-Plug 'farmergreg/vim-lastplace'
 Plug 'vim-utils/vim-man'
 Plug 'airblade/vim-gitgutter'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer' }
@@ -364,12 +368,7 @@ autocmd FileType make setlocal noexpandtab
 autocmd FileType gitcommit setlocal textwidth=72
 
 " jump to the last position when reopening a file
-if has("autocmd")
-  " This doesn't save folds:
-  " autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
-  "   \| exe "normal! g`\"" | endif
-
-  " This saves folds:
-  autocmd BufWinLeave *.* mkview
-  autocmd BufWinEnter *.* silent loadview
-endif
+au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+    \| exe "normal! g`\"" | endif
+au BufWritePost,BufLeave,WinLeave ?* mkview
+au BufWinEnter ?* silent if &modifiable | loadview | endif
