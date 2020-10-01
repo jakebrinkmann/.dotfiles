@@ -57,6 +57,8 @@ set hidden
 " To use Vim Modelines (file specific overrides):
 set modeline
 set modelines=5
+" merge signcolumn and number column into one
+set signcolumn=number
 
 " Enable persistent undo.
 if has('persistent_undo') && !isdirectory(expand('~').'/.vim/undodir')
@@ -163,21 +165,6 @@ if executable('rg')
     let g:rg_derive_root = 'true'
 endif
 
-" hide gitignored files from netrw <- Doesn't work for me :(
-" let g:netrw_list_hide= netrw_gitignore#Hide()
-" define what a hidden file is
-let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
-" hide hidden by default
-let g:netrw_hide = 1
-" directory banner is mostly useless
-let g:netrw_banner = 0
-" tree list view
-let g:netrw_liststyle = 3
-" open files in current pane
-let g:netrw_browse_split = 0
-" width of the directory explorer
-let g:netrw_winsize = 25
-
 " Make switching buffers easier
 nnoremap <Leader>b :ls<Cr>:b<Space>
 " Make a new vertical split
@@ -194,28 +181,53 @@ nnoremap <silent> <C-d> :Sayonara<CR>
 " Ctrl-C to close current window (:close)
 nnoremap <silent> <C-c> :Sayonara!<CR>
 
+" hide gitignored files from netrw <- Doesn't work for me :(
+" let g:netrw_list_hide= netrw_gitignore#Hide()
+" define what a hidden file is
+let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
+" hide hidden by default
+let g:netrw_hide = 1
+" directory banner is mostly useless
+let g:netrw_banner = 0
+" tree list view
+let g:netrw_liststyle = 3
+" open files in current pane
+let g:netrw_browse_split = 0
+" width of the directory explorer
+let g:netrw_winsize = 25
+
 " Netrw comes with lots of mappings that can lead to unintentional, accidental
 " changes. We will unmap everything and map only the functions that we need.
 function! NetrwMapping()
     mapclear <buffer>
-    " nnoremap <silent><nowait><buffer> <C-R>
-    "             \ :call netrw#Call('NetrwRefresh', 0,
-    "             \                  netrw#Call('NetrwBrowseChgDir', 0, './'))<CR>
+    " Ctrl-R to refresh listing
+    nnoremap <silent><nowait><buffer> <C-R>
+                \ :call netrw#Call('NetrwRefresh', 1,
+                \                  netrw#Call('NetrwBrowseChgDir', 1, './'))<CR>
+    " Left to go up the directory tree
     nnoremap <silent><nowait><buffer> <Left>
                 \ :call netrw#Call('NetrwBrowseUpDir', 1)<CR>
+    " Right||Enter to open a directory
     nnoremap <silent><nowait><buffer> <Right>
                 \ :call netrw#LocalBrowseCheck(netrw#Call('NetrwBrowseChgDir', 1,
                 \                              netrw#Call('NetrwGetWord')))<CR>
     nmap <silent><nowait><buffer> <CR> <Right>
-    nnoremap <silent><nowait><buffer> n
+    " o to create a new file
+    nnoremap <silent><nowait><buffer> o
                 \ :call netrw#Call('NetrwOpenFile', 1)<CR>
+    " d to make a new directory
     nnoremap <silent><nowait><buffer> d
                 \ :call netrw#Call('NetrwMakeDir', "")<CR>
+    " D||Delete to delete
     nnoremap <silent><nowait><buffer> D
                 \ :call netrw#Call('NetrwLocalRm', b:netrw_curdir)<CR>
     nmap <silent><nowait><buffer> <DEL> D
+    " P to open in previous window
     nnoremap <silent><nowait><buffer> P
                 \ :call netrw#Call('NetrwPrevWinOpen', 1)<CR>
+    " . to toggle showing hidden files
+    nnoremap <silent><nowait><buffer> .
+                \ :call netrw#Call('NetrwHidden', 1)<CR>
 endfunction
 autocmd filetype netrw call NetrwMapping()
 
@@ -246,10 +258,13 @@ let g:ale_sign_style_warning = g:ale_sign_warning
 " Hmmm setting up YCM for python...
 let g:ycm_python_interpreter_path = ''
 let g:ycm_python_sys_path = []
+" Trigger semantic completion
+let g:ycm_key_invoke_completion = '<C-Space>'
 " Start autocompletion after 4 chars
 let g:ycm_min_num_of_chars_for_completion = 4
 let g:ycm_min_num_identifier_candidate_chars = 4
 let g:ycm_enable_diagnostic_highlighting = 0
+let g:ycm_complete_in_comments = 0
 " Don't show YCM's preview window
 set completeopt-=preview
 let g:ycm_add_preview_to_completeopt = 0
@@ -257,6 +272,9 @@ let g:ycm_add_preview_to_completeopt = 0
 let g:ycm_auto_hover = ""
 " Auto close preview window
 let g:ycm_autoclose_preview_window_after_completion=1
+" write YCM error into the console so we can see wtf is going on
+let g:ycm_server_use_vim_stdout = 1
+let g:ycm_enable_diagnostic_signs = 0
 nnoremap <silent> <leader>gt :YcmCompleter GoTo<CR>
 
 " enable all syntax highlighting
@@ -274,7 +292,7 @@ nmap <silent> <leader>tf :TestFile<CR>
 nmap <silent> <leader>ts :TestSuite<CR>
 nmap <silent> <leader>tl :TestLast<CR>
 nmap <silent> <leader>tg :TestVisit<CR>
-let test#strategy = "neoterm"
+let test#strategy = "terminal"
 nnoremap <silent> <leader>tr :TREPLSendLine<CR>
 vnoremap <silent> <leader>tr :TREPLSendSelection<CR>
 
@@ -354,15 +372,16 @@ vnoremap K :m '<-2<CR>gv=gv
 nmap <c-z> :w<CR>
 imap <c-z> <Esc>:w<CR>a
 
-" Turn off display in QuickFixes
-autocmd FileType qf setlocal nonumber colorcolumn=
 " Automatically source vimrc on save.
 autocmd! bufwritepost $MYVIMRC source $MYVIMRC
-" Wrap long line even if the initial line is longer than textwidth.
-autocmd FileType * setlocal formatoptions-=b formatoptions-=l
 " resize the split panes to become equal
 autocmd VimResized * wincmd =
 
+" Turn off display in QuickFixes
+autocmd FileType qf setlocal nonumber colorcolumn=
+autocmd FileType neoterm setlocal nonumber colorcolumn= nolist
+" Wrap long line even if the initial line is longer than textwidth.
+autocmd FileType * setlocal formatoptions-=b formatoptions-=l
 " Spaces instead of Tabs to take over da world
 autocmd FileType * setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab smartindent
 autocmd FileType yaml setlocal autoindent cursorcolumn
