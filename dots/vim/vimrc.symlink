@@ -145,7 +145,7 @@ endtry
 set background=dark
 set noshowmode
 let g:lightline = {
-    \'colorscheme': 'gruvbox',
+    \ 'colorscheme': 'gruvbox',
     \ 'active': {
     \   'left': [ [ 'mode', 'paste' ],
     \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -156,6 +156,7 @@ let g:lightline = {
     \ 'component_function': {
     \   'gitbranch': 'FugitiveHead'
     \ },
+    \ 'inactive': { 'left': [['modified']] },
 \ }
 
 if executable('rg')
