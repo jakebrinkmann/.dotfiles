@@ -1,35 +1,55 @@
 [user]
-	name = Jake Brinkmann
-	email = jakebrinkmann@gmail.com
-	signingkey = 49C6AA5C8E3ADAEC
+  name = Jake Brinkmann
+  email = jakebrinkmann@gmail.com
+  signingkey = 49C6AA5C8E3ADAEC
 [core]
-    editor = vim -c vsplit -c'e SCRATCH' -c'setlocal bt=nofile ft=diff' -c'r!git diff --cached' -c 1
-	preloadindex = true
-	fscache = true
-	autocrlf = false
-	eol = lf
-	excludesfile = ~/.gitignore
-	hooksPath = ~/.git-templates/hooks/
+  editor = vim -c vsplit -c'e SCRATCH' -c'setlocal bt=nofile ft=diff' -c'r!git diff --cached' -c 1
+  preloadindex = true
+  fscache = true
+  autocrlf = false
+  eol = lf
+  excludesfile = ~/.gitignore
+  hooksPath = ~/.git-templates/hooks/
 [diff]
-	tool = vimdiff
+  tool = vimdiff
 [color]
-    ui = auto
+  ui = auto
 [color "branch"]
-    current = yellow reverse
-    local = yellow
-    remote = green
+  current = yellow reverse
+  local = yellow
+  remote = green
 [color "diff"]
-    meta = yellow bold
-    frag = magenta bold
-    old = red
-    new = cyan
+  meta = yellow bold
+  frag = magenta bold
+  old = red
+  new = cyan
 [color "status"]
-    added = yellow
-    changed = green
-    untracked = cyan
+  added = yellow
+  changed = green
+  untracked = cyan
 [merge]
-    tool = fugitive
-	conflictstyle = merge
+  tool = fugitive
+  conflictstyle = merge
+[credential]
+  helper = cache
+[difftool]
+  prompt = false
+[mergetool "fugitive"]
+  cmd = vim -f -c \"Gdiff\" \"$MERGED\"
+[commit]
+  gpgsign = false
+  template = ~/.gitmessage
+[gc]
+  auto = 256
+[help]
+  autocorrect = 1
+[init]
+  templatedir = ~/.git-templates
+  defaultBranch = main
+[push]
+  default = current
+[fetch]
+  prune = true
 [alias]
   # -sb for a less verbose status
   st = status -sb
@@ -71,13 +91,13 @@
   # Use VIM ( tool = vimdiff )
   dt = difftool
   # Shortcut for diff
-	df = diff
+  df = diff
   # Instead of showing +/- lines, show in-line changes
   dfw = --word-diff
   # My most favorite log formatting
   ll = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author-date-order
   # Same as ll, with graph
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author-date-order
+  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author-date-order
   # Log the entire commit message
   lf = log --pretty=fuller
   # Tries to log from latest merge commit
@@ -85,22 +105,22 @@
   # Gerrit: Fetch a pull-request as a new branch
   pr = "!f() { git fetch origin refs/pull/$1/head:pr/$1; } ; f"
   # Gerrit: Clean up pull-request branches
-	pr-clean = "!git for-each-ref refs/heads/pr/* --format='%(refname)' | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done"
+  pr-clean = "!git for-each-ref refs/heads/pr/* --format='%(refname)' | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done"
   # Log all and decorate with branches
   lad = log --all --decorate
   # Stage/Unstage peice by peice
   ap = add --patch
   rp = reset --patch
-	rh = reset HEAD
-	rsoft = reset --soft HEAD^
-	# git checkout master; git ms feature/branch
+  rh = reset HEAD
+  rsoft = reset --soft HEAD^
+  # git checkout master; git ms feature/branch
   ms = merge --squash
   # Merge with development
   md = merge -X theirs development
-	gw = push gerrit HEAD:refs/for/master%wip
-	gr = push gerrit HEAD:refs/for/master%ready
-	permission-reset = !git diff -p -R --no-color | grep -E \"^(diff|(old|new) mode)\" --color=never | git apply
-	opt = push origin primary --tags
+  gw = push gerrit HEAD:refs/for/master%wip
+  gr = push gerrit HEAD:refs/for/master%ready
+  permission-reset = !git diff -p -R --no-color | grep -E \"^(diff|(old|new) mode)\" --color=never | git apply
+  opt = push origin primary --tags
   # Checkpoint Commit (recommended instead of "stash save -u")
   save = !git add -A && git commit --no-verify -m 'SAVEPOINT'
   save = "!f() { git add -A && git commit --no-verify -m \"SAVEPOINT $@\" && git reset HEAD^; } ; f"
@@ -153,26 +173,6 @@
   search = log --all -p -G
   # Search all history: git research <regexp>
   research = reflog --all -p -G
-	tags = tag -l -n99
-	me-theirs = merge --no-verify -X theirs
-	fix-commit = commit --edit --file=.git/COMMIT_EDITMSG
-[credential]
-	helper = cache
-[difftool]
-	prompt = false
-[mergetool "fugitive"]
-	cmd = vim -f -c \"Gdiff\" \"$MERGED\"
-[commit]
-	gpgsign = false
-	template = ~/.gitmessage
-[gc]
-	auto = 256
-[help]
-	autocorrect = 1
-[init]
-	templatedir = ~/.git-templates
-	defaultBranch = main
-[push]
-	default = current
-[fetch]
-	prune = true
+  tags = tag -l -n99
+  me-theirs = merge --no-verify -X theirs
+  fix-commit = commit --edit --file=.git/COMMIT_EDITMSG
