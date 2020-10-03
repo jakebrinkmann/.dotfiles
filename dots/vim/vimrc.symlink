@@ -30,6 +30,10 @@ set hlsearch
 set incsearch
 " always show the status bar
 set laststatus=2
+" configure termial title to look like: .vimrc (~) [+]
+set title
+set titlestring=%t%(\ (%{expand(\"%:~:.:h\")})%)%(\ %a%r%m%)
+set titlelen=70
 " enable 256 colors
 set t_Co=256
 set t_ut=
@@ -275,6 +279,11 @@ let g:ycm_autoclose_preview_window_after_completion=1
 " write YCM error into the console so we can see wtf is going on
 let g:ycm_server_use_vim_stdout = 1
 let g:ycm_enable_diagnostic_signs = 0
+let g:ycm_semantic_triggers = {
+    \'css': [ 're!^', 're!^\s+', ': ' ],
+    \'html': [ 're!<\/' ],
+\}
+" To restart YCM: call YcmRestartServer
 nnoremap <silent> <leader>gt :YcmCompleter GoTo<CR>
 
 " enable all syntax highlighting
@@ -331,7 +340,7 @@ nnoremap <leader>s :setlocal spell! spelllang=en_us<CR>
 " Make a new terminal window
 set shell=bash\ -l
 nnoremap <leader>tt :botright terminal<CR>
-nnoremap <silent> <C-x> i
+tnoremap <silent> <C-x> i
 tnoremap <silent> <C-x> <C-\><C-N><CR>
 tnoremap <silent> <C-v> <C-W>""<CR>
 tnoremap <silent> <C-k> <C-W>k<CR>
