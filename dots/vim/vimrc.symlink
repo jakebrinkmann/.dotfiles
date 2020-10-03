@@ -127,7 +127,6 @@ Plug 'tpope/vim-dotenv'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-vinegar'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer' }
 Plug 'vim-test/vim-test'
 Plug 'vim-utils/vim-man'
