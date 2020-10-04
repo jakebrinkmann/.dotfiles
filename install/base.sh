@@ -15,6 +15,7 @@ COMMON_PKGS="
     postgresql-client-common
     bat
     fd-find
+    stow
 "
 
 # All must be run as root

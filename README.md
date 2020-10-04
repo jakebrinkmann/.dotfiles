@@ -45,7 +45,8 @@ However, the `dotfiles` and `setups` should work on any debian system, and not b
 
 These tools must first be installed on the system:
 
-* [Docker](https://docs.docker.com/install/)
+* [Docker](https://docs.docker.com/install/), create, deploy, and run applications by using containers.
+* [GNU stow](http://www.gnu.org/software/stow/), a free, portable, lightweight symlink farm manager.
 
 ## Usage [&#x219F;](#contents)
 
@@ -66,12 +67,12 @@ make run
 
 ## Development  [&#x219F;](#contents)
 
-To Download/Install this project directly onto a host machine (helpful when I want to fly native on a machine, without the additional overhead of containers... trading off for reproducibility in my environment, though):
+To Download/Install this project directly onto a host machine (helpful when I want tofly native on a machine, without the additional overhead of containers... trading off for reproducibility in my environment, though):
 
 ```bash
-git clone git@github.com:jakebrinkmann/dotfiles.git ~/.dots
-cd ~/.dots
-bash symlinks.sh
+git clone git@github.com:jakebrinkmann/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles/dots
+stow -t ~ bash git vim # plus whatever else you'd like
 ```
 
 To build the Docker image locally:
