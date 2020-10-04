@@ -174,24 +174,80 @@ catch
 endtry
 set background=dark
 set noshowmode
-let g:lightline = {
-    \ 'colorscheme': 'gruvbox',
-    \ 'active': {
-    \   'left': [ [ 'mode', 'paste' ],
-    \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-    \ },
-    \ 'component': {
-    \   'filename': '%t ¦ ᵇ%n'
-    \ },
-    \ 'component_function': {
-    \   'gitbranch': 'FugitiveHead'
-    \ },
-    \ 'inactive': { 'left': [['modified']] },
-\ }
 
-if executable('rg')
-    let g:rg_derive_root = 'true'
-endif
+" ======================================================================================
+" ┏━┓╺┳╸┏━┓╺┳╸╻ ╻┏━┓╻  ╻┏┓╻┏━╸
+" ┗━┓ ┃ ┣━┫ ┃ ┃ ┃┗━┓┃  ┃┃┗┫┣╸
+" ┗━┛ ╹ ╹ ╹ ╹ ┗━┛┗━┛┗━╸╹╹ ╹┗━╸
+" github.com/xero/dotfiles
+let g:lightline = {
+  \ 'colorscheme': 'gruvbox',
+  \ 'active': {
+  \   'left': [ [ 'filename' ],
+  \             [ 'linter',  'gitbranch' ] ],
+  \   'right': [ [ 'percent', 'lineinfo' ],
+  \              [ 'fileencoding', 'filetype' ] ]
+  \ },
+  \ 'inactive': { 'left': [['filename']] },
+  \ 'component_function': {
+  \   'modified': 'WizMod',
+  \   'readonly': 'WizRO',
+  \   'gitbranch': 'WizGit',
+  \   'filename': 'WizName',
+  \   'filetype': 'WizType',
+  \   'fileencoding': 'WizEncoding',
+  \   'mode': 'WizMode',
+  \ },
+  \ 'component_expand': {
+  \   'linter': 'WizErrors',
+  \ },
+  \ 'component_type': {
+  \   'readonly': 'error',
+  \   'linter': 'error'
+  \ },
+  \ 'separator': { 'left': '▊▋▌▍▎', 'right': '▎▍▌▋▊' },
+  \ 'subseparator': { 'left': '▏', 'right': '▕' }
+  \ }
+
+function! WizMod()
+  return &ft =~ 'help\|vimfiler' ? '' : &modified ? '» ' : &modifiable ? '' : ''
+endfunction
+
+function! WizRO()
+  return &ft !~? 'help\|vimfiler' && &readonly ? ' ' : ''
+endfunction
+
+function! WizGit()
+  return !IsTree() ? exists('*fugitive#head') ? fugitive#head() : '' : ''
+endfunction
+
+function! WizName()
+  return !IsTree() ? ('' != WizRO() ? WizRO() : WizMod()) . ('' != expand('%:t') ? expand('%:t') : '[none]') : ''
+endfunction
+
+function! WizType()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? ' ' . &filetype : '') : ''
+endfunction
+
+function! WizEncoding()
+  return winwidth(0) > 70 ? (strlen(&fenc) ? &enc : &enc) : ''
+endfunction
+
+function! WizErrors() abort
+  let l:counts = exists('*ale#statusline#Count') ? ale#statusline#Count(bufnr('')) : 0
+  return l:counts.total == 0 ? '' : printf('◉ %d', l:counts.total)
+endfunction
+
+function! IsTree()
+  let l:name = expand('%:t')
+  return l:name =~ 'NetrwTreeListing\|undotree' ? 1 : 0
+endfunction
+
+augroup alestatus
+    au!
+    autocmd User ALELint call lightline#update()
+augroup end
+" ======================================================================================
 
 " Make a new vertical split
 nnoremap <silent> <leader>n :vnew<CR>
@@ -348,6 +404,11 @@ augroup end
 
 nnoremap <leader>tb :TagbarToggle<CR>
 nnoremap <leader>u :UndotreeShow<CR>
+
+if executable('rg')
+    let g:rg_derive_root = 'true'
+endif
+
 " Use Rip-Grep!
 nnoremap <leader>ps :Rg<SPACE>
 " FZF file files
