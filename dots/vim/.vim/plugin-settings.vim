@@ -153,8 +153,8 @@ let g:ale_linters = {
 let g:ale_fixers = {
     \'*': ['remove_trailing_lines', 'trim_whitespace'],
     \'python': ['black', 'isort'],
-    \'javascript': ['prettier'],
-    \'css': ['prettier']
+    \'javascript': ['eslint'],
+    \'css': ['eslint']
 \}
 let g:ale_python_isort_options = '--multi-line=3 --trailing-comma --use-parentheses --line-width=88'
 " Only run linters when specified

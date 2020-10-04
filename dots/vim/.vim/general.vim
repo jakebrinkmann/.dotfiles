@@ -19,7 +19,7 @@ set infercase
 " search into subdirectories
 set path+=**
 " lazy file name tab completion
-set wildmode=longest,list,full
+set wildmode=longest:full,full
 set wildmenu
 set wildignorecase
 " ignore files vim doesnt use
