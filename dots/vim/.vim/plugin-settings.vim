@@ -209,6 +209,7 @@ nnoremap <leader>te :Dotenv .env<CR>
 " force vim-test to use pytest
 let test#python#runner = 'pytest'
 let test#javascript#runner = 'jest'
+" could also use "--inspect=9229" for "chrome://inspect" dedicated DevTools
 let g:test#javascript#jest#executable =
       \'node inspect node_modules/.bin/jest --runInBand --config ./jest.config.json'
 " running tests on different granularities
