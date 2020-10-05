@@ -86,6 +86,12 @@ augroup python_snippets
       \ inoreabbrev <buffer> ass assert
 augroup end
 
+augroup js_snippets
+  autocmd!
+  autocmd FileType javascript
+      \ inoreabbrev <buffer> dbg debugger; // --- BREAKPOINT ---|
+augroup end
+
 augroup autofancy
   autocmd!
   " Automatically source vimrc on save.

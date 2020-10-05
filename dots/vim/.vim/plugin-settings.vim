@@ -208,6 +208,9 @@ nnoremap <leader>tv :VirtualEnvActivate .virtualenv<CR>
 nnoremap <leader>te :Dotenv .env<CR>
 " force vim-test to use pytest
 let test#python#runner = 'pytest'
+let test#javascript#runner = 'jest'
+let g:test#javascript#jest#executable =
+      \'node inspect node_modules/.bin/jest --runInBand --config ./jest.config.json'
 " running tests on different granularities
 nmap <silent> <leader>tp :TestNearest --pdb<CR>
 nmap <silent> <leader>tn :TestNearest<CR>
@@ -215,7 +218,7 @@ nmap <silent> <leader>tf :TestFile<CR>
 nmap <silent> <leader>ts :TestSuite<CR>
 nmap <silent> <leader>tl :TestLast<CR>
 nmap <silent> <leader>tg :TestVisit<CR>
-let test#strategy = "terminal"
+let test#strategy = "vimterminal"
 nnoremap <silent> <leader>tr :TREPLSendLine<CR>
 vnoremap <silent> <leader>tr :TREPLSendSelection<CR>
 
@@ -226,10 +229,12 @@ if executable('rg')
     let g:rg_derive_root = 'true'
 endif
 
-" Use Rip-Grep!
+" Search the project
 nnoremap <leader>ps :Rg<SPACE>
-" FZF file files
+" Find files
 nnoremap <leader>pf :Files<CR>
+" Find tracked files
+nnoremap <leader>PF :GFiles<CR>
 " Make switching buffers easier
 nnoremap <Leader>b :Buffers<CR>
 " Ctrl-D to close current buffer (:bufdelete)
