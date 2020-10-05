@@ -176,13 +176,11 @@ let g:ycm_min_num_of_chars_for_completion = 4
 let g:ycm_min_num_identifier_candidate_chars = 4
 let g:ycm_enable_diagnostic_highlighting = 0
 let g:ycm_complete_in_comments = 0
-" Don't show YCM's preview window
-set completeopt-=preview
-let g:ycm_add_preview_to_completeopt = 0
 " Turn off the auto-popup window
 let g:ycm_auto_hover = ""
 " Auto close preview window
-let g:ycm_autoclose_preview_window_after_completion=1
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
 " write YCM error into the console so we can see wtf is going on
 let g:ycm_server_use_vim_stdout = 1
 let g:ycm_enable_diagnostic_signs = 0
@@ -190,13 +188,6 @@ let g:ycm_semantic_triggers = {
     \'css': [ 're!^', 're!^\s+', ': ' ],
     \'html': [ 're!<\/' ],
 \}
-" select the completion with enter
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" close preview on completion complete
-augroup completionhide
-  autocmd!
-  autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-augroup end
 " To restart YCM: call YcmRestartServer
 nnoremap <silent> <leader>gt :YcmCompleter GoTo<CR>
 
@@ -238,6 +229,8 @@ nnoremap <leader>pf :Files<CR>
 nnoremap <leader>PF :GFiles<CR>
 " Make switching buffers easier
 nnoremap <Leader>b :Buffers<CR>
+" Make getting back to business easier
+nnoremap <Leader>h :History<CR>
 " Always enable preview window on the right with 60% width
 let g:fzf_preview_window = 'right:60%'
 
