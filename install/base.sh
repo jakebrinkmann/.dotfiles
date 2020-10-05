@@ -55,6 +55,10 @@ elif [ -n "$(type apt-get 2>/dev/null)" ]; then ## Debian/Ubuntu ##
             locales \
             locales-all
     update-locale LANG=$LANG
+    # Install bat and fd (not using alias to make available in non-login shell)
+    mkdir -p ~/.local/bin
+    ln -s /usr/bin/batcat ~/.local/bin/bat
+    ln -s /usr/bin/fdfind ~/.local/bin/fd
 fi
 # =================================================================
 

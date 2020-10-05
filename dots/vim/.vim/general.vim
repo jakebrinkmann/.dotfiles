@@ -90,6 +90,8 @@ augroup js_snippets
   autocmd!
   autocmd FileType javascript
       \ inoreabbrev <buffer> dbg debugger; // --- BREAKPOINT ---|
+      \ inoreabbrev <buffer> clog console.log()<left>|
+      \ inoreabbrev <buffer> raise throw "HANDS IN THE AIR"|
 augroup end
 
 augroup autofancy

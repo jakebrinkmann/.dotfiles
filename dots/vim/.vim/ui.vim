@@ -67,10 +67,10 @@ nnoremap <silent> <leader>- :vertical resize -5<CR>
 nnoremap <silent> <leader>. :resize +5<CR>
 nnoremap <silent> <leader>, :resize -5<CR>
 " move through split windows
-nnoremap <silent> <C-Up> :wincmd K<CR>
-nnoremap <silent> <C-Down> :wincmd J<CR>
-nnoremap <silent> <C-Left> :wincmd H<CR>
-nnoremap <silent> <C-Right> :wincmd L<CR>
+nnoremap <silent> <leader><Up> :wincmd K<CR>
+nnoremap <silent> <leader><Down> :wincmd J<CR>
+nnoremap <silent> <leader><Left> :wincmd H<CR>
+nnoremap <silent> <leader><Right> :wincmd L<CR>
 nnoremap <silent> <C-k> :wincmd k<CR>
 nnoremap <silent> <C-j> :wincmd j<CR>
 nnoremap <silent> <C-h> :wincmd h<CR>

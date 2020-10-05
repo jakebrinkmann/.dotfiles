@@ -49,7 +49,7 @@ function! WizRO()
 endfunction
 
 function! WizGit()
-  return !IsTree() ? exists('*fugitive#head') ? fugitive#head() : '' : ''
+  return !IsTree() ? exists('*fugitive#head') || exists('*FugitiveHead') ? fugitive#head() : '' : ''
 endfunction
 
 function! WizName()
@@ -238,6 +238,9 @@ nnoremap <leader>pf :Files<CR>
 nnoremap <leader>PF :GFiles<CR>
 " Make switching buffers easier
 nnoremap <Leader>b :Buffers<CR>
+" Always enable preview window on the right with 60% width
+let g:fzf_preview_window = 'right:60%'
+
 " Ctrl-D to close current buffer (:bufdelete)
 nnoremap <silent> <C-d> :Sayonara<CR>
 " Ctrl-C to close current window (:close)
