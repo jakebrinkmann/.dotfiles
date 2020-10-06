@@ -33,6 +33,6 @@ export LS_COLORS=$LS_COLORS:'ow=1;34:'
 export NODE_INSPECT_RESUME_ON_START=1
 
 # Configure fzf for nomouse
-export FZF_DEFAULT_OPTS='--no-mouse --bind
-  shift-up:preview-up,shift-down:preview-down
-  page-up:preview-page-up,page-down:preview-page-down'
+export FZF_DEFAULT_OPTS='--no-mouse --bind '\
+'shift-up:preview-up,shift-down:preview-down,'\
+'page-up:preview-page-up,page-down:preview-page-down'
