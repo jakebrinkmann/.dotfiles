@@ -53,7 +53,7 @@ function! WizGit()
 endfunction
 
 function! WizName()
-  return !IsTree() ? ('' != WizRO() ? WizRO() : WizMod()) . ('' != expand('%:t') ? expand('%:t') : '[none]') : ''
+  return !IsTree() ? ('' != WizRO() ? WizRO() : WizMod()) . ('' != expand('%:t') ? expand('%:t') : '[none]') . ('' != WizPaste() ? WizPaste() : '') : ''
 endfunction
 
 function! WizType()
@@ -67,6 +67,10 @@ endfunction
 function! WizErrors() abort
   let l:counts = exists('*ale#statusline#Count') ? ale#statusline#Count(bufnr('')) : 0
   return l:counts.total == 0 ? '' : printf('◉ %d', l:counts.total)
+endfunction
+
+function! WizPaste()
+  return &ft =~ 'help\|vimfiler' ? '' : &paste ? ' ⎀' : ''
 endfunction
 
 function! IsTree()
@@ -215,7 +219,7 @@ nnoremap <silent> <leader>tr :TREPLSendLine<CR>
 vnoremap <silent> <leader>tr :TREPLSendSelection<CR>
 
 nnoremap <leader>tb :TagbarToggle<CR>
-nnoremap <leader>u :UndotreeShow<CR>
+nnoremap <leader>u :UndotreeToggle<CR>
 
 if executable('rg')
     let g:rg_derive_root = 'true'
