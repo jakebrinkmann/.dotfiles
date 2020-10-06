@@ -10,6 +10,7 @@ endif
 " https://github.com/junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
+Plug 'dense-analysis/ale'
 Plug 'itchyny/lightline.vim'
 Plug 'jmcantrell/vim-virtualenv'
 Plug 'jremmen/vim-ripgrep'
@@ -31,7 +32,6 @@ Plug 'tpope/vim-surround'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer' }
 Plug 'vim-test/vim-test'
 Plug 'vim-utils/vim-man'
-Plug 'w0rp/ale'
 call plug#end()
 " }}}
 

@@ -64,9 +64,9 @@ function! WizEncoding()
   return winwidth(0) > 70 ? (strlen(&fenc) ? &enc : &enc) : ''
 endfunction
 
-function! WizErrors() abort
-  let l:counts = exists('*ale#statusline#Count') ? ale#statusline#Count(bufnr('')) : 0
-  return l:counts.total == 0 ? '' : printf('◉ %d', l:counts.total)
+function! WizErrors()
+  let l:counts = exists('*ale#statusline#Count') || exists(':ALELint') ? ale#statusline#Count(bufnr('')).error : 0
+  return l:counts == 0 ? '' : printf('◉ %d', l:counts)
 endfunction
 
 function! WizPaste()
@@ -78,10 +78,10 @@ function! IsTree()
   return l:name =~ 'NetrwTreeListing\|undotree' ? 1 : 0
 endfunction
 
-" augroup alestatus
-"     au!
-"     autocmd User ALELint call lightline#update()
-" augroup end
+augroup alestatus
+  au!
+  autocmd User ALELintPost call lightline#update()
+augroup end
 " ======================================================================================
 
 " Enable persistent undo.
