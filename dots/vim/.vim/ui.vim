@@ -27,6 +27,7 @@ set splitright
 set noequalalways
 " Set scroll offset so the active line stays towards the center.
 set scrolloff=8
+set sidescrolloff=5
 " merge signcolumn and number column into one
 set signcolumn=number
 " show matching brackets/parenthesis

@@ -178,6 +178,9 @@ let g:ale_sign_info = '⌇'
 let g:ale_sign_style_error = g:ale_sign_error
 let g:ale_sign_style_warning = g:ale_sign_warning
 
+let g:ycm_key_list_select_completion   = ['<Down>']
+let g:ycm_key_list_previous_completion = ['<Up>']
+
 " Hmmm setting up YCM for python...
 let g:ycm_python_interpreter_path = ''
 let g:ycm_python_sys_path = []

@@ -11,6 +11,7 @@ set fileencoding=utf-8
 scriptencoding utf-8
 " greater than 50ms will count as separate keys
 set timeout ttimeoutlen=50
+" never ring the bell for any reason
 set noerrorbells
 " Search should be case insensitive unless containing uppercase characters.
 set ignorecase
@@ -50,13 +51,20 @@ set modelines=5
 set clipboard^=unnamedplus
 " disable startup message
 set shortmess+=I
+" indent wrapped lines to match start
+set breakindent
+set breakindentopt=shift:2
+" allow cursor to move where there is no text in visual block mode
+set virtualedit=block
+" <BS>/h/l/<Left>/<Right>/<Space>/~ can cross lines
+set whichwrap=b,h,l,s,<,>,[,],~
 
 " Allow Ctrl-A and Ctrl-X to increment and decrement alphabetical characters.
 " Do not treat numbers that begin with 0 as octal.
 set nrformats+=alpha nrformats-=octal
 
 " SpaceVIM! SpaceMACS!
-let mapleader = " "
+let mapleader = "\<SPACE>"
 
 " Ctrl+Z to save
 nnoremap <c-z> :w<CR>

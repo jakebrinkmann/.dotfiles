@@ -10,9 +10,9 @@ endif
 " https://github.com/junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
-Plug 'dense-analysis/ale'
+Plug 'dense-analysis/ale', { 'for': ['python', 'javascript'] }
 Plug 'itchyny/lightline.vim'
-Plug 'jmcantrell/vim-virtualenv'
+Plug 'jmcantrell/vim-virtualenv', { 'for': ['python'] }
 Plug 'jremmen/vim-ripgrep'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
