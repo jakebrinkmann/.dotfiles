@@ -77,6 +77,12 @@ nnoremap <leader>pv :wincmd v<bar> :Explore <bar> :wincmd r <bar> :vertical resi
 " Edit and source WITH RICE
 nnoremap <leader>ve :vsplit $MYVIMRC<cr>
 nnoremap <leader>vs :source $MYVIMRC<cr>
+" \\ -- open last buffer
+nnoremap <Leader><Leader> <C-^>
+" \e -- edit file, starting in same directory as current file
+nnoremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+" \w -- Easy save
+nnoremap <Leader>w :w<CR>
 
 augroup python_snippets
   autocmd!
@@ -103,6 +109,13 @@ augroup autofancy
   " jump to the last position when reopening a file
   autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
       \| exe "normal! g`\"" | endif
+  " copy from WSL to clip.exe on yank
+  if executable("clip.exe")
+    autocmd TextYankPost *
+          \ call system('echo '
+          \             .shellescape(join(v:event.regcontents, "\<CR>"))
+          \             .' |  clip.exe')
+  endif
 augroup end
 
 augroup fancy_files

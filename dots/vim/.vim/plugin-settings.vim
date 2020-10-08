@@ -65,8 +65,18 @@ function! WizEncoding()
 endfunction
 
 function! WizErrors()
-  let l:counts = exists('*ale#statusline#Count') || exists(':ALELint') ? ale#statusline#Count(bufnr('')).error : 0
-  return l:counts == 0 ? '' : printf('◉ %d', l:counts)
+  if exists('*ale#statusline#Count') || exists(':ALELint')
+    let l:counts = ale#statusline#Count(bufnr(''))
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
+    return l:counts.total == 0 ? '' : printf(
+          \   '• %d ◉ %d',
+          \   all_non_errors,
+          \   all_errors
+          \)
+  else
+    return ''
+  endif
 endfunction
 
 function! WizPaste()
@@ -85,10 +95,8 @@ augroup end
 " ======================================================================================
 
 " Enable persistent undo.
-if has('persistent_undo') && !isdirectory(expand('~').'/.vim/undodir')
-  silent !mkdir ~/.vim/undodir > /dev/null 2>&1
-elseif has('persistent_undo')
-  set undodir=~/.vim/undodir undofile
+if has('persistent_undo')
+  set undodir=~/.vim/tmp/undo undofile
 endif
 set noswapfile
 set nobackup
