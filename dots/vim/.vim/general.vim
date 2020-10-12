@@ -120,9 +120,11 @@ augroup autofancy
   " copy from WSL to clip.exe on yank
   if executable("clip.exe")
     autocmd TextYankPost *
+          \ if v:event.operator ==# 'y' |
           \ call system('echo '
           \             .shellescape(join(v:event.regcontents, "\<CR>"))
-          \             .' |  clip.exe')
+          \             .' |  clip.exe') |
+          \ endif
   endif
 augroup end
 

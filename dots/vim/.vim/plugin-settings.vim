@@ -178,8 +178,9 @@ let g:ale_sign_info = '⌇'
 let g:ale_sign_style_error = g:ale_sign_error
 let g:ale_sign_style_warning = g:ale_sign_warning
 
-let g:ycm_key_list_select_completion   = ['<Down>']
-let g:ycm_key_list_previous_completion = ['<Up>']
+let g:ycm_key_list_select_completion   = ['<TAB>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>']
+let g:ycm_key_list_stop_completion = ['<Enter>']
 
 " Hmmm setting up YCM for python...
 let g:ycm_python_interpreter_path = ''
@@ -229,7 +230,7 @@ let test#strategy = "vimterminal"
 nnoremap <silent> <leader>tr :TREPLSendLine<CR>
 vnoremap <silent> <leader>tr :TREPLSendSelection<CR>
 
-nnoremap <leader>tb :TagbarToggle<CR>
+nnoremap <leader>tb :Tagbar<CR>
 nnoremap <leader>u :UndotreeToggle<CR>
 
 if executable('rg')
@@ -241,7 +242,7 @@ nnoremap <leader>ps :Rg<SPACE>
 " Find files
 nnoremap <leader>pf :Files<CR>
 " Find tracked files
-nnoremap <leader>PF :GFiles<CR>
+nnoremap <leader>pg :GFiles<CR>
 " Make switching buffers easier
 nnoremap <Leader>b :Buffers<CR>
 " Make getting back to business easier
