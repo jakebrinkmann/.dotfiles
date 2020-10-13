@@ -125,13 +125,12 @@ function! NetrwMapping()
                 \ :call netrw#Call('NetrwRefresh', 1,
                 \                  netrw#Call('NetrwBrowseChgDir', 1, './'))<CR>
     " Left to go up the directory tree
-    nnoremap <silent><nowait><buffer> <Left>
+    nnoremap <silent><nowait><buffer> <S-Up>
                 \ :call netrw#Call('NetrwBrowseUpDir', 1)<CR>
     " Right||Enter to open a directory
-    nnoremap <silent><nowait><buffer> <Right>
+    nnoremap <silent><nowait><buffer> <S-Down>
                 \ :call netrw#LocalBrowseCheck(netrw#Call('NetrwBrowseChgDir', 1,
                 \                              netrw#Call('NetrwGetWord')))<CR>
-    nmap <silent><nowait><buffer> <CR> <Right>
     " o to create a new file
     nnoremap <silent><nowait><buffer> o
                 \ :call netrw#Call('NetrwOpenFile', 1)<CR>
