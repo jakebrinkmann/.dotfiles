@@ -49,7 +49,7 @@ alias py3=python3
 alias vimrc="vim ~/.vimrc"
 
 # Python Environments
-alias startenv='source .virtualenv/bin/activate && which python3'
+alias startenv='source .venv/bin/activate && which python3'
 alias stopenv='deactivate'
 
 # Helper aliases

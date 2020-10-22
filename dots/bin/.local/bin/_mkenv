@@ -2,7 +2,7 @@
 set -e
 
 PYTHON="${PYTHON:-python3.8}"
-PREFIX="${PREFIX:-.virtualenv}"
+PREFIX="${PREFIX:-.venv}"
 
 # Make a python virtualenv
 ${PYTHON} -m venv ${PREFIX}
@@ -12,7 +12,7 @@ ${PREFIX}/bin/${PYTHON} -m \
     pip install \
       pip-tools \
       pylint \
-      "pytest<5.4.0" \
+      pytest \
       black \
       flake8 \
       isort \

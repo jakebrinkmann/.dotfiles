@@ -73,6 +73,8 @@ inoremap <c-z> <Esc>:w<CR>a
 nnoremap <silent> <leader>n :vnew<CR>
 " Show only this window
 nnoremap <silent> <leader>o :only<CR>
+" Veritcal Split
+nnoremap <silent> <leader>v :vsplit<CR>
 " Make a new tab
 nnoremap <silent> <C-n> :tabnew<CR>
 " Cycle to open tabs

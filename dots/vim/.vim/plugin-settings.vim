@@ -210,7 +210,7 @@ nnoremap <silent> <leader>gt :YcmCompleter GoTo<CR>
 let g:python_highlight_all = 1
 " allow for local virtualenvs
 let g:virtualenv_directory = $PWD
-nnoremap <leader>tv :VirtualEnvActivate .virtualenv<CR>
+nnoremap <leader>tv :VirtualEnvActivate .venv<CR>
 nnoremap <leader>te :Dotenv .env<CR>
 " force vim-test to use pytest
 let test#python#runner = 'pytest'
@@ -299,7 +299,7 @@ tnoremap <leader>tt <C-W>:Ttoggle<CR>
 let g:neoterm_default_mod = 'botright'
 let g:neoterm_autoinsert = 1
 let g:neoterm_repl_python =
-  \ ['source .virtualenv/bin/activate', 'python']
+  \ ['source .venv/bin/activate', 'python']
 let g:neoterm_repl_command = add(g:neoterm_repl_python, '')
 
 " Pretty-print JSON
