@@ -70,11 +70,11 @@ let mapleader = "\<SPACE>"
 nnoremap <c-z> :w<CR>
 inoremap <c-z> <Esc>:w<CR>a
 " Make a new vertical split
-nnoremap <silent> <leader>n :vnew<CR>
+nnoremap <silent> <leader>vn :vnew<CR>
 " Show only this window
-nnoremap <silent> <leader>o :only<CR>
+nnoremap <silent> <leader>vo :only<CR>
 " Veritcal Split
-nnoremap <silent> <leader>v :vsplit<CR>
+nnoremap <silent> <leader>vs :vsplit<CR>
 " Make a new tab
 nnoremap <silent> <C-n> :tabnew<CR>
 " Cycle to open tabs
@@ -84,9 +84,6 @@ nnoremap <silent> <leader><Right> gt
 nnoremap <leader>s :setlocal spell! spelllang=en_us<CR>
 " Launch netrw in a little sidebar
 nnoremap <leader>pv :wincmd v<bar> :Explore <bar> :wincmd r <bar> :vertical resize 30<CR>
-" Edit and source WITH RICE
-nnoremap <leader>ve :vsplit $MYVIMRC<cr>
-nnoremap <leader>vs :source $MYVIMRC<cr>
 " \\ -- open last buffer
 nnoremap <Leader><Leader> <C-^>
 " \e -- edit file, starting in same directory as current file
