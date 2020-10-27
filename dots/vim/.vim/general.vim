@@ -132,8 +132,6 @@ augroup fancy_files
   " Turn off display in QuickFixes
   autocmd FileType qf setlocal nonumber colorcolumn=
   autocmd FileType neoterm setlocal nonumber colorcolumn= nolist
-  " Wrap long line even if the initial line is longer than textwidth.
-  autocmd FileType * setlocal formatoptions-=b formatoptions-=l
   " Spaces instead of Tabs to take over da world
   autocmd FileType * setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab smartindent
   autocmd FileType yaml setlocal autoindent cursorcolumn

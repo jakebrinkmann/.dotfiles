@@ -39,7 +39,6 @@ set synmaxcol=512
 " Set the text width to 88 and create a vertical bar in 89th column. Some
 " filetypes such as gitcommit have a custom width defined and we use autocmd
 " here so our textwidth value takes precedence.
-autocmd FileType * setlocal textwidth=88
 set colorcolumn=89
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
