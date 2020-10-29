@@ -13,10 +13,10 @@ set hlsearch
 set incsearch
 " always show the status bar
 set laststatus=2
-" configure termial title to look like: .vimrc (~) [+]
-set title
-set titlestring=%t%(\ (%{expand(\"%:~:.:h\")})%)%(\ %a%r%m%)
-set titlelen=70
+" " configure termial title to look like: .vimrc (~) [+]
+" set title
+" set titlestring=%t%(\ (%{expand(\"%:~:.:h\")})%)%(\ %a%r%m%)
+" set titlelen=70
 " enable 256 colors
 set t_Co=256
 set t_ut=
