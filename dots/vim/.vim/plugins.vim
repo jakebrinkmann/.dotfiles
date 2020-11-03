@@ -29,7 +29,8 @@ Plug 'tpope/vim-dotenv'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer', 'for': ['python', 'javascript']}
+Plug 'vim-scripts/dbext.vim'
 Plug 'vim-test/vim-test'
 Plug 'vim-utils/vim-man'
 call plug#end()

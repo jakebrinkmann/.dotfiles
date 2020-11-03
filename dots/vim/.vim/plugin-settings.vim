@@ -296,6 +296,7 @@ tnoremap <silent> <C-l> <C-W>l<CR>
 " NeoTERM REPLs
 nnoremap <leader>tt :Ttoggle<CR>
 tnoremap <leader>tt <C-W>:Ttoggle<CR>
+tnoremap <Leader><Leader> <C-W>:Tnext<CR>
 let g:neoterm_default_mod = 'botright'
 let g:neoterm_autoinsert = 1
 let g:neoterm_repl_python =
