@@ -226,8 +226,6 @@ nmap <silent> <leader>ts :TestSuite<CR>
 nmap <silent> <leader>tl :TestLast<CR>
 nmap <silent> <leader>tg :TestVisit<CR>
 let test#strategy = "vimterminal"
-nnoremap <silent> <leader>tr :TREPLSendLine<CR>
-vnoremap <silent> <leader>tr :TREPLSendSelection<CR>
 
 nnoremap <leader>tb :Tagbar<CR>
 nnoremap <leader>u :UndotreeToggle<CR>
@@ -297,11 +295,14 @@ tnoremap <silent> <C-l> <C-W>l<CR>
 nnoremap <leader>tt :Ttoggle<CR>
 tnoremap <leader>tt <C-W>:Ttoggle<CR>
 tnoremap <Leader><Leader> <C-W>:Tnext<CR>
+nnoremap <silent> <leader>tr :TREPLSendLine<CR>
+vnoremap <silent> <leader>tr :TREPLSendSelection<CR>
 let g:neoterm_default_mod = 'botright'
 let g:neoterm_autoinsert = 1
-let g:neoterm_repl_python =
-  \ ['source .venv/bin/activate', 'python']
-let g:neoterm_repl_command = add(g:neoterm_repl_python, '')
+" let g:neoterm_repl_python =
+"   \ ['source .venv/bin/activate', 'python']
+" let g:neoterm_repl_command = add(g:neoterm_repl_python, '')
+let g:neoterm_auto_repl_cmd = 0
 
 " Pretty-print JSON
 nnoremap =j :%!python3 -m json.tool<CR>
