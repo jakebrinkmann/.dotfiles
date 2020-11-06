@@ -46,9 +46,11 @@ alias emacs="emacs -nw"
 alias g=git
 alias gti=git
 alias v=vim
+alias vm=vim
 alias p=python3
 alias python=python3
 alias vimrc="vim ~/.vimrc"
+alias q=logout
 
 # Python Environments
 alias startenv='source .venv/bin/activate && which python3'
