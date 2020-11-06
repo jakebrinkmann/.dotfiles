@@ -44,8 +44,10 @@ alias emacs="emacs -nw"
 
 # Quick Development Shortcuts
 alias g=git
+alias gti=git
 alias v=vim
-alias py3=python3
+alias p=python3
+alias python=python3
 alias vimrc="vim ~/.vimrc"
 
 # Python Environments
