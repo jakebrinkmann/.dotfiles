@@ -91,6 +91,16 @@ nnoremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 " \w -- Easy save
 nnoremap <Leader>w :w<CR>
 
+" \p -- Toggle insert mode
+function! TogglePaste()
+    if(&paste == 0)
+        set paste
+    else
+        set nopaste
+    endif
+endfunction
+nnoremap <silent> <Leader>pp :call TogglePaste()<cr>
+
 augroup python_snippets
   autocmd!
   autocmd FileType python
