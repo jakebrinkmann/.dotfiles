@@ -164,10 +164,11 @@ let g:ale_linters = {
 let g:ale_fixers = {
     \'*': ['remove_trailing_lines', 'trim_whitespace'],
     \'python': ['black', 'isort'],
-    \'javascript': ['eslint'],
+    \'javascript': ['eslint', 'prettier'],
     \'css': ['eslint']
 \}
 let g:ale_python_isort_options = '--multi-line=3 --trailing-comma --use-parentheses --line-width=88'
+let g:ale_javascript_prettier_options = '--single-quote --print-width 120'
 " Only run linters when specified
 let g:ale_linters_explicit = 1
 let g:ale_set_loclist = 0
