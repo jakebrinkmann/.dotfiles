@@ -7,7 +7,18 @@ h() { grep -a "$1" "${HOME}/.bash_eternal_history"; }
 pyclean() { find . | grep -E "(__pycache__|pytest_cache|\.pyc|\.pyo$)" | xargs rm -rf; }
 
 # Search files
-search() { find . -type f -not -ipath "*python*" -not -ipath "*node_modules*"  -not -ipath "*aws-sam*" -not -ipath "*tests*" -not -ipath "*.git*" -exec grep --color=always $@ {} /dev/null \; ;}
+search() {
+  find . -type f \
+    -not -ipath "*python*" \
+    -not -ipath "*node_modules*" \
+    -not -ipath "*aws-sam*" \
+    -not -ipath "*tests*" \
+    -not -ipath "*.venv*" \
+    -not -ipath "*.git*" \
+    -printf "%T@ %Td-%Tb-%TY %Tk:%Tm %p\n" \
+    | sort -rn | tr -s ' ' | cut -d " " -f 4- |
+    xargs -I % grep -i --color=always $@ % /dev/null
+}
 
 # Run newman using docker
 __newman() {
