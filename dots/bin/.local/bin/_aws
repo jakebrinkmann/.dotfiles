@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 # List currently running EC2 instances, currently billed charges
-running() { 
+running() {
     AWS_INSTANCE=$(aws ec2 describe-instances \
             --filters "Name=instance-state-name,Values=running" \
             --query "Reservations[0].Instances[0].InstanceId" \
             --output text) \
-        && echo $AWS_INSTANCE; 
-} 
+        && echo $AWS_INSTANCE;
+}
 # List EC2 instances available to be started
-not-running() { 
+not-running() {
     AWS_INSTANCE=$(aws ec2 describe-instances \
             --filters "Name=instance-state-name,Values=stopped" \
             --query "Reservations[0].Instances[0].InstanceId" \
             --output text) \
-        && echo $AWS_INSTANCE; 
-} 
+        && echo $AWS_INSTANCE;
+}
 # Check status of EC2 instance
 _status() {
     if [ -z "$AWS_INSTANCE" ]; then echo "Missing AWS_INSTANCE!" && false; fi \
@@ -22,35 +22,35 @@ _status() {
         && echo $AWS_INSTANCE;
 }
 # Start a stopped EC2 instance
-_start() { 
+_start() {
     if [ -z "$AWS_INSTANCE" ]; then not-running; fi \
         && aws ec2 start-instances --instance-ids $AWS_INSTANCE \
-        && echo $AWS_INSTANCE; 
+        && echo $AWS_INSTANCE;
 }
 # Reboot running EC2 instance
-_restart() { 
+_restart() {
     if [ -z "$AWS_INSTANCE" ]; then running; fi \
     && aws ec2 reboot-instances --instance-ids $AWS_INSTANCE \
-        && echo $AWS_INSTANCE; 
+        && echo $AWS_INSTANCE;
 }
 # Get the Public IP Address of running EC2 instance
-host() { 
+host() {
     export AWS_HOST=$(aws ec2 describe-instances \
             --instance-ids $AWS_INSTANCE \
             --query 'Reservations[0].Instances[0].PublicIpAddress' \
             --output text) \
-        && echo $AWS_HOST; 
-} 
+        && echo $AWS_HOST;
+}
 # Used to turn off EC2 instance, to stop billing charges
-_stop() { 
+_stop() {
     if [ -z "$AWS_INSTANCE" ]; then running; fi \
     && aws ec2 stop-instances --instance-ids $AWS_INSTANCE \
-        && echo $AWS_INSTANCE; 
-} 
+        && echo $AWS_INSTANCE;
+}
 # Uses security group with SSH over TCP on Port 22
-_ssh() { 
+_ssh() {
     host \
-        && ssh -i "$AWS_SSH_KEYPAIR" ec2-user@$AWS_HOST; 
+        && ssh -i "$AWS_SSH_KEYPAIR" ec2-user@$AWS_HOST;
 }
 # Custom security group for TCP on Port 8080
 _curl() {
@@ -58,38 +58,51 @@ _curl() {
         && curl "$AWS_HOST:8080";
 }
 
+# Connect to RDS via SSH tunnel
+# /etc/ssh/sshd_config needs AllowTcpForwarding yes PermitOpen any PermitTunnel yes
+# sudo systemctl restart sshd.service
+# sudo service sshd restart
+_psql() {
+    host \
+        && ssh -nN -L "5432:$PGHOST:5432" -i "$AWS_SSH_KEYPAIR" ec2-user@$AWS_HOST;
+    # ssh -N -L localPort:rdsHost:remotePort -i ~/path/to/key user@remoteHost
+}
+
 main() {
-	cmd=$1;
-	case $cmd in
-		running)
-			running
-			;;
-		not-running)
-			not-running
-			;;
-		status)
-			_status
-			;;
-		start)
-			_start
-			;;
-		restart)
-			_restart
-			;;
-		stop)
-			_stop
-			;;
-		ssh)
-			_ssh
-			;;
-		curl)
-			_curl
-			;;
-		*)
-                        echo "Usage:"
-                        echo "	_aws {running,not-running,status,start,restart,stop,ssh,curl}"
-			;;
-	esac
+    cmd=$1;
+    case $cmd in
+        running)
+            running
+            ;;
+        not-running)
+            not-running
+            ;;
+        status)
+            _status
+            ;;
+        start)
+            _start
+            ;;
+        restart)
+            _restart
+            ;;
+        stop)
+            _stop
+            ;;
+        ssh)
+            _ssh
+            ;;
+        curl)
+            _curl
+            ;;
+        psql)
+            _psql
+            ;;
+        *)
+            echo "Usage:"
+            echo "    _aws {running,not-running,status,start,restart,stop,ssh,curl,psql}"
+            ;;
+    esac
 }
 
 main "$@"
