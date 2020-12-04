@@ -160,6 +160,8 @@
   brat = "!git for-each-ref --color --sort='-committerdate' --format='%(color:green)%(committerdate:relative)%09%(color:yellow)%(refname)%09%(color:reset) %(subject)' refs/heads | sed -e 's-refs/heads/--'"
   # Checkout from development
   devb = checkout origin/development -b
+  # Reset development
+  dev = checkout origin/development -B development
   # Create a ref with "archive" prefix: git rem <branch name>
   # (hidden from branch/log/tag but still in log --all)
   archive-ref = "!git update-ref refs/archive/$(date '+%Y%m%d-%s')"
