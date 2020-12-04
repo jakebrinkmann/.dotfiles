@@ -90,6 +90,8 @@ nnoremap <Leader><Leader> <C-^>
 nnoremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 " \w -- Easy save
 nnoremap <Leader>w :w<CR>
+" * -- Search for selected text
+vnoremap * y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 " \p -- Toggle insert mode
 function! TogglePaste()
