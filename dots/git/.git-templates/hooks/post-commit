@@ -1,5 +1,5 @@
 #!/bin/sh
-# If you didn't change the CHANGELOG, this script will :) 
+# If you didn't change the CHANGELOG, this script will remind you :)
 
 # destination of the final changelog file
 OUTPUT_FILE=CHANGELOG.md
@@ -11,10 +11,8 @@ fi
 
 res=$(git show --stat --name-only | grep -c $OUTPUT_FILE)
 if [ "$res" -lt 1 ]; then
-  # generate the changelog
-  OUTPUT=$(git --no-pager log --no-merges --format="- **%aN** %s" -n 1)
-  echo "${OUTPUT}
-$(cat ${OUTPUT_FILE})" > $OUTPUT_FILE
-  echo "Populated Changelog in $OUTPUT_FILE"
+    OUTPUT=$(git --no-pager log --no-merges --format="- **%aN** %s" -n 1)
+    echo "!!!!!!!!!! Did not find an entry in the Changelog ($OUTPUT_FILE) !!!!!!!!!!"
+    echo $OUTPUT
+    echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 fi
-
