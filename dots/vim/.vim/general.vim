@@ -39,7 +39,7 @@ set backspace=indent,eol,start
 " code folding (:help folds)
 set foldenable
 set foldmethod=indent
-set foldlevelstart=1
+set foldlevelstart=2
 set foldnestmax=10
 " set foldcolumn=1
 " allow hidding unsaved buffers
