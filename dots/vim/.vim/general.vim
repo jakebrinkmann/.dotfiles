@@ -39,8 +39,8 @@ set backspace=indent,eol,start
 " code folding (:help folds)
 set foldenable
 set foldmethod=indent
-set foldlevelstart=1
-set foldnestmax=1
+set foldlevel=2
+set foldnestmax=10
 " set foldcolumn=1
 " allow hidding unsaved buffers
 set hidden
@@ -85,7 +85,9 @@ nnoremap <leader>s :setlocal spell! spelllang=en_us<CR>
 " Launch netrw in a little sidebar
 nnoremap <leader>pv :wincmd v<bar> :Explore <bar> :wincmd r <bar> :vertical resize 30<CR>
 " \\ -- open last buffer
-nnoremap <Leader><Leader> <C-^>
+nnoremap \\ <C-^>
+" \r -- read file, starting in same directory as current file
+nnoremap <Leader>r :r <C-R>=expand("%:p:h") . "/" <CR>
 " \e -- edit file, starting in same directory as current file
 nnoremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 " \w -- Easy save

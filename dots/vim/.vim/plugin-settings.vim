@@ -295,7 +295,7 @@ tnoremap <silent> <C-l> <C-W>l<CR>
 " NeoTERM REPLs
 nnoremap <leader>tt :Ttoggle<CR>
 tnoremap <leader>tt <C-W>:Ttoggle<CR>
-tnoremap <Leader><Leader> <C-W>:Tnext<CR>
+tnoremap \\ <C-W>:Tnext<CR>
 nnoremap <silent> <leader>tr :TREPLSendLine<CR>
 vnoremap <silent> <leader>tr :TREPLSendSelection<CR>
 let g:neoterm_default_mod = 'botright'
