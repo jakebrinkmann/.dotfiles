@@ -104,6 +104,8 @@
   lg-parent = "!git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author-date-order $(git rev-list --min-parents=2 --max-count=1 remotes/$(git name-rev --name-only HEAD))^..HEAD"
   # Gerrit: Fetch a pull-request as a new branch
   pr = "!f() { git fetch origin refs/pull/$1/head:pr/$1; } ; f"
+  # GitLab: Fetch a pull-request as a new branch
+  pr = "!f() { git fetch origin $1 && git checkout origin/$1 -b pr-$1; }; f"
   # Gerrit: Clean up pull-request branches
   pr-clean = "!git for-each-ref refs/heads/pr/* --format='%(refname)' | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done"
   # Log all and decorate with branches
