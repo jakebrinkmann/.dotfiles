@@ -78,8 +78,8 @@ nnoremap <silent> <leader>vs :vsplit<CR>
 " Make a new tab
 nnoremap <silent> <C-n> :tabnew<CR>
 " Cycle to open tabs
-nnoremap <silent> <leader><Left> gT
-nnoremap <silent> <leader><Right> gt
+nnoremap <silent> \<Left> gT
+nnoremap <silent> \<Right> gt
 " Toggle Spellchecking
 nnoremap <leader>s :setlocal spell! spelllang=en_us<CR>
 " Launch netrw in a little sidebar
