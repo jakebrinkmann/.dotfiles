@@ -40,7 +40,9 @@ set backspace=indent,eol,start
 set foldenable
 set foldmethod=indent
 set foldlevelstart=1
-set foldnestmax=1
+set foldnestmax=20
+" set foldopen=all
+" set foldclose=all
 " set foldcolumn=1
 " allow hidding unsaved buffers
 set hidden

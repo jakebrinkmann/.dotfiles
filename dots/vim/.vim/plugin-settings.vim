@@ -6,6 +6,10 @@ endtry
 set background=dark
 set noshowmode
 
+" Highlight spelling mistakes
+hi clear SpellBad
+hi SpellBad ctermfg=Red
+
 " ======================================================================================
 " ┏━┓╺┳╸┏━┓╺┳╸╻ ╻┏━┓╻  ╻┏┓╻┏━╸
 " ┗━┓ ┃ ┣━┫ ┃ ┃ ┃┗━┓┃  ┃┃┗┫┣╸
@@ -165,6 +169,7 @@ let g:ale_fixers = {
     \'*': ['remove_trailing_lines', 'trim_whitespace'],
     \'python': ['black', 'isort'],
     \'javascript': ['eslint', 'prettier'],
+    \'json': ['prettier'],
     \'css': ['eslint']
 \}
 let g:ale_python_isort_options = '--multi-line=3 --trailing-comma --use-parentheses --line-width=88'

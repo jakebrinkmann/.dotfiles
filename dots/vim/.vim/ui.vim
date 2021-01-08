@@ -46,10 +46,6 @@ highlight ColorColumn ctermbg=0 guibg=lightgrey
 " Trailing whitespace is an ERROR
 match Error /\s\+$/
 
-" Try to highlight spelling mistakes
-hi clear SpellBad
-hi SpellBad ctermfg=NONE ctermbg=NONE cterm=underline
-
 " Show dots for spaces (listchars)
 set list
 set listchars=eol:↵,tab:▸\ ,trail:★,precedes:←,extends:→,space:·
