@@ -39,7 +39,7 @@ set backspace=indent,eol,start
 " code folding (:help folds)
 set foldenable
 set foldmethod=indent
-set foldlevelstart=1
+set foldlevelstart=20
 set foldnestmax=20
 " set foldopen=all
 " set foldclose=all
