@@ -277,10 +277,11 @@ highlight GitGutterChangeDelete ctermfg=red
 
 " Fugitive Mappings
 nnoremap <leader>gc :Gcommit<CR>
-nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gs :Git<CR>
 nnoremap <leader>gf :Gfetch<CR>
 nnoremap <leader>gh :Ghdiffsplit<CR>
 nnoremap <leader>gd :Gdiff<CR>
+nnoremap <leader>gn :Git difftool --name-status origin/development<CR>
 nnoremap <leader>gb :Gblame<CR>
 nnoremap <leader>go :diffget<SPACE>
 nnoremap <leader>gp :diffput<SPACE>
