@@ -16,6 +16,9 @@ COMMON_PKGS="
     bat
     fd-find
     stow
+    zip
+    gzip
+    tar
 "
 
 # All must be run as root
