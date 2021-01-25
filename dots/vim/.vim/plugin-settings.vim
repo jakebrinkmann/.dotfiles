@@ -241,7 +241,7 @@ if executable('rg')
 endif
 
 " Search the project
-nnoremap <leader>ps :Rg<SPACE>
+nnoremap <leader>ps :Rg -g "*"<SPACE>
 " Find files
 nnoremap <leader>pf :Files<CR>
 " Find tracked files
