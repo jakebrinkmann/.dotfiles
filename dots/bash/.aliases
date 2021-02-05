@@ -52,6 +52,9 @@ alias python=python3
 alias vimrc="vim ~/.vimrc"
 alias q=logout
 
+# more wholesome experience
+alias please=sudo
+
 # Pulse Secure VPN
 alias _vpn='sudo ip link set dev eth0 mtu 1400'
 
