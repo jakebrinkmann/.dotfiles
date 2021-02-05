@@ -22,3 +22,12 @@ sudo npm install -g \
 echo "AWS Version: $(aws --version)"
 echo "AWS SAM Version: $(sam --version)"
 echo "CloudFormation Linter: $(cfn-lint --version)"
+
+if [ -n "$(type yum 2>/dev/null)" ]; then       ## CentOS/Fedora ##
+  curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm" -o "session-manager-plugin.rpm"
+  sudo yum install -y session-manager-plugin.rpm
+
+elif [ -n "$(type dpkg 2>/dev/null)" ]; then ## Debian/Ubuntu ##
+  curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "session-manager-plugin.deb"
+  sudo dpkg -i session-manager-plugin.deb
+fi

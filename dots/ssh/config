@@ -1,5 +1,11 @@
 # SSH config file (~/.ssh/config)
 
+# EC2 Bastion using SSM
+host i-* mi-*
+     IdentityFile ~/.ssh/id_rsa
+     ProxyCommand ~/.ssh/aws-ssm-ec2-proxy-command.sh %h %r %p ~/.ssh/id_rsa.pub
+     StrictHostKeyChecking no
+
 # Trusted Private LAN connections
 Host 192.168.*.*
     # Enable permissions forwarding

@@ -33,29 +33,24 @@ _restart() {
     && aws ec2 reboot-instances --instance-ids $AWS_INSTANCE \
         && echo $AWS_INSTANCE;
 }
-# Get the Public IP Address of running EC2 instance
-host() {
-    export AWS_HOST=$(aws ec2 describe-instances \
-            --instance-ids $AWS_INSTANCE \
-            --query 'Reservations[0].Instances[0].PublicIpAddress' \
-            --output text) \
-        && echo $AWS_HOST;
-}
 # Used to turn off EC2 instance, to stop billing charges
 _stop() {
     if [ -z "$AWS_INSTANCE" ]; then running; fi \
     && aws ec2 stop-instances --instance-ids $AWS_INSTANCE \
         && echo $AWS_INSTANCE;
 }
-# Uses security group with SSH over TCP on Port 22
+# Get hostname of ec2 bastion host
+host() {
+    export AWS_HOST=$(aws ec2 describe-instances \
+        --filters "Name=tag:Name,Values=Bastion" \
+        --query 'Reservations[*].Instances[*].{Instance:InstanceId}' \
+        --output text) \
+        && echo $AWS_HOST;
+}
+# SSH via AWS SSM without any ssh port in you security groups
 _ssh() {
     host \
-        && ssh -i "$AWS_SSH_KEYPAIR" ec2-user@$AWS_HOST;
-}
-# Custom security group for TCP on Port 8080
-_curl() {
-    host \
-        && curl "$AWS_HOST:8080";
+        && ssh ssm-user@$ec2_instance_id;
 }
 
 # Connect to RDS via SSH tunnel
@@ -64,7 +59,7 @@ _curl() {
 # sudo service sshd restart
 _psql() {
     host \
-        && ssh -nN -L "5432:$PGHOST:5432" -i "$AWS_SSH_KEYPAIR" ec2-user@$AWS_HOST;
+        && ssh -nN -L "5432:$PGHOST:5432" ssm-user@$ec2_instance_id;
     # ssh -N -L localPort:rdsHost:remotePort -i ~/path/to/key user@remoteHost
 }
 
