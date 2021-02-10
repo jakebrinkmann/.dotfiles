@@ -1,10 +1,15 @@
 #!/bin/bash
+if (sudo -nv 2>&1); then
+  sudo="sudo"
+else
+  sudo=""
+fi
 
 # Find things in internal history
 h() { grep -a "$1" "${HOME}/.bash_eternal_history"; }
 
 # Delete python leftovers
-pyclean() { find . | grep -E "(__pycache__|pytest_cache|\.pyc|\.pyo$)" | xargs rm -rf; }
+pyclean() { find . | grep -E "(__pycache__|pytest_cache|\.pyc|\.pyo$)" | xargs $sudo rm -rf; }
 
 # Search files
 search() {
