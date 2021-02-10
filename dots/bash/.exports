@@ -36,3 +36,9 @@ export NODE_INSPECT_RESUME_ON_START=1
 export FZF_DEFAULT_OPTS='--no-mouse --bind '\
 'shift-up:preview-up,shift-down:preview-down,'\
 'page-up:preview-page-up,page-down:preview-page-down'
+
+# This is sometimes useful, consider also ~/.pg_service.conf
+export PGHOST=127.0.0.1
+export PGUSER=
+export PGDATABASE=
+export PGPASSWORD=
