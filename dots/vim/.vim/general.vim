@@ -68,6 +68,8 @@ set nrformats+=alpha nrformats-=octal
 " SpaceVIM! SpaceMACS!
 let mapleader = "\<SPACE>"
 
+" gf to edit files, too
+nnoremap gf :e <cfile><CR>
 " Ctrl+Z to save
 nnoremap <c-z> :w<CR>
 inoremap <c-z> <Esc>:w<CR>a
