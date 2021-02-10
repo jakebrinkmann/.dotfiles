@@ -156,3 +156,8 @@ augroup fancy_files
   " Highlight commit message overflow
   autocmd FileType gitcommit setlocal textwidth=72
 augroup end
+
+augroup AutoMkdir
+  autocmd!
+  autocmd BufWritePre * call mkdir(expand("<afile>:p:h"), "p")
+augroup END
