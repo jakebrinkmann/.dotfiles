@@ -50,7 +50,7 @@ host() {
 # SSH via AWS SSM without any ssh port in you security groups
 _ssh() {
     host \
-        && ssh ssm-user@$ec2_instance_id;
+        && ssh ssm-user@$AWS_HOST;
 }
 
 # Connect to RDS via SSH tunnel
@@ -59,7 +59,7 @@ _ssh() {
 # sudo service sshd restart
 _psql() {
     host \
-        && ssh -nN -L "5432:$PGHOST:5432" ssm-user@$ec2_instance_id;
+        && ssh -nN -L "5432:$PGHOST:5432" ssm-user@$AWS_HOST;
     # ssh -N -L localPort:rdsHost:remotePort -i ~/path/to/key user@remoteHost
 }
 
