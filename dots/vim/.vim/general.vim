@@ -70,6 +70,8 @@ let mapleader = "\<SPACE>"
 
 " gf to edit files, too
 nnoremap gf :e <cfile><CR>
+" Shift-G shows full path
+nnoremap G :echo expand('%:p')<CR>
 " Ctrl+Z to save
 nnoremap <c-z> :w<CR>
 inoremap <c-z> <Esc>:w<CR>a
