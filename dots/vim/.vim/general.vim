@@ -38,7 +38,8 @@ set wildignore+=*.swp,.lock,.DS_Store,._*
 set backspace=indent,eol,start
 " code folding (:help folds)
 set foldenable
-set foldmethod=indent
+set foldmethod=manual
+" Visual: <z><f> to make a fold
 set foldlevelstart=20
 set foldnestmax=20
 " set foldopen=all
@@ -87,7 +88,7 @@ nnoremap <silent> <C-n> :tabnew<CR>
 nnoremap <silent> \<Left> gT
 nnoremap <silent> \<Right> gt
 " Toggle Spellchecking
-nnoremap <leader>s :setlocal spell! spelllang=en_us<CR>
+nnoremap <leader>ss :setlocal spell! spelllang=en_us<CR>
 " Launch netrw in a little sidebar
 nnoremap <leader>pv :wincmd v<bar> :Explore <bar> :wincmd r <bar> :vertical resize 30<CR>
 " \\ -- open last buffer
@@ -96,8 +97,13 @@ nnoremap \\ <C-^>
 nnoremap <Leader>r :r <C-R>=expand("%:p:h") . "/" <CR>
 " \e -- edit file, starting in same directory as current file
 nnoremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+" \sa -- saveas file, starting in same directory as current file
+nnoremap <Leader>sa :saveas <C-R>=expand("%:p:h") . "/" <CR>
 " \w -- Easy save
 nnoremap <Leader>w :w<CR>
+
+" \t -- insert ISO timestamp
+vnoremap <Leader>t c<C-R>=strftime("%FT%T%z")<CR><ESC>
 " * -- Search for selected text
 vnoremap * y/\V<C-R>=escape(@",'/\')<CR><CR>
 
