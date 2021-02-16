@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+_validate() {
+    sam validate --template template.yaml;
+}
+
+_build() {
+    sam build --template template.yaml;
+}
+
+_package() {
+    sam package --output-template-file packaged.yaml \
+        --s3-bucket $CFN_S3 --force-upload
+}
+
+_deploy() {
+    sam deploy --template-file packaged.yaml \
+        --capabilities CAPABILITY_NAMED_IAM --stack-name $CFN_STACK_NAME \
+        --tags StackName=$CFN_STACK_NAME --no-confirm-changeset
+}
+
+main() {
+    cmd=$1;
+    case $cmd in
+        validate)
+            _validate
+            ;;
+        build)
+            _build
+            ;;
+        package)
+            _package
+            ;;
+        deploy)
+            _deploy
+            ;;
+        *)
+            echo "Usage:"
+            echo "    _sam {validate,build,package,deploy}"
+            ;;
+    esac
+}
+
+main "$@"
