@@ -173,7 +173,9 @@ let g:ale_fixers = {
     \'json': ['prettier'],
     \'css': ['eslint']
 \}
-let g:ale_python_isort_options = '--multi-line=3 --trailing-comma --use-parentheses --line-width=88'
+let g:ale_python_isort_options = '--multi-line=3 --trailing-comma --use-parentheses --line-width=120'
+let g:ale_python_black_options = '--line-length=120'
+let g:ale_python_flake8_options = '--max-line-length 120'
 let g:ale_javascript_prettier_options = '--single-quote --print-width 120'
 " Only run linters when specified
 let g:ale_linters_explicit = 1
