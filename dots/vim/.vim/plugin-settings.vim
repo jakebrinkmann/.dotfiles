@@ -238,6 +238,7 @@ let test#strategy = "vimterminal"
 
 nnoremap <leader>tb :Tagbar<CR>
 nnoremap <leader>u :UndotreeToggle<CR>
+nnoremap <leader>mr :MRU<CR>
 
 if executable('rg')
     let g:rg_derive_root = 'true'

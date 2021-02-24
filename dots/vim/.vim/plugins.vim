@@ -34,6 +34,7 @@ Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer', 'for': ['p
 Plug 'vim-scripts/dbext.vim'
 Plug 'vim-test/vim-test'
 Plug 'vim-utils/vim-man'
+Plug 'yegappan/mru'
 call plug#end()
 " }}}
 
