@@ -113,12 +113,14 @@ let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 let g:netrw_hide = 1
 " directory banner is mostly useless
 let g:netrw_banner = 0
-" tree list view
+" tree list view (0: thin, 1: info, 2: columns, 3: tree)
 let g:netrw_liststyle = 3
 " open files in current pane
 let g:netrw_browse_split = 0
 " width of the directory explorer
 let g:netrw_winsize = 25
+" Sort files by date
+let g:netrw_sort_by= "time"
 
 " Netrw comes with lots of mappings that can lead to unintentional, accidental
 " changes. We will unmap everything and map only the functions that we need.
