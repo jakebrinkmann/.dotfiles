@@ -246,8 +246,8 @@ if executable('rg')
     let g:rg_derive_root = 'true'
 endif
 
-" Search the project
-nnoremap <leader>ps :Rg -g "*"<SPACE>
+" Search the project (globs: -g "folder/**.yaml")
+nnoremap <leader>ps :Rg<SPACE>
 " Find files
 nnoremap <leader>pf :Files<CR>
 " Find tracked files
