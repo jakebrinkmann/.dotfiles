@@ -63,6 +63,12 @@ _psql() {
     # ssh -N -L localPort:rdsHost:remotePort -i ~/path/to/key user@remoteHost
 }
 
+# Transfer a file from the SSM session
+_scp() {
+    host \
+        && scp ssm-user@$AWS_HOST:$1 .;
+}
+
 main() {
     cmd=$1;
     case $cmd in
@@ -92,6 +98,9 @@ main() {
             ;;
         psql)
             _psql
+            ;;
+        scp)
+            _scp "${@:2}"
             ;;
         *)
             echo "Usage:"
