@@ -42,7 +42,7 @@ _stop() {
 # Get hostname of ec2 bastion host
 host() {
     export AWS_HOST=$(aws ec2 describe-instances \
-        --filters "Name=tag:Name,Values=Bastion" \
+        --filters "Name=tag:Name,Values=Ubuntu Bastion" \
         --query 'Reservations[*].Instances[*].{Instance:InstanceId}' \
         --output text) \
         && echo $AWS_HOST;

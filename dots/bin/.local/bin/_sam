@@ -19,6 +19,10 @@ _deploy() {
         --tags StackName=$CFN_STACK_NAME --no-confirm-changeset
 }
 
+_all() {
+    _validate && _build && _package && _deploy;
+}
+
 main() {
     cmd=$1;
     case $cmd in
@@ -33,6 +37,9 @@ main() {
             ;;
         deploy)
             _deploy
+            ;;
+        all)
+            _all
             ;;
         *)
             echo "Usage:"
