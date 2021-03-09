@@ -54,6 +54,7 @@ alias q=logout
 
 # more wholesome experience
 alias please=sudo
+alias lick=touch
 
 # Pulse Secure VPN
 alias _vpn='sudo ip link set dev eth0 mtu 1400'
