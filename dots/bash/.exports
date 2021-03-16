@@ -42,3 +42,7 @@ export PGHOST=127.0.0.1
 export PGUSER=
 export PGDATABASE=
 export PGPASSWORD=
+
+# AWS_DEFAULT_REGION=us-east-1
+# AWS_DEFAULT_OUTPUT=json
+# AWS_PROFILE=default
