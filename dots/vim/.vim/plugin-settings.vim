@@ -170,13 +170,13 @@ let g:ale_linters = {
 " max-line-length=88
 let g:ale_fixers = {
     \'*': ['remove_trailing_lines', 'trim_whitespace'],
-    \'python': ['black', 'isort'],
+    \'python': ['black'],
     \'javascript': ['eslint', 'prettier'],
     \'html': ['prettier'],
     \'json': ['prettier'],
     \'css': ['eslint']
 \}
-let g:ale_python_isort_options = '--multi-line=3 --trailing-comma --use-parentheses --line-width=120'
+" let g:ale_python_isort_options = '--sp ~/.isort.cfg'
 let g:ale_python_black_options = '--line-length=120'
 let g:ale_python_flake8_options = '--max-line-length 120'
 let g:ale_javascript_prettier_options = '--single-quote --print-width 120'
