@@ -45,6 +45,7 @@ alias emacs="emacs -nw"
 # Quick Development Shortcuts
 alias g=git
 alias gti=git
+alias gi=git
 alias v=vim
 alias vm=vim
 alias p=python3

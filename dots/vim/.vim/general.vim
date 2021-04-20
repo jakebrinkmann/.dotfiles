@@ -94,11 +94,11 @@ nnoremap <leader>pv :wincmd v<bar> :Explore <bar> :wincmd r <bar> :vertical resi
 " \\ -- open last buffer
 nnoremap \\ <C-^>
 " \r -- read file, starting in same directory as current file
-nnoremap <Leader>r :r <C-R>=expand("%:p:h") . "/" <CR>
+nnoremap <Leader>r :r <C-R>=expand("%:h") . "/" <CR>
 " \e -- edit file, starting in same directory as current file
-nnoremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
-" \sa -- saveas file, starting in same directory as current file
-nnoremap <Leader>sa :saveas <C-R>=expand("%:p:h") . "/" <CR>
+nnoremap <Leader>e :e <C-R>=expand("%:h") . "/" <CR>
+" \sa -- saveas file, starting as current file
+nnoremap <Leader>sa :saveas <C-R>=expand("%") <CR>
 " \w -- Easy save
 nnoremap <Leader>w :w<CR>
 

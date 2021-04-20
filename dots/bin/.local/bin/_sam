@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+if [ -z "$CFN_S3" ]; then
+    echo "Must set \$CFN_S3";
+    exit 1;
+fi
+
+if [ -z "$CFN_STACK_NAME" ]; then
+    echo "Must set \$CFN_STACK_NAME";
+    exit 1;
+fi
+
 _validate() {
     sam validate --template template.yaml;
 }
@@ -10,13 +20,17 @@ _build() {
 
 _package() {
     sam package --output-template-file packaged.yaml \
-        --s3-bucket $CFN_S3 --force-upload
+        --s3-bucket \
+        $CFN_S3 \
+        --force-upload
 }
 
 _deploy() {
     sam deploy --template-file packaged.yaml \
-        --capabilities CAPABILITY_NAMED_IAM --stack-name $CFN_STACK_NAME \
-        --tags StackName=$CFN_STACK_NAME --no-confirm-changeset
+        --capabilities CAPABILITY_NAMED_IAM \
+        --stack-name $CFN_STACK_NAME \
+        --tags StackName=$CFN_STACK_NAME \
+        --no-confirm-changeset
 }
 
 _all() {
