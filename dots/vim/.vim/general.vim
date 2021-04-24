@@ -150,6 +150,14 @@ augroup autofancy
           \             .shellescape(join(v:event.regcontents, "\<CR>"))
           \             .' |  clip.exe') |
           \ endif
+  " copy from terminal to xclip on yank
+  elseif executable("xclip")
+    autocmd TextYankPost *
+          \ if v:event.operator ==# 'y' |
+          \ call system('echo '
+          \             .shellescape(join(v:event.regcontents, "\<CR>"))
+          \             .' |  xclip -i') |
+          \ endif
   endif
 augroup end
 
