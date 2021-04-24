@@ -1,1 +1,3 @@
 dots/aws.symlink
+dots/vim/.vim/autoload
+dots/vim/.vim/plugged
