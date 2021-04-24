@@ -57,7 +57,7 @@
   ci = commit
   co = checkout
   cm = commit -m
-  cmf = commit --no-verify -m
+  cmf = commit --allow-empty-message --no-verify -m
   # After a git reset, make a new commit with the old message
   cr = commit --reuse-message=HEAD@{1}
   # Ignore file from the staging area
