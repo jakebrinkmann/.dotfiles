@@ -2,9 +2,10 @@
 
 export HISTFILESIZE=
 export HISTSIZE=
-export HISTCONTROL=erasedups
+export HISTCONTROL=ignorespace:ignoredups:erasedups
 export HISTFILE="${HOME}/.bash_eternal_history"
 export HISTTIMEFORMAT="[%F %T] "
+export HISTIGNORE='pwd:exit:fg:bg:top:clear:history:ls:uptime:df:cd:logout'
 
 export WORKSPC="${HOME}/dev"
 export DOCKERIMAGES="${HOME}/docker"
