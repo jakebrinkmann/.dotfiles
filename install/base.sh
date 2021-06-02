@@ -35,12 +35,14 @@ if [ -n "$(type yum 2>/dev/null)" ]; then       ## CentOS/Fedora ##
     yum install --assumeyes \
         epel-release \
         which \
+        task \
         $COMMON_PKGS
 elif [ -n "$(type pacman 2>/dev/null)" ]; then   ## Arch/Manjaro ##
     # NOTE: refreshing cached repo/mirrors metadata
     pacman -Syy
     pacman -S --noconfirm \
            which \
+           task \
            $COMMON_PKGS
 elif [ -n "$(type apt-get 2>/dev/null)" ]; then ## Debian/Ubuntu ##
     # NOTE: need to refresh (not upgrade!) cache metadata
@@ -51,6 +53,7 @@ elif [ -n "$(type apt-get 2>/dev/null)" ]; then ## Debian/Ubuntu ##
             build-essential \
             software-properties-common \
             cmake \
+            taskwarrior \
             $COMMON_PKGS
     # Required to support default font displays
     # Need both locales to avoid dpkg-reconfigure
