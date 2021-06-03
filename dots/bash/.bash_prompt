@@ -8,17 +8,19 @@ fi
 
 alias GIT_BRANCH_CMD="sh -c 'git branch --no-color 2> /dev/null' | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'"
 
-if [ `task +READY +OVERDUE count` -gt "0" ]; then
-  URGENCY='█';
-elif [ `task +READY +DUETODAY count` -gt "0" ];
-  then URGENCY='♦';
-elif [ `task +READY +TOMORROW count` -gt "0" ];
-  then URGENCY='▲';
-elif [ `task +READY "urgency > 10" count` -gt "0" ];
-  then URGENCY='●';
-else
-  URGENCY='$';
-fi
+function task_indicator() {
+	if [ `task +READY +OVERDUE count` -gt "0" ]; then
+		echo '█';
+	elif [ `task +READY +DUETODAY count` -gt "0" ]; then
+		echo '♦';
+	elif [ `task +READY +TOMORROW count` -gt "0" ]; then
+		echo '▲';
+	elif [ `task +READY "urgency > 10" count` -gt "0" ]; then
+		echo '●';
+	else
+		echo '$';
+	fi
+}
 
 unset PS1
 # PS1+="\[\033]0;\h: "
@@ -29,4 +31,4 @@ PS1+="\007\]"
 # \n
 PS1+='\[\033[m\]'$PROMPTCOLORS' '
 PS1+='\[\033[33;1m\]\w\[\033[35m\] `GIT_BRANCH_CMD` \[\033[m\]\n'
-PS1+='\[\033[m\]\'$URGENCY' '
+PS1+='\[\033[m\]`task_indicator` '
