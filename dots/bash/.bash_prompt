@@ -9,14 +9,18 @@ fi
 alias GIT_BRANCH_CMD="sh -c 'git branch --no-color 2> /dev/null' | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'"
 
 function task_indicator() {
-	if [ `task +READY +OVERDUE count` -gt "0" ]; then
-		echo '█';
-	elif [ `task +READY +DUETODAY count` -gt "0" ]; then
-		echo '♦';
-	elif [ `task +READY +TOMORROW count` -gt "0" ]; then
-		echo '▲';
-	elif [ `task +READY "urgency > 10" count` -gt "0" ]; then
-		echo '●';
+	if [ -n "$(type task 2>/dev/null)" ]; then
+		if [ `task +READY +OVERDUE count` -gt "0" ]; then
+			echo '█';
+		elif [ `task +READY +DUETODAY count` -gt "0" ]; then
+			echo '♦';
+		elif [ `task +READY +TOMORROW count` -gt "0" ]; then
+			echo '▲';
+		elif [ `task +READY "urgency > 10" count` -gt "0" ]; then
+			echo '●';
+		else
+			echo '$';
+		fi
 	else
 		echo '$';
 	fi
