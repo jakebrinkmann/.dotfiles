@@ -73,3 +73,4 @@ alias dotenv='export $(cat .env | xargs)'
 
 # Task Management (TaskWarrior)
 alias t="task"
+alias bw="bugwarrior-pull"
