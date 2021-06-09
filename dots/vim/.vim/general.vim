@@ -101,6 +101,8 @@ nnoremap <Leader>e :e <C-R>=expand("%:h") . "/" <CR>
 nnoremap <Leader>sa :saveas <C-R>=expand("%") <CR>
 " \w -- Easy save
 nnoremap <Leader>w :w<CR>
+" \a -- Easy copy matches into register
+nnoremap <Leader>a :let @a="" \| g//y A <Left><Left><Left><Left><Left>
 
 " \t -- insert ISO timestamp
 vnoremap <Leader>t c<C-R>=strftime("%FT%T%z")<CR><ESC>
