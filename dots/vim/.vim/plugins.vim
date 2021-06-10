@@ -11,6 +11,7 @@ endif
 call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'dense-analysis/ale', { 'for': ['python', 'javascript', 'json'] }
+Plug 'honza/vim-snippets'
 Plug 'itchyny/lightline.vim'
 Plug 'jmcantrell/vim-virtualenv', { 'for': ['python'] }
 " Plug 'joereynolds/sql-lint', {'do': 'npm install -g sql-lint'}
@@ -25,6 +26,7 @@ Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'morhetz/gruvbox'
 Plug 'sheerun/vim-polyglot'
+Plug 'SirVer/ultisnips'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dotenv'
 Plug 'tpope/vim-fugitive'

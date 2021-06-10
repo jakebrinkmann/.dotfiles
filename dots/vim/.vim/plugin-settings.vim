@@ -193,6 +193,13 @@ let g:ycm_key_list_select_completion   = ['<TAB>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>']
 let g:ycm_key_list_stop_completion = ['<Enter>']
 
+" :UltiSnips Trigger Configuration
+let g:UltiSnipsExpandTrigger = "<c-j>"
+let g:UltiSnipsJumpForwardTrigger = "<c-j>"
+let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
+let g:UltiSnipsEditSplit = "vertical"
+let g:UltiSnipsSnippetDirectories = [ "UltiSnips" ]
+
 " Hmmm setting up YCM for python...
 let g:ycm_python_interpreter_path = ''
 let g:ycm_python_sys_path = []

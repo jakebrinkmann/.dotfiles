@@ -1,0 +1,24 @@
+snippet ex "sqlalchemy execute block" b
+with get_connection() as connection:
+    with connection.begin():
+        connection.execute(${1:stmt}${2:, items})
+endsnippet
+  
+
+snippet pt "pytest function" b
+import pytest
+
+from ${1:foo} import ${2:bar} as subject
+
+@pytest.fixture
+def mock_db(mocker):
+    return mocker.patch("$1.baz", return_value=None)
+
+def test_$2(mock_db):
+    # GIVEN: 
+    #  WHEN: 
+    #  THEN: 
+    result = subject()
+
+    assert 0
+endsnippet
