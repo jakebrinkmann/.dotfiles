@@ -48,7 +48,6 @@ alias gti=git
 alias gi=git
 alias v=vim
 alias vm=vim
-alias p=python3
 alias python=python3
 alias vimrc="vim ~/.vimrc"
 alias q=logout
@@ -74,3 +73,4 @@ alias dotenv='export $(cat .env | xargs)'
 # Task Management (TaskWarrior)
 alias t="task"
 alias bw="bugwarrior-pull"
+alias p="pomo"
