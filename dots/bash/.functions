@@ -34,3 +34,8 @@ __newman() {
 __aws() {
   docker run --rm -it -v ${HOME}/.aws:/root/.aws -v ${PWD}:/aws -e AWS_REGION -e AWS_PROFILE amazon/aws-cli:latest "$@";
 }
+
+# Flash the screen after 25mins (1500s)
+pomo() {
+  sleep ${1:-1500}; for x in $(seq 1 60); do echo -e '\a'; sleep 1; done
+}
