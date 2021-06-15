@@ -11,37 +11,37 @@ alias GIT_BRANCH_CMD="sh -c 'git branch --no-color 2> /dev/null' | sed -e '/^[^*
 function timew_indicator() {
 	if (type timew &> /dev/null); then
 		if (timew &> /dev/null); then
-			echo '»';
+			echo '» ';
 		else
-			echo '¿';
+			echo '¿ ';
 		fi
 	else
-		echo '¿';
+		echo '';
 	fi
 }
 
 function task_indicator() {
 	if [ -n "$(type task 2>/dev/null)" ]; then
 		if [ `task +READY +OVERDUE count` -gt "0" ]; then
-			echo '█';
+			echo '█ ';
 		elif [ `task +READY +DUETODAY count` -gt "0" ]; then
-			echo '♦';
+			echo '♦ ';
 		elif [ `task +READY +TOMORROW count` -gt "0" ]; then
-			echo '▲';
+			echo '▲ ';
 		elif [ `task +READY "urgency > 10" count` -gt "0" ]; then
-			echo '●';
+			echo '● ';
 		else
-			echo '$';
+			echo '';
 		fi
 	else
-		echo '$';
+		echo '';
 	fi
 }
 
 unset PS1
 # PS1+="\[\033]0;\h: "
 PS1+="\n"
-PS1+='\[\033[m\]`timew_indicator` '
+PS1+='\[\033[m\]`timew_indicator``task_indicator`'
 PS1+="\`if [ \$? = 0 ]; then echo \[\e[33m\]\t\[\e[0m\]; else echo \[\e[31m\]\t\[\e[0m\]; fi\` "
 PS1+="\[\033]0;"
 PS1+='$(echo $(dirname $(echo \w | sed "s;$HOME;~;"))/ |sed -e "s;\(/\.\?.\)[^/]*;\1;g" -e "s;/h/s;~;" -e "s;\./;;")\W'
@@ -49,4 +49,4 @@ PS1+="\007\]"
 # \n
 PS1+='\[\033[m\]'$PROMPTCOLORS' '
 PS1+='\[\033[33;1m\]\w\[\033[35m\] `GIT_BRANCH_CMD` \[\033[m\]\n'
-PS1+='\[\033[m\]`task_indicator` '
+PS1+='\[\033[m\]$ '
