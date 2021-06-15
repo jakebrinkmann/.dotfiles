@@ -70,7 +70,7 @@ alias stopenv='deactivate'
 alias archive='tar --create --gzip --verbose --file'
 alias dotenv='export $(cat .env | xargs)'
 
-# Task Management (TaskWarrior)
+# Task Management (TaskWarrior, TimeWarrior)
 alias t="task"
 alias bw="bugwarrior-pull"
-alias p="pomo"
+alias w="timew"
