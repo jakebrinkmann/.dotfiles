@@ -19,6 +19,7 @@ COMMON_PKGS="
     zip
     gzip
     tar
+    graphviz
 "
 
 # All must be run as root
