@@ -75,3 +75,6 @@ alias t="task"
 alias bw="bugwarrior-pull"
 alias w="timew"
 alias wy="timew summary yesterday - now :ids"
+
+# console-oriented
+alias wttr="curl wttr.in/?0"
