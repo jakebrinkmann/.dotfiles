@@ -74,3 +74,4 @@ alias dotenv='export $(cat .env | xargs)'
 alias t="task"
 alias bw="bugwarrior-pull"
 alias w="timew"
+alias wy="timew summary yesterday - now :ids"
