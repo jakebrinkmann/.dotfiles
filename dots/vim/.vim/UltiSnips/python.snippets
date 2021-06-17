@@ -22,3 +22,16 @@ def test_$2(mock_db):
 
     assert 0
 endsnippet
+
+
+snippet pdb "" b
+import pdb; pdb.set_trace()
+endsnippet
+
+snippet rn "" b
+raise NotImplementedError(${1:"TODO"})
+endsnippet
+
+snippet a "" b
+assert ${1:False}
+endsnippet
