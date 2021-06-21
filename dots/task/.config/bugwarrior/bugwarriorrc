@@ -1,5 +1,6 @@
 [general]
-targets = gitlab, jira
+# targets = gitlab, jira  # gitlab can be noisy/distracting from current goals
+targets = jira
 # log.level = DEBUG
 
 [gitlab]
@@ -18,7 +19,7 @@ service = jira
 jira.base_uri = http://company.atlassian.net
 jira.username = username@company.com
 jira.password = api-token
-jira.query = assignee = currentUser() AND sprint in openSprints() AND resolution is EMPTY ORDER BY Rank ASC
+jira.query = assignee = currentUser() AND sprint in openSprints() AND resolution is EMPTY AND type != Sub-task ORDER BY Rank ASC
 jira.default_priority =
 jira.description_template = {{jiraid}}: {{jirasummary}}
 jira.project_template = work.company.jira
