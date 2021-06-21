@@ -46,8 +46,11 @@ report.waiting.sort=wait+,due+,entry+
 urgency.inherit=on
 
 # How urgent something is depends upon what's waiting on it.
-urgency.blocking.coefficient=0
-urgency.blocked.coefficient=0
+urgency.blocking.coefficient=                 8.0 # blocking other tasks
+urgency.blocked.coefficient=                 -5.0 # blocked by other tasks
+
+# Make the "+next" tag super important
+urgency.user.tag.next.coefficient=           15.0 # +next tag
 
 # More sensible priorities, plz.
 uda.priority.values = H,M,,L
@@ -62,10 +65,10 @@ urgency.user.project.fun.coefficient=-1.0
 urgency.user.tag.nsfw.coefficient=-1.0
 
 # Contexts! I use these for everything!
-context.sonifi=project:work.sonifi
+context.work=project:work
 context.fun=project:fun or +nsfw
 
 # Our verbosity does not include the 2.6.x 'override' value, so I don't get warned of
 # custom overrides in my shell aliases and functions.
 verbose=blank,header,footnote,label,new-id,affected,edit,special,project,sync,unwait,recur
-context=sonifi
+context=work
