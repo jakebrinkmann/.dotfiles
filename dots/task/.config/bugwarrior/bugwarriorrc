@@ -1,26 +1,31 @@
+# https://bugwarrior.readthedocs.io/en/latest/common_configuration.html
 [general]
-# targets = gitlab, jira  # gitlab can be noisy/distracting from current goals
-targets = jira
+targets = company_gitlab, company_jira
 # log.level = DEBUG
 
-[gitlab]
+# https://bugwarrior.readthedocs.io/en/latest/services/gitlab.html
+[company_gitlab]
 service = gitlab
 gitlab.login = username
 gitlab.token = api-token
 gitlab.host = git.company.com
+# gitlab.only_if_author = username
 gitlab.include_regex = cloud
-gitlab.default_priority =
-gitlab.description_template = {{gitlabrepo}} !{{gitlabnumber}}: {{gitlabtitle}}
-gitlab.project_template = work.company.gitlab
 gitlab.include_all_todos = False
+gitlab.default_priority = L
+gitlab.description_template = ({{gitlabtype}}) {{gitlabnamespace}}/{{gitlabrepo}}: {{gitlabtitle}}
+gitlab.project_template = work.company.gitlab
+gitlab.add_tags = {{gitlabtype}}, by_{{gitlabauthor}}
 
-[jira]
+# https://bugwarrior.readthedocs.io/en/latest/services/jira.html
+[company_jira]
 service = jira
 jira.base_uri = http://company.atlassian.net
 jira.username = username@company.com
 jira.password = api-token
-jira.query = assignee = currentUser() AND sprint in openSprints() AND resolution is EMPTY AND type != Sub-task ORDER BY Rank ASC
-jira.default_priority =
-jira.description_template = {{jiraid}}: {{jirasummary}}
+jira.query = assignee = currentUser() AND sprint in openSprints() AND resolution is EMPTY ORDER BY Rank ASC
+jira.default_priority = H
+jira.description_template = {{jiraid}}: {{jirasummary}} ({{jirastatus}})
 jira.project_template = work.company.jira
+jira.add_tags = {{jiraissuetype}}
 

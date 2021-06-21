@@ -6,6 +6,8 @@ weekstart=monday
 default.command=ready limit:page
 tasksh.autoclear=true
 search.case.sensitive=no
+journal.info=yes
+dateformat.info=Y-M-D H:M:S
 
 # List all projects with `task projects`, including those completed.
 list.all.projects=yes
@@ -57,6 +59,19 @@ uda.priority.values = H,M,,L
 urgency.uda.priority.L.coefficient=0
 urgency.uda.priority..coefficient=1.8
 
+# Get open work into review/testing
+urgency.uda.jirastatus.Open.coefficient=0.0
+urgency.uda.jirastatus.Technical Review.coefficient=1.0
+urgency.uda.jirastatus.QA Test.coefficient=2.0
+urgency.uda.jirastatus.In Progress.coefficient=3.0
+
+# Get subtasks done before main tasks
+urgency.uda.jiraissuetype.Task.coefficient=0.0
+urgency.uda.jiraissuetype.Sub-task.coefficient=3.0
+
+# Focus on mine first
+urgency.uda.gitlabauthor.jbrinkmann.coefficient=3.0
+
 # Costly tasks are most important.
 urgency.user.tag.costly.coefficient=3.0
 
@@ -65,10 +80,12 @@ urgency.user.project.fun.coefficient=-1.0
 urgency.user.tag.nsfw.coefficient=-1.0
 
 # Contexts! I use these for everything!
-context.work=project:work
+context.work=project:work.sonifi
+context.jira=project~jira
+context.gitlab=project~gitlab
+context.slack=project~slack
 context.fun=project:fun or +nsfw
 
 # Our verbosity does not include the 2.6.x 'override' value, so I don't get warned of
 # custom overrides in my shell aliases and functions.
 verbose=blank,header,footnote,label,new-id,affected,edit,special,project,sync,unwait,recur
-context=work
