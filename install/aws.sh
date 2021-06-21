@@ -11,8 +11,8 @@ fi
 cd /tmp
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
-./aws/install -i ~/.local/lib/python3.8/site-packages/aws-cli -b ~/.local/bin
-rm awscliv2.zip
+./aws/install --update -i ~/.local/lib/python3.8/site-packages/aws-cli -b ~/.local/bin
+rm -rf aws awscliv2.zip
 
 echo "AWS Version: $(aws --version)"
 
@@ -20,8 +20,8 @@ echo "AWS Version: $(aws --version)"
 cd /tmp
 curl -L "https://github.com/aws/aws-sam-cli/releases/latest/download/aws-sam-cli-linux-x86_64.zip" -o "aws-sam-cli-linux-x86_64.zip"
 unzip aws-sam-cli-linux-x86_64.zip -d sam-installation
-./sam-installation/install -i ~/.local/lib/python3.8/site-packages/aws-sam-cli -b ~/.local/bin
-rm aws-sam-cli-linux-x86_64.zip
+./sam-installation/install --update -i ~/.local/lib/python3.8/site-packages/aws-sam-cli -b ~/.local/bin
+rm -rf sam-installation aws-sam-cli-linux-x86_64.zip
 
 echo "AWS SAM Version: $(sam --version)"
 
