@@ -29,9 +29,7 @@ echo "AWS SAM Version: $(sam --version)"
 pip3 install --upgrade --user \
   awscurl \
   cfn-lint \
-  aws-cdk.core \
-  saws \
-  pydot
+  aws-cdk.core
 
 echo "CloudFormation Linter: $(cfn-lint --version)"
 
