@@ -13,7 +13,7 @@ gitlab.host = git.company.com
 gitlab.include_regex = cloud
 gitlab.include_all_todos = False
 gitlab.default_priority = L
-gitlab.description_template = ({{gitlabtype}}) {{gitlabnamespace}}/{{gitlabrepo}}: {{gitlabtitle}}
+gitlab.description_template = (bw)({{gitlabtype}}) {{gitlabnamespace}}/{{gitlabrepo}}: {{gitlabtitle}}
 gitlab.project_template = work.company.gitlab
 gitlab.add_tags = {{gitlabtype}}, by_{{gitlabauthor}}
 
@@ -23,9 +23,9 @@ service = jira
 jira.base_uri = http://company.atlassian.net
 jira.username = username@company.com
 jira.password = api-token
-jira.query = assignee = currentUser() AND sprint in openSprints() AND resolution is EMPTY ORDER BY Rank ASC
+jira.query = sprint in openSprints() AND resolution is EMPTY AND (assignee = currentUser() OR "Additional Assignee" = currentUser() OR "Testing Assignee" = currentUser()) ORDER BY Rank ASC
 jira.default_priority = H
-jira.description_template = {{jiraid}}: {{jirasummary}} ({{jirastatus}})
+jira.description_template = (bw){{jiraid}}: {{jirasummary}} ({{jirastatus}})
 jira.project_template = work.company.jira
-jira.add_tags = {{jiraissuetype}}
+jira.add_tags = {{jiraissuetype}}, to_{{jiraassignee}}
 
