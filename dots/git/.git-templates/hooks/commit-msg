@@ -7,7 +7,7 @@ TITLE_LEN = 72
 sys.tracebacklimit = 0
 
 def main():
-    pattern = r'(WIP: )?(build|ci|chore|docs|feat|fix|perf|refactor|revert|style|test)(\([\w\-]+\))?!?:\s.*'
+    pattern = r'(WIP: )?(build|ci|chore|docs|feat|fix|perf|refactor|revert|style|test)(\([\w\-\.]+\))?!?:\s.*'
     filename = sys.argv[1]
     ss = list(filter(lambda x: not x.startswith("#"), [l.strip() for l in open(filename, 'r').readlines()]))
     m = re.match(pattern, "".join(ss))
