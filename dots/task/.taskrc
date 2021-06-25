@@ -5,9 +5,25 @@ data.location=~/.task
 weekstart=monday
 default.command=ready limit:page
 tasksh.autoclear=true
-search.case.sensitive=no
 journal.info=yes
 dateformat.info=Y-M-D H:M:S
+
+# Show the tracking of time
+journal.time=on
+
+# Make searches case insensitive, personal preference
+search.case.sensitive=no
+
+# Indicate the active task in reports
+active.indicator=>
+
+# Do not use color
+color=off
+
+# Shortcuts
+alias.daily=status:completed end.after:today all
+alias.punt=modify wait:1d
+alias.someday=modify +someday wait:someday
 
 # List all projects with `task projects`, including those completed.
 list.all.projects=yes
