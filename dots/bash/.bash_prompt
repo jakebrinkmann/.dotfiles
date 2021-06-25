@@ -1,52 +1,104 @@
 #!/bin/bash
 
-PROMPTCOLORS="\[\033[36m\]\u\[\033[m\]@\[\033[90m\]\h\[\033[m\]"
-##### Check if not running in docker container
-if [ ! -f /.dockerenv ]; then
-	PROMPTCOLORS="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[m\]"
+# ----------------------------------
+# Colors
+# ----------------------------------
+RESET='\033[0m'
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+ORANGE='\033[0;33m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
+WHITE='\033[1;37m'
+DARKGRAY='\033[1;30m'
+LIGHTGRAY='\033[0;37m'
+LIGHTRED='\033[1;31m'
+LIGHTGREEN='\033[1;32m'
+LIGHTBLUE='\033[1;34m'
+LIGHTPURPLE='\033[1;35m'
+LIGHTCYAN='\033[1;36m'
+LIGHTYELLOW='\033[0;93m'
+
+TERMTITLE='\[\033]0;'
+TERMEND='\007'
+
+DONE="🖖" # ✓
+URGENT="🔥" # ●
+OVERDUE="👎" # █
+DUETODAY="🔔" # ♦
+DUETOMORROW="⏰" # ▲
+
+NEEDFOCUS="🍅" # ¿
+AMFOCUSED="⚡" # »
+
+PROMPTCOLORS="$CYAN\u$RESET@$GREEN\h"
+##### Check if running in docker container
+if [ -f /.dockerenv ]; then
+  PROMPTCOLORS="$CYAN\u$RESET@$LIGHTGRAY\h"
 fi
 
-alias GIT_BRANCH_CMD="sh -c 'git branch --no-color 2> /dev/null' | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'"
-
-function timew_indicator() {
-	if (type timew &> /dev/null); then
-		if (timew &> /dev/null); then
-			echo '» ';
-		else
-			echo '¿ ';
-		fi
-	else
-		echo '';
-	fi
+# Git Integration
+function git_prompt {
+  if [ -e ".git" ]; then
+    BRANCH=`git rev-parse --abbrev-ref HEAD 2> /dev/null`;
+    if [ -n "$BRANCH" ]; then
+        DIRTY=`git status --porcelain --untracked-files=no 2> /dev/null`;
+        if [ -n "$DIRTY" ]; then
+          echo "$LIGHTPURPLE($BRANCH*)";
+        else
+          echo "$LIGHTPURPLE($BRANCH)";
+        fi;
+    fi;
+  fi
 }
 
-function task_indicator() {
-	if [ -n "$(type task 2>/dev/null)" ]; then
-		if [ `task +READY +OVERDUE count` -gt "0" ]; then
-			echo '█ ';
-		elif [ `task +READY +DUETODAY count` -gt "0" ]; then
-			echo '♦ ';
-		elif [ `task +READY +TOMORROW count` -gt "0" ]; then
-			echo '▲ ';
-		elif [ `task +READY "urgency > 10" count` -gt "0" ]; then
-			echo '● ';
-		else
-			echo '';
-		fi
-	else
-		echo '';
-	fi
+# TimeWarrior Integration
+function timew_indicator {
+  if (type timew &> /dev/null); then
+    if (timew &> /dev/null); then
+      echo "$AMFOCUSED ";
+    else
+      echo "$NEEDFOCUS ";
+    fi
+  else
+    echo '';
+  fi
 }
 
-unset PS1
-# PS1+="\[\033]0;\h: "
-PS1+="\n"
-PS1+='\[\033[m\]`timew_indicator``task_indicator`'
-PS1+="\`if [ \$? = 0 ]; then echo \[\e[33m\]\t\[\e[0m\]; else echo \[\e[31m\]\t\[\e[0m\]; fi\` "
-PS1+="\[\033]0;"
-PS1+='$(echo $(dirname $(echo \w | sed "s;$HOME;~;"))/ |sed -e "s;\(/\.\?.\)[^/]*;\1;g" -e "s;/h/s;~;" -e "s;\./;;")\W'
-PS1+="\007\]"
-# \n
-PS1+='\[\033[m\]'$PROMPTCOLORS' '
-PS1+='\[\033[33;1m\]\w\[\033[35m\] `GIT_BRANCH_CMD` \[\033[m\]\n'
-PS1+='\[\033[m\]$ '
+# TaskWarrior integration
+# Inspired by Paul Fenwick (https://gist.github.com/pjf)
+function task_indicator {
+    if [ `task +READY +OVERDUE count` -gt "0" ]; then
+        echo "$OVERDUE"
+    elif [ `task +READY +TODAY count` -gt "0" ]; then
+        echo "$DUETODAY"
+    elif [ `task +READY +TOMORROW count` -gt "0" ]; then
+        echo "$DUETOMORROW"
+    elif [ `task +READY urgency \> 10 count` -gt "0" ]; then
+        echo "$URGENT"
+    else
+        echo "$DONE"
+    fi
+}
+
+# Fancy directory shortening
+function cut_dirname {
+  echo $(dirname $(echo \w | sed "s;$HOME;~;"))/ |sed -e "s;\(/\.\?.\)[^/]*;\1;g" -e "s;/h/s;~;" -e "s;\./;;"
+}
+
+# Updates the Prompt correctly
+function update_PS1 {
+  ERROR=$(if [ $? = 0 ]; then echo $ORANGE; else echo $RED; fi)
+  unset PS1
+  PS1+="\n"
+  PS1+="$RESET$(timew_indicator)$(task_indicator) "
+  PS1+="$ERROR\t "
+  PS1+="$TERMTITLE$(cut_dirname)$TERMEND"
+  PS1+="$PROMPTCOLORS "
+  PS1+="$LIGHTYELLOW\w "
+  PS1+="$(git_prompt)\n"
+  PS1+="$RESET$ "
+}
+
+PROMPT_COMMAND=update_PS1
