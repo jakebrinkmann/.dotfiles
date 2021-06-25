@@ -13,9 +13,9 @@ gitlab.host = git.company.com
 gitlab.include_regex = cloud
 gitlab.include_all_todos = False
 gitlab.default_priority = L
-gitlab.description_template = (bw)({{gitlabtype}}) {{gitlabnamespace}}/{{gitlabrepo}}: {{gitlabtitle}}
-gitlab.project_template = work.company.gitlab
-gitlab.add_tags = {{gitlabtype}}, by_{{gitlabauthor}}
+gitlab.description_template = {{gitlabrepo}}: {{gitlabtitle}}
+gitlab.project_template = gitlab/{{gitlabnamespace}}
+gitlab.add_tags = {{gitlabassignee}}
 
 # https://bugwarrior.readthedocs.io/en/latest/services/jira.html
 [company_jira]
@@ -25,7 +25,7 @@ jira.username = username@company.com
 jira.password = api-token
 jira.query = sprint in openSprints() AND resolution is EMPTY AND (assignee = currentUser() OR "Additional Assignee" = currentUser() OR "Testing Assignee" = currentUser()) ORDER BY Rank ASC
 jira.default_priority = H
-jira.description_template = (bw){{jiraid}}: {{jirasummary}} ({{jirastatus}})
-jira.project_template = work.company.jira
-jira.add_tags = {{jiraissuetype}}, to_{{jiraassignee}}
+jira.description_template = {{jiraid}}: {{jirasummary}}
+jira.project_template = jira/{{project}}
+jira.add_tags = {{jiraassignee}}
 

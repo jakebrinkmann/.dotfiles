@@ -46,8 +46,12 @@ report._reviewed.filter=( reviewed.none: or reviewed.before:now-1week ) and ( +P
 # next report: don't show annotations
 report.next.columns=id,start.age,entry.age,depends,priority,project,tags,recur,scheduled.countdown,due.relative,until.remaining,description.count,urgency
 
+# all report: don't show annotations
+report.all.columns=uuid.short,project,tags,description.truncated
+report.all.labels=,Project,Tags,Description
+
 # Ready report: don't show annotations. Don't show depends.indicator
-report.ready.columns=start.active,id,urgency,start.age,entry.age,priority,project,tags,recur.indicator,scheduled.countdown,due.relative,until.remaining,description.count
+report.ready.columns=start.active,id,urgency,start.age,entry.age,priority,project,tags,recur.indicator,scheduled.countdown,due.relative,until.remaining,description.truncated
 report.ready.labels=A,ID,Urg,Active,Age,P,Project,Tags,R,S,Due,Until,Description
 
 # OMG completed report, don't show me annotations.
@@ -96,11 +100,10 @@ urgency.user.project.fun.coefficient=-1.0
 urgency.user.tag.nsfw.coefficient=-1.0
 
 # Contexts! I use these for everything!
-context.work=project:work.sonifi
 context.jira=project~jira
 context.gitlab=project~gitlab
 context.slack=project~slack
-context.fun=project:fun or +nsfw
+context.fun=project:fun +sfw
 
 # Our verbosity does not include the 2.6.x 'override' value, so I don't get warned of
 # custom overrides in my shell aliases and functions.
@@ -113,59 +116,65 @@ verbose=blank,header,footnote,label,new-id,affected,edit,special,project,sync,un
 ##############################
 # Bugwarrior UDAs
 uda.jiraissuetype.type=string
-uda.jiraissuetype.label=Issue Type
+uda.jiraissuetype.label=jiraissuetype
 uda.jirasummary.type=string
-uda.jirasummary.label=Jira Summary
+uda.jirasummary.label=jirasummary
 uda.jiraurl.type=string
-uda.jiraurl.label=Jira URL
+uda.jiraurl.label=jiraurl
 uda.jiradescription.type=string
-uda.jiradescription.label=Jira Description
+uda.jiradescription.label=jiradescription
 uda.jiraid.type=string
-uda.jiraid.label=Jira Issue ID
+uda.jiraid.label=jiraid
 uda.jiraestimate.type=numeric
-uda.jiraestimate.label=Estimate
+uda.jiraestimate.label=jiraestimate
 uda.jirafixversion.type=string
-uda.jirafixversion.label=Fix Version
+uda.jirafixversion.label=jirafixversion
 uda.jiracreatedts.type=date
-uda.jiracreatedts.label=Created At
+uda.jiracreatedts.label=jiracreatedts
 uda.jirastatus.type=string
-uda.jirastatus.label=Jira Status
+uda.jirastatus.label=jirastatus
 uda.jirasubtasks.type=string
-uda.jirasubtasks.label=Jira Subtasks
+uda.jirasubtasks.label=jirasubtasks
+uda.jirareporter.type=string
+uda.jirareporter.label=jirareporter
+uda.jiraassignee.type=string
+uda.jiraassignee.label=jiraassignee
 uda.gitlabtitle.type=string
-uda.gitlabtitle.label=Gitlab Title
+uda.gitlabtitle.label=gitlabtitle
 uda.gitlabdescription.type=string
-uda.gitlabdescription.label=Gitlab Description
+uda.gitlabdescription.label=gitlabdescription
 uda.gitlabcreatedon.type=date
-uda.gitlabcreatedon.label=Gitlab Created
+uda.gitlabcreatedon.label=gitlabcreatedon
 uda.gitlabupdatedat.type=date
-uda.gitlabupdatedat.label=Gitlab Updated
+uda.gitlabupdatedat.label=gitlabupdatedat
 uda.gitlabduedate.type=date
-uda.gitlabduedate.label=Gitlab Due Date
+uda.gitlabduedate.label=gitlabduedate
 uda.gitlabmilestone.type=string
-uda.gitlabmilestone.label=Gitlab Milestone
+uda.gitlabmilestone.label=gitlabmilestone
 uda.gitlaburl.type=string
-uda.gitlaburl.label=Gitlab URL
+uda.gitlaburl.label=gitlaburl
 uda.gitlabrepo.type=string
-uda.gitlabrepo.label=Gitlab Repo Slug
+uda.gitlabrepo.label=gitlabrepo
 uda.gitlabtype.type=string
-uda.gitlabtype.label=Gitlab Type
+uda.gitlabtype.label=gitlabtype
 uda.gitlabnumber.type=string
-uda.gitlabnumber.label=Gitlab Issue/MR #
+uda.gitlabnumber.label=gitlabnumber
 uda.gitlabstate.type=string
-uda.gitlabstate.label=Gitlab Issue/MR State
+uda.gitlabstate.label=gitlabstate
 uda.gitlabupvotes.type=numeric
-uda.gitlabupvotes.label=Gitlab Upvotes
+uda.gitlabupvotes.label=gitlabupvotes
 uda.gitlabdownvotes.type=numeric
-uda.gitlabdownvotes.label=Gitlab Downvotes
+uda.gitlabdownvotes.label=gitlabdownvotes
 uda.gitlabwip.type=numeric
-uda.gitlabwip.label=Gitlab MR Work-In-Progress Flag
+uda.gitlabwip.label=gitlabwip
 uda.gitlabauthor.type=string
-uda.gitlabauthor.label=Gitlab Author
+uda.gitlabauthor.label=gitlabauthor
 uda.gitlabassignee.type=string
-uda.gitlabassignee.label=Gitlab Assignee
+uda.gitlabassignee.label=gitlabassignee
 uda.gitlabnamespace.type=string
-uda.gitlabnamespace.label=Gitlab Namespace
+uda.gitlabnamespace.label=gitlabnamespace
 uda.gitlabweight.type=numeric
-uda.gitlabweight.label=Gitlab Weight
+uda.gitlabweight.label=gitlabweight
 # END Bugwarrior UDAs
+
+context=jira
