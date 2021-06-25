@@ -37,7 +37,7 @@ __aws() {
 
 # Flash the screen after 25mins (1500s)
 pomo() {
-  sleep ${1:-1500}; for x in $(seq 1 60); do echo -e '\a'; sleep 1; done
+  sleep ${1:-1500}; for x in $(seq 1 60); do printf '\a'; sleep 1; done
 }
 
 # Cheatsheet
