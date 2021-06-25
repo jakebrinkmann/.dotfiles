@@ -14,14 +14,14 @@ WHITE="\[\033[1;37m\]"
 LIGHTPURPLE="\[\033[1;35m\]"
 LIGHTYELLOW="\[\033[0;93m\]"
 
-DONE="🖖" # ✓
-URGENT="🔥" # ●
-OVERDUE="👎" # █
-DUETODAY="🔔" # ♦
-DUETOMORROW="⏰" # ▲
+DONE="✓"
+URGENT="●"
+OVERDUE="¡"
+DUETODAY="♦"
+DUETOMORROW="▲"
 
-NEEDFOCUS="🍅" # ¿
-AMFOCUSED="⚡" # »
+NEEDFOCUS="∅"
+AMFOCUSED="λ"
 
 PROMPTCOLORS="$CYAN\u$RESET@$GREEN\h"
 ##### Check if running in docker container
@@ -48,9 +48,9 @@ function git_prompt {
 function timew_indicator {
   if (type timew &> /dev/null); then
     if (timew &> /dev/null); then
-      echo "$AMFOCUSED ";
+      echo "$YELLOW$AMFOCUSED$RESET ";
     else
-      echo "$NEEDFOCUS ";
+      echo "$RED$NEEDFOCUS$RESET ";
     fi
   else
     echo '';
@@ -61,15 +61,15 @@ function timew_indicator {
 # Inspired by Paul Fenwick (https://gist.github.com/pjf)
 function task_indicator {
     if [ `task +READY +OVERDUE count` -gt "0" ]; then
-        echo "$OVERDUE"
+        echo "$RED$OVERDUE$RESET"
     elif [ `task +READY +TODAY count` -gt "0" ]; then
-        echo "$DUETODAY"
+        echo "$YELLOW$DUETODAY$RESET"
     elif [ `task +READY +TOMORROW count` -gt "0" ]; then
-        echo "$DUETOMORROW"
+        echo "$BLUE$DUETOMORROW$RESET"
     elif [ `task +READY urgency \> 10 count` -gt "0" ]; then
-        echo "$URGENT"
+        echo "$CYAN$URGENT$RESET"
     else
-        echo "$DONE"
+        echo "$GREEN$DONE$RESET"
     fi
 }
 
@@ -89,12 +89,12 @@ function update_PS1 {
   echo -ne "$TERMTITLE$(cut_dirname)$TERMEND"
   unset PS1
   PS1+="\n"
-  PS1+="$RESET$(timew_indicator)$(task_indicator) "
+  PS1+="$RESET$(task_indicator) "
   PS1+="$ERROR\t "
   PS1+="$PROMPTCOLORS "
   PS1+="$LIGHTYELLOW\w "
   PS1+="$(git_prompt)\n"
-  PS1+="$RESET$ "
+  PS1+="$(timew_indicator) "
 }
 
 PROMPT_COMMAND=update_PS1
