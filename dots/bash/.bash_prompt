@@ -20,9 +20,6 @@ LIGHTPURPLE='\033[1;35m'
 LIGHTCYAN='\033[1;36m'
 LIGHTYELLOW='\033[0;93m'
 
-TERMTITLE='\[\033]0;'
-TERMEND='\007'
-
 DONE="🖖" # ✓
 URGENT="🔥" # ●
 OVERDUE="👎" # █
@@ -82,19 +79,24 @@ function task_indicator {
     fi
 }
 
+TERMTITLE='\033]0; '
+TERMEND='\007'
+
 # Fancy directory shortening
 function cut_dirname {
-  echo $(dirname $(echo \w | sed "s;$HOME;~;"))/ |sed -e "s;\(/\.\?.\)[^/]*;\1;g" -e "s;/h/s;~;" -e "s;\./;;"
+  THISDIR=$(basename $PWD)
+  CUTDIRS=$(echo $(dirname $(pwd | sed "s;$HOME;~;"))/ |sed -e "s;\(/\.\?.\)[^/]*;\1;g" -e "s;/h/s;~;" -e "s;\./;;")
+  echo $CUTDIRS$THISDIR
 }
 
 # Updates the Prompt correctly
 function update_PS1 {
   ERROR=$(if [ $? = 0 ]; then echo $ORANGE; else echo $RED; fi)
+  echo -ne "$TERMTITLE$(cut_dirname)$TERMEND"
   unset PS1
   PS1+="\n"
   PS1+="$RESET$(timew_indicator)$(task_indicator) "
   PS1+="$ERROR\t "
-  PS1+="$TERMTITLE$(cut_dirname)$TERMEND"
   PS1+="$PROMPTCOLORS "
   PS1+="$LIGHTYELLOW\w "
   PS1+="$(git_prompt)\n"
