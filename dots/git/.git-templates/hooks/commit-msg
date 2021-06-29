@@ -13,8 +13,8 @@ def main():
     m = re.match(pattern, "".join(ss))
     if ss[0].startswith('Merge'):
         return
-    if len(ss[0]) > TITLE_LEN:
-        raise Exception(f"summary not shorter than {TITLE_LEN} chars")
+    if (n_chars := len(ss[0])) > TITLE_LEN:
+        raise Exception(f"summary {n_chars} not shorter than {TITLE_LEN} chars")
     if m == None:
         raise Exception("conventional commit validation failed")
 

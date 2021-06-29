@@ -27,6 +27,8 @@
   added = yellow
   changed = green
   untracked = cyan
+[column]
+  ui = auto
 [merge]
   tool = fugitive
   conflictstyle = merge
@@ -115,6 +117,8 @@
   rp = reset --patch
   rh = reset HEAD
   rsoft = reset --soft HEAD^
+  # Cause reflog to show a date alongside each entry
+  rl = reflog --format='%C(auto)%h %<|(20)%gd %C(blue)%cr%C(reset) %gs (%s)'
   # git checkout master; git ms feature/branch
   ms = merge --squash
   # Merge with development
