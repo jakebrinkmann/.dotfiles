@@ -12,6 +12,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'dense-analysis/ale', { 'for': ['python', 'javascript', 'json'] }
 Plug 'honza/vim-snippets'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown']}
 Plug 'itchyny/lightline.vim'
 Plug 'jmcantrell/vim-virtualenv', { 'for': ['python'] }
 " Plug 'joereynolds/sql-lint', {'do': 'npm install -g sql-lint'}

@@ -333,3 +333,6 @@ nnoremap =a :ALEFix<CR>
 " (SHIFT) moves lines and selections in a more visual manner
 let g:move_key_modifier='S'
 
+" markdown-preview
+let g:mkdp_refresh_slow = 1
+nnoremap <silent> <Leader>mp :MarkdownPreview<CR>
