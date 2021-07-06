@@ -56,12 +56,24 @@
   # -sb for a less verbose status
   st = status -sb
   # I have a limited number of keystrokes in my lifetime, use them wisely
-  ci = commit
   co = checkout
+  # Checkout from development
+  devb = checkout origin/development -b
+  # Reset development
+  dev = checkout origin/development -B development
+
   cm = commit -m
   cmf = commit --allow-empty-message --no-verify -m
   # After a git reset, make a new commit with the old message
-  cr = commit --reuse-message=HEAD@{1}
+  cmr = commit --reuse-message=HEAD@{1}
+  # Quick save with date commit message
+  cmq = "!f() { git add . ; git commit --no-verify -m \"quick $(date +'%Y-%m-%d %H:%M:%S')\"; }; f"
+  # Fix your last commit without prompting an editor
+  oops = commit --no-verify --amend --no-edit
+  # Edit the last commit message
+  edit = commit --no-verify --amend
+  fix-commit = commit --edit --file=.git/COMMIT_EDITMSG
+
   # Ignore file from the staging area
   ignore = update-index --assume-unchanged
   # Show ignore'd files
@@ -70,104 +82,6 @@
   unignore = update-index --no-assume-unchanged
   # Add a file/directory to your .gitignore
   ignore-forever = "!f() { echo \"$1\" >> .gitignore; }; f"
-  # Fix your last commit without prompting an editor
-  oops = commit --no-verify --amend --no-edit
-  # Edit the last commit message
-  edit = commit --no-verify --amend
-  # Generate a patch file for the most recent commit
-  make-patch = format-patch -1 HEAD
-  # (git am < file.patch)
-  apply-patch = "!f() { git am < \"$1\"; }; f"
-  # Show the changes in the cache/index (i.e. staged changes)
-  dc = diff --cached
-  # Show difference against development branch
-  dh = diff development..HEAD
-  # Fetch without Checkout
-  # fd = fetch origin development:development
-  # Fetch origin
-  fo = !git fetch origin --prune && git remote prune origin
-  # remove a branch
-  brm = branch -D
-  # prune merged branches
-  brmm = !sh -c 'git branch --merged | grep -v "^*" | xargs git branch -d'
-  # Use VIM ( tool = vimdiff )
-  dt = difftool
-  # Shortcut for diff
-  df = diff
-  # Instead of showing +/- lines, show in-line changes
-  dfw = --word-diff
-  # My most favorite log formatting
-  ll = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author-date-order
-  # Same as ll, with graph
-  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author-date-order
-  # Log the entire commit message
-  lf = log --pretty=fuller
-  # Tries to log from latest merge commit
-  lg-parent = "!git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author-date-order $(git rev-list --min-parents=2 --max-count=1 remotes/$(git name-rev --name-only HEAD))^..HEAD"
-  # Gerrit: Fetch a pull-request as a new branch
-  pr = "!f() { git fetch origin refs/pull/$1/head:pr/$1; } ; f"
-  # GitLab: Fetch a pull-request as a new branch
-  pr = "!f() { git fetch origin $1 && git checkout origin/$1 -b pr-$1; }; f"
-  # Gerrit: Clean up pull-request branches
-  pr-clean = "!git for-each-ref refs/heads/pr/* --format='%(refname)' | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done"
-  # Log all and decorate with branches
-  lad = log --all --decorate
-  # Stage/Unstage peice by peice
-  ap = add --patch
-  rp = reset --patch
-  rh = reset HEAD
-  rsoft = reset --soft HEAD^
-  # Cause reflog to show a date alongside each entry
-  rl = reflog --format='%C(auto)%h %<|(20)%gd %C(blue)%cr%C(reset) %gs (%s)'
-  # git checkout master; git ms feature/branch
-  ms = merge --squash
-  # Merge with development
-  md = merge -X theirs development
-  gw = push gerrit HEAD:refs/for/master%wip
-  gr = push gerrit HEAD:refs/for/master%ready
-  permission-reset = !git diff -p -R --no-color | grep -E \"^(diff|(old|new) mode)\" --color=never | git apply
-  opt = push origin primary --tags
-  # Checkpoint Commit (recommended instead of "stash save -u")
-  save = !git add -A && git commit --no-verify -m 'SAVEPOINT'
-  save = "!f() { git add -A && git commit --no-verify -m \"SAVEPOINT $@\" && git reset HEAD^; } ; f"
-  # Work In Progress Commit (will keep appending to previous if also wip)
-  wip = "!sh -c 'git add . && [ \"`git log -1 --pretty=%B`\" = \"wip\" ] && git oops || git commit --no-verify -am wip'"
-  # Undo the last commit and unstage any changes
-  undo = reset HEAD^
-  # Trash Working Files (commit changes first in case we want to recover our work)
-  wipe = "!f() { git add -A && git commit --no-verify -qm \"WIPESAVE $@\" && git reset HEAD~1 --hard; } ; f"
-  # List any recent wipes/saves
-  # saves = !git reflog --format='%C(auto)%h %<|(17)%gd %C(blue)%ci%C(reset) %s' | /bin/grep --color=never SAVE | head -n 15
-  saves = !git reflog --format='%h %<|(17)%gd %ci %s' | /bin/grep --color=never SAVEPOINT | head -n 15
-  wipes = !git reflog --format='%h %<|(17)%gd %ci %s' | /bin/grep --color=never WIPESAVE | head -n 15
-  unwipe = "!f() { git cherry-pick $1 && git reset HEAD^; } ; f"
-  # See the most recent commit
-  last = !git --no-pager log -1 --oneline --color
-  cp = cherry-pick
-  # Back-porting a fix to another branch "cp-last prototype"
-  last-sha1 = !git log -n 1 --pretty=format:%H $1
-  cp-last = !git cherry-pick `git last-sha1 $1`
-  # check how the merge of dev into master will go:
-  # git dry dev master
-  dry = "!f() { git merge-tree `git merge-base $2 $1` $2 $1; }; f"
-  # see if there will be any conflicts merging dev into master:
-  # git conflicts dev master
-  conflicts = "!f() { git merge-tree `git merge-base $2 $1` $2 $1 | grep -A3 'changed in both'; }; f"
-  # save keystrokes
-  rb = rebase
-  # Perform interactive rebase on upstream
-  ready = rebase -i @{u}
-  ready = rebase -i development
-  ready = rebase -i origin/development
-  # Show modified files
-  div = log --stat --no-merges --pretty='%C(yellow)%h%d %Creset%an %Cgreen%ar:%Creset %s' --graph development..
-  # Show all branches
-  bra = branch -vva
-  brat = "!git for-each-ref --color --sort='-committerdate' --format='%(color:green)%(committerdate:relative)%09%(color:yellow)%(refname)%09%(color:reset) %(subject)' refs/heads | sed -e 's-refs/heads/--'"
-  # Checkout from development
-  devb = checkout origin/development -b
-  # Reset development
-  dev = checkout origin/development -B development
   # Create a ref with "archive" prefix: git rem <branch name>
   # (hidden from branch/log/tag but still in log --all)
   archive-ref = "!git update-ref refs/archive/$(date '+%Y%m%d-%s')"
@@ -177,10 +91,111 @@
   # Topic getting stuck? Put it in the attic (on hold)
   hold = "!f() { git update-ref refs/archive/$1 refs/heads/$1 && git branch -D $1; }; f"
   held = for-each-ref refs/archive
+
+  # Generate a patch file for the most recent commit
+  make-patch = format-patch -1 HEAD
+  # (git am < file.patch)
+  apply-patch = "!f() { git am < \"$1\"; }; f"
+
+  # Show the changes in the cache/index (i.e. staged changes)
+  dc = diff --cached
+  # Show difference against development branch
+  dh = diff development..HEAD
+  # Use VIM ( tool = vimdiff )
+  dt = difftool
+  # Shortcut for diff
+  df = diff
+  # Instead of showing +/- lines, show in-line changes
+  dfw = --word-diff
+
+  # Fetch without Checkout
+  # fd = fetch origin development:development
+  # Fetch origin
+  fo = !git fetch origin --prune && git remote prune origin
+
+  # remove a branch
+  brm = branch -D
+  # prune merged branches
+  brmm = !sh -c 'git branch --merged | grep -v "^*" | xargs git branch -d'
+
+  # See the most recent commit
+  last = !git --no-pager log -1 --oneline --color
+  # My most favorite log formatting
+  ll = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author-date-order
+  # Same as ll, with graph
+  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author-date-order
+  # Log the entire commit message
+  lf = log --pretty=fuller
+  # Tries to log from latest merge commit
+  lg-parent = "!git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --author-date-order $(git rev-list --min-parents=2 --max-count=1 remotes/$(git name-rev --name-only HEAD))^..HEAD"
+  # Log all and decorate with branches
+  lad = log --all --decorate
+  # Show modified files
+  div = log --stat --no-merges --pretty='%C(yellow)%h%d %Creset%an %Cgreen%ar:%Creset %s' --graph development..
+
+  # GitLab: Fetch a pull-request as a new branch
+  pr = "!f() { git fetch origin $1 && git checkout origin/$1 -b pr-$1; }; f"
+
+  # Stage peice by peice
+  ap = add --patch
+
+  # Un-Stage
+  rp = reset --patch
+  rh = reset HEAD
+  rsoft = reset --soft HEAD^
+  # Undo the last commit and unstage any changes
+  undo = reset HEAD^
+
+  # Cause reflog to show a date alongside each entry
+  rl = reflog --format='%C(auto)%h %<|(20)%gd %C(blue)%cr%C(reset) %gs (%s)'
+
+  # git checkout master; git ms feature/branch
+  ms = merge --squash
+  # Merge with development
+  md = merge -X theirs development
+  me-theirs = merge --no-verify -X theirs
+
+  permission-reset = !git diff -p -R --no-color | grep -E \"^(diff|(old|new) mode)\" --color=never | git apply
+  opt = push origin primary --tags
+
+  # Checkpoint Commit (recommended instead of "stash save -u")
+  save = !git add -A && git commit --no-verify -m 'SAVEPOINT'
+  save = "!f() { git add -A && git commit --no-verify -m \"SAVEPOINT $@\" && git reset HEAD^; } ; f"
+  saves = !git reflog --format='%h %<|(17)%gd %ci %s' | /bin/grep --color=never SAVEPOINT | head -n 15
+
+  # Work In Progress Commit (will keep appending to previous if also wip)
+  wip = "!sh -c 'git add . && [ \"`git log -1 --pretty=%B`\" = \"wip\" ] && git oops || git commit --no-verify -am wip'"
+
+  # Trash Working Files (commit changes first in case we want to recover our work)
+  wipe = "!f() { git add -A && git commit --no-verify -qm \"WIPESAVE $@\" && git reset HEAD~1 --hard; } ; f"
+  unwipe = "!f() { git cherry-pick $1 && git reset HEAD^; } ; f"
+  wipes = !git reflog --format='%h %<|(17)%gd %ci %s' | /bin/grep --color=never WIPESAVE | head -n 15
+
+  cp = cherry-pick
+  # Back-porting a fix to another branch "cp-last prototype"
+  last-sha1 = !git log -n 1 --pretty=format:%H $1
+  cp-last = !git cherry-pick `git last-sha1 $1`
+
+  # check how the merge of dev into master will go:
+  # git dry dev master
+  dry = "!f() { git merge-tree `git merge-base $2 $1` $2 $1; }; f"
+  # see if there will be any conflicts merging dev into master:
+  # git conflicts dev master
+  conflicts = "!f() { git merge-tree `git merge-base $2 $1` $2 $1 | grep -A3 'changed in both'; }; f"
+
+  # save keystrokes
+  rb = rebase
+  # Perform interactive rebase on upstream
+  ready = rebase -i @{u}
+  ready = rebase -i origin/development
+
+  # Show all branches
+  bra = branch -vva
+  brat = "!git for-each-ref --color --sort='-committerdate' --format='%(color:green)%(committerdate:relative)%09%(color:yellow)%(refname)%09%(color:reset) %(subject)' refs/heads | sed -e 's-refs/heads/--'"
+
   # Search git history: git search <regexp>
   search = log --all -p -G
   # Search all history: git research <regexp>
   research = reflog --all -p -G
+
   tags = tag -l -n99
-  me-theirs = merge --no-verify -X theirs
-  fix-commit = commit --edit --file=.git/COMMIT_EDITMSG
