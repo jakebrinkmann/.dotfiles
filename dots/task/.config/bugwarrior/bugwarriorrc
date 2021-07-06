@@ -14,7 +14,7 @@ gitlab.include_regex = cloud
 gitlab.include_all_todos = False
 gitlab.default_priority = L
 gitlab.description_template = {{gitlabrepo}}: {{gitlabtitle}}
-gitlab.project_template = gitlab/{{gitlabnamespace}}
+gitlab.project_template = gitlab.{{gitlabnamespace}}
 gitlab.add_tags = {{gitlabassignee}}
 
 # https://bugwarrior.readthedocs.io/en/latest/services/jira.html
@@ -26,6 +26,6 @@ jira.password = api-token
 jira.query = sprint in openSprints() AND resolution is EMPTY AND (assignee = currentUser() OR "Additional Assignee" = currentUser() OR "Testing Assignee" = currentUser()) ORDER BY Rank ASC
 jira.default_priority = H
 jira.description_template = {{jiraid}}: {{jirasummary}}
-jira.project_template = jira/{{project}}
+jira.project_template = jira.{{project}}
 jira.add_tags = {{jiraassignee}}
 

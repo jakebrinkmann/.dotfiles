@@ -101,16 +101,19 @@ urgency.user.project.fun.coefficient=-1.0
 urgency.user.tag.nsfw.coefficient=-1.0
 
 # Contexts! I use these for everything!
-context.f=project:fun
+context.f=+fun
 context.j=project~jira
 context.g=project~gitlab
-context.r=project~research
+context.q=+quality or +techdebt
+context.r=+research or +prototype
 context.s=project~slack
 context.t=project~training
 
-# integrations project: jira/ENGabc gitlab/cloud/abcd
+# integrations project: jira.ENGabc gitlab.cloud/abcd
 # categories: +external +product +project +team +tech
 # categories: +application +business +implementation +motivation +physical +strategy +technology
+# categories: +techdebt +prototype +initial +discover +release +research
+# categories: +collaboration +curiosity +challenge +communication +quality +growth
 
 # Our verbosity does not include the 2.6.x 'override' value, so I don't get warned of
 # custom overrides in my shell aliases and functions.
@@ -184,4 +187,3 @@ uda.gitlabweight.type=numeric
 uda.gitlabweight.label=gitlabweight
 # END Bugwarrior UDAs
 
-context=jira
