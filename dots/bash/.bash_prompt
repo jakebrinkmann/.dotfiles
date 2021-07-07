@@ -15,7 +15,7 @@ LIGHTPURPLE="\[\033[1;35m\]"
 LIGHTYELLOW="\[\033[0;93m\]"
 
 DONE="✓"
-URGENT="●"
+URGENT="➤"
 OVERDUE="¡"
 DUETODAY="♦"
 DUETOMORROW="▲"
@@ -89,12 +89,12 @@ function update_PS1 {
   echo -ne "$TERMTITLE$(cut_dirname)$TERMEND"
   unset PS1
   PS1+="\n"
-  PS1+="$RESET$(task_indicator) "
+  PS1+="$RESET$(timew_indicator)$(task_indicator) "
   PS1+="$ERROR\t "
   PS1+="$PROMPTCOLORS "
   PS1+="$LIGHTYELLOW\w "
   PS1+="$(git_prompt)\n"
-  PS1+="$(timew_indicator) "
+  PS1+="$RESET$ "
 }
 
 PROMPT_COMMAND=update_PS1

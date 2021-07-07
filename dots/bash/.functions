@@ -9,7 +9,9 @@ fi
 h() { grep -a "$1" "${HOME}/.bash_eternal_history"; }
 
 # Delete python leftovers
-pyclean() { find . | grep -E "(__pycache__|pytest_cache|\.pyc|\.pyo$)" | xargs $sudo rm -rf; }
+pyclean() {
+  sudo find ${PWD} -regextype posix-extended -regex '^.*(__pycache__|pytest_cache|\.pyc|\.pyo$)' -delete;
+}
 
 # Search files
 search() {
