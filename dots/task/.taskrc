@@ -22,7 +22,7 @@ color=off
 
 # Shortcuts
 alias.c=context
-alias.daily=status:completed end.after:today all
+alias.daily=status:completed end.after:yesterday all
 alias.punt=modify wait:1d
 alias.someday=modify +someday wait:someday
 
@@ -64,16 +64,21 @@ report.waiting.labels=ID,A,Age,D,P,Project,Tags,R,Waiting,Sched,Due,Until,Descri
 report.waiting.columns=id,start.active,entry.age,depends.indicator,priority,project,tags,recur.indicator,wait.remaining,scheduled,due.relative,until,description.count
 report.waiting.sort=wait+,due+,entry+
 
+# STOP! Nothing should show annotations. No.
+report.blocked.labels=ID,A,Age,D,P,Project,Tags,R,Waiting,Sched,Due,Until,Description
+report.blocked.columns=id,start.active,entry.age,depends.indicator,priority,project,tags,recur.indicator,wait.remaining,scheduled,due.relative,until,description.count
+report.blocked.sort=wait+,due+,entry+
+
 # Child tasks inherit their parent's urgency if that's higher.
 # It's like this option was made for me.
 urgency.inherit=on
 
 # How urgent something is depends upon what's waiting on it.
-urgency.blocking.coefficient=                 8.0 # blocking other tasks
-urgency.blocked.coefficient=                 -5.0 # blocked by other tasks
+urgency.blocking.coefficient=                 1.0 # blocking other tasks
+urgency.blocked.coefficient=                  0.0 # blocked by other tasks
 
 # Make the "+next" tag super important
-urgency.user.tag.next.coefficient=           15.0 # +next tag
+urgency.user.tag.next.coefficient=           2.0 # +next tag
 
 # More sensible priorities, plz.
 uda.priority.values = H,M,,L
@@ -86,9 +91,9 @@ urgency.uda.jirastatus.Technical Review.coefficient=1.0
 urgency.uda.jirastatus.QA Test.coefficient=2.0
 urgency.uda.jirastatus.In Progress.coefficient=3.0
 
-# Get subtasks done before main tasks
-urgency.uda.jiraissuetype.Task.coefficient=0.0
-urgency.uda.jiraissuetype.Sub-task.coefficient=3.0
+# # Get subtasks done before main tasks
+# urgency.uda.jiraissuetype.Task.coefficient=0.0
+# urgency.uda.jiraissuetype.Sub-task.coefficient=3.0
 
 # Focus on mine first
 urgency.uda.gitlabauthor.jbrinkmann.coefficient=3.0
