@@ -1,7 +1,38 @@
+snippet st "boto3 stubber" b
+import botocore
+@pytest.fixture
+def stub_${1:ddb}():
+    stub_$1 = botocore.stub.Stubber(${2:Table.meta.client})
+    stub_$1.activate()
+    yield stub_$1
+    stub_$1.deactivate()
+#@pytest.mark.integration
+def test_get(stub_$1):
+    stub_$1.add_response(
+        "query", {"Items": [{"column1": {"S": "0000001 0000002 0000003"}}]}
+    )
+endsnippet
+
 snippet ex "sqlalchemy execute block" b
 with get_connection() as connection:
     with connection.begin():
         connection.execute(${1:stmt}${2:, items})
+endsnippet
+
+snippet sa "sqlalchemy boilerplate" b
+import sqlalchemy as sa
+from sqlalchemy.dialects import postgresql
+tbl_${1:my_table} = sa.Table(
+    "$1",
+    sa.MetaData(schema="${2:schema}"),
+    sa.Column("${3:attr}", sa.Integer, primary_key=True),
+)
+
+def _select_records() -> 'sa.Select':
+    return sa.select([tbl_$1]).where(tbl_$1.c.$3 == 0)
+
+def list_records() -> list:
+    return execute(_select_records()).mappings().fetchall()
 endsnippet
   
 
@@ -11,15 +42,25 @@ import pytest
 from ${1:foo} import ${2:bar} as subject
 
 @pytest.fixture
-def mock_db(mocker):
-    return mocker.patch("$1.baz", return_value=None)
+def event(create_event):
+    return create_event("GET", "/path")
 
-def test_$2(mock_db):
-    # GIVEN: 
-    #  WHEN: 
-    #  THEN: 
+@pytest.fixture
+def db_row():
+    return {}
+
+@pytest.fixture
+def mock_db(mocker, db_row):
+    return mocker.patch("$1.fetchone", return_value=db_row)
+
+def test_$2(mock_db, event):
+    """Scenario: <<determinable situation>>"""
+    # Given there is <<precondition or input>>
+
+    # When I <<behavior by actor>>
     result = subject()
 
+    # Then I should <<expected testable outcome>>
     assert 0
 endsnippet
 
