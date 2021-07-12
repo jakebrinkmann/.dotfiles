@@ -52,7 +52,7 @@ report.all.columns=uuid.short,project,tags,description.truncated
 report.all.labels=,Project,Tags,Description
 
 # Ready report: don't show annotations. Don't show depends.indicator
-report.ready.columns=start.active,id,urgency,start.age,entry.age,priority,project,tags,recur.indicator,scheduled.countdown,due.relative,until.remaining,description.truncated
+report.ready.columns=start.active,id,urgency,start.age,entry.age,priority,project,tags.count,recur.indicator,scheduled.countdown,due.relative,until.remaining,description.count
 report.ready.labels=A,ID,Urg,Active,Age,P,Project,Tags,R,S,Due,Until,Description
 
 # OMG completed report, don't show me annotations.
