@@ -34,6 +34,37 @@ def _select_records() -> 'sa.Select':
 def list_records() -> list:
     return execute(_select_records()).mappings().fetchall()
 endsnippet
+
+
+snippet ct "sqlalchemy count boilerplate" b
+def _count_records_stmt(stmt: "sa.Select", limit: int) -> "sa.Select":
+    return sa.select(
+        [
+            sa.func.count(),
+            sa.cast(
+                sa.func.ceiling(sa.func.count() / sa.cast(limit, sa.Float)),
+                sa.Integer,
+            ),
+        ]
+    ).select_from(stmt.alias("pages"))
+
+def _count_records(sql, limit: int) -> tuple:
+    count, pages = execute(_count_records_stmt(sql, limit)).fetchone()
+    return count, pages
+
+def _limit_records_stmt(sql: "sa.Select", limit: int, page: int) -> "sa.Select":
+    # recalculate offset if other than page one
+    offset = 0
+    if page > 1:
+        offset = (page - 1) * limit
+    return sql.limit(limit).offset(offset)
+
+def get_records(limit: int, page: int, sort: str, search: str = None) -> tuple:
+    stmt = get_records_stmt(sort, search)
+    records = execute(_limit_records_stmt(stmt, limit, page)).fetchall()
+    count, pages = _count_records(stmt, limit)
+    return records, count, pages
+endsnippet
   
 
 snippet pt "pytest function" b
