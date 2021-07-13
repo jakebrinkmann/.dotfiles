@@ -109,6 +109,9 @@ vnoremap <Leader>t c<C-R>=strftime("%FT%T%z")<CR><ESC>
 " * -- Search for selected text
 vnoremap * y/\V<C-R>=escape(@",'/\')<CR><CR>
 
+" \0 -- Quickly switch/navigate tabs
+nnoremap <Leader>0 :tabnext<CR>
+
 " \p -- Toggle insert mode
 function! TogglePaste()
     if(&paste == 0)
