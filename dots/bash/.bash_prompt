@@ -44,19 +44,6 @@ function git_prompt {
   fi
 }
 
-# TimeWarrior Integration
-function timew_indicator {
-  if (type timew &> /dev/null); then
-    if (timew &> /dev/null); then
-      echo "$YELLOW$AMFOCUSED$RESET ";
-    else
-      echo "$RED$NEEDFOCUS$RESET ";
-    fi
-  else
-    echo '';
-  fi
-}
-
 # TaskWarrior integration
 # Inspired by Paul Fenwick (https://gist.github.com/pjf)
 function task_indicator {
@@ -89,7 +76,7 @@ function update_PS1 {
   echo -ne "$TERMTITLE$(cut_dirname)$TERMEND"
   unset PS1
   PS1+="\n"
-  PS1+="$RESET$(timew_indicator)$(task_indicator) "
+  PS1+="$RESET$(task_indicator) "
   PS1+="$ERROR\t "
   PS1+="$PROMPTCOLORS "
   PS1+="$LIGHTYELLOW\w "

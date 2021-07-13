@@ -12,17 +12,12 @@
     && exit 1
 
 apt-get install --assume-yes --fix-missing \
-        taskwarrior \
-        timewarrior
+        taskwarrior
 
 python3.8 -m pip install --upgrade \
   "bugwarrior[jira]"
 
 # I don't like timers, so I like to manually run `bugwarrior-pull`
-
-# * https://timewarrior.net/docs/taskwarrior/
-cp /usr/share/doc/timewarrior/ext/on-modify.timewarrior ~/.task/hooks/
-chmod +x ~/.task/hooks/on-modify.timewarrior
 
 task diagnostics
 
@@ -32,7 +27,6 @@ task diagnostics
 # task :LATEST stop
 # task :LATEST start
 # task :LATEST done
-# timew summary yesterday - now :ids
-# timew track 9am for 2h 'Chat with coworker' +topic
-# timew gaps
+# task status:completed end.after:yesterday all
+# task +BLOCKING -BLOCKED
 ######

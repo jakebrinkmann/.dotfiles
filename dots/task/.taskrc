@@ -51,7 +51,7 @@ report.next.columns=id,start.age,entry.age,depends,priority,project,tags,recur,s
 report.all.columns=uuid.short,project,tags,description.truncated
 report.all.labels=,Project,Tags,Description
 
-# Ready report: don't show annotations. Don't show depends.indicator
+# Ready report: don't show annotations. Don't show depends.indicator (because not ready)
 report.ready.columns=start.active,id,urgency,start.age,entry.age,priority,project,tags.count,recur.indicator,scheduled.countdown,due.relative,until.remaining,description.count
 report.ready.labels=A,ID,Urg,Active,Age,P,Project,Tags,R,S,Due,Until,Description
 
@@ -66,7 +66,7 @@ report.waiting.sort=wait+,due+,entry+
 
 # STOP! Nothing should show annotations. No.
 report.blocked.labels=ID,A,Age,D,P,Project,Tags,R,Waiting,Sched,Due,Until,Description
-report.blocked.columns=id,start.active,entry.age,depends.indicator,priority,project,tags,recur.indicator,wait.remaining,scheduled,due.relative,until,description.count
+report.blocked.columns=id,start.active,entry.age,depends.list,priority,project,tags,recur.indicator,wait.remaining,scheduled,due.relative,until,description.count
 report.blocked.sort=wait+,due+,entry+
 
 # Child tasks inherit their parent's urgency if that's higher.
@@ -107,7 +107,7 @@ urgency.user.tag.nsfw.coefficient=-1.0
 
 # Contexts! I use these for everything!
 context.f=+fun
-context.j=project~jira
+context.j=project~jira +YEAR
 context.g=project~gitlab -techdebt
 context.q=+quality or +techdebt
 context.r=+research or +prototype
