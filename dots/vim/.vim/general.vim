@@ -82,11 +82,6 @@ nnoremap <silent> <leader>vn :vnew<CR>
 nnoremap <silent> <leader>vo :only<CR>
 " Veritcal Split
 nnoremap <silent> <leader>vs :vsplit<CR>
-" Make a new tab
-nnoremap <silent> <C-n> :tabnew<CR>
-" Cycle to open tabs
-nnoremap <silent> \<Left> gT
-nnoremap <silent> \<Right> gt
 " Toggle Spellchecking
 nnoremap <leader>ss :setlocal spell! spelllang=en_us<CR>
 " Launch netrw in a little sidebar
@@ -109,8 +104,14 @@ vnoremap <Leader>t c<C-R>=strftime("%FT%T%z")<CR><ESC>
 " * -- Search for selected text
 vnoremap * y/\V<C-R>=escape(@",'/\')<CR><CR>
 
+" Make a new tab
+nnoremap <silent> <C-n> :tabnew<CR>
+" Cycle to open tabs
+nnoremap <silent> \<Left> gT
+nnoremap <silent> \<Right> gt
 " \0 -- Quickly switch/navigate tabs
-nnoremap <Leader>0 :tabnext<CR>
+nnoremap <silent> \0 :tabnext<CR>
+nnoremap <silent> \s :tab split<CR>
 
 " \p -- Toggle insert mode
 function! TogglePaste()

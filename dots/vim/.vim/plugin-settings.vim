@@ -162,7 +162,7 @@ augroup end
 
 " Configure ALE Linters and Fixers
 let g:ale_linters = {
-    \'python': ['flake8'],
+    \'python': ['flake8', 'mypy'],
     \'javascript': ['eslint']
 \}
 " $ cat ~/.config/flake8
@@ -179,10 +179,13 @@ let g:ale_fixers = {
 let g:ale_python_isort_options = '--sp ~/.isort.cfg --src api --src src --virtual-env .venv'
 let g:ale_python_black_options = '--line-length=88'
 let g:ale_python_flake8_options = '--max-line-length 88'
+" let g:ale_python_mypy_options = '--strict --warn-unreachable --warn-return-any --follow-imports=normal'
+" let g:ale_python_mypy_options = '--ignore-missing-imports --follow-imports=silent --show-column-numbers --strict'
+let g:ale_python_mypy_show_notes = 1
 let g:ale_javascript_prettier_options = '--single-quote --print-width 120'
 " Only run linters when specified
 let g:ale_linters_explicit = 1
-let g:ale_set_loclist = 0
+let g:ale_set_loclist = 1 " use localation list, :lopen
 let g:ale_sign_error = "◉"
 let g:ale_sign_warning = '•'
 let g:ale_sign_info = '⌇'
