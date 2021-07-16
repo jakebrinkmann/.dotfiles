@@ -58,9 +58,9 @@
   # I have a limited number of keystrokes in my lifetime, use them wisely
   co = checkout
   # Checkout from development
-  devb = checkout origin/development -b
+  devb = "!f() { git fetch origin development; git checkout origin/development -b $1; }; f"
   # Reset development
-  dev = checkout origin/development -B development
+  dev = "!f() { git fetch origin development; git checkout origin/development -B development; }; f"
 
   cm = commit -m
   cmf = commit --allow-empty-message --no-verify -m
