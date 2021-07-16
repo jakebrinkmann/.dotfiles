@@ -174,7 +174,8 @@ let g:ale_fixers = {
     \'javascript': ['eslint', 'prettier'],
     \'html': ['prettier'],
     \'json': ['prettier'],
-    \'css': ['eslint']
+    \'css': ['eslint'],
+    \'sql': ['pgformatter']
 \}
 let g:ale_python_isort_options = '--sp ~/.isort.cfg --src api --src src --virtual-env .venv'
 let g:ale_python_black_options = '--line-length=88'
