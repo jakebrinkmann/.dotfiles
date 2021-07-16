@@ -95,6 +95,16 @@ def test_$2(mock_db, event):
     assert 0
 endsnippet
 
+snippet aaa "arrange act assert" b
+"""Scenario: <<determinable situation>>"""
+# Given there is <<precondition or input>>
+
+# When I <<behavior by actor>>
+result = subject()
+
+# Then I should <<expected testable outcome>>
+assert 0
+endsnippet
 
 snippet pdb "" b
 import pdb; pdb.set_trace()
