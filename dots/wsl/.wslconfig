@@ -1,0 +1,4 @@
+[wsl2]
+processors=2
+memory=4GB
+swap=0
