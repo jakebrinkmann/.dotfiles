@@ -1,18 +1,40 @@
 #!/bin/bash
 
 # ----------------------------------
-# Colors
+# ANSI Color Ref
+# Format: $green = "\033[01;32m";
+function c() { echo -ne "\[\033[0$1m\]"; }
+function colors() {
+  echo -e "\033[00;30mBlack       0;30       \033[01;30mDark Gray     1;30"
+  echo -e "\033[00;31mRed         0;31       \033[01;31mBold Red      1;31"
+  echo -e "\033[00;32mGreen       0;32       \033[01;32mBold Green    1;32"
+  echo -e "\033[00;33mYellow      0;33       \033[01;33mBold Yellow   1;33"
+  echo -e "\033[00;34mBlue        0;34       \033[01;34mBold Blue     1;34"
+  echo -e "\033[00;35mPurple      0;35       \033[01;35mBold Purple   1;35"
+  echo -e "\033[00;36mCyan        0;36       \033[01;36mBold Cyan     1;36"
+  echo -e "\033[00;37mLight Gray  0;37       \033[01;37mBold Gray     1;37"
+  echo -e "\033[00;01mBold        0;01       \033[00;04mUnderlined    0;04"
+  echo -e "\033[00;05mBlink       0;05       \033[00;07minverted      0;07"
+}
 # ----------------------------------
-RESET="\[\e[0m\]"
-RED="\[\033[0;31m\]"
-YELLOW="\[\033[0;33m\]"
-GREEN="\[\033[0;32m\]"
-BLUE="\[\033[0;34m\]"
-PURPLE="\[\033[0;35m\]"
-CYAN="\[\033[0;36m\]"
-WHITE="\[\033[1;37m\]"
-LIGHTPURPLE="\[\033[1;35m\]"
-LIGHTYELLOW="\[\033[0;93m\]"
+
+RESET=$(c '0')
+BLACK=$(c '0;30')
+RED=$(c '0;31')
+GREEN=$(c '0;32')
+YELLOW=$(c '0;33')
+BLUE=$(c '0;34')
+MAGENTA=$(c '0;35')
+CYAN=$(c '0;36')
+WHITE=$(c '0;37')
+_BLACK=$(c '1;30')
+_RED=$(c '1;31')
+_GREEN=$(c '1;32')
+_YELLOW=$(c '1;33')
+_BLUE=$(c '1;34')
+_MAGENTA=$(c '1;35')
+_CYAN=$(c '1;36')
+_WHITE=$(c '1;37')
 
 DONE="✓"
 URGENT="➤"
@@ -23,10 +45,10 @@ DUETOMORROW="▲"
 NEEDFOCUS="∅"
 AMFOCUSED="λ"
 
-PROMPTCOLORS="$CYAN\u$RESET@$GREEN\h"
+PROMPTCOLORS="$_CYAN\u$RESET@$_GREEN\h"
 ##### Check if running in docker container
 if [ -f /.dockerenv ]; then
-  PROMPTCOLORS="$CYAN\u$RESET@$LIGHTGRAY\h"
+  PROMPTCOLORS="$_CYAN\u$RESET@$_BLACK\h"
 fi
 
 # Git Integration
@@ -36,9 +58,9 @@ function git_prompt {
     if [ -n "$BRANCH" ]; then
         DIRTY=`git status --porcelain --untracked-files=no 2> /dev/null`;
         if [ -n "$DIRTY" ]; then
-          echo "$LIGHTPURPLE($BRANCH*)";
+          echo "$_RED($BRANCH*)";
         else
-          echo "$LIGHTPURPLE($BRANCH)";
+          echo "$_MAGENTA($BRANCH)";
         fi;
     fi;
   fi
@@ -79,7 +101,7 @@ function update_PS1 {
   PS1+="$RESET$(task_indicator) "
   PS1+="$ERROR\t "
   PS1+="$PROMPTCOLORS "
-  PS1+="$LIGHTYELLOW\w "
+  PS1+="$_YELLOW\w "
   PS1+="$(git_prompt)\n"
   PS1+="$RESET$ "
 }
