@@ -25,6 +25,7 @@ alias.c=context
 alias.daily=status:completed end.after:yesterday all
 alias.punt=modify wait:1d
 alias.someday=modify +someday wait:someday
+alias.a=+ACTIVE
 
 # List all projects with `task projects`, including those completed.
 list.all.projects=yes
@@ -52,7 +53,7 @@ report.all.columns=uuid.short,project,tags,description.truncated
 report.all.labels=,Project,Tags,Description
 
 # Ready report: don't show annotations. Don't show depends.indicator (because not ready)
-report.ready.columns=start.active,id,urgency,start.age,entry.age,priority,project,tags.count,recur.indicator,scheduled.countdown,due.relative,until.remaining,description.count
+report.ready.columns=start.active,id,urgency,start.age,entry.age,priority,project,tags.list,recur.indicator,scheduled.countdown,due.relative,until.remaining,description.count
 report.ready.labels=A,ID,Urg,Active,Age,P,Project,Tags,R,S,Due,Until,Description
 
 # OMG completed report, don't show me annotations.
