@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+if [[ ! "$1" =~ "init" ]]; then
 if [ -z "$CFN_S3" ]; then
     echo "Must set \$CFN_S3";
     exit 1;
@@ -9,6 +10,20 @@ if [ -z "$CFN_STACK_NAME" ]; then
     echo "Must set \$CFN_STACK_NAME";
     exit 1;
 fi
+fi
+
+_init_py38() {
+    # docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-init.html
+    # https://github.com/aws/aws-sam-cli-app-templates
+    sam init \
+        --no-interactive \
+        --runtime python3.8 \
+        --dependency-manager pip \
+        --app-template step-functions-sample-app \
+        --name sam-app-py38
+    # --base-image amazon/python3.8-base
+    # --extra-content (`cookiecutter.json`)
+}
 
 _validate() {
     sam validate --template template.yaml;
@@ -40,6 +55,9 @@ _all() {
 main() {
     cmd=$1;
     case $cmd in
+        init_py38)
+            _init_py38
+            ;;
         validate)
             _validate
             ;;
