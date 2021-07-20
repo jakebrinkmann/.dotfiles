@@ -177,7 +177,7 @@ let g:ale_fixers = {
     \'css': ['eslint'],
     \'sql': ['pgformatter']
 \}
-let g:ale_python_isort_options = '--sp ~/.isort.cfg --src api --src src --virtual-env .venv'
+let g:ale_python_isort_options = '--sp ~/.isort.cfg --virtual-env .venv'
 let g:ale_python_black_options = '--line-length=88'
 let g:ale_python_flake8_options = '--max-line-length 88'
 " let g:ale_python_mypy_options = '--strict --warn-unreachable --warn-return-any --follow-imports=normal'
@@ -192,6 +192,9 @@ let g:ale_sign_warning = '•'
 let g:ale_sign_info = '⌇'
 let g:ale_sign_style_error = g:ale_sign_error
 let g:ale_sign_style_warning = g:ale_sign_warning
+" Useful for debugging, disable for performance
+let g:ale_hisory_enabled = 0
+let g:ale_history_log_output = 0
 
 let g:ycm_key_list_select_completion   = ['<TAB>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>']
