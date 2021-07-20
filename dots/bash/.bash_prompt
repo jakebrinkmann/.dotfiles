@@ -5,16 +5,30 @@
 # Format: $green = "\033[01;32m";
 function c() { echo -ne "\[\033[0$1m\]"; }
 function colors() {
-  echo -e "\033[00;30mBlack       0;30       \033[01;30mDark Gray     1;30"
-  echo -e "\033[00;31mRed         0;31       \033[01;31mBold Red      1;31"
-  echo -e "\033[00;32mGreen       0;32       \033[01;32mBold Green    1;32"
-  echo -e "\033[00;33mYellow      0;33       \033[01;33mBold Yellow   1;33"
-  echo -e "\033[00;34mBlue        0;34       \033[01;34mBold Blue     1;34"
-  echo -e "\033[00;35mPurple      0;35       \033[01;35mBold Purple   1;35"
-  echo -e "\033[00;36mCyan        0;36       \033[01;36mBold Cyan     1;36"
-  echo -e "\033[00;37mLight Gray  0;37       \033[01;37mBold Gray     1;37"
-  echo -e "\033[00;01mBold        0;01       \033[00;04mUnderlined    0;04"
-  echo -e "\033[00;05mBlink       0;05       \033[00;07minverted      0;07"
+  #Background
+  for clbg in {40..47} {100..107} 49 ; do
+    #Foreground
+    for clfg in {30..37} {90..97} 39 ; do
+      #Formatting
+      for attr in 0 1 2 4 5 7 ; do
+        #Print the result
+        echo -en "\e[${attr};${clbg};${clfg}m ^[${attr};${clbg};${clfg}m \e[0m"
+      done
+      echo #Newline
+    done
+  done
+  #Foreground
+  for fgbg in 38 48 ; do # Foreground / Background
+    for color in {0..255} ; do # Colors
+        # Display the color
+        printf "\e[${fgbg};5;%sm  %3s  \e[0m" $color $color
+        # Display 6 colors per lines
+        if [ $((($color + 1) % 6)) == 4 ] ; then
+            echo # New line
+        fi
+    done
+    echo # New line
+done
 }
 # ----------------------------------
 
@@ -35,6 +49,7 @@ _BLUE=$(c '1;34')
 _MAGENTA=$(c '1;35')
 _CYAN=$(c '1;36')
 _WHITE=$(c '1;37')
+__YELLOW=$(c '1;93')
 
 DONE="✓"
 URGENT="➤"
@@ -45,6 +60,7 @@ DUETOMORROW="▲"
 NEEDFOCUS="∅"
 AMFOCUSED="λ"
 
+##### "$USER@$HOSTNAME"
 PROMPTCOLORS="$_CYAN\u$RESET@$_GREEN\h"
 ##### Check if running in docker container
 if [ -f /.dockerenv ]; then
@@ -58,9 +74,9 @@ function git_prompt {
     if [ -n "$BRANCH" ]; then
         DIRTY=`git status --porcelain --untracked-files=no 2> /dev/null`;
         if [ -n "$DIRTY" ]; then
-          echo "$_RED($BRANCH*)";
+          echo "$_RED($BRANCH*) ";
         else
-          echo "$_MAGENTA($BRANCH)";
+          echo "$_MAGENTA($BRANCH) ";
         fi;
     fi;
   fi
@@ -69,17 +85,27 @@ function git_prompt {
 # TaskWarrior integration
 # Inspired by Paul Fenwick (https://gist.github.com/pjf)
 function task_indicator {
+  MSG=""
     if [ `task +READY +OVERDUE count` -gt "0" ]; then
-        echo "$RED$OVERDUE$RESET"
+        MSG+="$RED$OVERDUE$RESET"
     elif [ `task +READY +TODAY count` -gt "0" ]; then
-        echo "$YELLOW$DUETODAY$RESET"
+        MSG+="$YELLOW$DUETODAY$RESET"
     elif [ `task +READY +TOMORROW count` -gt "0" ]; then
-        echo "$BLUE$DUETOMORROW$RESET"
+        MSG+="$BLUE$DUETOMORROW$RESET"
     elif [ `task +READY urgency \> 10 count` -gt "0" ]; then
-        echo "$CYAN$URGENT$RESET"
+        MSG+="$CYAN$URGENT$RESET"
     else
-        echo "$GREEN$DONE$RESET"
+        MSG+="$GREEN$DONE$RESET"
     fi
+
+    # Override the status when I'm busy
+    if [ `task +ACTIVE count` -gt "0" ]; then
+        MSG=" "
+        MSG+="$(c '0;07')$AMFOCUSED "
+        MSG+="$(task _get $(task _ids +ACTIVE).description)$RESET "
+    fi
+
+    echo $MSG
 }
 
 TERMTITLE='\033]0; '
@@ -98,12 +124,11 @@ function update_PS1 {
   echo -ne "$TERMTITLE$(cut_dirname)$TERMEND"
   unset PS1
   PS1+="\n"
-  PS1+="$RESET$(task_indicator) "
   PS1+="$ERROR\t "
-  PS1+="$PROMPTCOLORS "
-  PS1+="$_YELLOW\w "
-  PS1+="$(git_prompt)\n"
-  PS1+="$RESET$ "
+  PS1+="$__YELLOW\w "
+  PS1+="$(git_prompt)"
+  PS1+="$RESET$(task_indicator) "
+  PS1+="\n$RESET$ "
 }
 
 PROMPT_COMMAND=update_PS1
