@@ -21,3 +21,7 @@ ${PREFIX}/bin/${PYTHON} -m \
       pytest-sugar \
       pytest-cov \
       pytest-mock
+
+[[ -f requirements.txt ]] &&  \
+    ${PREFIX}/bin/${PYTHON} -m \
+        pip install -r requirements.txt
