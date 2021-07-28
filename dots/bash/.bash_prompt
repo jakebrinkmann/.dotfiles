@@ -98,14 +98,18 @@ function task_indicator {
         MSG+="$GREEN$DONE$RESET"
     fi
 
-    # Override the status when I'm busy
-    if [ `task +ACTIVE count` -gt "0" ]; then
-        MSG=" "
-        MSG+="$(c '0;07')$AMFOCUSED "
-        MSG+="$(task _get $(task _ids +ACTIVE).description)$RESET "
-    fi
-
     echo $MSG
+}
+
+function task_active {
+  MSG=""
+  # Override the status when I'm busy
+  if [ `task +ACTIVE count` -gt "0" ]; then
+      MSG+="$AMFOCUSED "
+      MSG+="$(task _get $(task _ids +ACTIVE).description)\n"
+  fi
+
+  echo $MSG
 }
 
 TERMTITLE='\033]0; '
@@ -124,6 +128,7 @@ function update_PS1 {
   echo -ne "$TERMTITLE$(cut_dirname)$TERMEND"
   unset PS1
   PS1+="\n"
+  PS1+="$_BLACK$(task_active)"
   PS1+="$ERROR\t "
   PS1+="$__YELLOW\w "
   PS1+="$(git_prompt)"
