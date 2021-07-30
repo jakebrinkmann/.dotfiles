@@ -74,25 +74,31 @@ report.blocked.sort=wait+,due+,entry+
 # It's like this option was made for me.
 urgency.inherit=on
 
+# Don't make chatty tasks important
+urgency.annotations.coefficient=              0.0 # dont care about annotations
+
 # How urgent something is depends upon what's waiting on it.
 urgency.blocking.coefficient=                 1.0 # blocking other tasks
-urgency.blocked.coefficient=                  0.0 # blocked by other tasks
+urgency.blocked.coefficient=                 -1.0 # blocked by other tasks
 
 # Make the "+next" tag super important
-urgency.user.tag.next.coefficient=           2.0 # +next tag
+urgency.user.tag.next.coefficient=            2.0 # +next tag
+
+# Make the "+later" tag unimportant
+urgency.user.tag.later.coefficient=           -2.0 # +later tag
 
 # More sensible priorities, plz.
 uda.priority.values = H,M,,L
 urgency.uda.priority.L.coefficient=0
 urgency.uda.priority..coefficient=1.8
 
-# Get open work into review/testing
-urgency.uda.jirastatus.Open.coefficient=0.0
-urgency.uda.jirastatus.Technical Review.coefficient=1.0
-urgency.uda.jirastatus.QA Test.coefficient=2.0
-urgency.uda.jirastatus.In Progress.coefficient=3.0
-
-# # Get subtasks done before main tasks
+# # Get open work into review/testing
+# urgency.uda.jirastatus.Open.coefficient=0.0
+# urgency.uda.jirastatus.Technical Review.coefficient=1.0
+# urgency.uda.jirastatus.QA Test.coefficient=2.0
+# urgency.uda.jirastatus.In Progress.coefficient=3.0
+#
+# # # Get subtasks done before main tasks
 # urgency.uda.jiraissuetype.Task.coefficient=0.0
 # urgency.uda.jiraissuetype.Sub-task.coefficient=3.0
 
