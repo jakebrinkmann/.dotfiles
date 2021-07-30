@@ -105,8 +105,8 @@ function task_active {
   MSG=""
   # Override the status when I'm busy
   if [ `task +ACTIVE count` -gt "0" ]; then
-      MSG+="$AMFOCUSED "
-      MSG+="$(task _get $(task _ids +ACTIVE).description)\n"
+    MSG+="$AMFOCUSED($(task _ids +ACTIVE)) "
+    MSG+="$(task _get $(task _ids +ACTIVE).description)\n"
   fi
 
   echo $MSG
