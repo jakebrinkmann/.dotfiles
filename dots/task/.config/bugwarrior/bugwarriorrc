@@ -23,7 +23,7 @@ service = jira
 jira.base_uri = http://company.atlassian.net
 jira.username = username@company.com
 jira.password = api-token
-jira.query = assignee = currentUser() AND resolution is null
+jira.query = assignee = currentUser() AND resolution is null AND type not in (Epic, Sub-Task)
 # jira.default_priority = H
 jira.description_template = {{jiraid}}: {{jirasummary}}
 jira.project_template = jira.{{project}}
