@@ -178,8 +178,8 @@ let g:ale_fixers = {
     \'sql': ['pgformatter']
 \}
 let g:ale_python_isort_options = '--sp ~/.isort.cfg --virtual-env .venv'
-let g:ale_python_black_options = '--line-length=88'
-let g:ale_python_flake8_options = '--max-line-length 88'
+let g:ale_python_black_options = '--line-length=120'
+let g:ale_python_flake8_options = '--max-line-length 120'
 " let g:ale_python_mypy_options = '--strict --warn-unreachable --warn-return-any --follow-imports=normal'
 " let g:ale_python_mypy_options = '--ignore-missing-imports --follow-imports=silent --show-column-numbers --strict'
 let g:ale_python_mypy_show_notes = 1

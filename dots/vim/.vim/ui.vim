@@ -37,10 +37,10 @@ set showmatch
 syntax on
 set synmaxcol=512
 
-" Set the text width to 88 and create a vertical bar in 89th column. Some
+" Set the text width to 120 and create a vertical bar in 121th column. Some
 " filetypes such as gitcommit have a custom width defined and we use autocmd
 " here so our textwidth value takes precedence.
-set colorcolumn=89
+set colorcolumn=121
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 " Trailing whitespace is an ERROR
