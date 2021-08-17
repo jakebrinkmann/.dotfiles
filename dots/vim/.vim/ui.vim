@@ -2,11 +2,6 @@
 set updatetime=50
 " Highlight current cursor-line
 set cursorline
-" Line Numbers
-set number
-" Relative to current line
-set norelativenumber
-set nowrap
 " Turn on highlighting search-hits
 set hlsearch
 " Start searching right away
@@ -35,16 +30,26 @@ set signcolumn=number
 set showmatch
 " syntax highlighting
 syntax on
+" only highlight first N characters of very long lines
 set synmaxcol=512
+" remove all guioptions
+set guioptions=
+
+" Don't redraw while executing macros (good performance config)
+set lazyredraw
+set updatetime=4000
 
 " Set the text width to 120 and create a vertical bar in 121th column. Some
 " filetypes such as gitcommit have a custom width defined and we use autocmd
 " here so our textwidth value takes precedence.
+set nowrap
 set colorcolumn=121
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 " Trailing whitespace is an ERROR
-match Error /\s\+$/
+match Error '\s\+$'
+" highlight smart quotes
+match Error '[“”]'
 
 " Show dots for spaces (listchars)
 set list
@@ -76,3 +81,11 @@ nnoremap <silent> == :wincmd =<CR>
 " Re-select visual block after indenting
 vnoremap < <gv
 vnoremap > >gv
+
+" turn hybrid line numbers on when not INSERT
+set number
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &number && mode() != "i" | set relativenumber   | endif
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &number                  | set norelativenumber | endif
+augroup END

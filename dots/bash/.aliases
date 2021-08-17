@@ -20,11 +20,9 @@ alias m="find . \( ! -regex '.*/\..*' \) -printf '%T@ %Tc %p\n' | sort -n | tail
 alias first="head -n1"
 alias pip="python -m pip"
 
-# Configure tmux to flash red on bell
+# flash red on bell
 alias bell="echo -e '\a'"
 alias wbell='for x in $(seq 1 60); do bell; sleep 1; done'
-alias tmux='tmux -2'
-alias ta='tmux a'
 
 # Easier navigation: .., ..., ...., ....., ~ and -
 alias ..="cd .."
@@ -69,9 +67,9 @@ alias stopenv='deactivate'
 alias archive='tar --create --gzip --verbose --file'
 alias dotenv='export $(cat .env | xargs)'
 
-# Task Management (TaskWarrior, TimeWarrior)
-alias t="task"
-alias bw="bugwarrior-pull"
-
 # console-oriented
 alias w="curl wttr.in/?0"
+
+# ideas
+alias notes='$EDITOR ~/NOTES.md'
+alias tasks='$EDITOR ~/TODOS.md'

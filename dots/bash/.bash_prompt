@@ -50,25 +50,6 @@ function git_prompt {
   fi
 }
 
-# TaskWarrior integration
-# Inspired by Paul Fenwick (https://gist.github.com/pjf)
-function task_indicator {
-  MSG=""
-    if [ `task +READY +OVERDUE count` -gt "0" ]; then
-        MSG+="$RED$OVERDUE$RESET"
-    elif [ `task +READY +TODAY count` -gt "0" ]; then
-        MSG+="$YELLOW$DUETODAY$RESET"
-    elif [ `task +READY +TOMORROW count` -gt "0" ]; then
-        MSG+="$BLUE$DUETOMORROW$RESET"
-    elif [ `task +READY urgency \> 10 count` -gt "0" ]; then
-        MSG+="$CYAN$URGENT$RESET"
-    else
-        MSG+="$GREEN$DONE$RESET"
-    fi
-
-    echo $MSG
-}
-
 TERMTITLE='\033]0; '
 TERMEND='\007'
 
@@ -88,7 +69,6 @@ function update_PS1 {
   PS1+="$ERROR\t "
   PS1+="$__YELLOW\w "
   PS1+="$(git_prompt)"
-  PS1+="$RESET$(task_indicator) "
   PS1+="\n$RESET$ "
 }
 

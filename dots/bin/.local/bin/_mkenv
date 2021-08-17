@@ -16,6 +16,8 @@ ${PREFIX}/bin/${PYTHON} -m \
       black \
       flake8 \
       isort \
+      flynt \
+      pyupgrade \
       pycodestyle \
       pydocstyle \
       pytest-sugar \

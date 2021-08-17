@@ -13,6 +13,7 @@ scriptencoding utf-8
 set timeout ttimeoutlen=50
 " never ring the bell for any reason
 set noerrorbells
+set novisualbell
 " Search should be case insensitive unless containing uppercase characters.
 set ignorecase
 set smartcase
@@ -66,13 +67,44 @@ set whichwrap=b,h,l,s,<,>,[,],~
 " Do not treat numbers that begin with 0 as octal.
 set nrformats+=alpha nrformats-=octal
 
+" Keep undo history across sessions. (Vim 7.3+)
+if has('persistent_undo')
+  set undodir=~/.vim/tmp/undo undofile
+endif
+set noswapfile
+set nobackup
+
 " SpaceVIM! SpaceMACS!
 let mapleader = "\<SPACE>"
+
+" move vertically by visual line and keep things centered
+nnoremap j gjzz
+nnoremap k gkzz
+nnoremap G Gzz
+nnoremap n nzz
+nnoremap N Nzz
+vnoremap j gjzz
+vnoremap k gkzz
+
+" Make Y behave like D and C
+nnoremap Y y$
+
+" disable arrow keys
+map <up> <nop>
+map <down> <nop>
+map <left> <nop>
+map <right> <nop>
+
+" Break Undo sequence
+inoremap , ,<c-g>u
+inoremap . .<c-g>u
+inoremap ! !<c-g>u
+inoremap ? ?<c-g>u
 
 " gf to edit files, too
 nnoremap gf :e <cfile><CR>
 " Shift-G shows full path
-nnoremap G :echo expand('%:p')<CR>
+nnoremap <leader>G :echo expand('%:p')<CR>
 " Ctrl+Z to save
 nnoremap <c-z> :w<CR>
 inoremap <c-z> <Esc>:w<CR>a
@@ -88,6 +120,8 @@ nnoremap <leader>ss :setlocal spell! spelllang=en_us<CR>
 nnoremap <leader>pv :wincmd v<bar> :Explore <bar> :wincmd r <bar> :vertical resize 30<CR>
 " \\ -- open last buffer
 nnoremap \\ <C-^>
+" \d -- delete current file
+nnoremap <Leader>d :call delete(expand("%")) \| bprevious \| bdelete #<CR>
 " \r -- read file, starting in same directory as current file
 nnoremap <Leader>r :r <C-R>=expand("%:h") . "/" <CR>
 " \e -- edit file, starting in same directory as current file
@@ -112,6 +146,10 @@ nnoremap <silent> \<Right> gt
 " \0 -- Quickly switch/navigate tabs
 nnoremap <silent> \0 :tabnext<CR>
 nnoremap <silent> \s :tab split<CR>
+
+" Disable Ex mode
+nnoremap Q <nop>
+nnoremap q <nop>
 
 " \p -- Toggle insert mode
 function! TogglePaste()
@@ -158,14 +196,35 @@ augroup fancy_files
   autocmd FileType neoterm setlocal nonumber colorcolumn= nolist
   " Spaces instead of Tabs to take over da world
   autocmd FileType * setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab smartindent
-  autocmd FileType yaml setlocal autoindent cursorcolumn
+  " 1 tab == 4 spaces
   autocmd FileType python setlocal tabstop=4 softtabstop=4 shiftwidth=4 autoindent
-  autocmd FileType make setlocal noexpandtab
   " Highlight commit message overflow
   autocmd FileType gitcommit setlocal textwidth=72
+  " Syntax of these languages is fussy over tabs/spaces
+  autocmd FileType make setlocal tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+  autocmd FileType Makefile setlocal tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+  autocmd FileType yml setlocal tabstop=2 softtabstop=2 shiftwidth=2 noexpandtab autoindent cursorcolumn
+  autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 noexpandtab autoindent cursorcolumn
 augroup end
+
+" create file parent directories if they don't exist
+if !exists('*s:MkNonExDir')
+    function s:MkNonExDir(file, buf)
+        if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
+            let l:dir=fnamemodify(a:file, ':h')
+            if !isdirectory(l:dir)
+                call mkdir(l:dir, 'p')
+            endif
+        endif
+    endfunction
+endif
 
 augroup AutoMkdir
   autocmd!
-  autocmd BufWritePre * call mkdir(expand("<afile>:p:h"), "p")
+  autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
+augroup END
+
+augroup AutoSpellCheck
+    autocmd FileType markdown,html,txt,tex setlocal spell spelllang=en_us
+    autocmd FileType markdown,html,txt,tex setlocal linebreak
 augroup END

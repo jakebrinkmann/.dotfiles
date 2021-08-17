@@ -110,3 +110,7 @@ main() {
 }
 
 main "$@"
+
+
+# aws secretsmanager list-secrets | jq '.SecretList[].Name'
+# aws secretsmanager get-secret-value --secret-id $1
