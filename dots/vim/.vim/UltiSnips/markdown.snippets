@@ -4,3 +4,29 @@ snippet ur "unreleased"
 ### Changed
 ### Fixed
 endsnippet
+
+snippet dd "current date"
+`!v strftime('%a, %d %b %Y %X %z')`
+-------------------------------
+endsnippet
+
+snippet ta "task tracking pomodoro"
+- [ ] task pending planned grey/comment
+- [%] some percentage done `WIP`
+- [*] in progress right now `WIP`
+- [?] stalled (by lack of info) `WAIT`
+- [.] paused (by me)
+- [:] blocked (by external condition)
+- { } optional/stretch goal
+
+# DONE
+[x] done
+[+] added and done
+[>] bumped to next week
+[-] removed
+[/] failed
+
+[ ]' internal interruption
+[ ]- external interruption
+[ ]. 25-minute pomodoro
+endsnippet
