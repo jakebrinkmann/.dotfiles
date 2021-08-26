@@ -58,6 +58,7 @@ alias _vpn='sudo ip link set dev eth0 mtu 1400'
 
 # WSL2 Memory Leak
 alias _free="sudo su -c 'sync; echo 1 > /proc/sys/vm/drop_caches'"
+alias DockerDesktop="'/c/Program Files/Docker/Docker/Docker Desktop.exe' &"
 
 # Python Environments
 alias startenv='source .venv/bin/activate && which python3'
