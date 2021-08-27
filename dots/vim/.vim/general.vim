@@ -77,15 +77,6 @@ set nobackup
 " SpaceVIM! SpaceMACS!
 let mapleader = "\<SPACE>"
 
-" move vertically by visual line and keep things centered
-nnoremap j gjzz
-nnoremap k gkzz
-nnoremap G Gzz
-nnoremap n nzz
-nnoremap N Nzz
-vnoremap j gjzz
-vnoremap k gkzz
-
 " Make Y behave like D and C
 nnoremap Y y$
 
@@ -121,15 +112,13 @@ nnoremap <leader>pv :wincmd v<bar> :Explore <bar> :wincmd r <bar> :vertical resi
 " \\ -- open last buffer
 nnoremap \\ <C-^>
 " \d -- delete current file
-nnoremap <Leader>d :call delete(expand("%")) \| bprevious \| bdelete #<CR>
+nnoremap <Leader>dd :call delete(expand("%")) \| bprevious \| bdelete #<CR>
 " \r -- read file, starting in same directory as current file
 nnoremap <Leader>r :r <C-R>=expand("%:h") . "/" <CR>
 " \e -- edit file, starting in same directory as current file
 nnoremap <Leader>e :e <C-R>=expand("%:h") . "/" <CR>
 " \sa -- saveas file, starting as current file
 nnoremap <Leader>sa :saveas <C-R>=expand("%") <CR>
-" \w -- Easy save
-nnoremap <Leader>w :w<CR>
 " \a -- Easy copy matches into register
 nnoremap <Leader>a :let @a="" \| g//y A <Left><Left><Left><Left><Left>
 

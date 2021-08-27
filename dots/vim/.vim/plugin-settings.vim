@@ -269,9 +269,9 @@ nnoremap <Leader>h :History<CR>
 let g:fzf_preview_window = 'right:60%'
 
 " Ctrl-D to close current buffer (:bufdelete)
-nnoremap <silent> <C-d> :Sayonara<CR>
+nnoremap <silent> <Leader>q :Sayonara<CR>
 " Ctrl-C to close current window (:close)
-nnoremap <silent> <C-c> :Sayonara!<CR>
+nnoremap <silent> <Leader>c :Sayonara!<CR>
 
 " speed optimizations
 let g:gitgutter_realtime = 1

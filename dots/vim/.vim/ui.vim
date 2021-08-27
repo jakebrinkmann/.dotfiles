@@ -22,8 +22,8 @@ set splitright
 " dont auto-resize windows
 set noequalalways
 " Set scroll offset so the active line stays towards the center.
-set scrolloff=8
-set sidescrolloff=5
+set scrolloff=999
+set sidescrolloff=999
 " merge signcolumn and number column into one
 set signcolumn=number
 " show matching brackets/parenthesis
