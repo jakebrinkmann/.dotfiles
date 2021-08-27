@@ -47,7 +47,6 @@ alias gi=git
 alias e=vim
 alias python=python3
 alias vimrc="vim ~/.vimrc"
-alias q=logout
 
 # more wholesome experience
 alias please=sudo
