@@ -1,0 +1,38 @@
+# aws.compute.EC2 (Elastic Compute Cloud)
+# aws.management.SSM (Systems Manager)
+# aws.network.ELB (Elastic Load Balancing) 
+# aws.network.VPC (Virtual Private Cloud)
+# aws.security.IAM (Identity and Access Management)
+# aws.security.STS (Security Token Service)
+snippet aws-sts "aws sts commands"
+  aws sts get-caller-identity --output json | jq '.Account' -r
+endsnippet
+# aws.storage.S3 (Simple Storage Service) 
+snippet aws-s3 "aws s3 commands"
+  aws s3api list-buckets | jq -c '.Buckets[].Name'
+  aws s3api list-objects --bucket $BUCKET_NAME | jq -c '.Contents[].Key'
+  aws s3 cp s3://$BUCKET_NAME/$OBJECT_KEY /tmp
+endsnippet
+# aws.database.RDS (Relational Data Service)
+# aws.database.DDB (DynamoDB NoSQL Database)
+# aws.integration.SF (StepFunctions)
+# aws.integration.SQS (Simple Queue Service)
+# aws.integration.SNS (Simple Notification Service)
+snippet aws-sns "aws sns commands"
+  aws sns list-topics | jq -c '.Topics[].TopicArn'
+  aws sns subscribe --topic-arn <value> --protocol email --notification-endpoint <email>
+  aws sns list-subscriptions | jq -c '.Subscriptions[] | select(.Protocol | test("email"))'
+  aws sns unsubscribe --subscription-arn <value>
+endsnippet
+# aws.engagement.SES (Simple Email Service)
+# aws.management.CFN (CloudFormation Infrastructure Stack)
+# aws.compute.ECR (Elastic Container Registry)
+# aws.compute.ECS (Elastic Container Service)
+# aws.compute.Lambda, SAM(Serverless Application Model)
+# aws.network.CF (CloudFront Delivery Network)
+# aws.management.CloudWatch
+snippet aws-logs "CloudWatch Observability"
+  aws logs describe-log-groups | jq -c '.logGroups[].kogGroupName'
+  aws logs filter-log-events --log-stream-names $LOG_STREAM --log-group-name $LOG_GROUP_NAME --filter-pattern "$MY_QUERY" | jq -r .events[].message 
+  aws logs tail $LOG_GROUP_NAME --since '10m' --follow --format short
+endsnippet
