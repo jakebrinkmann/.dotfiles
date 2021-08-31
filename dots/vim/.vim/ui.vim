@@ -107,3 +107,10 @@ endfunction
 augroup PomodoroTodoList
     autocmd BufEnter TODOS.md call PomoHighlighter()
 augroup END
+
+function! AdaptColorscheme()
+   highlight Normal ctermbg=none
+endfunction
+augroup MakeVimTransparent
+  autocmd ColorScheme * call AdaptColorscheme()
+augroup END
