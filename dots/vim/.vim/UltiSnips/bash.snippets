@@ -32,7 +32,8 @@ endsnippet
 # aws.network.CF (CloudFront Delivery Network)
 # aws.management.CloudWatch
 snippet aws-logs "CloudWatch Observability"
-  aws logs describe-log-groups | jq -c '.logGroups[].kogGroupName'
+  aws logs describe-log-groups | jq -c '.logGroups[].logGroupName'
   aws logs filter-log-events --log-stream-names $LOG_STREAM --log-group-name $LOG_GROUP_NAME --filter-pattern "$MY_QUERY" | jq -r .events[].message 
+  aws logs filter-log-events --log-group-name $LOG_GROUP_NAME --start-time $(date --date="1 day ago" +%s000) --filter-pattern "purchase_id" | jq -c '.events[]'
   aws logs tail $LOG_GROUP_NAME --since '10m' --follow --format short
 endsnippet
