@@ -31,6 +31,9 @@ snippet aws-sns "aws sns commands"
 endsnippet
 # aws.engagement.SES (Simple Email Service)
 # aws.management.CFN (CloudFormation Infrastructure Stack)
+snippet aws-cfn "aws cloudformation commands"
+  aws cloudformation list-exports | jq -c '.Exports[].Name'
+endsnippet
 # aws.compute.ECR (Elastic Container Registry)
 # aws.compute.ECS (Elastic Container Service)
 # aws.compute.Lambda, SAM(Serverless Application Model)
