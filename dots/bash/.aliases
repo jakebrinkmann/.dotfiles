@@ -71,5 +71,5 @@ alias dotenv='export $(cat .env | xargs)'
 alias w="curl wttr.in/?0"
 
 # ideas
-alias notes='$EDITOR ~/NOTES.md'
-alias tasks='$EDITOR ~/TODOS.md'
+alias notes='vim -O ~/TODOS.md ~/NOTES.md'
+alias tasks='notes'
