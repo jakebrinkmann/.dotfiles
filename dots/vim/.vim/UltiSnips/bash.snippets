@@ -1,22 +1,27 @@
 # aws.compute.EC2 (Elastic Compute Cloud)
 # aws.management.SSM (Systems Manager)
-# aws.network.ELB (Elastic Load Balancing) 
+# aws.network.ELB (Elastic Load Balancing)
 # aws.network.VPC (Virtual Private Cloud)
 # aws.security.IAM (Identity and Access Management)
 # aws.security.STS (Security Token Service)
 snippet aws-sts "aws sts commands"
   aws sts get-caller-identity --output json | jq '.Account' -r
 endsnippet
-# aws.storage.S3 (Simple Storage Service) 
+# aws.storage.S3 (Simple Storage Service)
 snippet aws-s3 "aws s3 commands"
   aws s3api list-buckets | jq -c '.Buckets[].Name'
   aws s3api list-objects --bucket $BUCKET_NAME | jq -c '.Contents[].Key'
   aws s3 cp s3://$BUCKET_NAME/$OBJECT_KEY /tmp
+  aws s3api get-object --bucket $BUCKET_NAME --key $OBJECT_KEY /tmp/$OBJECT_KEY
 endsnippet
 # aws.database.RDS (Relational Data Service)
 # aws.database.DDB (DynamoDB NoSQL Database)
 # aws.integration.SF (StepFunctions)
 # aws.integration.SQS (Simple Queue Service)
+snippet aws-sqs "aws sqs commands"
+  aws sqs list-queues | jq -c '.QueueUrls[]'
+  aws sqs send-message --queue-url $QUEUE_URL --message-body file://$EVENT_PATH
+endsnippet
 # aws.integration.SNS (Simple Notification Service)
 snippet aws-sns "aws sns commands"
   aws sns list-topics | jq -c '.Topics[].TopicArn'
@@ -33,7 +38,8 @@ endsnippet
 # aws.management.CloudWatch
 snippet aws-logs "CloudWatch Observability"
   aws logs describe-log-groups | jq -c '.logGroups[].logGroupName'
-  aws logs filter-log-events --log-stream-names $LOG_STREAM --log-group-name $LOG_GROUP_NAME --filter-pattern "$MY_QUERY" | jq -r .events[].message 
-  aws logs filter-log-events --log-group-name $LOG_GROUP_NAME --start-time $(date --date="1 day ago" +%s000) --filter-pattern "purchase_id" | jq -c '.events[]'
-  aws logs tail $LOG_GROUP_NAME --since '10m' --follow --format short
+  aws logs filter-log-events --log-stream-names $STREAM_NAME --log-group-name $GROUP_NAME --filter-pattern "$MY_QUERY" | jq -r .events[].message
+  aws logs filter-log-events --log-group-name $GROUP_NAME --start-time $(date --date="1 day ago" +%s000) --filter-pattern "purchase_id" | jq -c '.events[]'
+  aws logs get-log-events --log-group-name $GROUP_NAME --log-stream-name $STREAM_NAME
+  aws logs tail $GROUP_NAME --since '10m' --follow --format short
 endsnippet
