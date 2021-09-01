@@ -3,9 +3,20 @@
 # aws.network.ELB (Elastic Load Balancing)
 # aws.network.VPC (Virtual Private Cloud)
 # aws.security.IAM (Identity and Access Management)
+snippet aws-iam "aws iam commands"
+  aws iam list-roles | jq -c '.Roles[].Arn'
+endsnippet
 # aws.security.STS (Security Token Service)
 snippet aws-sts "aws sts commands"
   aws sts get-caller-identity --output json | jq '.Account' -r
+endsnippet
+# aws.security.SecretsManager
+snippet aws-sm "aws secrets commands"
+  aws secretsmanager create-secret --name $SECRET_NAME --secret-string $VALUE
+  aws secretsmanager list-secrets | jq -c '.SecretList[].Name'
+  aws secretsmanager get-secret-value --secret-id $SECRET_NAME | jq -c '.SecretString | fromjson'
+  aws secretsmanager put-secret-value --secret-id $SECRET_NAME --secret-string "'$VALUE'"
+  aws secretsmanager delete-secret --secret-id $SECRET_NAME --force-delete-without-recovery
 endsnippet
 # aws.storage.S3 (Simple Storage Service)
 snippet aws-s3 "aws s3 commands"
@@ -33,10 +44,24 @@ endsnippet
 # aws.management.CFN (CloudFormation Infrastructure Stack)
 snippet aws-cfn "aws cloudformation commands"
   aws cloudformation list-exports | jq -c '.Exports[].Name'
+  aws cloudformation describe-stacks | jq -c '.Stacks[].StackName'
+  aws cloudformation describe-stacks --stack-name $STACK_NAME | jq -c '.Stacks[].StackStatus'
+  aws cloudformation describe-stack-resources --stack-name $STACK_NAME | jq -c '.StackResources[].LogicalResourceId'
+  aws cloudformation delete-stack --stack-name $STACK_NAME
 endsnippet
 # aws.compute.ECR (Elastic Container Registry)
 # aws.compute.ECS (Elastic Container Service)
 # aws.compute.Lambda, SAM(Serverless Application Model)
+snippet aws-lambda "aws lambda commands"
+  pip install -r requirements.txt --target . && zip $(mktemp /tmp/my-function-XXXX.zip) -r ./*
+  aws lambda update-function-code --function-name $LAMBDA_NAME --zip-file "fileb://$FILENAME" --publish | jq -r .LastUpdateStatus
+  aws lambda update-function-configuration --function-name $LAMBDA_NAME --timeout 30 --memory-size 256 | jq -r .LastUpdateStatus
+  aws lambda invoke  --function-name $LAMBDA_NAME --invocation-type RequestResponse --log-type Tail --payload "$(cat $EVENT | base64)" $tmpfile | jq -r .LogResult | base64 --decode
+endsnippet
+snippet aws-sam "aws sam commands"
+  sam build --use-container
+  sam deploy --stack-name $STACK_NAME --tags StackName=$STACK_NAME --capabilities CAPABILITY_IAM --no-fail-on-empty-changeset --s3-bucket $BUCKET_NAME --confirm-changeset
+endsnippet
 # aws.network.CF (CloudFront Delivery Network)
 # aws.management.CloudWatch
 snippet aws-logs "CloudWatch Observability"
