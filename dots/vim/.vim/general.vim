@@ -217,3 +217,6 @@ augroup AutoSpellCheck
     autocmd FileType markdown,html,txt,tex setlocal spell spelllang=en_us
     autocmd FileType markdown,html,txt,tex setlocal linebreak
 augroup END
+
+" Replace abbreviations as I type
+inoreabbrev ass assert 0
