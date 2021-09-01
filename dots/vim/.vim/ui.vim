@@ -98,11 +98,13 @@ function! PomoHighlighter()
   syntax match Constant /\[%\].*/ " (Purple) started but not completed
   syntax match Identifier /\[\*\].*/ " (Blue) in progress right now
   syntax match String /\[x\].*/ " (Green) task done
+  syntax match String /{x}.*/ " (Green) task done
   syntax match Type /\[\.\].*/ " (Yellow) paused by me
   syntax match Special /\[:\].*/ " (Orange) blocked by external condition
   syntax match Keyword /\[?\].*/ " (Red) stalled by lack of info
   syntax match Define /\[-\].*/ " (Aqua) removed
   syntax match Operator /\[>\].*/ " (White) bumped to next week
+  syntax region Ignore start=/^[A-Za-z0-9]/ end=/^-*-$/  " (Black) Make text
 endfunction
 augroup PomodoroTodoList
     autocmd BufEnter TODOS.md call PomoHighlighter()
