@@ -73,3 +73,6 @@ function update_PS1 {
 }
 
 PROMPT_COMMAND=update_PS1
+
+# To override:
+# env PS1="$RED(prod-db)> " bash --norc
