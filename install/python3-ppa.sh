@@ -1,6 +1,6 @@
 # WIP - ONLY FOR UBUNTU (WSL)
 
-VERSION="3.8"
+VERSION="3.9"
 PYTHON="python${VERSION}"
 
 # Install from PPA
@@ -18,16 +18,8 @@ ${PYTHON} -m pip install --upgrade pip wheel setuptools
 # Install my favorite tools
 ${PYTHON} -m pip install --upgrade \
     pytest \
-    pytest-sugar \
     pytest-mock \
     black \
-    poetry \
-    flynt \
     flake8 \
     mypy \
-    pydocstyle \
-    isort \
-    autoflake
-
-# Enable bash completions for poetry
-${PYTHON} -m poetry completions bash > /etc/bash_completion.d/poetry.bash-completion
+    isort
