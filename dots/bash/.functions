@@ -6,7 +6,7 @@ else
 fi
 
 # Find things in internal history
-h() { grep -a "$1" "${HOME}/.bash_eternal_history"; }
+bh() { grep -a "$@" ${HOME}/.bash_history*; }
 
 # folder contents
 l() {
