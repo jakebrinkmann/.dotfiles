@@ -15,7 +15,7 @@ snippet aws-sm "aws secrets commands"
   aws secretsmanager create-secret --name $SECRET_NAME --secret-string $VALUE
   aws secretsmanager list-secrets | jq -c '.SecretList[].Name'
   aws secretsmanager get-secret-value --secret-id $SECRET_NAME | jq -c '.SecretString | fromjson'
-  aws secretsmanager put-secret-value --secret-id $SECRET_NAME --secret-string "'$VALUE'"
+  aws secretsmanager put-secret-value --secret-id $SECRET_NAME --secret-string "$VALUE"
   aws secretsmanager delete-secret --secret-id $SECRET_NAME --force-delete-without-recovery
 endsnippet
 # aws.storage.S3 (Simple Storage Service)
@@ -36,6 +36,7 @@ endsnippet
 # aws.integration.SNS (Simple Notification Service)
 snippet aws-sns "aws sns commands"
   aws sns list-topics | jq -c '.Topics[].TopicArn'
+  aws sns list-topics --query "Topics[?contains(TopicArn, 'c')].TopicArn | [0]"
   aws sns subscribe --topic-arn <value> --protocol email --notification-endpoint <email>
   aws sns list-subscriptions | jq -c '.Subscriptions[] | select(.Protocol | test("email"))'
   aws sns unsubscribe --subscription-arn <value>
@@ -46,7 +47,7 @@ snippet aws-cfn "aws cloudformation commands"
   aws cloudformation list-exports | jq -c '.Exports[].Name'
   aws cloudformation describe-stacks | jq -c '.Stacks[].StackName'
   aws cloudformation describe-stacks --stack-name $STACK_NAME | jq -c '.Stacks[].StackStatus'
-  aws cloudformation describe-stack-resources --stack-name $STACK_NAME | jq -c '.StackResources[].LogicalResourceId'
+  aws cloudformation describe-stack-resources --stack-name $STACK_NAME | jq -c '.StackResources[].PhysicalResourceId'
   aws cloudformation delete-stack --stack-name $STACK_NAME
 endsnippet
 # aws.compute.ECR (Elastic Container Registry)
