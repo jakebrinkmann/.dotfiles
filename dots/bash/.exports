@@ -5,7 +5,7 @@
 export HISTFILESIZE=
 export HISTSIZE=
 export HISTTIMEFORMAT="[%F %T] "
-export HISTFILE="$HOME/.bash_history_$(date '+%Y_%m_%d')"
+export HISTFILE="$HOME/.bash_history_$(date '+%Y_%m')"
 export HISTCONTROL=ignorespace:ignoredups:erasedups
 export HISTIGNORE='pwd:exit:fg:bg:top:clear:history:ls:uptime:df:cd:logout:bh *'
 
