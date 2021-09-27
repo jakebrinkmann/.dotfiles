@@ -21,9 +21,9 @@ endsnippet
 # aws.storage.S3 (Simple Storage Service)
 snippet aws-s3 "aws s3 commands"
   aws s3api list-buckets | jq -c '.Buckets[].Name'
-  aws s3api list-objects --bucket $BUCKET_NAME | jq -c '.Contents[].Key'
-  aws s3 cp s3://$BUCKET_NAME/$OBJECT_KEY /tmp
-  aws s3api get-object --bucket $BUCKET_NAME --key $OBJECT_KEY /tmp/$OBJECT_KEY
+  aws s3api list-objects --bucket $BUCKET | jq -c '.Contents[].Key'
+  aws s3 cp s3://$BUCKET/$OBJECT_KEY /tmp
+  aws s3api get-object --bucket $BUCKET --key $OBJECT_KEY /tmp/$OBJECT_KEY
 endsnippet
 # aws.database.RDS (Relational Data Service)
 # aws.database.DDB (DynamoDB NoSQL Database)
@@ -42,13 +42,32 @@ snippet aws-sns "aws sns commands"
   aws sns unsubscribe --subscription-arn <value>
 endsnippet
 # aws.engagement.SES (Simple Email Service)
+snippet aws-ses "aws ses commands"
+aws sesv2 create-configuration-set-event-destination \
+  --configuration-set-name EmailEventConfigSet \
+  --event-destination-name EmailSnsEventDestination \
+  --event-destination $(cat <<__JSON__
+{
+  "Enabled": true,
+  "MatchingEventTypes": [
+    "REJECT",
+    "BOUNCE",
+    "DELIVERY",
+    "RENDERING_FAILURE"
+  ],
+  "SnsDestination": {
+    "TopicArn": "$EmailEventTopicArn"
+  }
+}
+__JSON__
+endsnippet
 # aws.management.CFN (CloudFormation Infrastructure Stack)
 snippet aws-cfn "aws cloudformation commands"
   aws cloudformation list-exports | jq -c '.Exports[].Name'
   aws cloudformation describe-stacks | jq -c '.Stacks[].StackName'
-  aws cloudformation describe-stacks --stack-name $STACK_NAME | jq -c '.Stacks[].StackStatus'
-  aws cloudformation describe-stack-resources --stack-name $STACK_NAME | jq -c '.StackResources[].PhysicalResourceId'
-  aws cloudformation delete-stack --stack-name $STACK_NAME
+  aws cloudformation describe-stacks --stack-name $STACK | jq -c '.Stacks[].StackStatus'
+  aws cloudformation describe-stack-resources --stack-name $STACK | jq -c '.StackResources[].PhysicalResourceId'
+  aws cloudformation delete-stack --stack-name $STACK
 endsnippet
 # aws.compute.ECR (Elastic Container Registry)
 # aws.compute.ECS (Elastic Container Service)
@@ -61,7 +80,8 @@ snippet aws-lambda "aws lambda commands"
 endsnippet
 snippet aws-sam "aws sam commands"
   sam build --use-container
-  sam deploy --stack-name $STACK_NAME --tags StackName=$STACK_NAME --capabilities CAPABILITY_IAM --no-fail-on-empty-changeset --s3-bucket $BUCKET_NAME --confirm-changeset
+  sam deploy --stack-name $STACK --tags StackName=$STACK --capabilities CAPABILITY_IAM --no-fail-on-empty-changeset --s3-bucket $BUCKET --confirm-changeset
+  sam logs --stack-name $STACK --name $FUNCTION --tail
 endsnippet
 # aws.network.CF (CloudFront Delivery Network)
 # aws.management.CloudWatch
