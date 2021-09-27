@@ -94,7 +94,7 @@ augroup END
 function! PomoHighlighter()
   setlocal nolist
   syntax clear
-  syntax match Comment /\[ \].*/ " (LightGrey) pending or planned
+  syntax match Operator /\[ \].*/ " (White) pending or planned
   syntax match Constant /\[%\].*/ " (Purple) started but not completed
   syntax match Identifier /\[\*\].*/ " (Blue) in progress right now
   syntax match String /\[x\].*/ " (Green) task done
@@ -103,7 +103,8 @@ function! PomoHighlighter()
   syntax match Special /\[:\].*/ " (Orange) blocked by external condition
   syntax match Keyword /\[?\].*/ " (Red) stalled by lack of info
   syntax match Define /\[-\].*/ " (Aqua) removed
-  syntax match Operator /\[>\].*/ " (White) bumped to next week
+  syntax match Comment /\[>\].*/ " (LightGrey) bumped to next week
+  syntax match NonText /{ }.*/ " (Grey) stretch goal
   syntax region Ignore start=/^[A-Za-z0-9]/ end=/^-*-$/  " (Black) Make text
 endfunction
 augroup PomodoroTodoList
