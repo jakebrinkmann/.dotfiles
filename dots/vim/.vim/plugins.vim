@@ -10,7 +10,7 @@ endif
 " https://github.com/junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
-Plug 'dense-analysis/ale', { 'for': ['python', 'javascript', 'json', 'sql'] }
+Plug 'dense-analysis/ale', { 'for': ['python', 'javascript', 'json', 'sql', 'cloudformation', 'yaml'] }
 Plug 'honza/vim-snippets'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown']}
 Plug 'itchyny/lightline.vim'

@@ -153,10 +153,17 @@ augroup netrw_mappings
   autocmd filetype netrw call NetrwMapping()
 augroup end
 
+augroup CloudformationLint
+  au!
+  au BufRead,BufNewFile *template.yaml set filetype=yaml.cloudformation
+augroup end
+
 " Configure ALE Linters and Fixers
 let g:ale_linters = {
     \'python': ['flake8', 'mypy'],
-    \'javascript': ['eslint']
+    \'javascript': ['eslint'],
+    \'cloudformation': ['cloudformation'],
+    \'yaml': ['yamllint'],
 \}
 " $ cat ~/.config/flake8
 " [flake8]
@@ -178,6 +185,7 @@ let g:ale_python_flake8_options = '--max-line-length 120'
 let g:ale_python_mypy_show_notes = 1
 " let g:ale_python_pyupgrade_options = '--py38-plus'
 let g:ale_javascript_prettier_options = '--single-quote --print-width 120'
+let g:ale_yaml_yamllint_options = '-d "{extends: relaxed, rules: {line-length: {max: 120}}}"'
 " Only run linters when specified
 let g:ale_linters_explicit = 1
 let g:ale_set_loclist = 1 " use localation list, :lopen
