@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-PYTHON="${PYTHON:-python3.8}"
+PYTHON="${PYTHON:-python3.9}"
 PREFIX="${PREFIX:-.venv}"
 
 # Make a python virtualenv
@@ -10,17 +10,11 @@ ${PYTHON} -m venv ${PREFIX}
 # Install useful tools
 ${PREFIX}/bin/${PYTHON} -m \
     pip install \
-      pip-tools \
-      pylint \
-      pytest \
       black \
       flake8 \
+      mypy \
       isort \
-      flynt \
-      pyupgrade \
-      pycodestyle \
-      pydocstyle \
-      pytest-sugar \
+      pytest \
       pytest-cov \
       pytest-mock
 
