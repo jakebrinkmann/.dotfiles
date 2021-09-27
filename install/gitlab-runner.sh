@@ -1,6 +1,6 @@
 cd /tmp
 
-arch=amd64
+arch=$(dpkg --print-architecture)
 curl -LJO "https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-${arch}"
 
 mkdir -p ~/.local/bin
