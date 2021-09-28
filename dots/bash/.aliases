@@ -72,7 +72,7 @@ alias dotenv='export $(cat .env | xargs)'
 alias w="curl wttr.in/?0"
 
 # ideas
-alias notes='vim -O ~/TODOS.md ~/NOTES.md'
+alias notes='vim -O ~/$(date +%y%U)-TODOS.md ~/$(date +%y%U)-NOTES.md -c "split ~/.dots/TODOS.md"'
 alias tasks='notes'
 
 # SVN
