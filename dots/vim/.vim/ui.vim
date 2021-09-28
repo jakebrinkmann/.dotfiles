@@ -93,22 +93,23 @@ augroup END
 " Make my own custom syntax for my task list
 function! PomoHighlighter()
   setlocal nolist
-  syntax clear
-  syntax match Operator /\[ \].*/ " (White) pending or planned
-  syntax match Constant /\[%\].*/ " (Purple) started but not completed
-  syntax match Identifier /\[\*\].*/ " (Blue) in progress right now
-  syntax match String /\[x\].*/ " (Green) task done
-  syntax match String /{x}.*/ " (Green) task done
-  syntax match Type /\[\.\].*/ " (Yellow) paused by me
-  syntax match Special /\[:\].*/ " (Orange) blocked by external condition
-  syntax match Keyword /\[?\].*/ " (Red) stalled by lack of info
-  syntax match Define /\[-\].*/ " (Aqua) removed
-  syntax match Comment /\[>\].*/ " (LightGrey) bumped to next week
-  syntax match NonText /{ }.*/ " (Grey) stretch goal
-  syntax region Ignore start=/^[A-Za-z0-9]/ end=/^-*-$/  " (Black) Make text
+  syntax match Operator /\[ \].*/ containedin=ALL " (White) pending or planned
+  syntax match Constant /\[%\].*/ containedin=ALL " (Purple) started but not completed
+  syntax match Identifier /\[\*\].*/ containedin=ALL " (Blue) in progress right now
+  syntax match String /\[x\].*/ containedin=ALL " (Green) task done
+  syntax match String /{x}.*/ containedin=ALL " (Green) task done
+  syntax match Type /\[\.\].*/ containedin=ALL " (Yellow) paused by me
+  syntax match Special /\[:\].*/ containedin=ALL " (Orange) blocked by external condition
+  syntax match Keyword /\[?\].*/ containedin=ALL " (Red) stalled by lack of info
+  syntax match Define /\[-\].*/ containedin=ALL " (Aqua) removed
+  syntax match Comment /\[>\].*/ containedin=ALL " (LightGrey) bumped to next week
+  syntax match NonText /{ }.*/ containedin=ALL " (Grey) stretch goal
+  " syntax region Ignore start=/^[A-Za-z0-9]/ end=/^-*-$/ " (Black) Make text
+  highlight def link htmlH1 Ignore
+  highlight def link htmlH2 Ignore
 endfunction
 augroup PomodoroTodoList
-    autocmd BufEnter TODOS.md call PomoHighlighter()
+    autocmd BufReadPost,BufEnter *TODOS.md call PomoHighlighter()
 augroup END
 
 function! AdaptColorscheme()
