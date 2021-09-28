@@ -134,7 +134,7 @@
   div = log --stat --no-merges --pretty='%C(yellow)%h%d %Creset%an %Cgreen%ar:%Creset %s' --graph development..
 
   # GitLab: Fetch a pull-request as a new branch
-  pr = "!f() { git fetch origin $1 && git checkout origin/$1 -b pr-$1; }; f"
+  pr = "!f() { git fetch origin $1 && git checkout -B pr-$1 && git merge --no-edit origin/$1; }; f"
 
   # Stage peice by peice
   ap = add --patch
