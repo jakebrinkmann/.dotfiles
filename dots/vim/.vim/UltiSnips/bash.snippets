@@ -87,8 +87,8 @@ endsnippet
 # aws.management.CloudWatch
 snippet aws-logs "CloudWatch Observability"
   aws logs describe-log-groups | jq -c '.logGroups[].logGroupName'
-  aws logs filter-log-events --log-stream-names $STREAM_NAME --log-group-name $GROUP_NAME --filter-pattern "$MY_QUERY" | jq -r .events[].message
-  aws logs filter-log-events --log-group-name $GROUP_NAME --start-time $(date --date="1 day ago" +%s000) --filter-pattern "purchase_id" | jq -c '.events[]'
-  aws logs get-log-events --log-group-name $GROUP_NAME --log-stream-name $STREAM_NAME
-  aws logs tail $GROUP_NAME --since '10m' --follow --format short
+  aws logs filter-log-events --log-stream-names $STREAM --log-group-name $GROUP --filter-pattern "$MY_QUERY" | jq -r .events[].message
+  aws logs filter-log-events --log-group-name $GROUP --start-time $(date --date="1 day ago" +%s000) --filter-pattern "purchase_id" | jq -c '.events[]'
+  aws logs get-log-events --log-group-name $GROUP --log-stream-name $STREAM
+  aws logs tail $GROUP --since '10m' --follow --format short
 endsnippet
