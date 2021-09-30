@@ -1,0 +1,44 @@
+snippet umls "plantuml"
+@startuml
+' https://plantuml.com/sequence-diagram
+
+skinparam Shadowing false
+
+title "__Messages__ - **Sequence** Diagram"
+
+' participant Participant
+' collections Collections
+:User:
+boundary "Web GUI" as GUI
+box "Internal Service" #LightBlue
+["Shopping Cart"] as SC
+entity Widget
+database Widgets
+' queue Queue
+endbox
+
+[-> GUI : Incoming
+User -> GUI ++ : To boundary
+GUI -> SC : To control
+SC -> Widget : To entity
+Widget -> Widgets : To database
+GUI -> User -- : success
+
+@enduml
+endsnippet
+
+snippet umlc "plantuml"
+@startuml
+title Classes - Class Diagram
+
+class server1 {
+ url: mqtt://localhost:1883
+ protocol: mqtt
+}
+FlightMonitorService --|> server1:flight/update
+server1 --|> FlightNotifierService:flight/update
+FlightSubscriberService --|> server1:flight/queue
+server1 --|> FlightMonitorService:flight/queue
+@enduml
+endsnippet
+
