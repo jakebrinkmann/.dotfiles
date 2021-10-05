@@ -47,3 +47,4 @@ export PGPASSWORD=
 # AWS_DEFAULT_REGION=us-east-1
 # AWS_DEFAULT_OUTPUT=json
 # AWS_PROFILE=default
+export AWS_PAGER=""
