@@ -44,7 +44,7 @@ alias emacs="emacs -nw"
 alias g=git
 alias gti=git
 alias gi=git
-alias e=vim
+alias vi=vim
 alias python=python3
 alias vimrc="vim ~/.vimrc"
 
