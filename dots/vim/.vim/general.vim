@@ -222,7 +222,7 @@ augroup END
 augroup python_snippets
   autocmd!
   autocmd FileType python
-      \ inoreabbrev <buffer> pdb import pdb; pdb.set_trace()# --- BREAKPOINT ---|
+      \ inoreabbrev <buffer> pdb breakpoint()|
       \ inoreabbrev <buffer> raisenot raise NotImplementedError()|
       \ inoreabbrev <buffer> ass assert
 augroup end
@@ -230,7 +230,7 @@ augroup end
 augroup js_snippets
   autocmd!
   autocmd FileType javascript
-      \ inoreabbrev <buffer> dbg debugger; // --- BREAKPOINT ---|
-      \ inoreabbrev <buffer> clog console.log()|
+      \ inoreabbrev <buffer> dbg debugger;|
+      \ inoreabbrev <buffer> con console.log()|
       \ inoreabbrev <buffer> raise throw "HANDS IN THE AIR"|
 augroup end
