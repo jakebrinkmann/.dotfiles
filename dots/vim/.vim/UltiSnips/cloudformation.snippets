@@ -1,0 +1,235 @@
+snippet sam "sam transform"
+  AWSTemplateFormatVersion: '2010-09-09'
+  Transform: AWS::Serverless-2016-10-31
+  Description: HTTP API
+
+  Resources:
+endsnippet
+snippet sqs "sqs queue resource"
+  MyQueue:
+    Type: AWS::SQS::Queue
+endsnippet
+snippet oapi "sam open api"
+  Api:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name:
+        Fn::Sub: ${AppName}-api-${Stage}
+      StageName: !Ref Stage
+      DefinitionBody:
+        Fn::Transform:
+          Name: AWS::Include
+          Parameters:
+            Location: swagger.yml
+endsnippet
+snippet xamz "xamazon"
+openapi: 3.0.0
+
+info:
+  title: openapi-example
+  version: 0.3.0
+  description: "This is an example OpenAPI specification"
+  termsOfService: "http://example.com/tos"
+  contact:
+    email: "example@example.com"
+x-amazon-apigateway-request-validators:
+  all:
+    validateRequestBody: true
+    validateRequestParameters: true
+  params:
+    validateRequestBody: true
+    validateRequestParameters: true
+  body:
+    validateRequestBody: true
+    validateRequestParameters: false
+
+paths:
+  /testFunc:
+    get:
+      operationId: testFunc
+      description: Test sam local functionality with API Gateway & Open API
+      x-amazon-apigateway-request-validator: params
+      parameters:
+        - in: query
+          name: testQuery
+          description: a test parameter to see how parameters are passed via swagger & API Gateway.
+          required: true
+          schema:
+            type: string
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TestFunction.Arn}/invocations
+        httpMethod: POST
+        timeoutInMillis: 3000
+        type: "aws_proxy"
+      responses:
+        '200':
+          description: A 200 response.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: bad input parameter
+endsnippet
+snippet xyz
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    CodeUri:
+      Bucket: !Ref SolverServiceDeploymentBucket
+      Key: !Ref SolverServiceDeploymentArtifact
+    Runtime: python3.7
+    Timeout: 30
+    MemorySize: 3008
+    Tracing: Active
+    Environment:
+      Variables:
+        SOLVER_ARTIFACT_ID: !Ref SolverId
+        REQUEST_FOLDER: request
+        RESULT_FOLDER: result
+        BUCKET_NAME: !Sub "of-solvserv-model-result-bucket-${SolverId}-${Environment}"
+        DYNAMO_DB_NAME: !Sub "of-solvserv-instMetadataDb-${SolverId}-${Environment}"
+        SQS_QUEUE_NAME: !Sub "of-solverservice-startSolverQueue-${SolverId}-${Environment}"
+        LD_SDK_KEY: !Ref LaunchDarklySdkKey
+
+Resources:
+  ResultLogGroup:
+    Type: 'AWS::Logs::LogGroup'
+    Properties:
+      LogGroupName: !Sub "of-solverservice-resultLogGroup-${SolverId}-${Environment}"
+
+  Result:
+    Type: AWS::Serverless::Function
+    Properties:
+      InlineCode: |
+        def handler(event, context):
+            print(event)
+            return {'body': 'Hello World!', 'statusCode': 200}
+      Handler: index.handler
+      Policies:
+        - AWSLambdaExecute
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - s3:GetObject
+              Resource: !Join [ '', [ !GetAtt s3helperBucket.Arn, '/result/*' ]]
+            - Effect: Allow
+              Action:
+                - s3:ListBucket
+              Resource: !GetAtt
+                - s3helperBucket
+                - Arn
+      Events:
+        ApiGatewayResourceStartwebapp:
+          Type: Api
+          Properties:
+            Path: /result/{jobId}
+            Method: GET
+            RestApiId: !Ref ServerlessApi
+
+  ServerlessApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Auth:
+        ApiKeyRequired: false
+        Authorizers:
+          LambdaTokenAuth:
+            FunctionArn: !Ref AuthorizerLambdaArn
+            FunctionPayloadType: REQUEST
+            Identity:
+              Headers:
+                - 'Authorization'
+              ReauthorizeEvery: 0
+        DefaultAuthorizer: LambdaTokenAuth
+      EndpointConfiguration: EDGE
+      Name: !Sub "of-solverservice-apiGateway-${SolverId}-${Environment}"
+      StageName: !Ref SolverId
+      TracingEnabled: True
+      MethodSettings:
+        - MetricsEnabled: true
+          DataTraceEnabled: true
+          HttpMethod: "*"
+          LoggingLevel: "ERROR"
+          ResourcePath: "/*"
+      Cors:
+        AllowMethods: "POST, GET, PUT, OPTIONS"
+        AllowHeaders: 'Authorization,api-version,Content-Type,if-modified-since,Accept'
+      DefinitionBody:
+        openapi: "3.0.1"
+        info:
+          title: !Sub "of-solverservice-apiGateway-${SolverId}-${Environment}"
+          version: "1.0"
+        servers:
+          - url: "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/{basePath}"
+            variables:
+              basePath:
+                default: !Ref SolverId
+        paths:
+          /result/{jobId}:
+            get:
+              security:
+                - LambdaTokenAuth: [ ]
+              x-amazon-apigateway-integration:
+                $ref: '#/components/x-amazon-apigateway-integrations/mockMethodNotAllowed'
+            options:
+              consumes:
+                - application/json
+              produces:
+                - application/json
+              responses:
+                "200":
+                  description: '200 response'
+                  schema:
+                    $ref: '#/definitions/Empty'
+                  headers:
+                    Access-Control-Allow-Origin:
+                      type: string
+                    Access-Control-Allow-Methods:
+                      type: string
+                    Access-Control-Allow-Headers:
+                      type: string
+              security:
+                - NONE: []
+              x-amazon-apigateway-integration:
+                responses:
+                  default:
+                    statusCode: 200
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS,PATCH,POST,PUT'"
+                      method.response.header.Access-Control-Allow-Headers: "'Content-Type,Authorization,api-version,if-modified-since,Accept'"
+                      method.response.header.Access-Control-Allow-Origin: "'*'"
+                requestTemplates:
+                  application/json: '{"statusCode": 200}'
+                passthroughBehavior: when_no_match
+                type: mock
+        components:
+          x-amazon-apigateway-integrations:
+            mockMethodNotAllowed:
+              type: mock
+              responses:
+                default:
+                  statusCode: 405
+                  responseTemplates:
+                    application/problem+json: |
+                      {
+                        "status": 405,
+                        "title": "Method Not Allowed",
+                        "detail": "Method $context.httpMethod is not allowed on $context.resourcePath"
+                      }
+              requestTemplates:
+                application/json: '{"statusCode": 200}'
+              passthroughBehavior: when_no_match
+
+
+  ApiBasePath:
+    Type: AWS::ApiGateway::BasePathMapping
+    Properties:
+      BasePath: !Ref SolverId
+      DomainName: !Sub '${DomainSubPathApi}.${DNSName}'
+      RestApiId: !Ref ServerlessApi
+      Stage: !Ref ServerlessApi.Stage
+endsnippet
