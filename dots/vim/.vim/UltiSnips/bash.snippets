@@ -1,3 +1,6 @@
 snippet cd-rel "invoke script anywhere"
 cd $(dirname -- "$(readlink -f -- "$BASH_SOURCE")")
 endsnippet
+snippet jq "some jq shortcuts"
+jq -r '.events[].message | select(test("^Send Event: ")) | ltrimstr("Send Event: ") | fromjson'
+endsnippet

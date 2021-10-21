@@ -1,5 +1,10 @@
 # aws.compute.EC2 (Elastic Compute Cloud)
 # aws.management.SSM (Systems Manager)
+snippet aws-ssm "aws ssm commands"
+aws ssm list-documents --query 'DocumentIdentifiers[].Name'
+aws ssm send-command --instance-ids $AWS_HOST --document-name $DOCUMENT --parameters "KeyName=string,string" --query 'Command.CommandId'
+aws ssm get-command-invocation --instance-id $AWS_HOST --command-id $COMMAND
+endsnippet
 # aws.network.ELB (Elastic Load Balancing)
 # aws.network.VPC (Virtual Private Cloud)
 # aws.security.IAM (Identity and Access Management)
@@ -22,8 +27,8 @@ endsnippet
 snippet aws-s3 "aws s3 commands"
 aws s3api list-buckets | jq -c '.Buckets[].Name'
 aws s3api list-objects --bucket $BUCKET | jq -c '.Contents[].Key'
-aws s3 cp s3://$BUCKET/$OBJECT_KEY /tmp
-aws s3api get-object --bucket $BUCKET --key $OBJECT_KEY /tmp/$OBJECT_KEY
+aws s3 cp s3://$BUCKET/$OBJECT /tmp
+aws s3api get-object --bucket $BUCKET --key $OBJECT /tmp/$OBJECT
 endsnippet
 # aws.database.RDS (Relational Data Service)
 # aws.database.DDB (DynamoDB NoSQL Database)
@@ -72,6 +77,7 @@ snippet aws-cfn "aws cloudformation commands"
 aws cloudformation list-exports | jq -c '.Exports[].Name'
 aws cloudformation describe-stacks | jq -c '.Stacks[].StackName'
 aws cloudformation describe-stacks --stack-name $STACK | jq -c '.Stacks[].StackStatus'
+aws cloudformation describe-stacks --stack-name $STACK | jq -c '.Stacks[].Outputs'
 aws cloudformation describe-stack-resources --stack-name $STACK | jq -c '.StackResources[].PhysicalResourceId'
 aws cloudformation delete-stack --stack-name $STACK
 endsnippet
@@ -80,7 +86,7 @@ endsnippet
 # aws.compute.Lambda, SAM(Serverless Application Model)
 snippet aws-lambda "aws lambda commands"
 aws lambda list-functions --query 'Functions[].FunctionName'
-FILENAME=$(mktemp --suffix '.zip')
+FILENAME=$(mktemp --suffix '.zip'); rm $FILENAME
 pip install -r requirements.txt --target . && zip -r $FILENAME ./*
 aws lambda update-function-code --function-name $LAMBDA --zip-file "fileb://$FILENAME" --publish | jq -r .LastUpdateStatus
 aws lambda update-function-configuration --function-name $LAMBDA --timeout 30 --memory-size 256 | jq -r .LastUpdateStatus
@@ -88,8 +94,10 @@ aws lambda invoke  --function-name $LAMBDA --invocation-type RequestResponse --l
 endsnippet
 snippet aws-sam "aws sam commands"
 sam build --use-container
+sam package --output-template-file packaged.yaml --s3-bucket $BUCKET
 sam deploy --stack-name $STACK --tags StackName=$STACK --capabilities CAPABILITY_IAM --no-fail-on-empty-changeset --s3-bucket $BUCKET --confirm-changeset
 sam logs --stack-name $STACK --name $FUNCTION --tail
+python serverless-application-model/bin/sam-translate.py --template-file=packaged.yaml --output-template=cft.json
 endsnippet
 # aws.network.CF (CloudFront Delivery Network)
 # aws.management.CloudWatch
