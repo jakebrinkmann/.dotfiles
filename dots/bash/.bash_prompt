@@ -17,7 +17,14 @@ _BLUE=$(c '1;34')
 _MAGENTA=$(c '1;35')
 _CYAN=$(c '1;36')
 _WHITE=$(c '1;37')
+__BLACK=$(c '1;90')
+__RED=$(c '1;91')
+__GREEN=$(c '1;92')
 __YELLOW=$(c '1;93')
+__BLUE=$(c '1;94')
+__MAGENTA=$(c '1;95')
+__CYAN=$(c '1;96')
+__WHITE=$(c '1;97')
 
 DONE="✓"
 URGENT="➤"
