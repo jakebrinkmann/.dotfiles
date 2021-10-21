@@ -10,7 +10,7 @@ export HISTCONTROL=ignorespace:ignoredups:erasedups
 export HISTIGNORE='pwd:exit:fg:bg:top:clear:history:ls:uptime:df:cd:logout:bh *'
 
 export EDITOR='vim'
-export PAGER='less -S'
+export PAGER='less --chop-long-lines --RAW-CONTROL-CHARS'
 
 ### NOT NEEDED WITH WSL 2
 #### # To connect from WSL to Docker4windows Daemon
