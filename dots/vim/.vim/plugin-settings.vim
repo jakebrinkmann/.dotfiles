@@ -186,6 +186,7 @@ let g:ale_python_mypy_show_notes = 1
 " let g:ale_python_pyupgrade_options = '--py38-plus'
 let g:ale_javascript_prettier_options = '--single-quote --print-width 120'
 let g:ale_yaml_yamllint_options = '-d "{extends: relaxed, rules: {line-length: {max: 120}}}"'
+let g:ale_sql_pgformatter_options = '--no-extra-line --function-case 2 --wrap-after 4'
 " Only run linters when specified
 let g:ale_linters_explicit = 1
 let g:ale_set_loclist = 1 " use localation list, :lopen
