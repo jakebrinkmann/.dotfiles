@@ -92,6 +92,12 @@ inoremap . .<c-g>u
 inoremap ! !<c-g>u
 inoremap ? ?<c-g>u
 
+" Avoid the escape key
+imap kj <Esc>
+
+" `#$` to realign comment to column 40
+nnoremap #$ $?#<CR>D40i <Esc>40<bar>P:s/\s*$//<CR>:nohlsearch<CR>
+
 " gf to edit files, too
 nnoremap gf :e <cfile><CR>
 " Shift-G shows full path

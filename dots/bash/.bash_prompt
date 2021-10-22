@@ -72,11 +72,7 @@ function update_PS1 {
   ERROR=$(if [ $? = 0 ]; then echo $YELLOW; else echo $RED; fi)
   echo -ne "$TERMTITLE$(cut_dirname)$TERMEND"
   unset PS1
-  PS1+="\n"
-  PS1+="$ERROR\t "
-  PS1+="$__YELLOW\w "
-  PS1+="$(git_prompt)"
-  PS1+="\n$RESET$ "
+  PS1+="$ERROR$ $RESET"
 }
 
 PROMPT_COMMAND=update_PS1
