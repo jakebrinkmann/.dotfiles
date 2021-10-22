@@ -104,7 +104,7 @@ function! PomoHighlighter()
   syntax match Define /\[-\].*/ containedin=ALL " (Aqua) removed
   syntax match Comment /\[>\].*/ containedin=ALL " (LightGrey) bumped to next week
   syntax match NonText /{ }.*/ containedin=ALL " (Grey) stretch goal
-  " syntax region Ignore start=/^[A-Za-z0-9]/ end=/^-*-$/ " (Black) Make text
+  syntax match Error /!\?!.*/ containedin=ALL " (Red) emergency/unexpected task
   highlight def link htmlH1 Ignore
   highlight def link htmlH2 Ignore
 endfunction
