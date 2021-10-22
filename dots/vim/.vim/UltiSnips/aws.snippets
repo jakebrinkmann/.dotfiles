@@ -54,6 +54,9 @@ endsnippet
 # aws.engagement.SES (Simple Email Service)
 snippet aws-ses "aws ses commands"
 aws ses verify-email-identity --email-address $EMAIL
+aws route53 list-hosted-zones-by-name --dns-name $HOSTEDZONENAME | jq -r .HostedZones[0].Id
+aws ses verify-domain-identity --domain $HOSTEDZONENAME | jq -r .VerificationToken
+aws ses set-identity-mail-from-domain --identity $HOSTEDZONENAME --mail-from-domain "no-reply.$HOSTEDZONENAME" --behavior-on-mx-failure UseDefaultValue
 aws sesv2 create-configuration-set-event-destination \
   --configuration-set-name EmailEventConfigSet \
   --event-destination-name EmailSnsEventDestination \
@@ -71,6 +74,52 @@ aws sesv2 create-configuration-set-event-destination \
   }
 }
 __JSON__
+cat << __JSON__ > $TMPFILE
+{
+  "Changes": [
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "_amazonses.$HOSTEDZONENAME",
+        "Type": "TXT",
+        "TTL": 1800,
+        "ResourceRecords": [
+          {
+            "Value": "\"$TXTTOKEN\""
+          }
+        ]
+      }
+    },
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "no-reply.$HOSTEDZONENAME",
+        "Type": "MX",
+        "TTL": 300,
+        "ResourceRecords": [
+          {
+            "Value": "10 feedback-smtp.us-east-1.amazonses.com"
+          }
+        ]
+      }
+    },
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "$HOSTEDZONENAME",
+        "Type": "TXT",
+        "TTL": 300,
+        "ResourceRecords": [
+          {
+            "Value": "\"v=spf1 include:amazonses.com ~all\""
+          }
+        ]
+      }
+    }
+  ]
+}
+__JSON__
+aws route53 change-resource-record-sets --hosted-zone-id $HOSTEDZONEID --change-batch file://$TMPFILE
 endsnippet
 # aws.management.CFN (CloudFormation Infrastructure Stack)
 snippet aws-cfn "aws cloudformation commands"
