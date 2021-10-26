@@ -158,6 +158,9 @@ augroup CloudformationLint
   au BufRead,BufNewFile *template.yaml set filetype=yaml.cloudformation
 augroup end
 
+" Pretty-print ALE
+nnoremap =a :ALEFix<CR>
+
 " Configure ALE Linters and Fixers
 let g:ale_linters = {
     \'python': ['flake8', 'mypy'],
@@ -170,7 +173,7 @@ let g:ale_linters = {
 " max-line-length=88
 let g:ale_fixers = {
     \'*': ['remove_trailing_lines', 'trim_whitespace'],
-    \'python': ['black', 'isort'],
+    \'python': ['isort', 'black'],
     \'javascript': ['eslint', 'prettier'],
     \'html': ['prettier'],
     \'json': ['prettier'],
@@ -183,7 +186,7 @@ let g:ale_python_flake8_options = '--max-line-length 120'
 " let g:ale_python_mypy_options = '--strict --warn-unreachable --warn-return-any --follow-imports=normal'
 " let g:ale_python_mypy_options = '--ignore-missing-imports --follow-imports=silent --show-column-numbers --strict'
 let g:ale_python_mypy_show_notes = 1
-" let g:ale_python_pyupgrade_options = '--py38-plus'
+let g:ale_python_pyupgrade_options = '--py38-plus'
 let g:ale_javascript_prettier_options = '--single-quote --print-width 120'
 let g:ale_yaml_yamllint_options = '-d "{extends: relaxed, rules: {line-length: {max: 120}}}"'
 let g:ale_sql_pgformatter_options = '--no-extra-line --function-case 2 --wrap-after 4'
@@ -242,6 +245,7 @@ let g:virtualenv_directory = $PWD
 nnoremap <leader>tv :VirtualEnvActivate .venv<CR>
 nnoremap <leader>te :Dotenv .env<CR>
 " force vim-test to use pytest
+let test#strategy = "vimterminal"
 let test#python#runner = 'pytest'
 let test#javascript#runner = 'jest'
 " could also use "--inspect=9229" for "chrome://inspect" dedicated DevTools
@@ -251,14 +255,7 @@ let g:test#javascript#jest#executable =
 nmap <silent> <leader>tp :TestNearest --pdb -s<CR>
 nmap <silent> <leader>tn :TestNearest<CR>
 nmap <silent> <leader>tf :TestFile<CR>
-nmap <silent> <leader>ts :TestSuite<CR>
 nmap <silent> <leader>tl :TestLast<CR>
-nmap <silent> <leader>tg :TestVisit<CR>
-let test#strategy = "vimterminal"
-
-nnoremap <leader>tb :Tagbar<CR>
-nnoremap <leader>u :UndotreeToggle<CR>
-nnoremap <leader>mr :MRU<CR>
 
 if executable('rg')
     let g:rg_derive_root = 'true'
@@ -309,40 +306,9 @@ nnoremap <leader>gn :Git difftool --name-status origin/development<CR>
 nnoremap <leader>gb :Gblame<CR>
 nnoremap <leader>go :diffget<SPACE>
 nnoremap <leader>gp :diffput<SPACE>
-nnoremap <leader>gl :GV<SPACE>
-
-" Make a new terminal window
-set shell=bash\ -l
-nnoremap <leader>tt :botright terminal<CR>
-tnoremap <silent> <C-x> i
-tnoremap <silent> <C-x> <C-\><C-N><CR>
-tnoremap <silent> <C-v> <C-W>""<CR>
-tnoremap <silent> <C-k> <C-W>k<CR>
-tnoremap <silent> <C-j> <C-W>j<CR>
-tnoremap <silent> <C-h> <C-W>h<CR>
-tnoremap <silent> <C-l> <C-W>l<CR>
-
-" NeoTERM REPLs
-nnoremap <leader>tt :Ttoggle<CR>
-tnoremap <leader>tt <C-W>:Ttoggle<CR>
-tnoremap \\ <C-W>:Tnext<CR>
-nnoremap <silent> <leader>tr :TREPLSendLine<CR>
-vnoremap <silent> <leader>tr :TREPLSendSelection<CR>
-let g:neoterm_default_mod = 'botright'
-let g:neoterm_autoinsert = 1
-" let g:neoterm_repl_python =
-"   \ ['source .venv/bin/activate', 'python']
-" let g:neoterm_repl_command = add(g:neoterm_repl_python, '')
-let g:neoterm_auto_repl_cmd = 0
 
 " Pretty-print JSON
 nnoremap =j :%!python3 -m json.tool<CR>
-" Pretty-print ALE
-nnoremap =a :ALEFix<CR>
 
 " (SHIFT) moves lines and selections in a more visual manner
 let g:move_key_modifier='S'
-
-" markdown-preview
-let g:mkdp_refresh_slow = 1
-nnoremap <silent> <Leader>mp :MarkdownPreview<CR>

@@ -156,6 +156,18 @@ function! TogglePaste()
 endfunction
 nnoremap <silent> <Leader>pp :call TogglePaste()<cr>
 
+" Open a new terminal window
+set shell=bash
+nnoremap <leader>tt :botright terminal<CR>
+
+" Allow vim-style navigation to work from terminal window
+tnoremap <silent> <C-x> <C-\><C-N><CR>
+tnoremap <silent> <C-v> <C-W>""<CR>
+tnoremap <silent> <C-k> <C-W>k<CR>
+tnoremap <silent> <C-j> <C-W>j<CR>
+tnoremap <silent> <C-h> <C-W>h<CR>
+tnoremap <silent> <C-l> <C-W>l<CR>
+
 augroup autofancy
   autocmd!
   " Automatically source vimrc on save.
