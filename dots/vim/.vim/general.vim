@@ -159,6 +159,8 @@ nnoremap <silent> <Leader>pp :call TogglePaste()<cr>
 " Open a new terminal window
 set shell=bash
 nnoremap <leader>tt :botright terminal<CR>
+nnoremap <leader>tr yy \| :call term_sendkeys(term_list()[0], @")<CR>
+vnoremap <leader>tr y \| :call term_sendkeys(term_list()[0], @")<CR>
 
 " Allow vim-style navigation to work from terminal window
 tnoremap <silent> <C-x> <C-\><C-N><CR>
