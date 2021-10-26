@@ -169,6 +169,7 @@ tnoremap <silent> <C-k> <C-W>k<CR>
 tnoremap <silent> <C-j> <C-W>j<CR>
 tnoremap <silent> <C-h> <C-W>h<CR>
 tnoremap <silent> <C-l> <C-W>l<CR>
+tnoremap <silent> \\ <C-W>:bnext<CR>
 
 augroup autofancy
   autocmd!
