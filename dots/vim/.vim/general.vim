@@ -101,7 +101,10 @@ nnoremap #$ $?#<CR>D40i <Esc>40<bar>P:s/\s*$//<CR>:nohlsearch<CR>
 " \l to highlight a line
 nnoremap <silent> <leader>l :call matchadd('Search', '\%'.line('.').'l')<cr>
 " \L to remove highlighted line
-nnoremap <silent> <leader>L :for m in filter(getmatches(), {i, v -> l:v.pattern is? '\%'.line('.').'l'}) <CR> :call matchdelete(m.id) <CR> :endfor<CR>
+nnoremap <silent> <leader>L :
+  \for m in filter(getmatches(), { i, v -> has_key(l:v, 'pattern') && l:v.pattern is? '\%'.line('.').'l'} )
+  \<bar>           :call matchdelete(m.id)
+  \<bar> :endfor<CR>
 
 " gf to edit files, too
 nnoremap gf :e <cfile><CR>
