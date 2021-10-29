@@ -22,7 +22,7 @@ l() {
 # ----------------------------------
 # ANSI Color Ref
 # Format: $green = "\033[01;32m";
-function c() { echo -ne "\033[0$1m"; }
+function c() { echo -ne "\[\033[0$1m\]"; }
 function colors() {
   #Background
   for clbg in {40..47} {100..107} 49 ; do
