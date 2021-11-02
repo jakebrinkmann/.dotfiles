@@ -93,17 +93,17 @@ augroup END
 " Make my own custom syntax for my task list
 function! PomoHighlighter()
   setlocal nolist
-  syntax match Operator /\[ \].*/ containedin=ALL " (White) pending or planned
-  syntax match Constant /\[%\].*/ containedin=ALL " (Purple) started but not completed
-  syntax match Identifier /\[\*\].*/ containedin=ALL " (Blue) in progress right now
-  syntax match String /\[x\].*/ containedin=ALL " (Green) task done
-  syntax match String /{x}.*/ containedin=ALL " (Green) task done
-  syntax match Type /\[\.\].*/ containedin=ALL " (Yellow) paused by me
-  syntax match Special /\[:\].*/ containedin=ALL " (Orange) blocked by external condition
-  syntax match Keyword /\[?\].*/ containedin=ALL " (Red) stalled by lack of info
-  syntax match Define /\[-\].*/ containedin=ALL " (Aqua) removed
-  syntax match Comment /\[>\].*/ containedin=ALL " (LightGrey) bumped to next week
-  syntax match NonText /{ }.*/ containedin=ALL " (Grey) stretch goal
+  syntax match GruvboxFg0 /\[ \].*/ containedin=ALL " (White) pending or planned
+  syntax match GruvboxPurple  /\[%\].*/ containedin=ALL " (Purple) started but not completed
+  syntax match GruvboxBlue /\[\*\].*/ containedin=ALL " (Blue) in progress right now
+  syntax match GruvboxGreen /\[x\].*/ containedin=ALL " (Green) task done
+  syntax match GruvboxGreen /{x}.*/ containedin=ALL " (Green) task done
+  syntax match GruvboxYellow /\[\.\].*/ containedin=ALL " (Yellow) paused by me
+  syntax match GruvboxOrange /\[:\].*/ containedin=ALL " (Orange) blocked by external condition
+  syntax match GruvboxRed /\[?\].*/ containedin=ALL " (Red) stalled by lack of info
+  syntax match GruvboxAqua /\[-\].*/ containedin=ALL " (Aqua) removed
+  syntax match GruvboxGray /\[>\].*/ containedin=ALL " (LightGrey) bumped to next week
+  syntax match GruvboxBg0 /{ }.*/ containedin=ALL " (Grey) stretch goal
   syntax match Error /!\?!.*/ containedin=ALL " (Red) emergency/unexpected task
   highlight def link htmlH1 Ignore
   highlight def link htmlH2 Ignore
