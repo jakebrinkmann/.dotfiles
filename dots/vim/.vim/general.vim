@@ -256,7 +256,8 @@ augroup python_snippets
   autocmd FileType python
       \ inoreabbrev <buffer> pdb breakpoint()|
       \ inoreabbrev <buffer> raisenot raise NotImplementedError()|
-      \ inoreabbrev <buffer> ass assert
+      \ inoreabbrev <buffer> ass assert|
+      \ inoreabbrev <buffer> brea breakpoint()
 augroup end
 
 augroup js_snippets
