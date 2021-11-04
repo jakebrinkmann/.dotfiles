@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if [ -z ${@} ]; then
+  grep -E "^\w+:\w+:" .gitlab-ci.yml | sort
+  exit 1;
+else
+  gitlab-runner exec docker ${@}
+fi
