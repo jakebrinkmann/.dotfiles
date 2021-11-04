@@ -16,3 +16,6 @@ FROM orders
 WHERE region IN (SELECT region FROM top_regions)
 GROUP BY region, product;
 endsnippet
+snippet jsonb
+update hardware.config set location = location || '{"timezone": "America/Chicago"}' where site_id = 290912
+endsnippet

@@ -4,3 +4,6 @@ endsnippet
 snippet jq "some jq shortcuts"
 jq -r '.events[].message | select(test("^Send Event: ")) | ltrimstr("Send Event: ") | fromjson'
 endsnippet
+snippet query "some jq query"
+jq -r '.results[] | map(select(.field == "@timestamp" or .field == "@message") | .value) | @tsv'
+endsnippet
