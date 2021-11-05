@@ -46,7 +46,7 @@ endsnippet
 # aws.integration.SNS (Simple Notification Service)
 snippet aws-sns "aws sns commands"
 aws sns list-topics | jq -c '.Topics[].TopicArn'
-aws sns list-topics --query "Topics[?contains(TopicArn, 'c')].TopicArn | [0]"
+aws sns list-topics --query "Topics[?contains(TopicArn, 'c')].TopicArn"
 aws sns subscribe --topic-arn <value> --protocol email --notification-endpoint <email>
 aws sns list-subscriptions | jq -c '.Subscriptions[] | select(.Protocol | test("email"))'
 aws sns unsubscribe --subscription-arn <value>
