@@ -7,3 +7,12 @@ endsnippet
 snippet query "some jq query"
 jq -r '.results[] | map(select(.field == "@timestamp" or .field == "@message") | .value) | @tsv'
 endsnippet
+snippet devtools "https://nodejs.org/en/docs/guides/debugging-getting-started/#command-line-options"
+node --inspect=0.0.0.0:9229 -e "setTimeout(function() { console.log('yes'); }, 3000)"
+node inspect --port=9229 node_modules/.bin/react-scripts start --no-cache
+# edge://inspect/#devices
+endsnippet
+snippet debug "v8 debugger"
+node --debug <file>
+node debug <file>
+endsnippet
