@@ -196,7 +196,7 @@ augroup vim_terminal
   vnoremap <leader>tr y \| :call term_sendkeys(term_list()[0], @")<CR>
 
   " Allow vim-style navigation to work from terminal window
-  tnoremap <silent> <Esc> <C-\><C-N><CR>
+  tnoremap <silent> <Esc><Esc> <C-\><C-N><CR>
   tnoremap <silent> <C-v> <C-W>""<CR>
   tnoremap <silent> <C-k> <C-W>k<CR>
   tnoremap <silent> <C-j> <C-W>j<CR>
@@ -204,12 +204,11 @@ augroup vim_terminal
   tnoremap <silent> <C-l> <C-W>l<CR>
   tnoremap <silent> \\ <C-W>:bnext<CR>
 
-  " Enter Terminal-mode (insert) automatically
-  autocmd TerminalOpen * startinsert
+  " Dont wait too long for more keypresses
+  setlocal ttimeoutlen=50
+
   " Turn off numbers in Terminal
-  autocmd TerminalOpen * setlocal nolist nonumber norelativenumber
-  " allows you to use Ctrl-c on terminal window
-  autocmd TerminalOpen * nnoremap <buffer> <C-c> i<C-c>
+  autocmd TerminalOpen * setlocal nonumber norelativenumber
 augroup end
 
 augroup fancy_files
