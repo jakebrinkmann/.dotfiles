@@ -167,54 +167,55 @@ function! TogglePaste()
 endfunction
 nnoremap <silent> <Leader>pp :call TogglePaste()<cr>
 
-" Open a new terminal window
-set shell=bash\ -l
-nnoremap <leader>tt :botright terminal<CR>
-nnoremap <leader>tr yy \| :call term_sendkeys(term_list()[0], @")<CR>
-vnoremap <leader>tr y \| :call term_sendkeys(term_list()[0], @")<CR>
-
-" Allow vim-style navigation to work from terminal window
-tnoremap <silent> <C-x> <C-\><C-N><CR>
-tnoremap <silent> <C-v> <C-W>""<CR>
-tnoremap <silent> <C-k> <C-W>k<CR>
-tnoremap <silent> <C-j> <C-W>j<CR>
-tnoremap <silent> <C-h> <C-W>h<CR>
-tnoremap <silent> <C-l> <C-W>l<CR>
-tnoremap <silent> \\ <C-W>:bnext<CR>
+function! YankText()
+  if executable("clip.exe")
+     call system('echo ' . shellescape(@") . ' |  clip.exe')
+  elseif executable("xclip")
+    call system('echo ' . shellescape(@") . ' |  xclip -i')
+  endif
+endfunction
 
 augroup autofancy
   autocmd!
   " Automatically source vimrc on save.
-  autocmd! bufwritepost $MYVIMRC source $MYVIMRC
+  autocmd BufWritePost *.vimrc, *.vim nested source $MYVIMRC
   " resize the split panes to become equal
   autocmd VimResized * wincmd =
   " jump to the last position when reopening a file
   autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
       \| exe "normal! g`\"" | endif
-  " copy from WSL to clip.exe on yank
-  if executable("clip.exe")
-    autocmd TextYankPost *
-          \ if v:event.operator ==# 'y' |
-          \ call system('echo '
-          \             .shellescape(join(v:event.regcontents, "\<CR>"))
-          \             .' |  clip.exe') |
-          \ endif
-  " copy from terminal to xclip on yank
-  elseif executable("xclip")
-    autocmd TextYankPost *
-          \ if v:event.operator ==# 'y' |
-          \ call system('echo '
-          \             .shellescape(join(v:event.regcontents, "\<CR>"))
-          \             .' |  xclip -i') |
-          \ endif
-  endif
+  nnoremap <silent> <leader>y :call YankText()<CR>
+augroup end
+
+augroup vim_terminal
+  autocmd!
+  " Open a new terminal window
+  set shell=bash\ -l
+  nnoremap <leader>tt :botright terminal<CR>
+  nnoremap <leader>tr yy \| :call term_sendkeys(term_list()[0], @")<CR>
+  vnoremap <leader>tr y \| :call term_sendkeys(term_list()[0], @")<CR>
+
+  " Allow vim-style navigation to work from terminal window
+  tnoremap <silent> <Esc> <C-\><C-N><CR>
+  tnoremap <silent> <C-v> <C-W>""<CR>
+  tnoremap <silent> <C-k> <C-W>k<CR>
+  tnoremap <silent> <C-j> <C-W>j<CR>
+  tnoremap <silent> <C-h> <C-W>h<CR>
+  tnoremap <silent> <C-l> <C-W>l<CR>
+  tnoremap <silent> \\ <C-W>:bnext<CR>
+
+  " Enter Terminal-mode (insert) automatically
+  autocmd TerminalOpen * startinsert
+  " Turn off numbers in Terminal
+  autocmd TerminalOpen * setlocal nolist nonumber norelativenumber
+  " allows you to use Ctrl-c on terminal window
+  autocmd TerminalOpen * nnoremap <buffer> <C-c> i<C-c>
 augroup end
 
 augroup fancy_files
   autocmd!
   " Turn off display in QuickFixes
   autocmd FileType qf setlocal nonumber colorcolumn=
-  autocmd FileType neoterm setlocal nonumber colorcolumn= nolist
   " Spaces instead of Tabs to take over da world
   autocmd FileType * setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab smartindent
   " 1 tab == 4 spaces

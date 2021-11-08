@@ -92,7 +92,6 @@ augroup END
 
 " Make my own custom syntax for my task list
 function! PomoHighlighter()
-  setlocal nolist
   syntax match GruvboxFg0 /\[ \].*/ containedin=ALL " (White) pending or planned
   syntax match GruvboxPurple  /\[%\].*/ containedin=ALL " (Purple) started but not completed
   syntax match GruvboxBlue /\[\*\].*/ containedin=ALL " (Blue) in progress right now
