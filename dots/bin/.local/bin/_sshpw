@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+HOSTNAME=${1}
+FILENAME=~/.ssh/id_rsa.pub
+
+if [ -z "${HOSTNAME}" ]; then
+  echo "Usage: $0 remote_username@server_ip_address"
+  exit 1
+fi
+
+
+cat $FILENAME >& /dev/null || ssh-keygen -t rsa -b 4096 -C "jakebrinkmann@gmail.com"
+
+if [ ${?} -ne 0 ]; then
+  echo "Public RSA Key is required"
+  exit 13
+fi
+
+cat $FILENAME | \
+  ssh $HOSTNAME \
+    'mkdir -p ~/.ssh \
+    && chmod 700 ~/.ssh \
+    && cat >> ~/.ssh/authorized_keys \
+    && chmod 600 ~/.ssh/authorized_keys'
