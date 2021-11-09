@@ -142,6 +142,8 @@ aws lambda update-function-configuration --function-name $LAMBDA --timeout 30 --
 aws lambda invoke  --function-name $LAMBDA --invocation-type RequestResponse --log-type Tail --payload "$(cat $EVENT | base64)" $tmpfile | jq -r .LogResult | base64 --decode
 endsnippet
 snippet aws-sam "aws sam commands"
+poetry export -f requirements.txt --without-hashes > requirements.txt
+sam init --location https://github.com/aws-samples/cookiecutter-aws-sam-python
 sam build --use-container
 sam package --output-template-file packaged.yaml --s3-bucket $BUCKET
 sam deploy --stack-name $STACK --tags StackName=$STACK --capabilities CAPABILITY_IAM --no-fail-on-empty-changeset --s3-bucket $BUCKET --confirm-changeset

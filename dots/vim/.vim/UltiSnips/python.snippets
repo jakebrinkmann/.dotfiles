@@ -171,3 +171,35 @@ exclude_lines = [
 [tool.coverage.xml]
 output = "coverage.xml"
 endsnippet
+
+snippet poaws "poetry aws config"
+[tool.poetry.dependencies]
+python = "^3.9"
+boto3 = "*"
+aws-sam-cli = "*"
+aws-lambda-powertools = "*"
+
+[tool.poetry.dev-dependencies]
+black = "*"
+boto3-stubs = "*"
+cfn-lint = "*"
+coverage = {extras = ["toml"], version = "*"}
+flake8 = "*"
+flynt = "*"
+mypy = "*"
+isort = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-mock = "*"
+pytest-mccabe = "*"
+pyupgrade = "*"
+endsnippet
+
+snippet flake8 ".flake8"
+[flake8]
+max-line-length = 120
+max-complexity = 10
+per-file-ignores =
+    __init__.py:F401
+exclude = .venv, .git, __pycache__, build, dist, setup.py
+endsnippet
