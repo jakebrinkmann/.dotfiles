@@ -2,6 +2,7 @@
 brew "bat"
 brew "python@3.9"
 brew "poetry"
+brew "awscli"
 brew "httpie"
 brew "jq"
 brew "node"
