@@ -123,3 +123,51 @@ from typing import List, Union, Dict, NewType
 from enum import Enum, unique
 from dataclasses import dataclass
 endsnippet
+
+snippet pb "poetry black config"
+[tool.black]
+line-length = 120
+target_version = ['py39']
+endsnippet
+
+snippet pt "poetry pytest config"
+[tool.pytest.ini_options]
+minversion = "6.0"
+python_files = [ "test_*.py" ]
+norecursedirs = [
+  ".git",
+  ".pytest_cache",
+  ".aws-sam"
+]
+filterwarnings = [ "error::UserWarning" ]
+addopts = [
+  "-m", "not (realdb)",
+  "-p", "no:cacheprovider",
+  "-vv",
+  "--color=yes",
+  "--junitxml=report.xml",
+  "--cov"
+]
+endsnippet
+
+snippet pc "poetry converage config"
+[tool.coverage]
+[tool.coverage.run]
+branch = true
+omit = [ "tests/*" ]
+data_file = "/tmp/.coverage"
+
+[tool.coverage.report]
+ignore_errors = true
+exclude_lines = [
+    "raise NotImplementedException",
+    "if 0:",
+    "pass",
+    "if __name__ == '__main__':",
+    'if __name__ == "__main__":',
+    "__version__",
+]
+
+[tool.coverage.xml]
+output = "coverage.xml"
+endsnippet
