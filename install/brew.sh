@@ -11,7 +11,8 @@ sudo useradd --create-home linuxbrew
 # precompiled binary packages (known as bottles) for non-relocatable formula
 cd /tmp
 curl -OfsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
-env NONINTERACTIVE="YES" CI="YES" /bin/bash -c install.sh
+chmod +x install.sh
+env NONINTERACTIVE="YES" CI="YES" /bin/bash -c /tmp/install.sh
 rm install.sh
 
 # Add Homebrew to your PATH
