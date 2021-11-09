@@ -4,25 +4,37 @@ set -e
 PYTHON="${PYTHON:-python3.9}"
 PREFIX="${PREFIX:-.venv}"
 
-if [ -f poetry.lock ]; then
-  poetry install || exit
+DEV_DEPS='
+        black
+        flake8
+        mypy
+        isort
+        pytest
+        pytest-cov
+        pytest-mock
+        '
+
+##### Use Poetry
+if [ ! -z "$(poetry --version)" ]; then
+  if [ -f pyproject.toml ]; then
+    poetry install  --no-root || exit
+  else
+    poetry init --no-interaction || exit
+  fi
+
+  poetry add --dev $DEV_DEPS
+
+##### Use VirtualEnv and pip
 else
   # Make a python virtualenv
   ${PYTHON} -m venv ${PREFIX}
   PATH=${PREFIX}:$PATH
+  # Install useful tools
+  ${PREFIX}/bin/${PYTHON} -m \
+      pip install $DEV_DEPS
+
+  [[ -f requirements.txt ]] &&  \
+      ${PREFIX}/bin/${PYTHON} -m \
+          pip install -r requirements.txt
 fi
 
-# Install useful tools
-${PREFIX}/bin/${PYTHON} -m \
-    pip install \
-      black \
-      flake8 \
-      mypy \
-      isort \
-      pytest \
-      pytest-cov \
-      pytest-mock
-
-[[ -f requirements.txt ]] &&  \
-    ${PREFIX}/bin/${PYTHON} -m \
-        pip install -r requirements.txt
