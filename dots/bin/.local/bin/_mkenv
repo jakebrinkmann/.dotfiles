@@ -4,8 +4,13 @@ set -e
 PYTHON="${PYTHON:-python3.9}"
 PREFIX="${PREFIX:-.venv}"
 
-# Make a python virtualenv
-${PYTHON} -m venv ${PREFIX}
+if [ -f poetry.lock ]; then
+  poetry install || exit
+else
+  # Make a python virtualenv
+  ${PYTHON} -m venv ${PREFIX}
+  PATH=${PREFIX}:$PATH
+fi
 
 # Install useful tools
 ${PREFIX}/bin/${PYTHON} -m \

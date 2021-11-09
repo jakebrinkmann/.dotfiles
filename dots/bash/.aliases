@@ -18,7 +18,6 @@ alias t="top -M -u ${USER}; c"
 alias grep="grep --color=auto"
 alias m="find . \( ! -regex '.*/\..*' \) -printf '%T@ %Tc %p\n' | sort -n | tail -n 25"
 alias first="head -n1"
-alias pip="python -m pip"
 
 # flash red on bell
 alias bell="echo -e '\a'"
