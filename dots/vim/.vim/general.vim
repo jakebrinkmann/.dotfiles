@@ -178,7 +178,7 @@ endfunction
 augroup autofancy
   autocmd!
   " Automatically source vimrc on save.
-  autocmd BufWritePost *.vimrc, *.vim nested source $MYVIMRC
+  autocmd BufWritePost *.vimrc,*.vim nested source $MYVIMRC | redraw
   " resize the split panes to become equal
   autocmd VimResized * wincmd =
   " jump to the last position when reopening a file
@@ -208,7 +208,7 @@ augroup vim_terminal
   setlocal ttimeoutlen=50
 
   " Turn off numbers in Terminal
-  autocmd TerminalOpen * setlocal nonumber norelativenumber
+  autocmd TerminalOpen * setlocal nolist nonumber norelativenumber colorcolumn=
 augroup end
 
 augroup fancy_files
