@@ -4,7 +4,7 @@ alias cp='cp -rv'
 # List contents with colors for file types, (A)lmost all hidden files
 alias ls='ls --color=auto -ACF'
 # List contents with colors for file types, (a)ll hidden entries
-alias ll='ls --color=auto -alF'
+alias ll='ls --color=auto -sialF'
 
 # Explain (v) what was done when moving a file
 alias mv='mv -v'
