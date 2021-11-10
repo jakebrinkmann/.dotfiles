@@ -307,6 +307,21 @@ nnoremap <leader>gb :Gblame<CR>
 nnoremap <leader>go :diffget<SPACE>
 nnoremap <leader>gp :diffput<SPACE>
 
+" NeoTERM REPLs
+"""""""""""""""
+let g:neoterm_default_mod = 'botright'
+let g:neoterm_autoinsert = 1
+let g:neoterm_auto_repl_cmd = 0
+
+" Open a new terminal window
+set shell=bash\ -l
+nnoremap <silent> <leader>tt :Ttoggle()<CR>
+tnoremap <silent> <leader>tt <C-W>:Ttoggle()<CR>
+tnoremap <silent> \\ <C-W>:Tnext<CR>
+" Send selected text to terminal window
+nnoremap <silent> <leader>tr :TREPLSendLine<CR>
+vnoremap <silent> <leader>tr :TREPLSendSelection<CR>
+
 " Pretty-print JSON
 nnoremap =j :%!python3 -m json.tool<CR>
 

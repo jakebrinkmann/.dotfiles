@@ -14,6 +14,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'dense-analysis/ale', { 'for': ['python', 'javascript', 'json', 'sql', 'cloudformation', 'yaml'] }
 Plug 'honza/vim-snippets'
 Plug 'itchyny/lightline.vim'
+Plug 'kassio/neoterm'
 Plug 'jmcantrell/vim-virtualenv', { 'for': ['python'] }
 Plug 'jremmen/vim-ripgrep'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
