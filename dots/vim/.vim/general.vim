@@ -169,9 +169,9 @@ nnoremap <silent> <Leader>pp :call TogglePaste()<cr>
 
 function! YankText()
   if executable("clip.exe")
-     call system('echo ' . shellescape(@") . ' |  clip.exe')
+     call system('printf "%s" ' . shellescape(@") . ' |  clip.exe')
   elseif executable("xclip")
-    call system('echo ' . shellescape(@") . ' |  xclip -i')
+    call system('printf "%s" ' . shellescape(@") . ' |  xclip -i')
   endif
 endfunction
 
@@ -184,7 +184,8 @@ augroup autofancy
   " jump to the last position when reopening a file
   autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
       \| exe "normal! g`\"" | endif
-  nnoremap <silent> <leader>y :call YankText()<CR>
+  nnoremap <silent> <leader>y yy :call YankText()<CR>
+  vnoremap <silent> <leader>y y :call YankText()<CR>
 augroup end
 
 augroup vim_terminal
