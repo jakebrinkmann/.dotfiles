@@ -78,9 +78,25 @@ nnoremap <silent> <C-j> :wincmd j<CR>
 nnoremap <silent> <C-h> :wincmd h<CR>
 nnoremap <silent> <C-l> :wincmd l<CR>
 nnoremap <silent> == :wincmd =<CR>
+
 " Re-select visual block after indenting
 vnoremap < <gv
 vnoremap > >gv
+
+" Make a new vertical split
+nnoremap <silent> <leader>vn :vnew<CR>
+" Show only this window
+nnoremap <silent> <leader>vo :only<CR>
+" Veritcal Split
+nnoremap <silent> <leader>vs :vsplit<CR>
+
+" \l to highlight a line
+nnoremap <silent> <leader>l :call matchadd('Search', '\%'.line('.').'l')<cr>
+" \L to remove highlighted line
+nnoremap <silent> <leader>L :
+  \for m in filter(getmatches(), { i, v -> has_key(l:v, 'pattern') && l:v.pattern is? '\%'.line('.').'l'} )
+  \<bar>           :call matchdelete(m.id)
+  \<bar> :endfor<CR>
 
 " turn hybrid line numbers on when not INSERT
 set number
@@ -90,30 +106,6 @@ augroup numbertoggle
   autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &number                  | set norelativenumber | endif
 augroup END
 
-" Make my own custom syntax for my task list
-function! PomoHighlighter()
-  syntax match GruvboxFg0 /\[ \].*/ containedin=ALL " (White) pending or planned
-  syntax match GruvboxPurple  /\[%\].*/ containedin=ALL " (Purple) started but not completed
-  syntax match GruvboxBlue /\[\*\].*/ containedin=ALL " (Blue) in progress right now
-  syntax match GruvboxGreen /\[x\].*/ containedin=ALL " (Green) task done
-  syntax match GruvboxGreen /{x}.*/ containedin=ALL " (Green) task done
-  syntax match GruvboxYellow /\[\.\].*/ containedin=ALL " (Yellow) paused by me
-  syntax match GruvboxOrange /\[:\].*/ containedin=ALL " (Orange) blocked by external condition
-  syntax match GruvboxRed /\[?\].*/ containedin=ALL " (Red) stalled by lack of info
-  syntax match GruvboxAqua /\[-\].*/ containedin=ALL " (Aqua) removed
-  syntax match GruvboxGray /\[>\].*/ containedin=ALL " (LightGrey) bumped to next week
-  syntax match GruvboxBg0 /{ }.*/ containedin=ALL " (Grey) stretch goal
-  syntax match Error /!\?!.*/ containedin=ALL " (Red) emergency/unexpected task
-  highlight def link htmlH1 Ignore
-  highlight def link htmlH2 Ignore
-endfunction
-augroup PomodoroTodoList
-    autocmd BufReadPost,BufEnter *TODOS.md call PomoHighlighter()
-augroup END
-
-function! AdaptColorscheme()
-   highlight Normal ctermbg=none
-endfunction
 augroup MakeVimTransparent
-  autocmd ColorScheme * call AdaptColorscheme()
+  autocmd ColorScheme * highlight Normal ctermbg=none
 augroup END

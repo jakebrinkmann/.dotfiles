@@ -180,9 +180,9 @@ let g:ale_fixers = {
     \'css': ['eslint'],
     \'sql': ['pgformatter']
 \}
-let g:ale_python_isort_options = '--sp ~/.isort.cfg --virtual-env .venv'
-let g:ale_python_black_options = '--line-length=120'
-let g:ale_python_flake8_options = '--max-line-length 120'
+" let g:ale_python_isort_options = '--sp ~/.isort.cfg --virtual-env .venv'
+let g:ale_python_black_options = '--line-length=80'
+let g:ale_python_flake8_options = '--max-line-length 80'
 " let g:ale_python_mypy_options = '--strict --warn-unreachable --warn-return-any --follow-imports=normal'
 " let g:ale_python_mypy_options = '--ignore-missing-imports --follow-imports=silent --show-column-numbers --strict'
 let g:ale_python_mypy_show_notes = 1
@@ -275,9 +275,9 @@ nnoremap <Leader>h :History<CR>
 let g:fzf_preview_window = 'right:60%'
 
 " Ctrl-D to close current buffer (:bufdelete)
-nnoremap <silent> <Leader>q :Sayonara<CR>
+nnoremap <silent> <c-q> :Sayonara<CR>
 " Ctrl-C to close current window (:close)
-nnoremap <silent> <Leader>c :Sayonara!<CR>
+nnoremap <silent> <c-c> :Sayonara!<CR>
 
 " speed optimizations
 let g:gitgutter_realtime = 1

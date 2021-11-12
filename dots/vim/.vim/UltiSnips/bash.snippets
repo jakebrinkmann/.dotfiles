@@ -16,3 +16,14 @@ snippet debug "v8 debugger"
 node --debug <file>
 node debug <file>
 endsnippet
+snippet sysctl "debugging services"
+sudo systemctl list-units | grep -i failed
+sudo systemctl list-units --state failed
+endsnippet
+snippet net "debugging networks"
+tcpdump ether host e8:2a:ea:44:55:66
+tcpdump -i any -e
+endsnippet
+snippet tunnel "ssh port tunneling"
+ssh -n -L "5432:$PGHOST:5432" ssm-user@$AWS_HOST;
+endsnippet

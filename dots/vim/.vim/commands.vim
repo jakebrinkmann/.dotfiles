@@ -1,5 +1,5 @@
 " remove trailing white space
-command Nows :%s/\s\+$//
+command Nows :%s/\s\+$//e
 " remove blank lines
 command Nobl :g/^\s*$/d
 " change double-quote to single

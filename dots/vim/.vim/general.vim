@@ -98,14 +98,6 @@ imap kj <Esc>
 " `#$` to realign comment to column 40
 nnoremap #$ $?#<CR>D40i <Esc>40<bar>P:s/\s*$//<CR>:nohlsearch<CR>
 
-" \l to highlight a line
-nnoremap <silent> <leader>l :call matchadd('Search', '\%'.line('.').'l')<cr>
-" \L to remove highlighted line
-nnoremap <silent> <leader>L :
-  \for m in filter(getmatches(), { i, v -> has_key(l:v, 'pattern') && l:v.pattern is? '\%'.line('.').'l'} )
-  \<bar>           :call matchdelete(m.id)
-  \<bar> :endfor<CR>
-
 " gf to edit files, too
 nnoremap gf :e <cfile><CR>
 " Shift-G shows full path
@@ -113,12 +105,6 @@ nnoremap <leader>G :echo expand('%:p')<CR>
 " Ctrl+Z to save
 nnoremap <c-z> :w<CR>
 inoremap <c-z> <Esc>:w<CR>a
-" Make a new vertical split
-nnoremap <silent> <leader>vn :vnew<CR>
-" Show only this window
-nnoremap <silent> <leader>vo :only<CR>
-" Veritcal Split
-nnoremap <silent> <leader>vs :vsplit<CR>
 " Toggle Spellchecking
 nnoremap <leader>ss :setlocal spell! spelllang=en_us<CR>
 " Launch netrw in a little sidebar
@@ -140,9 +126,6 @@ nnoremap <Leader>a :let @a="" \| g//y A <Left><Left><Left><Left><Left>
 vnoremap <Leader>t c<C-R>=strftime("%FT%T%z")<CR><ESC>
 " * -- Search for selected text
 vnoremap * y/\V<C-R>=escape(@",'/\')<CR><CR>
-
-" \j -- lookup JIRA issue id
-vnoremap <C-J> y<bar>:call system("_jira " . @")<CR>
 
 " Make a new tab
 nnoremap <silent> <C-n> :tabnew<CR>
