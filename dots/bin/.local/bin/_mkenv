@@ -5,13 +5,24 @@ PYTHON="${PYTHON:-python3.9}"
 PREFIX="${PREFIX:-.venv}"
 
 DEV_DEPS='
-        black
-        flake8
-        mypy
-        isort
-        pytest
-        pytest-cov
-        pytest-mock
+        black=*
+        flake8=*
+        flake8-aaa=*
+        flake8-bugbear=*
+        flake8-comprehensions=*
+        flake8-docstrings=*
+        flake8-eradicate=*
+        flake8-isort=*
+        flake8-pytest-style=*
+        flake8-use-fstring=*
+        mccabe=*
+        mypy=*
+        isort=*
+        pytest=*
+        pytest-cov=*
+        pytest-mock=*
+        radon=*
+        vulture=*
         '
 
 ##### Use Poetry

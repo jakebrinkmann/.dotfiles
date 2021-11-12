@@ -1,2 +1,3 @@
 installer.parallel = true
 virtualenvs.create = true
+virtualenvs.in-project = true
