@@ -75,9 +75,5 @@ alias dotenv='export $(cat .env | xargs)'
 # console-oriented
 alias wttr="curl wttr.in/?0"
 
-# ideas
-alias notes='vim -O ~/$(date +%y%m)-TODOS.md ~/$(date +%y%m)-NOTES.md -c "split ~/.dots/TODOS.md"'
-alias tasks='notes'
-
 # SVN
 alias svn="svn --username=$SVN_USERNAME --password=$SVN_PASSWORD"

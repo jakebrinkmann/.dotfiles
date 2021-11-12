@@ -19,6 +19,9 @@ l() {
   /usr/bin/ls --color=auto -ACF $@;
 }
 
+# the-child-of-mkdir-and-cd
+function mkdircd () { mkdir -p "$@" && cd "$@"; }
+
 # ----------------------------------
 # ANSI Color Ref
 # Format: $green = "\033[01;32m";
