@@ -303,7 +303,7 @@ nnoremap <leader>gf :Gfetch<CR>
 nnoremap <leader>gh :Ghdiffsplit<CR>
 nnoremap <leader>gd :Gdiff<CR>
 nnoremap <leader>gn :Git difftool --name-status origin/development<CR>
-nnoremap <leader>gb :Gblame<CR>
+nnoremap <leader>gb :Git blame<CR>
 nnoremap <leader>go :diffget<SPACE>
 nnoremap <leader>gp :diffput<SPACE>
 
