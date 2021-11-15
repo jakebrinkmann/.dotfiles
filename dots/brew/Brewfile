@@ -1,5 +1,8 @@
 # 'brew bundle install'
+brew "tree"
 brew "git-delta"
+brew "ripgrep"
+brew "pgformatter"
 brew "python@3.9"
 brew "poetry"
 brew "awscli"
