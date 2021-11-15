@@ -37,6 +37,7 @@
 
 [push]
     followTags = true
+	default = current
 
 [merge]
     conflictstyle = diff3
