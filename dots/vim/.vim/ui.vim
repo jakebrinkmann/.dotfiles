@@ -39,11 +39,11 @@ set guioptions=
 set lazyredraw
 set updatetime=4000
 
-" Set the text width to 120 and create a vertical bar in 121th column. Some
+" Set the text width to 88 and create a vertical bar in 89th column. Some
 " filetypes such as gitcommit have a custom width defined and we use autocmd
 " here so our textwidth value takes precedence.
 set nowrap
-set colorcolumn=121
+set colorcolumn=89
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 " Trailing whitespace is an ERROR
