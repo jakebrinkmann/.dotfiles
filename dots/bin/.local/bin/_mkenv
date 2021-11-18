@@ -25,6 +25,14 @@ DEV_DEPS='
         vulture=*
         '
 
+DEV_DEPS='
+        black=*
+        flake8=*
+        pytest=*
+        pytest-cov=*
+        pytest-mock=*
+        '
+
 ##### Use Poetry
 if [ ! -z "$(poetry --version)" ]; then
   if [ -f pyproject.toml ]; then
