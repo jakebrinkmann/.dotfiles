@@ -84,6 +84,10 @@
   unwipe = "!f() { git cherry-pick $1 && git reset HEAD^; } ; f"
   wipes = !git reflog --format='%h %<|(17)%gd %ci %s' | /bin/grep --color=never WIPESAVE | head -n 15
 
+  # Checkout from origin/development
+  devb = "!f() { git fetch origin development; git checkout origin/development -b $1; }; f"
+  dev = "!f() { git fetch origin development; git checkout origin/development -B development; }; f"
+
 [pull]
   rebase = false
 
