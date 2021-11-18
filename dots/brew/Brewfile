@@ -1,6 +1,7 @@
 # 'brew bundle install'
 brew "tree"
 brew "git-delta"
+brew "subversion"
 brew "ripgrep"
 brew "pgformatter"
 brew "python@3.9"
