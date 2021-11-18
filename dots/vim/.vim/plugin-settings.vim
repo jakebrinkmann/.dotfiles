@@ -176,7 +176,7 @@ let g:ale_fixers = {
     \'python': ['isort', 'black'],
     \'javascript': ['eslint', 'prettier'],
     \'html': ['prettier'],
-    \'json': ['prettier'],
+    \'json': ['jq'],
     \'css': ['eslint'],
     \'sql': ['pgformatter']
 \}
@@ -188,6 +188,8 @@ let g:ale_python_flake8_options = '--max-line-length 80'
 let g:ale_python_mypy_show_notes = 1
 let g:ale_python_pyupgrade_options = '--py38-plus'
 let g:ale_javascript_prettier_options = '--single-quote --print-width 120'
+let g:ale_json_jq_options = ''
+let g:ale_json_jq_filters = '.'
 let g:ale_yaml_yamllint_options = '-d "{extends: relaxed, rules: {line-length: {max: 120}}}"'
 let g:ale_sql_pgformatter_options = '--no-extra-line --function-case 2 --wrap-after 4'
 " Only run linters when specified

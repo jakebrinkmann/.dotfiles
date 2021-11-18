@@ -27,3 +27,6 @@ endsnippet
 snippet tunnel "ssh port tunneling"
 ssh -n -L "5432:$PGHOST:5432" ssm-user@$AWS_HOST;
 endsnippet
+snippet catname "cat with filename"
+tail -n +1 *.sh >> README.md
+endsnippet
