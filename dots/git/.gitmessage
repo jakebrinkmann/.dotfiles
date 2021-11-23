@@ -1,5 +1,7 @@
 
 # type(scope?)[!]: Describe what the software does after your change...
+# Wrap at 72 chars. ################################## which is here: #
+# Explain *what* and *why* (not *how*). Include task ID (Jira issue).
 #
 # ** TYPES **
 # feat: :sparkles: added/changed feature
@@ -30,6 +32,8 @@
 # Related to !3.
 #   DEPENDS ON (component[@hash][, component2[@hash]...])
 #    [TICKET #ID]
+#
+# Co-authored-by: name <user@users.noreply.github.com>
 #
 #
 # BREAKING CHANGE        Major release

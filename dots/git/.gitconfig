@@ -91,6 +91,9 @@
 [pull]
   rebase = false
 
+[commit]
+  template = /home/hydro/.gitmessage
+
 [init]
   defaultBranch = main
 

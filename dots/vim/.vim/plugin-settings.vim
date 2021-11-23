@@ -74,7 +74,7 @@ function! WizErrors()
     let l:all_errors = l:counts.error + l:counts.style_error
     let l:all_non_errors = l:counts.total - l:all_errors
     return l:counts.total == 0 ? '' : printf(
-          \   '• %d ◉ %d',
+          \   '• %d ✘ %d',
           \   all_non_errors,
           \   all_errors
           \)
@@ -190,12 +190,14 @@ let g:ale_python_pyupgrade_options = '--py38-plus'
 let g:ale_javascript_prettier_options = '--single-quote --print-width 120'
 let g:ale_json_jq_options = ''
 let g:ale_json_jq_filters = '.'
-let g:ale_yaml_yamllint_options = '-d "{extends: relaxed, rules: {line-length: {max: 120}}}"'
+let g:ale_yaml_yamllint_options = '-d "{extends: relaxed, rules: {line-length: disable}}"'
 let g:ale_sql_pgformatter_options = '--no-extra-line --function-case 2 --wrap-after 4'
 " Only run linters when specified
 let g:ale_linters_explicit = 1
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_lint_on_text_changed = 'never'
 let g:ale_set_loclist = 1 " use localation list, :lopen
-let g:ale_sign_error = "◉"
+let g:ale_sign_error = "✘"
 let g:ale_sign_warning = '•'
 let g:ale_sign_info = '⌇'
 let g:ale_sign_style_error = g:ale_sign_error
