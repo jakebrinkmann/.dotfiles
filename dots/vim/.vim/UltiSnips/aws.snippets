@@ -56,6 +56,8 @@ snippet aws-ses "aws ses commands"
 aws ses verify-email-identity --email-address $EMAIL
 aws route53 list-hosted-zones-by-name --dns-name $HOSTEDZONENAME | jq -r .HostedZones[0].Id
 aws ses verify-domain-identity --domain $HOSTEDZONENAME | jq -r .VerificationToken
+aws ses list-identities --query 'Identities'
+aws ses get-identity-verification-attributes --identities $EMAIL
 aws ses set-identity-mail-from-domain --identity $HOSTEDZONENAME --mail-from-domain "no-reply.$HOSTEDZONENAME" --behavior-on-mx-failure UseDefaultValue
 aws sesv2 create-configuration-set-event-destination \
   --configuration-set-name EmailEventConfigSet \
