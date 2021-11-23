@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 SECRET=$(aws secretsmanager list-secrets | jq -r '.SecretList | map(select(.Name | test("database"))) | .[0].Name')
 RDS_HOST=$(aws secretsmanager get-secret-value --secret-id "$SECRET" | jq -r '.SecretString | fromjson | .host')
-ssh -L "5432:$RDS_HOST:5432" -t EC2-SSM-Bastion psql
+ssh -L "5432:$RDS_HOST:5432" -t ec2-ssm-bastion "bash -c 'PAGER=\"less -S\" psql'"
