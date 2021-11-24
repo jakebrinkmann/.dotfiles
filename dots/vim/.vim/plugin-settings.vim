@@ -331,3 +331,7 @@ nnoremap =j :%!python3 -m json.tool<CR>
 
 " (SHIFT) moves lines and selections in a more visual manner
 let g:move_key_modifier='S'
+
+" markdown-preview (:MarkdownPreview)
+let g:mkdp_refresh_slow = 1
+let g:mkdp_page_title = '「 ${name} 」'

@@ -13,6 +13,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'dense-analysis/ale', { 'for': ['python', 'javascript', 'json', 'sql', 'cloudformation', 'yaml'] }
 Plug 'honza/vim-snippets'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install', 'for': ['markdown']}
 Plug 'itchyny/lightline.vim'
 Plug 'kassio/neoterm'
 Plug 'jmcantrell/vim-virtualenv', { 'for': ['python'] }
