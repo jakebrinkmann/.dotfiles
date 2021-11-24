@@ -1,5 +1,6 @@
 # 'brew bundle install'
 brew "tree"
+brew "gcc@5"
 brew "git-delta"
 brew "subversion"
 brew "ripgrep"
@@ -11,6 +12,8 @@ brew "cfn-lint"
 brew "yamllint"
 brew "httpie"
 brew "jq"
+brew "yq"
 brew "node"
 brew "gitlab-runner"
 brew "libpq", link: true
+brew "graphviz"
