@@ -30,3 +30,14 @@ endsnippet
 snippet catname "cat with filename"
 tail -n +1 *.sh >> README.md
 endsnippet
+snippet hello "hello world"
+#!/usr/bin/env bash
+set -euo pipefail
+
+install() {
+  echo Hello World
+}
+
+# Call the requested function and pass the arguments as-is
+"$@"
+endsnippet

@@ -42,3 +42,59 @@ server1 --|> FlightMonitorService:flight/queue
 @enduml
 endsnippet
 
+snippet umla "plantuml activity"
+@startuml
+' https://plantuml.com/activity-diagram-legacy
+(*) --> if "Some Test" then
+  -->[true] "action 1"
+  if "" then
+    -> "action 3" as a3
+  else
+    if "Other test" then
+      -left-> "action 5"
+    else
+      --> "action 6"
+    endif
+  endif
+else
+  ->[false] "action 2"
+endif
+@enduml
+endsnippet
+
+snippet umle "plantuml ERD"
+@startuml
+' https://plantuml.com/ie-diagram
+skinparam linetype ortho
+
+entity "Entity01" as e01 {
+  *e1_id : number <<generated>>
+  --
+  *name : text
+  description : text
+}
+
+entity "Entity02" as e02 {
+  *e2_id : number <<generated>>
+  --
+  *e1_id : number <<FK>>
+  other_details : text
+}
+
+e01 ||..o{ e02
+@enduml
+endsnippet
+
+snippet umlm "plantuml MindMap"
+@startmindmap
+'https://plantuml.com/mindmap-diagram
+* root node
+** some first level node
+***_ second level node
+***_ another second level node
+***_ foo
+***_ bar
+***_ foobar
+** another first level node
+center footer My super footer
+@endmindmap
