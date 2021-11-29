@@ -41,3 +41,7 @@ install() {
 # Call the requested function and pass the arguments as-is
 "$@"
 endsnippet
+snippet python "python script wrapper"
+SCRIPT_DIR=$(dirname $0 || exit $?)
+python3 "$SCRIPT_DIR/install.py" "$@" || exit $?
+endsnippet

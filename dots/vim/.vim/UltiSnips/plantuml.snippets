@@ -1,6 +1,7 @@
 snippet umls "plantuml"
 @startuml
 ' https://plantuml.com/sequence-diagram
+' https://plantuml-documentation.readthedocs.io/en/latest/diagrams/sequence.html
 
 skinparam Shadowing false
 
@@ -23,6 +24,8 @@ GUI -> SC : To control
 SC -> Widget : To entity
 Widget -> Widgets : To database
 GUI -> User -- : success
+[<- User: Done
+note right : this is a note
 
 @enduml
 endsnippet
@@ -59,6 +62,8 @@ snippet umla "plantuml activity"
 else
   ->[false] "action 2"
 endif
+
+a3  --> (*)
 @enduml
 endsnippet
 

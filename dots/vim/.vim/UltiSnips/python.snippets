@@ -139,7 +139,12 @@ norecursedirs = [
   ".pytest_cache",
   ".aws-sam"
 ]
-filterwarnings = [ "error::UserWarning" ]
+filterwarnings = [
+  "error::UserWarning",
+  "error::DeprecationWarning",
+  "error::PendingDeprecationWarning"
+]
+
 addopts = [
   "-m", "not (realdb)",
   "-p", "no:cacheprovider",
