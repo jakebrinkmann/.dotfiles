@@ -38,12 +38,11 @@ DEV_DEPS='
 ##### Use Poetry
 if [ ! -z "$(poetry --version)" ]; then
   if [ -f pyproject.toml ]; then
-    poetry install  --no-root || exit
+    poetry install  --no-root || exit $?
   else
-    poetry init --no-interaction || exit
+    poetry init --no-interaction || exit $?
+    poetry add --dev $DEV_DEPS || exit $?
   fi
-
-  poetry add --dev $DEV_DEPS
 
 ##### Use VirtualEnv and pip
 else
@@ -52,10 +51,10 @@ else
   PATH=${PREFIX}:$PATH
   # Install useful tools
   ${PREFIX}/bin/${PYTHON} -m \
-      pip install $DEV_DEPS
+      pip install $DEV_DEPS || exit $?
 
   [[ -f requirements.txt ]] &&  \
       ${PREFIX}/bin/${PYTHON} -m \
-          pip install -r requirements.txt
+          pip install -r requirements.txt || exit $?
 fi
 

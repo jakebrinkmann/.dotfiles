@@ -4,5 +4,9 @@ if [ -z ${@} ]; then
   grep -E "^\w+:\w+:" .gitlab-ci.yml | sort
   exit 1;
 else
-  gitlab-runner exec docker ${@}
+  gitlab-runner exec docker \
+    --docker-privileged \
+    --docker-volumes /var/run/docker.sock:/var/run/docker.sock \
+    --docker-pull-policy if-not-present \
+    ${@}
 fi
