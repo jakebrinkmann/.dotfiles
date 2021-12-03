@@ -48,3 +48,10 @@ endsnippet
 snippet brewu "uninstall all brew"
 brew remove --force $(brew list --formula)
 endsnippet
+snippet svnc "svn cheatsheet"
+alias svn="svn --username=$SVN_USERNAME --password=$SVN_PASSWORD"
+svn ls $SVN_REPO_URL/branches --verbose
+svn list $SVN_REPO_URL/trunk/
+svn checkout $SVN_REPO_URL/trunk/doc trunk/doc
+svn lock trunk/doc/FILENAME
+endsnippet
