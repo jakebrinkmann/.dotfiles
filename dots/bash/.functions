@@ -80,16 +80,6 @@ search() {
     xargs -I % grep -i --color=always $@ % /dev/null
 }
 
-# Run newman using docker
-__newman() {
-  docker run --rm -it -v "${PWD}":/etc/newman -t postman/newman:alpine "$@";
-}
-
-# Run AWS CLI using docker
-__aws() {
-  docker run --rm -it -v ${HOME}/.aws:/root/.aws -v ${PWD}:/aws -e AWS_REGION -e AWS_PROFILE amazon/aws-cli:latest "$@";
-}
-
 # Flash the screen after 25mins (1500s)
 pomo() {
   sleep ${1:-1500}; for x in $(seq 1 60); do printf '\a'; sleep 1; done
@@ -101,4 +91,47 @@ cht() {
   if [[ -n "$selected" ]]; then
     curl -ks cht.sh/$selected
   fi
+}
+
+# Run newman using docker
+__newman() {
+  local image=docker.io/postman/newman:alpine
+  docker run --rm -it \
+    -v "${PWD}":/etc/newman \
+    -t $image \
+    "$@";
+}
+
+# Run AWS CLI using docker
+__aws() {
+  local image=docker.io/amazon/aws-cli:latest
+  docker run --rm -it \
+    -v ${HOME}/.aws:/root/.aws \
+    -v ${PWD}:/aws \
+    -e AWS_REGION \
+    -e AWS_PROFILE \
+    $image "$@";
+}
+
+__postgres() {
+  local image=docker.io/library/postgres:14.1
+  docker pull $image
+  docker run -p 5432:5432 \
+    --name "postgresql" \
+    -e 'POSTGRES_USER=postgres' \
+    -e 'POSTGRES_PASSWORD=postgres' \
+    -v pgdata:/var/lib/postgresql/data \
+    -d $image
+}
+
+__pgadmin4() {
+  # https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html
+  local image=docker.io/dpage/pgadmin4:6.2
+  docker pull $image
+  docker run -p 5050:80 \
+    --name "pgadmin4" \
+    --link "postgresql" \
+    -e 'PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org' \
+    -e 'PGADMIN_DEFAULT_PASSWORD=postgres' \
+    -d $image
 }
