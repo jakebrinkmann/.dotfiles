@@ -256,7 +256,7 @@ let test#javascript#runner = 'jest'
 let g:test#javascript#jest#executable =
       \'node inspect node_modules/.bin/jest --runInBand --config ./jest.config.json'
 " running tests on different granularities
-nmap <silent> <leader>tp :TestNearest --pdb -s<CR>
+nmap <silent> <leader>tp :TestNearest --pdb -vv -s<CR>
 nmap <silent> <leader>tn :TestNearest<CR>
 nmap <silent> <leader>tf :TestFile<CR>
 nmap <silent> <leader>tl :TestLast<CR>

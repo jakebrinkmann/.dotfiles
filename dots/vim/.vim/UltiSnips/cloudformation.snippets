@@ -98,6 +98,10 @@ Globals:
     Runtime: python3.9
     MemorySize: 128
     Timeout: 30
+    Environment:
+      Variables:
+        USER_POOL_ID: !FindInMap [ AccountMap, !Ref AccountName, UserPoolId ]
+        ROLE_TABLE_NAME: !Ref DDBRoles
 
 Resources:
   ServerlessRestApi:

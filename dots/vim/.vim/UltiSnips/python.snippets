@@ -95,6 +95,21 @@ def test_$2(mock_db, event):
     assert 0
 endsnippet
 
+snippet param "pytest parametrize"
+# https://docs.pytest.org/en/6.2.x/parametrize.html
+@pytest.mark.parametrize("x", [0, 1])
+@pytest.mark.parametrize("y", [2, 3])
+def test_foo(x, y):
+    pass
+
+@pytest.mark.parametrize("value, expected", [
+    ('never', NEVER),
+    ('hard', HARD),
+    ('demand', DEMAND)
+    ('try', TRY),
+])
+endsnippet
+
 snippet aaa "arrange act assert" b
 """Scenario: <<determinable situation>>"""
 # Given there is <<precondition or input>>

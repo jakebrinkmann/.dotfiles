@@ -90,6 +90,49 @@ e01 ||..o{ e02
 @enduml
 endsnippet
 
+snippet umlerd "entity relationship"
+@startuml
+
+' hide the label
+hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+' make packages not look weird
+skinparam packageStyle rectangle
+
+package foo1.foo2 {
+note "This is a floating note" as N1
+entity Entity01 {
+  {static} * identifying_attribute : number <<generated>>
+  --
+  * <b>mandatory_attribute</b> : text
+  optional_attribute : text
+}
+}
+
+package foo2.foo3 {
+class "Entity02" as e02 {
+  *e2_id : number <<generated>>
+  --
+  *e1_id : number <<FK>>
+  {abstract} other_details : text
+}
+}
+
+enum TimeUnit {
+  DAYS
+  HOURS
+  MINUTES
+}
+
+Entity01 }|..|| e02 : OneOrMany to ExactlyOne
+Entity03 }o..o| Entity04 : ZeroOrMany to ZeroOrOne
+
+@enduml
+endsnippet
+
 snippet umlm "plantuml MindMap"
 @startmindmap
 'https://plantuml.com/mindmap-diagram

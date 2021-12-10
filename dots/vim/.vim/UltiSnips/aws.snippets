@@ -130,6 +130,7 @@ aws cloudformation describe-stacks | jq -c '.Stacks[].StackName'
 aws cloudformation describe-stacks --stack-name $STACK | jq -c '.Stacks[].StackStatus'
 aws cloudformation describe-stacks --stack-name $STACK | jq -c '.Stacks[].Outputs'
 aws cloudformation describe-stack-resources --stack-name $STACK | jq -c '.StackResources[].PhysicalResourceId'
+aws cloudformation deploy --s3-bucket $BUCKET --template-file packaged.yaml --capabilities CAPABILITY_NAMED_IAM --stack-name $STACK
 aws cloudformation delete-stack --stack-name $STACK
 endsnippet
 # aws.compute.ECR (Elastic Container Registry)
