@@ -133,5 +133,6 @@ __pgadmin4() {
     --link "postgresql" \
     -e 'PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org' \
     -e 'PGADMIN_DEFAULT_PASSWORD=postgres' \
+    -v pgadmindata:/var/lib/pgadmin/storage/ \
     -d $image
 }

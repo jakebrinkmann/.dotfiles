@@ -44,17 +44,15 @@ fi
 
 # Git Integration
 function git_prompt {
-  if [ -e ".git" ]; then
-    BRANCH=`git rev-parse --abbrev-ref HEAD 2> /dev/null`;
-    if [ -n "$BRANCH" ]; then
-        DIRTY=`git status --porcelain --untracked-files=no 2> /dev/null`;
-        if [ -n "$DIRTY" ]; then
-          echo "$_RED($BRANCH*) ";
-        else
-          echo "$_MAGENTA($BRANCH) ";
-        fi;
-    fi;
-  fi
+  BRANCH=`git rev-parse --abbrev-ref HEAD 2> /dev/null`;
+  if [ -n "$BRANCH" ]; then
+      DIRTY=`git status --porcelain --untracked-files=no 2> /dev/null`;
+      if [ -n "$DIRTY" ]; then
+        echo "$_RED($BRANCH*) ";
+      else
+        echo "$_MAGENTA($BRANCH) ";
+      fi;
+  fi;
 }
 
 TERMTITLE='\033]0; '

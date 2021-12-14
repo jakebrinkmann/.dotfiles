@@ -106,10 +106,10 @@ let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 let g:netrw_hide = 1
 " directory banner is mostly useless
 let g:netrw_banner = 0
-" open files in current pane
+" open files in (0: current pane, 4: previous window "P")
 let g:netrw_browse_split = 0
 " width of the directory explorer
-let g:netrw_winsize = 25
+let g:netrw_winsize = 15
 " tree list view (0: thin, 1: info, 2: columns, 3: tree)
 let g:netrw_liststyle = 3
 " Sort files (time|name / normal|reverse)

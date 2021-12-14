@@ -102,13 +102,15 @@ nnoremap #$ $?#<CR>D40i <Esc>40<bar>P:s/\s*$//<CR>:nohlsearch<CR>
 nnoremap gf :e <cfile><CR>
 " Shift-G shows full path
 nnoremap <leader>G :echo expand('%:p')<CR>
+" Ctrl+C to delete buffer, but keep any split
+nnoremap <C-c> :bp\|bd #<CR>
 " Ctrl+Z to save
 nnoremap <c-z> :w<CR>
 inoremap <c-z> <Esc>:w<CR>a
 " Toggle Spellchecking
 nnoremap <leader>ss :setlocal spell! spelllang=en_us<CR>
 " Launch netrw in a little sidebar
-nnoremap <leader>pv :wincmd v<bar> :Explore <bar> :wincmd r <bar> :vertical resize 30<CR>
+nnoremap <leader>pv :Lexplore<CR>
 " \\ -- open last buffer
 nnoremap \\ <C-^>
 " \d -- delete current file
