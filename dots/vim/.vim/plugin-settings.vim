@@ -181,8 +181,8 @@ let g:ale_fixers = {
     \'sql': ['pgformatter']
 \}
 " let g:ale_python_isort_options = '--sp ~/.isort.cfg --virtual-env .venv'
-let g:ale_python_black_options = '--line-length=80'
-let g:ale_python_flake8_options = '--max-line-length 80'
+" let g:ale_python_black_options = '--line-length=80'
+" let g:ale_python_flake8_options = '--max-line-length 80'
 " let g:ale_python_mypy_options = '--strict --warn-unreachable --warn-return-any --follow-imports=normal'
 " let g:ale_python_mypy_options = '--ignore-missing-imports --follow-imports=silent --show-column-numbers --strict'
 let g:ale_python_mypy_show_notes = 1
@@ -264,24 +264,6 @@ nmap <silent> <leader>tl :TestLast<CR>
 if executable('rg')
     let g:rg_derive_root = 'true'
 endif
-
-" Search the project (globs: -g "folder/**.yaml")
-nnoremap <leader>ps :Rg<SPACE>
-" Find files
-nnoremap <leader>pf :Files<CR>
-" Find tracked files
-nnoremap <leader>pg :GFiles<CR>
-" Make switching buffers easier
-nnoremap <Leader>b :Buffers<CR>
-" Make getting back to business easier
-nnoremap <Leader>h :History<CR>
-" Always enable preview window on the right with 60% width
-let g:fzf_preview_window = 'right:60%'
-
-" Ctrl-D to close current buffer (:bufdelete)
-nnoremap <silent> <c-q> :Sayonara<CR>
-" Ctrl-C to close current window (:close)
-nnoremap <silent> <c-c> :Sayonara!<CR>
 
 " speed optimizations
 let g:gitgutter_realtime = 1
