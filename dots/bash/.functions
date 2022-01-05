@@ -11,11 +11,11 @@ bh() { grep -a "$@" ${HOME}/.bash_history*; }
 # folder contents
 l() {
   clear;
-  echo -e "$__YELLOW$(pwd)$RESET";
+  ls -ld $(pwd);
   heading="============================================================================"
   heading+=$heading
   heading+=$heading
-  echo -e "$__GREEN${heading::$COLUMNS}$RESET";
+  echo -e "${heading::$COLUMNS}";
   /usr/bin/ls --color=auto -ACF $@;
 }
 

@@ -317,3 +317,4 @@ let g:move_key_modifier='S'
 " markdown-preview (:MarkdownPreview)
 let g:mkdp_refresh_slow = 1
 let g:mkdp_page_title = '「 ${name} 」'
+let g:mkdp_auto_close = 0

@@ -3,10 +3,6 @@ snippet umls "plantuml"
 ' https://plantuml.com/sequence-diagram
 ' https://plantuml-documentation.readthedocs.io/en/latest/diagrams/sequence.html
 
-skinparam Shadowing false
-
-title "__Messages__ - **Sequence** Diagram"
-
 ' participant Participant
 ' collections Collections
 :User:
@@ -32,7 +28,6 @@ endsnippet
 
 snippet umlc "plantuml"
 @startuml
-title Classes - Class Diagram
 
 class server1 {
  url: mqtt://localhost:1883
@@ -70,7 +65,6 @@ endsnippet
 snippet umle "plantuml ERD"
 @startuml
 ' https://plantuml.com/ie-diagram
-skinparam linetype ortho
 
 entity "Entity01" as e01 {
   *e1_id : number <<generated>>
@@ -95,12 +89,6 @@ snippet umlerd "entity relationship"
 
 ' hide the label
 hide circle
-
-' avoid problems with angled crows feet
-skinparam linetype ortho
-
-' make packages not look weird
-skinparam packageStyle rectangle
 
 package foo1.foo2 {
 note "This is a floating note" as N1
@@ -150,6 +138,7 @@ center footer My super footer
 endsnippet
 
 snippet umlc "plantuml component diagram"
+' https://plantuml.com/component-diagram
 @startuml
 package "Some Group" {
   HTTP - [First Component]
@@ -159,7 +148,12 @@ package "Some Group" {
 
 node "Other Groups" {
   FTP - [Second Component]
-  [First Component] --> FTP
+  [First Component] ..> FTP
+}
+
+together {
+    [PostgreSQL database] as PostgresDB <<Database>>
+    [Mail server] as Mail <<Mail server>>
 }
 
 cloud {
@@ -177,9 +171,96 @@ database "MySql" {
 }
 
 
-[Another Component] --> [Example 1]
-[Example 1] --> [Folder 3]
-[Folder 3] --> [Frame 4]
+[Another Component] --> [Example 1]  #Blue
+[Example 1] ---> [Folder 3]  #Blue
+[Folder 3] -> [Frame 4]  #Blue
 footer //Adding "component" to force diagram to be a **component diagram**//
+' package node folder frame cloud database
+legend
+    | Color | Flow |
+    |<#Red>|  Flow 1 |
+    |<#Blue>|  Flow 2 |
+endlegend
+@enduml
+endsnippet
+snippet trigger "description"
+@startuml
+actor actor
+agent agent
+artifact artifact
+boundary boundary
+card card
+cloud cloud
+component component
+control control
+database database
+entity entity
+file file
+folder folder
+frame frame
+interface  interface
+node node
+package package
+queue queue
+stack stack
+rectangle rectangle
+storage storage
+usecase usecase
+@enduml
+endsnippet
+snippet umli "plantuml with icons"
+' https://plantuml.com/stdlib
+@startuml
+'Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+'SPDX-License-Identifier: MIT (For details, see https://github.com/awslabs/aws-icons-for-plantuml/blob/master/LICENSE)
+
+!include <awslib/AWSCommon>
+
+' Uncomment the following line to create simplified view
+' !include <awslib/AWSSimplified>
+
+!include <awslib/General/Users>
+!include <awslib/Mobile/APIGateway>
+!include <awslib/SecurityIdentityAndCompliance/Cognito>
+!include <awslib/Compute/Lambda>
+!include <awslib/Database/DynamoDB>
+
+left to right direction
+
+Users(sources, "Events", "millions of users")
+APIGateway(votingAPI, "Voting API", "user votes")
+Cognito(userAuth, "User Authentication", "jwt to submit votes")
+Lambda(generateToken, "User Credentials", "return jwt")
+Lambda(recordVote, "Record Vote", "enter or update vote per user")
+DynamoDB(voteDb, "Vote Database", "one entry per user")
+
+sources --> userAuth
+sources --> votingAPI
+userAuth <--> generateToken
+votingAPI --> recordVote
+recordVote --> voteDb
+@enduml
+endsnippet
+snippet umlc "plantuml colors"
+' https://plantuml-documentation.readthedocs.io/en/latest/formatting/all-skin-params.html
+@startuml
+title "__Messages__ - **Sequence** Diagram"
+center header Generated for demonstration
+top to bottom direction
+autonumber
+skinparam monochrome true
+skinparam Shadowing false
+skinparam linetype ortho
+skinparam packageStyle rectangle
+skinparam responseMessageBelowArrow true
+skinparam nodesep 5
+colors
+footer Generated on %date[dd-MM-yyyy]%
+skinparam package<<Layout>> {
+  borderColor Transparent
+  backgroundColor Transparent
+  fontColor Transparent
+  stereotypeFontColor Transparent
+}
 @enduml
 endsnippet

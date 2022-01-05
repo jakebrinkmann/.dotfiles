@@ -14,6 +14,7 @@ endsnippet
 # aws.security.STS (Security Token Service)
 snippet aws-sts "aws sts commands"
 aws sts get-caller-identity --output json | jq '.Account' -r
+aws sts assume-role --role-arn $ROLE --role-session-name $USER
 endsnippet
 # aws.security.SecretsManager
 snippet aws-sm "aws secrets commands"
