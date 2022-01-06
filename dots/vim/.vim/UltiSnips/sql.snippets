@@ -50,3 +50,29 @@ begin
    return film_count;
 end $$ language plpgsql;
 endsnippet
+snippet schema
+\echo '===== Create schema:  group'
+DROP SCHEMA IF EXISTS "group" CASCADE;
+CREATE SCHEMA "group";
+COMMENT ON SCHEMA  "group"  IS 'This schema contains';
+
+SET SCHEMA 'group';
+endsnippet
+snippet table
+CREATE TYPE definition_type  AS ENUM ('place', 'person', 'thing');
+\echo '===== Create table:  definition'
+CREATE TABLE IF NOT EXISTS definition
+(
+    -- Columns
+    id                                  UUID            PRIMARY KEY     DEFAULT gen_random_uuid(),
+    name                                TEXT            NOT NULL                                CHECK (name ~ '^[ -~]*$'),
+    type                                definition_type NOT NULL,
+    codes                               TEXT[],
+    last_modified                       TIMESTAMP WITH TIME ZONE        DEFAULT CURRENT_TIMESTAMP,
+    -- Constraints
+    PRIMARY KEY (id),
+    FOREIGN KEY (name)               REFERENCES things.place(name)       ON DELETE CASCADE
+);
+COMMENT ON TABLE  definition  IS 'This table defines.';
+COMMENT ON COLUMN definition.id IS 'Unique ID';
+endsnippet

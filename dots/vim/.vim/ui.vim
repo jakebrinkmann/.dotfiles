@@ -10,7 +10,7 @@ set incsearch
 set laststatus=2
 " " configure termial title to look like: ~/.v/.vimrc [+]
 set title
-set titlestring=%{substitute(expand(\"%:~:h\"),\"\\\\(/\\\\.\\\\?.\\\\)[^/]*\",\"\\\\1\",\"g\")}%{\"/\".expand(\"%:t\")}%(\ %a%r%m%)
+set titlestring=%{substitute(fnamemodify(substitute(getcwd(),\$HOME,\'~',\''),\':h'),\"\\\\(/\\\\.\\\\?.\\\\)[^/]*\",\"\\\\1\",\"g\")}/%{fnamemodify(getcwd(),':t')}%(\ %a%r%m%)
 set titlelen=72
 set titleold=
 " enable 256 colors
