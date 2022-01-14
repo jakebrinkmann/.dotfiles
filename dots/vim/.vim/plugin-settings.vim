@@ -263,6 +263,14 @@ nmap <silent> <leader>tl :TestLast<CR>
 
 if executable('rg')
     let g:rg_derive_root = 'true'
+    " Search the project (globs: -g "folder/**.yaml")
+    nnoremap <leader>ps :Rg<SPACE>
+    " Find files
+    nnoremap <leader>pf :Files<CR>
+    " Find tracked files
+    nnoremap <leader>pg :GFiles<CR>
+    " Make switching buffers easier
+    nnoremap <Leader>b :Buffers<CR>
 endif
 
 " speed optimizations

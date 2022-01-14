@@ -54,3 +54,12 @@ svn list $SVN_REPO_URL/trunk/
 svn checkout $SVN_REPO_URL/trunk/doc trunk/doc
 svn lock trunk/doc/FILENAME
 endsnippet
+snippet awk
+ls -l | awk '{ print $1 }'
+endsnippet
+snippet pipe
+set -euxo pipefail
+endsnippet
+snippet find
+find . -name "[!.]*"
+endsnippet

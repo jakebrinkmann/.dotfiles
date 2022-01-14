@@ -39,6 +39,12 @@ aws dynamodb scan --table-name $TABLE --max-items 1 --query 'Items[] | [0]'
 aws dynamodb get-item --table-name $TABLE --key '{"id": {"N": "'$KEY'"}}'
 endsnippet
 # aws.integration.SF (StepFunctions)
+snippet aws-states "aws stepfunction commands"
+aws events list-event-buses --query 'EventBuses[].Name'
+aws events put-events --entries "$EVENT"
+aws stepfunctions list-state-machines --query 'stateMachines[].stateMachineArn'
+aws stepfunctions start-execution --state-machine-arn $STATEMACHINE --input $EVENT
+endsnippet
 # aws.integration.SQS (Simple Queue Service)
 snippet aws-sqs "aws sqs commands"
 aws sqs list-queues | jq -c '.QueueUrls[]'
@@ -63,7 +69,7 @@ aws ses set-identity-mail-from-domain --identity $HOSTEDZONENAME --mail-from-dom
 aws sesv2 create-configuration-set-event-destination \
   --configuration-set-name EmailEventConfigSet \
   --event-destination-name EmailSnsEventDestination \
-  --event-destination $(cat <<__JSON__
+  --event-destination $(cat << '__JSON__' | jq -c
 {
   "Enabled": true,
   "MatchingEventTypes": [
@@ -143,7 +149,8 @@ FILENAME=$(mktemp --suffix '.zip'); rm $FILENAME
 pip install -r requirements.txt --target . && zip -r $FILENAME ./*
 aws lambda update-function-code --function-name $LAMBDA --zip-file "fileb://$FILENAME" --publish | jq -r .LastUpdateStatus
 aws lambda update-function-configuration --function-name $LAMBDA --timeout 30 --memory-size 256 | jq -r .LastUpdateStatus
-aws lambda invoke  --function-name $LAMBDA --invocation-type RequestResponse --log-type Tail --payload "$(cat $EVENT | base64)" $tmpfile | jq -r .LogResult | base64 --decode
+aws lambda update-function-configuration --function-name $LAMBDA --handler "app.lambda_handler" --layers "arn:aws:lambda:us-east-1:017000801446:layer:AWSLambdaPowertoolsPython:4" --environment "Variables={DB_SECRET_NAME=cca/database/site_api_read_write,DB_PROXY_ENDPOINT=cca-database-proxy.proxy-cx6atckrdwx5.us-east-1.rds.amazonaws.com}" | jq -r .LastUpdateStatus
+aws lambda invoke  --function-name $LAMBDA --invocation-type RequestResponse --log-type Tail --payload "$(echo $EVENT | base64)" $tmpfile | jq -r .LogResult | base64 --decode
 endsnippet
 snippet aws-sam "aws sam commands"
 poetry export -f requirements.txt --without-hashes > requirements.txt

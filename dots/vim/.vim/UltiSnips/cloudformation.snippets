@@ -165,3 +165,101 @@ Resources:
       MasterUserPassword: !Ref MasterUserPassword
       DBSnapshotIdentifier: !If [ UseSnapshotSelected, !Ref DbSnapshot, !Ref 'AWS::NoValue' ]
 endsnippet
+# https://github.com/awsdocs/aws-step-functions-developer-guide/blob/master/doc_source/supported-services-awssdk.md
+# https://states-language.net/spec.html
+# https://github.com/aws/amazon-states-language-service/blob/master/src/snippets/states.json
+snippet statemachine
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "An example template with an IAM role for a Lambda state machine."
+Resources:
+  LambdaExecutionRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: "sts:AssumeRole"
+
+  MyLambdaFunction:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Handler: "index.handler"
+      Role: !GetAtt [ LambdaExecutionRole, Arn ]
+      Code:
+        ZipFile: |
+          exports.handler = (event, context, callback) => {
+              callback(null, "Hello World!");
+          };
+      Runtime: "nodejs12.x"
+      Timeout: "25"
+
+  StatesExecutionRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - !Sub states.${AWS::Region}.amazonaws.com
+            Action: "sts:AssumeRole"
+      Path: "/"
+      Policies:
+        - PolicyName: StatesExecutionPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "lambda:InvokeFunction"
+                Resource: "*"
+
+  StateMachineLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/stepfunction/${AWS::StackName}-MyStateMachine"
+      RetentionInDays: 30
+
+  MyStateMachine:
+    Type: "AWS::StepFunctions::StateMachine"
+    Properties:
+      DefinitionUri: StateMachine.asl.json
+      DefinitionSubstitutions:
+        ResourceArn: !GetAtt LambdaFunction.Arn
+      Logging:
+        IncludeExecutionData: True
+        Level: ALL || ERROR
+        Destinations:
+          - CloudWatchLogsLogGroup:
+              LogGroupArn: !GetAtt OptionsUpdateStateMachineLogGroup.Arn
+      Type: STANDARD
+
+      DefinitionString:
+        !Sub
+          - |-
+            {
+              "Comment": "A Hello World example using an AWS Lambda function",
+              "StartAt": "HelloWorld",
+              "States": {
+                "HelloWorld": {
+                  "Type": "Task",
+                  "Resource": "arn:aws:states:::lambda:invoke",
+                  "OutputPath": "$.Payload",
+                  "Parameters": {
+                    "FunctionName": "MapSampleProj-ReadFromSQSQueueLambda-1MY3M63RMJVA9",
+                    "Payload":{
+                       "model.$":"$.new_model",
+                       "token.$":"$$.Task.Token"
+                    },
+                  },
+                  "End": true
+                }
+              }
+            }
+          - {lambdaArn: !GetAtt [ MyLambdaFunction, Arn ]}
+      RoleArn: !GetAtt [ StatesExecutionRole, Arn ]
+endsnippet

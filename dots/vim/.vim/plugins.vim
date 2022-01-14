@@ -17,6 +17,9 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install', 'for': ['m
 Plug 'itchyny/lightline.vim'
 Plug 'kassio/neoterm'
 Plug 'jmcantrell/vim-virtualenv', { 'for': ['python'] }
+Plug 'jremmen/vim-ripgrep'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'matze/vim-move'
 Plug 'morhetz/gruvbox'
 Plug 'sheerun/vim-polyglot'
