@@ -16,6 +16,7 @@ Plug 'honza/vim-snippets'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install', 'for': ['markdown']}
 Plug 'itchyny/lightline.vim'
 Plug 'kassio/neoterm'
+Plug 'jeroenbourgois/vim-actionscript'
 Plug 'jmcantrell/vim-virtualenv', { 'for': ['python'] }
 Plug 'jremmen/vim-ripgrep'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -30,6 +31,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer', 'for': ['python', 'javascript']}
 Plug 'vim-scripts/timestamp.vim'
 Plug 'vim-test/vim-test'
+Plug 'weirongxu/plantuml-previewer.vim'
+Plug 'tyru/open-browser.vim' "Dependency of plantuml-previewer
 call plug#end()
 " }}}
 

@@ -30,6 +30,7 @@ DEV_DEPS='
 DEV_DEPS='
         black=*
         flake8=*
+        isort=*
         pytest=*
         pytest-cov=*
         pytest-mock=*

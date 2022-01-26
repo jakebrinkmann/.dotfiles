@@ -80,11 +80,11 @@ let mapleader = "\<SPACE>"
 " Make Y behave like D and C
 nnoremap Y y$
 
-" disable arrow keys
-map <up> <nop>
-map <down> <nop>
-map <left> <nop>
-map <right> <nop>
+" Use Arrow Keys for buffer navigation
+map <silent> <up> :tabp<CR>
+map <silent> <down> :tabn<CR>
+map <silent> <left> :bp<CR>
+map <silent> <right> :bn<CR>
 
 " Break Undo sequence
 inoremap , ,<c-g>u

@@ -1,3 +1,29 @@
+snippet puml "basic class diagram"
+@startuml
+class Dummy {
+ -square1: uuid4, pk
+ #diamond2: str[256], unique
+ ~triangle()
+ +circle()
+}
+@enduml
+endsnippet
+
+snippet tree "plantuml creole tree"
+@startuml
+class Foo {
+  **Bar (Model)**
+  |_ prop
+  |_ **Bom (Model)**
+    |_ prop2
+    |_ prop3
+      |_ prop3.1
+  |_ prop4 :(
+  --
+}
+@enduml
+endsnippet
+
 snippet umls "plantuml"
 @startuml
 ' https://plantuml.com/sequence-diagram
@@ -22,6 +48,10 @@ Widget -> Widgets : To database
 GUI -> User -- : success
 [<- User: Done
 note right : this is a note
+note left
+  this note is on
+  several lines
+end note
 
 @enduml
 endsnippet
@@ -86,6 +116,11 @@ endsnippet
 
 snippet umlerd "entity relationship"
 @startuml
+hide private members
+hide public members
+
+hide entity fields
+hide object stereotypes
 
 ' hide the label
 hide circle
@@ -117,24 +152,71 @@ enum TimeUnit {
 
 Entity01 }|.left.|| e02 : OneOrMany to ExactlyOne
 Entity03 }o..o| Entity04 : ZeroOrMany to ZeroOrOne
-TimeUnit -[hidden]-> Entity03
+TimeUnit -left[hidden]-> Entity03
 
+' <|-- Extension
+' *-- Composition
+' o-- Aggregation
+@enduml
+endsnippet
+
+snippet pumlerd "plantuml classes with specific links"
+@startuml
+!include db_organizations_model.puml
+!include db_projects_model.puml
+!include db_needs_model.puml
+
+Needs::project -> Projects::id
+Projects::organizations -> Organizations::id
 @enduml
 endsnippet
 
 snippet umlm "plantuml MindMap"
 @startmindmap
 'https://plantuml.com/mindmap-diagram
-* root node
-** some first level node
-***_ second level node
-***_ another second level node
-***_ foo
-***_ bar
-***_ foobar
-** another first level node
-center footer My super footer
++ OS
+++ Ubuntu
++++ Linux Mint
++++_ Kubuntu
+++_ LMDE
+--_ Windows 98
+-- Windows NT
+--- Windows 10
 @endmindmap
+endsnippet
+
+snippet brain "plantuml braindump"
+@startmindmap
+
++ **myThoughts**
+++ Thought 1
+'tag::details[]
++++_ Thought 1.1
++++_ Thought 1.2
+'end::details[]
+++ Thought 2
+++ Thought 3
+
+'tag::left[]
+-- Thought A
+-- Thought B
+-- Thought C
+'end::left[]
+
+@endmindmap
+' +-bullets will be rendered as thoughts to the right
+' --bullets to the left, 
+' underscore _ to omit the box
+endsnippet
+
+snippet pumlhide "plantuml hide"
+@startuml
+hide <<tag>>
+class bob <<tag>>{
+}
+class joe{
+}
+@enduml
 endsnippet
 
 snippet umlc "plantuml component diagram"
@@ -248,6 +330,7 @@ title "__Messages__ - **Sequence** Diagram"
 center header Generated for demonstration
 top to bottom direction
 autonumber
+skinparam DefaultFontSize 18
 skinparam monochrome true
 skinparam Shadowing false
 skinparam linetype ortho
@@ -262,5 +345,13 @@ skinparam package<<Layout>> {
   fontColor Transparent
   stereotypeFontColor Transparent
 }
+#Orange #ffdfba
+#Pink #ffd4e5
+#Cyan #d4ffea
+#Purple #eecbff
+#Yellow #feffa3
+#Green #e1f7d5
+#Blue #c9c9ff
+#Red #ffbdbd
 @enduml
 endsnippet

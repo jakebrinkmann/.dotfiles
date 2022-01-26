@@ -1,10 +1,37 @@
+snippet conditional
+[ -z "$VAR" ] && echo "VAR=" && read VAR
+-e file -- True if file exists.
+-d file -- True if file exists and is a directory.
+-f file -- True if file exists and is a regular file.
+-n string -- True if the length of string is non-zero.
+endsnippet
 snippet cd-rel "invoke script anywhere"
+pushd $(pwd)
 cd $(dirname -- "$(readlink -f -- "$BASH_SOURCE")")
+popd
 endsnippet
 snippet jq "some jq shortcuts"
 jq -r '.events[].message | select(test("^Send Event: ")) | ltrimstr("Send Event: ") | fromjson'
 jq -r '.results[] | map(select(.field == "@timestamp" or .field == "@message") | .value) | @tsv'
 jq --null-input --arg user "$CLIENT_ID" '{"id": $user}'
+echo '{ "foo": "bar" }' | jq --compact-output '.foo |= "baz" | del(.other)'
+jq '.users[] | .first + " " + .last' || jq '.users[]|{first:.first,title:.last}'
+endsnippet
+snippet json
+# NOTE: single quotes means no $vars
+DATA=$(cat << '__JSON__' | jq -c
+{
+  "Enabled": true,
+}
+__JSON__
+)
+endsnippet
+snippet curl
+curl -d "@data.txt" -X POST http://localhost:3000/data
+curl --data-raw @$JSON
+curl -s -u $USER:$PW "localhost:24817/api/v3/content?fields=name&limit=1000" | jq -r .
+curl --request POST --form token=$TRIGGER_TOKEN
+api() { curl --request "$1" --header "Authorization: Bearer $JWT" $URL/v1/$2 "${@:3}"; }
 endsnippet
 snippet devtools "https://nodejs.org/en/docs/guides/debugging-getting-started/#command-line-options"
 node --inspect=0.0.0.0:9229 -e "setTimeout(function() { console.log('yes'); }, 3000)"
@@ -62,4 +89,15 @@ set -euxo pipefail
 endsnippet
 snippet find
 find . -name "[!.]*"
+endsnippet
+snippet datagen
+macaddr=$(echo $FQDN|md5sum|sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02:\1:\2:\3:\4:\5/')
+endsnippet
+snippet datetime
+microseconds=$(date --date="1 day ago" +%s000)
+seconds=$(date --iso-8601=seconds)
+endsnippet
+snippet color
+echo "green" | awk '{print "\033[32m" $0 "\033[39m"}'
+echo "blue" | awk '{print "\033[34m" $0 "\033[39m"}'
 endsnippet

@@ -28,7 +28,7 @@ endsnippet
 snippet aws-s3 "aws s3 commands"
 aws s3api list-buckets | jq -c '.Buckets[].Name'
 aws s3api list-objects --bucket $BUCKET | jq -c '.Contents[].Key'
-aws s3 cp s3://$BUCKET/$OBJECT /tmp
+aws s3 cp --website-redirect "$URL" s3://$BUCKET/$OBJECT /tmp
 aws s3api get-object --bucket $BUCKET --key $OBJECT /tmp/$OBJECT
 endsnippet
 # aws.database.RDS (Relational Data Service)
@@ -171,4 +171,9 @@ aws logs get-log-events --log-group-name $GROUP --log-stream-name $STREAM
 aws logs tail $GROUP --since '10m' --follow --format short
 aws logs start-query --log-group-names $GROUP --start-time $(date --date="30 minutes ago" "+%s") --end-time $(date "+%s") --query-string 'fields @message, @logStream | filter @message '"$QUERY"' | sort @timestamp desc | limit 20' | jq -r .queryId
 aws logs get-query-results --query-id $QID | jq -r '.results[][] | select(.field == "@message") | .value' | uniq
+
+GROUP=$(aws logs describe-log-groups | jq -r '.logGroups[].logGroupName | select(test("Site-WS-EventFunction"))')
+STREAM=$(aws logs describe-log-streams --log-group-name $GROUP --descending --max-items 1 | jq -r '.logStreams[0].logStreamName')
+aws logs create-log-stream --log-group-name $GROUP --log-stream-name $(date "+%s")
+aws logs delete-log-stream --log-group-name $GROUP --log-stream-name $STREAM
 endsnippet

@@ -85,13 +85,13 @@ def mock_db(mocker, db_row):
     return mocker.patch("$1.fetchone", return_value=db_row)
 
 def test_$2(mock_db, event):
-    """Scenario: <<determinable situation>>"""
-    # Given there is <<precondition or input>>
+    """SCENARIO: <<determinable situation>>"""
+    # GIVEN there is <<precondition or input>>
 
-    # When I <<behavior by actor>>
+    # WHEN I <<behavior by actor>>
     result = subject()
 
-    # Then I should <<expected testable outcome>>
+    # THEN I should <<expected testable outcome>>
     assert 0
 endsnippet
 
@@ -136,6 +136,12 @@ endsnippet
 snippet dc "" b
 from typing import List, Union, Dict, NewType
 from enum import Enum, unique
+>>> @unique
+... class Mistake(Enum):
+...     ONE = 1
+...     TWO = 2
+...     THREE = 3
+...     FOUR = 3
 from dataclasses import dataclass
 endsnippet
 

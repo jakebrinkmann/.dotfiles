@@ -109,3 +109,6 @@ augroup END
 augroup MakeVimTransparent
   autocmd ColorScheme * highlight Normal ctermbg=none
 augroup END
+
+" Hide things for presentation mode
+nnoremap <silent> <F5> :set relativenumber! number! showmode! showcmd! hidden! ruler!<CR>
