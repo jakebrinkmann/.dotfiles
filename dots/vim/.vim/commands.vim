@@ -12,3 +12,5 @@ command Chmodx :!chmod a+x %
 command FixSyntax :syntax sync fromstart
 " Usually, trying to write (not fzf#vim#windows)
 command W :w
+" Remove windows line endings
+command NoDOS :%s///g

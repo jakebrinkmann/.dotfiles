@@ -44,11 +44,11 @@ endbox
 User -> GUI ++ : To boundary
 GUI -> SC : To control
 SC -> Widget : To entity
-Widget -> Widgets : To database
+Widget -[bold]> Widgets : To database
 GUI -> User -- : success
 [<- User: Done
 note right : this is a note
-note left
+note bottom of
   this note is on
   several lines
 end note
@@ -267,6 +267,7 @@ endlegend
 endsnippet
 snippet trigger "description"
 @startuml
+allow_mixing
 actor actor
 agent agent
 artifact artifact
@@ -327,6 +328,9 @@ snippet umlc "plantuml colors"
 ' https://plantuml-documentation.readthedocs.io/en/latest/formatting/all-skin-params.html
 @startuml
 title "__Messages__ - **Sequence** Diagram"
+title
+  hello
+end title
 center header Generated for demonstration
 top to bottom direction
 autonumber
@@ -345,6 +349,9 @@ skinparam package<<Layout>> {
   fontColor Transparent
   stereotypeFontColor Transparent
 }
+skinparam actorBorderColor<<customer>> #Red
+skinparam actorBorderColor<<consumer>> #Blue
+skinparam boundaryBorderColor<<ehr>> #Green
 #Orange #ffdfba
 #Pink #ffd4e5
 #Cyan #d4ffea

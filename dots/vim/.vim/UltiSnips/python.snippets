@@ -134,7 +134,7 @@ assert ${1:False}
 endsnippet
 
 snippet dc "" b
-from typing import List, Union, Dict, NewType
+from typing import List, Optional, Union, Dict, NewType
 from enum import Enum, unique
 >>> @unique
 ... class Mistake(Enum):
@@ -142,7 +142,7 @@ from enum import Enum, unique
 ...     TWO = 2
 ...     THREE = 3
 ...     FOUR = 3
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 endsnippet
 
 snippet pb "poetry black config"

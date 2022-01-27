@@ -316,6 +316,11 @@ tnoremap <silent> \\ <C-W>:Tnext<CR>
 nnoremap <silent> <leader>tr :TREPLSendLine<CR>
 vnoremap <silent> <leader>tr :TREPLSendSelection<CR>
 
+" This makes :TREPLSendLine work for Python
+let g:neoterm_repl_python =
+  \ ['poetry run python']
+let g:neoterm_repl_command = add(g:neoterm_repl_python, '')
+
 " Pretty-print JSON
 nnoremap =j :%!python3 -m json.tool<CR>
 
