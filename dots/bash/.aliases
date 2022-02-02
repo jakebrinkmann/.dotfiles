@@ -50,7 +50,9 @@ alias gti=git
 alias gi=git
 alias vi=vim
 alias python=python3
-alias vimrc="vim ~/.vimrc"
+
+alias vrc="vim ~/.vimrc"
+alias wiki="vim ~/wiki/index.wiki"
 
 # more wholesome experience
 alias please=sudo

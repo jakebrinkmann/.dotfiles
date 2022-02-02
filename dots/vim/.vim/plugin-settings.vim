@@ -342,7 +342,8 @@ augroup vimwikigroup
     autocmd!
     " automatically update links on read diary
     autocmd BufWinEnter diary.wiki VimwikiDiaryGenerateLinks
-    autocmd BufWinEnter index.wiki
+    autocmd BufWinEnter index.wiki VimwikiRebuildTags
 augroup end
 autocmd FileType vimwiki nnoremap <buffer> <Leader>wx :VimwikiToggleListItem<CR>
-autocmd FileType vimwiki nnoremap <buffer> <Leader>ws :lopen <bar> VimwikiSearchTags //<ESC>h
+autocmd FileType vimwiki nnoremap <buffer> <Leader>ws VimwikiSearchTags //
+autocmd FileType vimwiki command! Jira ::%s/\s\(ENG\w*-\d\+\)/\=" [".submatch(1)."](".expand($JIRA_SERVER)."\/browse\/".submatch(1).") "/g
