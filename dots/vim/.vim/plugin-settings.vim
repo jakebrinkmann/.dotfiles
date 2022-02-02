@@ -331,3 +331,18 @@ let g:move_key_modifier='S'
 let g:mkdp_refresh_slow = 1
 let g:mkdp_page_title = '「 ${name} 」'
 let g:mkdp_auto_close = 0
+
+" Vim Wiki
+""""""""""
+let g:vimwiki_list = [{'path': '~/wiki/', 'syntax': 'markdown'}]
+au FileType vimwiki setlocal shiftwidth=6 tabstop=6 noexpandtab
+let g:vimwiki_listsyms = '.:%*x'
+command! Diary VimwikiDiaryIndex
+augroup vimwikigroup
+    autocmd!
+    " automatically update links on read diary
+    autocmd BufWinEnter diary.wiki VimwikiDiaryGenerateLinks
+    autocmd BufWinEnter index.wiki
+augroup end
+autocmd FileType vimwiki nnoremap <buffer> <Leader>wx :VimwikiToggleListItem<CR>
+autocmd FileType vimwiki nnoremap <buffer> <Leader>ws :lopen <bar> VimwikiSearchTags //<ESC>h

@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =1
+let g:netrw_dirhist_1='/home/hydro'
+let g:netrw_dirhist_0='/home/hydro/dev/jbrinkmann/twenty-five-percent/.bonepile'
+let g:netrw_dirhist_9='/home/hydro/dev/jbrinkmann/twenty-five-percent'
+let g:netrw_dirhist_8='/home/hydro/dev/cia/antioch/scripts/pySonifiLibsInstaller'
+let g:netrw_dirhist_7='/home/hydro/dev/cia/antioch/scripts'
+let g:netrw_dirhist_6='/home/hydro/dev/cia/antioch'
+let g:netrw_dirhist_5='/home/hydro/dev/marina/trunk/hotelHdi/default/1199/service'
+let g:netrw_dirhist_4='/home/hydro/dev/marina/trunk/hotelHdi/default/1199'
+let g:netrw_dirhist_3='/home/hydro/dev/jbrinkmann/twenty-five-percent/2022-q1-004-learn-hc-marina'
+let g:netrw_dirhist_2='/home/hydro/dev/marina/trunk'

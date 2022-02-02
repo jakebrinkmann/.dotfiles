@@ -30,7 +30,9 @@ Plug 'tpope/vim-dotenv'
 Plug 'tpope/vim-fugitive'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer', 'for': ['python', 'javascript']}
 Plug 'vim-scripts/timestamp.vim'
+Plug 'vim-scripts/vcscommand.vim'
 Plug 'vim-test/vim-test'
+Plug 'vimwiki/vimwiki'
 Plug 'weirongxu/plantuml-previewer.vim'
 Plug 'tyru/open-browser.vim' "Dependency of plantuml-previewer
 call plug#end()

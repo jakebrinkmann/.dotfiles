@@ -253,3 +253,8 @@ augroup js_snippets
       \ inoreabbrev <buffer> con console.log()|
       \ inoreabbrev <buffer> raise throw "HANDS IN THE AIR"|
 augroup end
+
+" :help skeleton
+"  :autocmd BufNewFile  *.c	0r ~/vim/skeleton.c
+"  :autocmd BufNewFile  *.h	0r ~/vim/skeleton.h
+"  :autocmd BufNewFile  *.java	0r ~/vim/skeleton.java
