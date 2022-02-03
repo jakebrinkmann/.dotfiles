@@ -336,14 +336,20 @@ let g:mkdp_auto_close = 0
 """"""""""
 let g:vimwiki_list = [{'path': '~/wiki/', 'syntax': 'markdown'}]
 au FileType vimwiki setlocal shiftwidth=6 tabstop=6 noexpandtab
-let g:vimwiki_listsyms = '.:%*x'
+let g:vimwiki_listsyms = '.oOx'
 command! Diary VimwikiDiaryIndex
 augroup vimwikigroup
     autocmd!
     " automatically update links on read diary
     autocmd BufWinEnter diary.wiki VimwikiDiaryGenerateLinks
     autocmd BufWinEnter index.wiki VimwikiRebuildTags
+    " Make a preview list of todos with Fzf Ripgrep :)
+    command! -bang -nargs=* Todo
+          \ call fzf#vim#grep(
+          \ join(['rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape('^\s*- \[[ \.o0X]\] .+'), '~/wiki']), 1,
+          \ fzf#vim#with_preview(), <bang>0)
+    autocmd FileType vimwiki nnoremap <buffer> <Leader>wx :VimwikiToggleListItem<CR>
+    autocmd FileType vimwiki nnoremap <buffer> <Leader>ws VimwikiSearchTags //
+    autocmd FileType vimwiki nnoremap <buffer> <Leader>wg VimwikiGenerateTagLinks TODO
+    autocmd FileType vimwiki command! Jira :%s/\s\(ENG\w*-\d\+\)/\=" [".submatch(1)."](".expand($JIRA_SERVER)."\/browse\/".submatch(1).") "/g
 augroup end
-autocmd FileType vimwiki nnoremap <buffer> <Leader>wx :VimwikiToggleListItem<CR>
-autocmd FileType vimwiki nnoremap <buffer> <Leader>ws VimwikiSearchTags //
-autocmd FileType vimwiki command! Jira ::%s/\s\(ENG\w*-\d\+\)/\=" [".submatch(1)."](".expand($JIRA_SERVER)."\/browse\/".submatch(1).") "/g

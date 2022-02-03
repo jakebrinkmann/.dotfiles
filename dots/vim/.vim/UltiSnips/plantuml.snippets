@@ -1,5 +1,6 @@
 snippet puml "basic class diagram"
 @startuml
+!$a  = 42
 class Dummy {
  -square1: uuid4, pk
  #diamond2: str[256], unique
@@ -40,7 +41,11 @@ database Widgets
 ' queue Queue
 endbox
 
-[-> GUI : Incoming
+[-> GUI : <back:red><color:white>1. incoming
+note on link #White
+<code>
+  POST /v1/token
+end note
 User -> GUI ++ : To boundary
 GUI -> SC : To control
 SC -> Widget : To entity
@@ -239,7 +244,11 @@ together {
 }
 
 cloud {
-  [Example 1]
+{{json
+{"name": "component c1",
+"color": ["normal", "green", "red"],
+"visible": true}
+}}
 }
 
 
@@ -268,12 +277,17 @@ endsnippet
 snippet trigger "description"
 @startuml
 allow_mixing
+' :actor:
+' [component]
+' () "interface"
+' (usecase)
 actor actor
 agent agent
 artifact artifact
 boundary boundary
 card card
 cloud cloud
+collections collections
 component component
 control control
 database database
@@ -281,9 +295,12 @@ entity entity
 file file
 folder folder
 frame frame
+hexagon hexagon
 interface  interface
+label label
 node node
 package package
+person person
 queue queue
 stack stack
 rectangle rectangle
@@ -360,5 +377,21 @@ skinparam boundaryBorderColor<<ehr>> #Green
 #Green #e1f7d5
 #Blue #c9c9ff
 #Red #ffbdbd
+@enduml
+endsnippet
+snippet state "plantuml statemachine activity"
+@startuml
+start
+while (App) is (running)
+  :enter username;
+  repeat
+    :enter password;
+    if (Password correct?) then (yes)
+      :Play game;
+      stop
+    endif
+  repeat while (Third attempt?) is (no) not (yes)
+endwhile (exit)
+stop
 @enduml
 endsnippet
