@@ -352,6 +352,8 @@ augroup vimwikigroup
     autocmd FileType vimwiki nnoremap <buffer> <Leader>ws VimwikiSearchTags //
     autocmd FileType vimwiki nnoremap <buffer> <Leader>wg VimwikiGenerateTagLinks TODO
     autocmd FileType vimwiki command! Jira :%s/\s\(ENG\w*-\d\+\)/\=" [".submatch(1)."](".expand($JIRA_SERVER)."\/browse\/".submatch(1).") "/g
+
+    autocmd BufNewFile ~/wiki/diary/????-??-??.wiki 0r ~/.vim/templates/skeleton.devlog
 augroup end
 
 " vim-scripts/vcscommand.vim

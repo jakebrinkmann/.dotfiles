@@ -1,0 +1,24 @@
+# :read! date -d tomorrow +'\%a \%b \%d, \%Y'
+
+## Summary
+
+<2-3 sentance summary>
+
+## Time Blocking
+
+```
+10:00am Busy
+11:00am Unicorn Finding
+1:00pm Meeting
+3:00pm Mastermind
+```
+
+## Inbox
+
+* _Everything you can think of. Is it actionable?_
+
+
+## Notes
+
+* _Notifications, References, Productivity Drains?_
+
