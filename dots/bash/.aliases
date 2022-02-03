@@ -52,7 +52,7 @@ alias vi=vim
 alias python=python3
 
 alias vrc="vim ~/.vimrc"
-alias wiki="vim ~/wiki/index.wiki"
+alias wiki="(cd ~/wiki && vim index.wiki)"
 
 # more wholesome experience
 alias please=sudo

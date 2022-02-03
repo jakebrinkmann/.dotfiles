@@ -336,7 +336,7 @@ let g:mkdp_auto_close = 0
 """"""""""
 let g:vimwiki_list = [{'path': '~/wiki/', 'syntax': 'markdown'}]
 au FileType vimwiki setlocal shiftwidth=6 tabstop=6 noexpandtab
-let g:vimwiki_listsyms = '.oOx'
+let g:vimwiki_listsyms = ' .oOX'
 command! Diary VimwikiDiaryIndex
 augroup vimwikigroup
     autocmd!
@@ -353,3 +353,6 @@ augroup vimwikigroup
     autocmd FileType vimwiki nnoremap <buffer> <Leader>wg VimwikiGenerateTagLinks TODO
     autocmd FileType vimwiki command! Jira :%s/\s\(ENG\w*-\d\+\)/\=" [".submatch(1)."](".expand($JIRA_SERVER)."\/browse\/".submatch(1).") "/g
 augroup end
+
+" vim-scripts/vcscommand.vim
+let g:VCSCommandSVNExec="svn.exe"

@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+svn --username=$SVN_USERNAME --password=$SVN_PASSWORD "$@"
