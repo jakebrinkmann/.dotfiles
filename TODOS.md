@@ -1,12 +1,12 @@
 
 ======================================
 - [ ] task pending planned
-- [%] some percentage done 
-- [*] in progress right now 
 - [.] paused (by me)
+- [o] in progress right now 
+- [O] some percentage done 
 - [:] blocked (by external condition)
 - [?] stalled (by lack of info) 
-- [x] done
+- [X] done
 - [-] removed
 - [>] bumped to next week
 - { } optional/stretch goal
