@@ -350,7 +350,6 @@ augroup vimwikigroup
           \ join(['rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape('^\s*- \[[ \.o0X]\] .+'), '~/wiki']), 1,
           \ fzf#vim#with_preview(), <bang>0)
     autocmd FileType vimwiki nnoremap <buffer> <Leader>wx :VimwikiToggleListItem<CR>
-    autocmd FileType vimwiki nnoremap <buffer> <C-x> :VimwikiToggleListItem<CR>
     autocmd FileType vimwiki nnoremap <buffer> <Leader>ws VimwikiSearchTags //
     autocmd FileType vimwiki command! Jira :%s/\s\(ENG\w*-\d\+\)/\=" [".submatch(1)."](".expand($JIRA_SERVER)."\/browse\/".submatch(1).") "/g
 
