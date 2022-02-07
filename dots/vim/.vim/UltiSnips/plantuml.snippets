@@ -344,6 +344,8 @@ endsnippet
 snippet umlc "plantuml colors"
 ' https://plantuml-documentation.readthedocs.io/en/latest/formatting/all-skin-params.html
 @startuml
+!define DARKBLUE | LIGHTBLUE | DARKRED | DARKGREEN
+!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml
 title "__Messages__ - **Sequence** Diagram"
 title
   hello
@@ -393,5 +395,29 @@ while (App) is (running)
   repeat while (Third attempt?) is (no) not (yes)
 endwhile (exit)
 stop
+@enduml
+endsnippet
+snippet defs "plantuml with defs"
+@startuml(id=TAG1)
+Alice->Bob : TAG1
+@enduml
+
+@startuml(id=TAG2)
+Alice->Bob : TAG2
+@enduml
+
+@startuml
+!include file.pu!TAG2
+Alice->Bob : hello
+@enduml
+endsnippet
+snippet defs "plantuml with defs"
+@startdef(id=macro_def_id)
+Alice -> Bob : hello1
+@enddef
+
+@startuml
+!includedef macro_def_id
+Alice -> Bob : hello2
 @enduml
 endsnippet

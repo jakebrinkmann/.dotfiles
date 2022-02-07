@@ -358,3 +358,30 @@ augroup end
 
 " vim-scripts/vcscommand.vim
 let g:VCSCommandSVNExec="svn.exe"
+
+" plantuml-previewer.vim
+" Output as ASCII art into Vim preview window
+function! PlantUmlUpdatePreview(bufnr) abort
+  let jar_path = expand('~/.vim/plugged/plantuml-previewer.vim/lib/plantuml.jar')
+  let charset = 'UTF-8'
+  let type = 'utxt'
+  let tmpfname = tempname()
+  let puml_src_path = fnamemodify(bufname(a:bufnr), ':p')
+  let puml_filename = fnamemodify(puml_src_path, ':t:r')
+  let final_path = tmpfname . "/" . puml_filename . "." . type
+  let cmd = "java -Dapple.awt.UIElement=true "
+        \ ."-jar \"". jar_path 
+        \ ."\" \"" . puml_src_path
+        \ ."\" -charset ". charset ." -t" . type ." -o ". tmpfname
+  call system(cmd)
+  if v:shell_error != 0
+    echoerr 'Unable to make diagram'
+  else
+    silent execute "pedit " . final_path
+  endif
+endfunction
+
+augroup plantuml_previewer
+  autocmd!
+  autocmd BufWritePost *.pu,*.uml,*.plantuml,*.puml,*.iuml call PlantUmlUpdatePreview(bufnr('%'))
+augroup END

@@ -17,7 +17,7 @@ def read_todos(filename):
 
 cats = dict(read_todos(CATS))
 
-files = glob.glob(WIKI, recursive=True)
+files = sorted(glob.glob(WIKI, recursive=True))
 
 todos = {}
 for fid in files:
