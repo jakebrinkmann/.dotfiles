@@ -33,7 +33,6 @@ Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer', 'for': ['p
 Plug 'vim-scripts/timestamp.vim'
 Plug 'vim-scripts/vcscommand.vim'
 Plug 'vim-test/vim-test'
-Plug 'vimwiki/vimwiki'
 Plug 'weirongxu/plantuml-previewer.vim'
 Plug 'tyru/open-browser.vim' "Dependency of plantuml-previewer
 call plug#end()

@@ -332,31 +332,32 @@ let g:mkdp_refresh_slow = 1
 let g:mkdp_page_title = '「 ${name} 」'
 let g:mkdp_auto_close = 0
 
-" Vim Wiki
-""""""""""
-let g:vimwiki_list = [{'path': '~/wiki/', 'syntax': 'markdown', 'ext': '.mkd'}]
-au FileType vimwiki setlocal shiftwidth=6 tabstop=6 noexpandtab
-let g:vimwiki_listsyms = ' .oOX'
-command! Diary VimwikiDiaryIndex
-augroup vimwikigroup
-    autocmd!
-    " automatically update links on read diary
-    autocmd BufWinEnter diary.mkd VimwikiDiaryGenerateLinks
-    autocmd BufWinEnter index.mkd VimwikiRebuildTags
-    autocmd BufWinEnter ~/wiki/todo.mkd :execute 'silent 0r !~/.vim/vimwiki-todo.py' | normal 7gg
-    " Make a preview list of todos with Fzf Ripgrep :)
-    command! -bang -nargs=* Todo
-          \ call fzf#vim#grep(
-          \ join(['rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape('^\s*- \[[ \.o0X]\] .+'), '~/wiki']), 1,
-          \ fzf#vim#with_preview(), <bang>0)
-    autocmd FileType vimwiki nnoremap <buffer> <Leader>wx :VimwikiToggleListItem<CR>
-    autocmd FileType vimwiki nnoremap <buffer> <Leader>ws VimwikiSearchTags //
-    autocmd FileType vimwiki command! Jira :%s/\s\(ENG\w*-\d\+\)/\=" [".submatch(1)."](".expand($JIRA_SERVER)."\/browse\/".submatch(1).") "/g
+"" Vim Wiki
+"""""""""""
+"let g:vimwiki_list = [{'path': '~/wiki/', 'syntax': 'markdown', 'ext': '.mkd'}]
+"au FileType vimwiki setlocal shiftwidth=6 tabstop=6 noexpandtab
+"let g:vimwiki_listsyms = ' .oOX'
+"command! Diary VimwikiDiaryIndex
+"augroup vimwikigroup
+"    autocmd!
+"    " automatically update links on read diary
+"    autocmd BufWinEnter diary.mkd VimwikiDiaryGenerateLinks
+"    autocmd BufWinEnter index.mkd VimwikiRebuildTags
+"    autocmd BufWinEnter ~/wiki/todo.mkd :execute 'silent 0r !~/.vim/vimwiki-todo.py' | normal 7gg
+"    " Make a preview list of todos with Fzf Ripgrep :)
+"    command! -bang -nargs=* Todo
+"          \ call fzf#vim#grep(
+"          \ join(['rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape('^\s*- \[[ \.o0X]\] .+'), '~/wiki']), 1,
+"          \ fzf#vim#with_preview(), <bang>0)
+"    autocmd FileType vimwiki nnoremap <buffer> <Leader>wx :VimwikiToggleListItem<CR>
+"    autocmd FileType vimwiki nnoremap <buffer> <Leader>ws VimwikiSearchTags //
+"    autocmd FileType vimwiki command! Jira :%s/\s\(ENG\w*-\d\+\)/\=" [".submatch(1)."](".expand($JIRA_SERVER)."\/browse\/".submatch(1).") "/g
 
-    autocmd BufNewFile ~/wiki/diary/????-??-??.mkd 0r ~/.vim/templates/skeleton.devlog
-augroup end
+"augroup end
 
 " vim-scripts/vcscommand.vim
+" Hack to allow me to enter my password in plaintext. 
+" (See ../../bin/.local/bin/svn.exe)
 let g:VCSCommandSVNExec="svn.exe"
 
 " plantuml-previewer.vim
@@ -385,3 +386,5 @@ augroup plantuml_previewer
   autocmd!
   autocmd BufWritePost *.pu,*.uml,*.plantuml,*.puml,*.iuml call PlantUmlUpdatePreview(bufnr('%'))
 augroup END
+
+autocmd BufNewFile *.pu,*.uml,*.plantuml,*.puml,*.iuml 0r ~/.vim/templates/skeleton.plantuml
