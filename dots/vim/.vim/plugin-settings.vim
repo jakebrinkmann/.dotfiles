@@ -385,8 +385,5 @@ endfunction
 
 augroup plantuml_previewer
   autocmd!
-  autocmd BufWritePost *.pu,*.uml,*.plantuml,*.puml,*.iuml call PlantUmlUpdatePreview(bufnr('%'))
-  autocmd BufLeave *.utxt  if &pvw | pclose! | endif
+  autocmd FileType plantuml command! PlantumlAscii call PlantUmlUpdatePreview(bufnr('%'))
 augroup END
-
-autocmd BufNewFile *.pu,*.uml,*.plantuml,*.puml,*.iuml 0r ~/.vim/templates/skeleton.plantuml

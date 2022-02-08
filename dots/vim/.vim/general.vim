@@ -255,12 +255,9 @@ augroup js_snippets
 augroup end
 
 " :help skeleton
-"  :autocmd BufNewFile  *.c	0r ~/vim/skeleton.c
-"  :autocmd BufNewFile  *.h	0r ~/vim/skeleton.h
 "  :autocmd BufNewFile  *.java	0r ~/vim/skeleton.java
-"
-" add templates in templates/ using filetype as file name
 " au BufNewFile * :silent! exec ":0r ".$VIMHOME."templates/".&ft
+autocmd BufNewFile *.pu,*.uml,*.plantuml,*.puml,*.iuml 0r ~/.vim/templates/skeleton.plantuml
 
 " follow symlinked file
 function! FollowSymlink()
