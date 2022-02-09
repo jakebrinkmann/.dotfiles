@@ -51,9 +51,6 @@ alias gi=git
 alias vi=vim
 alias python=python3
 
-alias vrc="vim ~/.vimrc"
-alias wiki="(cd ~/wiki && vim index.mkd)"
-
 # more wholesome experience
 alias please=sudo
 alias lick=touch
