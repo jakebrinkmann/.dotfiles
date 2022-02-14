@@ -1,9 +1,9 @@
 @startuml
-!$a  = 42
-class Dummy {
- -square1: uuid4, pk
- #diamond2: str[256], unique
- ~triangle()
- +circle()
-}
+' https://real-world-plantuml.com/
+allow_mixing
+:actor:
+[component]
+() "interface"
+(usecase)
+object Dummy
 @enduml

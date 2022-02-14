@@ -210,7 +210,7 @@ snippet notes "plantuml braindump"
 
 @endmindmap
 ' +-bullets will be rendered as thoughts to the right
-' --bullets to the left, 
+' --bullets to the left,
 ' underscore _ to omit the box
 endsnippet
 
@@ -268,11 +268,21 @@ database "MySql" {
 footer //Adding "component" to force diagram to be a **component diagram**//
 ' package node folder frame cloud database
 legend
-    | Color | Flow |
-    |<#Red>|  Flow 1 |
-    |<#Blue>|  Flow 2 |
+  | Color | Workflow |
+  |<#Red>|  Flow 1 |
+  |<#Blue>|  Flow 2 |
 endlegend
 @enduml
+endsnippet
+snippet legend
+legend
+    |= Color |= Type |= Description |
+    | <size:11><back:#Crimson>           </back></size>|    <&arrow-right> | Example 1 |
+    | <size:11><back:#LightSeaGreen>           </back></size>|    <&arrow-right> | Example 2 |
+    | <size:11><back:#DarkGreen>           </back></size>|    <&arrow-right> | Example 3 |
+    | <size:11><back:#YellowGreen>           </back></size>|    <&box> | Example 4 |
+    | <size:11><back:#Chocolate>           </back></size>|    <&box> | Example 5 |
+endlegend
 endsnippet
 snippet trigger "description"
 @startuml
@@ -362,6 +372,16 @@ skinparam responseMessageBelowArrow true
 skinparam nodesep 5
 colors
 footer Generated on %date[dd-MM-yyyy]%
+skinparam component {
+    FontColor          black
+    AttributeFontColor black
+    FontSize           17
+    AttributeFontSize  15
+    AttributeFontname  Droid Sans Mono
+    BackgroundColor    #6A9EFF
+    BorderColor        black
+    ArrowColor         #222266
+}
 skinparam package<<Layout>> {
   borderColor Transparent
   backgroundColor Transparent
@@ -379,7 +399,32 @@ skinparam boundaryBorderColor<<ehr>> #Green
 #Green #e1f7d5
 #Blue #c9c9ff
 #Red #ffbdbd
+' tailwind
+red #f44336
+pink #e91e63
+purple #9c27b0
+blue #2196f3
+cyan #00bcd4
+teal #009688
+green #4caf50
+yellow #ffeb3b
+amber #ffc107
+orange #ff9800
+brown #795548
+grey #9e9e9e
+blue-grey #607d8b
 @enduml
+endsnippet
+snippet stateo "state of object"
+[*] --> active
+
+active -right-> inactive : disable
+inactive -left-> active  : enable
+
+inactive --> closed  : close
+active --> closed  : close
+
+closed --> [*]
 endsnippet
 snippet state "plantuml statemachine activity"
 @startuml
@@ -420,4 +465,29 @@ Alice -> Bob : hello1
 !includedef macro_def_id
 Alice -> Bob : hello2
 @enduml
+endsnippet
+snippet activation
+@startuml
+alice -> bob ++ : hello1
+bob -> charlie --++ : hello2
+charlie --> alice -- : ok
+@enduml
+endsnippet
+snippet style "style.puml"
+!define LOGIC_COLOR #3333C4
+!define LOGIC_COLOR_T1 #7777DB
+!define LOGIC_COLOR_T2 #5252CE
+!define LOGIC_COLOR_T3 #1616B0
+!define LOGIC_COLOR_T4 #101086
+box Logic LOGIC_COLOR_T2
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+endsnippet
+snippet icon "openicon"
+'https://useiconic.com/open/
+card "<&key> key"
+card "<size:42><&wrench></size>"
+
+skinparam cardBorderColor none
+skinparam cardBackgroundColor none
+skinparam cardShadowing false
 endsnippet
