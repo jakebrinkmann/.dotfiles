@@ -1,0 +1,124 @@
+@startuml
+!$COLOR_RED       = "d6242d"
+!$COLOR_PINK      = "cd2264"
+!$COLOR_PURPLE    = "693cc5"
+!$COLOR_TEAL      = "1c7b68"
+!$COLOR_BLUE      = "3b48cc"
+!$COLOR_GREEN     = "3f8624"
+!$COLOR_ORANGE    = "d86613"
+!$COLOR_GREY      = "5a6c86"
+!$COLOR_DARKGREY  = "232f3e"
+!$COLOR_CYAN      = "147eba"
+
+!$FONTNAME = "Verdana"
+!$FONTSIZE = 17
+!$PRIMARYFONTCOLOR = "000"
+!$SECONDARY = "333"
+!$ARROWCOLOR = "000"
+!$ARROWFONTCOLOR = "333"
+!$BORDERCOLOR = "aaa"
+!$BOXBG = "ccc"
+!$LIGHTBORDERCOLOR = "cccccc"
+!$LIGHTBG = "e0e0e0"
+
+!procedure font_style()
+  fontColor $PRIMARYFONTCOLOR
+  fontName $FONTNAME
+  fontSize $FONTSIZE
+  stereotypeFontColor $SECONDARY
+  stereotypeFontSize $FONTSIZE
+!endprocedure
+
+!procedure arrow_style()
+  arrowColor $ARROWCOLOR
+  arrowFontName $FONTNAME
+  arrowFontColor $ARROWFONTCOLOR
+  arrowFontSize $FONTSIZE
+!endprocedure
+
+' For some reason, this changes the arrow...
+skinparam class {
+  font_style()
+  arrow_style()
+}
+
+ ' User
+skinparam person {
+  backgroundColor $LIGHTBG
+  borderColor $BORDERCOLOR
+  font_style()
+  arrow_style()
+}
+' System
+skinparam frame {
+  backgroundColor #White
+  borderColor #DarkGrey
+  font_style()
+  arrow_style()
+}
+' Cloud System
+skinparam cloud {
+  backgroundColor #White
+  borderColor #DarkGrey
+  font_style()
+  arrow_style()
+}
+' Service/Group/SubSystem [System]
+skinparam folder {
+  backgroundColor #White
+  borderColor #LightGrey
+  font_style()
+  arrow_style()
+}
+' Container
+skinparam agent {
+  backgroundColor $BOXBG
+  borderColor $BORDERCOLOR
+  font_style()
+  arrow_style()
+}
+' API [Container]
+skinparam hexagon {
+  backgroundColor $BOXBG
+  borderColor $BORDERCOLOR
+  font_style()
+  arrow_style()
+}
+' DB [Container]
+skinparam database {
+  backgroundColor $BOXBG
+  borderColor $BORDERCOLOR
+  font_style()
+  arrow_style()
+}
+' Broker [Container]
+skinparam queue {
+  backgroundColor $BOXBG
+  borderColor $BORDERCOLOR
+  font_style()
+  arrow_style()
+  arrow_style()
+}
+
+
+frame "**Cloud Platform**\n<size:10>[System]</size>" as P {
+  agent "**Web Application**\n<size:10>[Container]</size>" as WA
+  folder "**Users**\n<size:10>[Service]</size>" as SU {
+    hexagon "**Service API**\n<size:10>[Container]</size>" as SA1 %lighten($COLOR_GREEN, 40)
+    database "**Service DB**\n<size:10>[Container]</size>" as DB1 %lighten($COLOR_GREEN, 40)
+  }
+  folder "**Products**\n<size:10>[Service]</size>" as SP {
+    hexagon "**Service API**\n<size:10>[Container]</size>" as SA2 %lighten($COLOR_ORANGE, 40)
+    queue "**Service Messages**\n<size:10>[Container]</size>" as SQ2 %lighten($COLOR_ORANGE, 40)
+  }
+}
+person "**User**\n<size:10>[Person]</size>" as U
+
+U ..> WA : Uses
+WA ..> SA1 : Uses
+SA1 ..> SA2 : Uses
+SA1 ..> DB1 : Reads/Writes
+SA2 ..> SQ2 : Publishes to
+
+@enduml
+
