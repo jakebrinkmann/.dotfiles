@@ -507,9 +507,9 @@ endsnippet
 snippet c4 "c4 model"
 person "Administrator" as ADMIN <<persona>>
 ' human user (actor, roles, persona)
-rectangle "Sample System" <<boundary>> {
+frame "Sample System" <<boundary>> {
   ' highest abstraction delivering value to user
-  component "Web Application" as APP <<container>>
+  agent "Web Application" as APP <<container>>
   ' not separately deployable units
 }
 rectangle "Twitter" as TWIT <<system>>
@@ -529,4 +529,59 @@ java -Dapple.awt.UIElement=true \
   "diagram.puml" \
   -charset UTF-8 \
   -tpng
+endsnippet
+snippet themes
+help themes
+!theme cyborg
+Bob -> Alice :  hello
+Bob <- Alice :  $success("success: hello B.")
+Bob -x Alice :  $failure("failure")
+Bob ->> Alice : $warning("warning")
+endsnippet
+snippet table
+<#silver>|= code|= output|
+| \n This is ""~**bold**""\n | \n This is **bold** |
+| \n This is ""~//italics//""\n | \n This is //italics// |
+| \n This is ""~""monospaced~"" ""\n | \n This is ""monospaced"" |
+| \n This is ""~--stroked--""\n | \n This is --stroked-- |
+| \n This is ""~__underlined__""\n |  \n This is __underlined__ |
+| \n This is ""<U+007E><U+007E>waved<U+007E><U+007E>""\n | \n This is ~~waved~~ |
+| \n This is ""~<s:""<color:green>""green""</color>"">stroked</s>""\n | \n  This is <s:green>stroked</s> |
+| \n This is ""~<u:""<color:red>""red""</color>"">underlined</u>""\n | \n This is <u:red>underlined</u> |
+| \n This is ""~<w:""<color:#0000FF>""#0000FF""</color>"">waved</w>""\n | \n This is <w:#0000FF>waved</w> |
+endsnippet
+snippet note
+note as N123
+Replace this note text with
+your own text.
+
+Click on <b><color:royalBlue>refine UML</color>
+to access all PlantUML
+<size:18>markdown</size> <u>features</u>.
+end note
+endsnippet
+snippet act
+@startuml
+skinparam shadowing false
+|#pink|a1| actor1
+|m| middleActor
+|#gold|a2| actor2
+
+|a1|
+start
+:action1;
+:action2;
+|m|
+:action middleActor;
+partition Group #palegreen {
+  |a1|
+  :action3;
+  |a2|
+  :action4;
+  :action5;
+  |a1|
+  :action6;
+}
+stop
+@enduml
 endsnippet

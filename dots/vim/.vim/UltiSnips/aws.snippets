@@ -177,3 +177,25 @@ STREAM=$(aws logs describe-log-streams --log-group-name $GROUP --descending --ma
 aws logs create-log-stream --log-group-name $GROUP --log-stream-name $(date "+%s")
 aws logs delete-log-stream --log-group-name $GROUP --log-stream-name $STREAM
 endsnippet
+snippet route53
+aws route53domains check-domain-availability --domain-name <value>
+aws route53domains register-domain --domain-name <value>
+endsnippet
+snippet amplify
+npx create-react-app my-new-app
+npm install aws-amplify @aws-amplify/ui-react
+amplify init
+amplify add api
+amplify add hosting
+amplify publish --invalidateCloudFront
+amplify delete
+endsnippet
+snippet cognito
+aws cognito-idp update-user-pool-client --user-pool-id us-east-1_ABC \
+  --client-id ABC2s2 \
+  --allowed-o-auth-flows-user-pool-client \
+  --allowed-o-auth-flows "code" "implicit" \
+  --allowed-o-auth-scopes "openid" "profile" "email" \
+  --callback-urls "[\"http://localhost:3000/\"]" \
+  --supported-identity-providers "[\"MyIDP\"]"
+endsnippet

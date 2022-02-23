@@ -1,19 +1,29 @@
-# NUMBER. TITLE
+# ADR-NNN. TITLE OF SOLVED PROBLEM AND SOLUTION
 
 Date: DATE
 
 ## Status
 
-STATUS
+`[ PROPOSED | REJECTED | ACCEPTED | DEPRECATED | ... | SUPERSEDED BY ADR-005 ]`
 
 ## Context
 
-The issue motivating this decision, and any context that influences or constrains the decision.
+<!-- Leave no question about motivation to address this issue now
+     Any context that influences or constrains the decision -->
 
 ## Decision
 
-The change that we're proposing or have agreed to implement.
+<!-- "We Will ..." The change that we're proposing or have agreed to implement -->
 
 ## Consequences
 
-What becomes easier or more difficult to do and any risks introduced by the change that will need to be mitigated.
+<!-- What becomes easier or more difficult to do
+     Any risks introduced by the change that will need to be mitigated -->
+
+## Alternatives
+
+<!-- List of viable options or alternatives -->
+
+## Notes
+
+<!-- Capture notes/issues during socialization -->
