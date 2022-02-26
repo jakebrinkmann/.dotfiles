@@ -175,6 +175,7 @@ let g:ale_fixers = {
     \'*': ['remove_trailing_lines', 'trim_whitespace'],
     \'python': ['isort', 'black'],
     \'javascript': ['eslint', 'prettier'],
+    \'javascriptreact': ['eslint', 'prettier'],
     \'html': ['prettier'],
     \'json': ['jq'],
     \'css': ['eslint'],

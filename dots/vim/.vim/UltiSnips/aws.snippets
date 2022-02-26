@@ -187,10 +187,16 @@ npm install aws-amplify @aws-amplify/ui-react
 amplify init
 amplify add api
 amplify add hosting
+amplify push --allow-destructive-graphql-schema-updates
 amplify publish --invalidateCloudFront
 amplify delete
 endsnippet
 snippet cognito
+aws cognito-idp create-user-pool \
+  --pool-name example-corp-prd-userpool
+aws cognito-idp create-user-pool-domain \
+  --domain example-corp-prd \
+  --user-pool-id <yourUserPoolID>
 aws cognito-idp update-user-pool-client --user-pool-id us-east-1_ABC \
   --client-id ABC2s2 \
   --allowed-o-auth-flows-user-pool-client \

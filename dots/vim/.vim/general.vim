@@ -259,3 +259,5 @@ augroup end
 "  :autocmd BufNewFile  *.java	0r ~/vim/skeleton.java
 " au BufNewFile * :silent! exec ":0r ".$VIMHOME."templates/".&ft
 autocmd BufNewFile *.pu,*.uml,*.plantuml,*.puml,*.iuml 0r ~/.vim/templates/skeleton.plantuml
+autocmd BufNewFile *docs/adr/*.md 0r ~/.vim/templates/skeleton.adr
+autocmd BufNewFile *.jsx 0r ~/.vim/templates/skeleton.jsx
