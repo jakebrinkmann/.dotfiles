@@ -263,7 +263,8 @@ nmap <silent> <leader>tf :TestFile<CR>
 nmap <silent> <leader>tl :TestLast<CR>
 
 if executable('rg')
-    let g:rg_derive_root = 'true'
+    " DO NOT DERIVE ROOT, STAY WHERE I AM
+    let g:rg_derive_root = 'false'
     " Search the project (globs: -g "folder/**.yaml")
     nnoremap <leader>ps :Rg<SPACE>
     " Find files
