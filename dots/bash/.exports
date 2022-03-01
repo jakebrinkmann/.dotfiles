@@ -32,6 +32,8 @@ export LS_COLORS=$LS_COLORS:'ow=1;34:'
 
 # Make node.js debugger/inspect not break on start
 export NODE_INSPECT_RESUME_ON_START=1
+# Limit nodejs memory (2GB)
+export NODE_OPTION=--max_old_space_size=2048
 
 # Configure fzf for nomouse
 export FZF_DEFAULT_OPTS='--no-mouse --bind '\
