@@ -255,9 +255,50 @@ augroup js_snippets
       \ inoreabbrev <buffer> raise throw "HANDS IN THE AIR"|
 augroup end
 
+" Modified header
+ function! LastModified()
+    if &modified
+       let save_cursor = getpos(".")
+       let n = min([20, line("$")])
+       keepjumps exe '1,' . n . 's#^\(.\{,5}Modified:\s\+\).*#\1' .
+          \ strftime("%c") . '#e'
+       call histdel('search', -1)
+       call setpos('.', save_cursor)
+    endif
+ endfun
+ autocmd BufWritePre * call LastModified()
+
+" File header (Skeleton/Boilerplate)
+" Modify file skeleton/boilerplate keywords
+function! HeaderSetup()
+  normal 1G
+  exe "%s/@AUTHOR@/Jake J Brinkmann <jake.brinkmann@gmail.com>/ge"
+  exe "%s/@COPYRIGHT@/" . strftime("%Y") . "/ge"
+  exe "%s/@DATE@/" . strftime("%c") . "/ge"
+  exe "%s/@FILE@/" . expand("%:t") . "/ge"
+  exe "%s/@FILEBASE@/" . expand("%:t:r") . "/ge"
+  exe "%s/@VERSION@/0.1.0/ge"
+  normal G
+  normal dd
+  normal 1G
+endfunction
+
 " :help skeleton
 "  :autocmd BufNewFile  *.java	0r ~/vim/skeleton.java
 " au BufNewFile * :silent! exec ":0r ".$VIMHOME."templates/".&ft
 autocmd BufNewFile *.pu,*.uml,*.plantuml,*.puml,*.iuml 0r ~/.vim/templates/skeleton.plantuml
 autocmd BufNewFile *docs/adr/*.md 0r ~/.vim/templates/skeleton.adr
 autocmd BufNewFile *.jsx 0r ~/.vim/templates/skeleton.jsx
+   autocmd BufNewFile *.sh 0r ~/.vim/skeletons/sh.skel
+   autocmd BufNewFile *.bash 0r ~/.vim/skeletons/sh.skel
+   autocmd BufNewFile *.subr 0r ~/.vim/skeletons/sh.skel
+   autocmd BufNewFile *.cpp 0r ~/.vim/skeletons/cpp.skel
+   autocmd BufNewFile *.html,*.htm 0r ~/.vim/skeletons/html.skel
+   autocmd BufNewFile *.js 0r ~/.vim/skeletons/js.skel
+   autocmd BufNewFile *.json 0r ~/.vim/skeletons/json.skel
+   autocmd BufNewFile *Makefile* 0r ~/.vim/skeletons/mkfile.skel
+   autocmd BufNewFile *.py 0r ~/.vim/skeletons/python.skel
+   autocmd BufNewFile *.spec 0r ~/.vim/skeletons/rpmspec.skel
+   autocmd BufNewFile *.sql,*.pgsql 0r ~/.vim/skeletons/sql.skel
+   autocmd BufNewFile *.cfg,*.config,*.conf 0r ~/.vim/skeletons/text.skel
+   autocmd BufNewFile *.{md,yaml,yml,bu} 0r ~/.vim/skeletons/yaml.skel

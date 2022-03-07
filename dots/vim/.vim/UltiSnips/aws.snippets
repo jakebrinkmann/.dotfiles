@@ -137,6 +137,10 @@ aws cloudformation describe-stacks | jq -c '.Stacks[].StackName'
 aws cloudformation describe-stacks --stack-name $STACK | jq -c '.Stacks[].StackStatus'
 aws cloudformation describe-stacks --stack-name $STACK | jq -c '.Stacks[].Outputs'
 aws cloudformation describe-stack-resources --stack-name $STACK | jq -c '.StackResources[].PhysicalResourceId'
+aws cloudformation package \
+    --template-file template.yaml \
+    --s3-bucket ${ARTIFACT_BUCKET} \
+    --output-template-file packaged.yaml
 aws cloudformation deploy --s3-bucket $BUCKET --template-file packaged.yaml --capabilities CAPABILITY_NAMED_IAM --stack-name $STACK
 aws cloudformation delete-stack --stack-name $STACK
 endsnippet
@@ -186,6 +190,8 @@ npx create-react-app my-new-app
 npm install aws-amplify @aws-amplify/ui-react
 amplify init
 amplify add api
+amplify add function
+amplify mock function myFunctionName --event "./event.json"
 amplify add hosting
 amplify push --allow-destructive-graphql-schema-updates
 amplify publish --invalidateCloudFront

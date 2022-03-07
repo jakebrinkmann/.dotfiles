@@ -263,3 +263,70 @@ Resources:
           - {lambdaArn: !GetAtt [ MyLambdaFunction, Arn ]}
       RoleArn: !GetAtt [ StatesExecutionRole, Arn ]
 endsnippet
+snippet ec2
+Parameters:
+  ...
+  InstanceAMI:
+    # https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-public-parameters-ami.html
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Description: The SSM public parameter for the ARM AMI
+    Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-arm64-gp2'
+  KeyName:
+    ConstraintDescription: must be the name of an existing EC2 KeyPair.
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the instances
+    Type: AWS::EC2::KeyPair::KeyName
+  InstanceType:
+    AllowedValues:
+    - t1.micro
+    - t2.nano
+    - t4g.nano
+    ConstraintDescription: must be a valid EC2 instance type.
+    Default: t4g.nano
+    Description: WebServer EC2 instance type
+    Type: String
+Resources:
+  ...
+  WebServer:
+    Type: AWS::EC2::Instance
+    Metadata:
+      AWS::CloudFormation::Init:
+        configSets:
+          install:
+            - config
+        config:
+          packages:
+            yum:
+              jq: []
+    Properties:
+      ImageId: !Ref InstanceAMI
+      InstanceType:
+        Ref: InstanceType
+      KeyName:
+        Ref: KeyName
+      SubnetId: !ImportValue VPC-PublicSubnet2
+      SecurityGroups:
+      - Ref: WebServerSecurityGroup
+      UserData:
+        Fn::Base64: !Sub |
+           #!/bin/bash -xe
+           yum update -y aws-cfn-bootstrap
+           /opt/aws/bin/cfn-init -v --stack ${AWS::StackId} --resource WebServer --configsets wordpress_install --region ${AWS::Region}
+           /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackId} --resource WebServer --region ${AWS::Region}
+    ...
+  ...
+
+  WebServerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Enable HTTP access via port 80 locked down to the load balancer + SSH access"
+      SecurityGroupIngress:
+      - CidrIp: 0.0.0.0/0
+        FromPort: 80
+        IpProtocol: tcp
+        ToPort: 80
+      - CidrIp: !Ref SSHLocation
+        FromPort: 22
+        IpProtocol: tcp
+        ToPort: 22
+  ...
+endsnippet
