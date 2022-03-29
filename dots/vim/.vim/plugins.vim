@@ -12,7 +12,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'aklt/plantuml-syntax'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'dense-analysis/ale', { 'for': ['python', 'javascript', 'javascriptreact', 'json', 'sql', 'cloudformation', 'yaml'] }
+Plug 'dense-analysis/ale', { 'for': ['python', 'javascript', 'javascriptreact', 'json', 'sql', 'cloudformation', 'yaml', 'typescript'] }
 Plug 'honza/vim-snippets'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install', 'for': ['markdown']}
 Plug 'itchyny/lightline.vim'

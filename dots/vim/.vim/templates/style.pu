@@ -292,4 +292,9 @@ skinparam storage {
   font_style()
 }
 
+skinparam agent {
+  light_style()
+  font_style()
+}
+
 @enduml

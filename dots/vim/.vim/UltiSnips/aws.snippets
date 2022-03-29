@@ -10,6 +10,11 @@ endsnippet
 # aws.security.IAM (Identity and Access Management)
 snippet aws-iam "aws iam commands"
 aws iam list-roles | jq -c '.Roles[].Arn'
+aws iam create-user --user-name MyCdkUser
+aws iam create-access-key --user-name MyCdkUser
+aws iam delete-access-key --user-name MyCdkUser --access-key-id AKIAIOSFODNN7EXAMPLE
+aws configure set aws_access_key_id us-west-2 --profile integ
+aws configure set aws_secret_access_key us-west-2 --profile integ
 endsnippet
 # aws.security.STS (Security Token Service)
 snippet aws-sts "aws sts commands"
@@ -32,11 +37,16 @@ aws s3 cp --website-redirect "$URL" s3://$BUCKET/$OBJECT /tmp
 aws s3api get-object --bucket $BUCKET --key $OBJECT /tmp/$OBJECT
 endsnippet
 # aws.database.RDS (Relational Data Service)
+snippet aws-rds
+aws rds describe-engine-default-parameters --db-parameter-group-family mariadb10.6 \
+   --query 'EngineDefaults.Parameters[?IsModifiable==`true`]'
+endsnippet
 # aws.database.DDB (DynamoDB NoSQL Database)
 snippet aws-dynamodb "aws dynamodb commands"
 aws dynamodb list-tables  --query 'TableNames[]'
 aws dynamodb scan --table-name $TABLE --max-items 1 --query 'Items[] | [0]'
 aws dynamodb get-item --table-name $TABLE --key '{"id": {"N": "'$KEY'"}}'
+aws dynamodb delete-item --table-name $TABLE --key '{"id": {"S": "'$KEY'"}}'
 endsnippet
 # aws.integration.SF (StepFunctions)
 snippet aws-states "aws stepfunction commands"
@@ -136,6 +146,7 @@ aws cloudformation list-exports | jq -c '.Exports[].Name'
 aws cloudformation describe-stacks | jq -c '.Stacks[].StackName'
 aws cloudformation describe-stacks --stack-name $STACK | jq -c '.Stacks[].StackStatus'
 aws cloudformation describe-stacks --stack-name $STACK | jq -c '.Stacks[].Outputs'
+aws cloudformation describe-stacks --stack-name CfgBucket --query "Stacks[0].Outputs[?OutputKey == 'BucketName'].OutputValue" --output text
 aws cloudformation describe-stack-resources --stack-name $STACK | jq -c '.StackResources[].PhysicalResourceId'
 aws cloudformation package \
     --template-file template.yaml \
@@ -169,10 +180,12 @@ endsnippet
 # aws.management.CloudWatch
 snippet aws-logs "CloudWatch Observability"
 aws logs describe-log-groups | jq -c '.logGroups[].logGroupName'
+aws logs tag-log-group --log-group-name <value> --tags Key=str,Key=str
 aws logs filter-log-events --log-stream-names $STREAM --log-group-name $GROUP --filter-pattern "$QUERY" | jq -r .events[].message
 aws logs filter-log-events --log-group-name $GROUP --start-time $(date --date="1 day ago" +%s000) --filter-pattern "purchase_id" | jq -c '.events[]'
 aws logs get-log-events --log-group-name $GROUP --log-stream-name $STREAM
 aws logs tail $GROUP --since '10m' --follow --format short
+aws logs tail "/aws/lambda/$FUNCTION" --since '10m' --follow --format short
 aws logs start-query --log-group-names $GROUP --start-time $(date --date="30 minutes ago" "+%s") --end-time $(date "+%s") --query-string 'fields @message, @logStream | filter @message '"$QUERY"' | sort @timestamp desc | limit 20' | jq -r .queryId
 aws logs get-query-results --query-id $QID | jq -r '.results[][] | select(.field == "@message") | .value' | uniq
 
@@ -210,4 +223,12 @@ aws cognito-idp update-user-pool-client --user-pool-id us-east-1_ABC \
   --allowed-o-auth-scopes "openid" "profile" "email" \
   --callback-urls "[\"http://localhost:3000/\"]" \
   --supported-identity-providers "[\"MyIDP\"]"
+endsnippet
+snippet cdk
+npx cdk init sample-app --language=typescript
+npx cdk ls
+npx cdk bootstrap \
+  --profile ProjectXProd \
+  --cloudformation-execution-policies 'arn:aws:iam::aws:policy/AdministratorAccess' \
+  123456789012/us-east-1 123456789012/us-west-1
 endsnippet

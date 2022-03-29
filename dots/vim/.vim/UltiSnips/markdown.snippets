@@ -75,3 +75,12 @@ snippet diagram "diagram stuff"
                      ╲╱
 ```
 endsnippet
+
+snippet table
+# Event design table
+
+| API (sync)  |            Input Events            |  Service   |      Action      |                 Output Events                  |             Notes             |
+| :---------: | :--------------------------------: | :--------: | :--------------: | :--------------------------------------------: | :---------------------------: |
+| CreateOrder |            CreateOrder             |   Order    |   CreateOrder    |                  OrderCreated                  |          Public API.          |
+|             |            OrderCreated            | Inventory  |   ReserveItem    |         ItemReserved ItemNotAvailable          |                               |
+endsnippet

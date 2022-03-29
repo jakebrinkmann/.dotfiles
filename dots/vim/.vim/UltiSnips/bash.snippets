@@ -16,6 +16,8 @@ jq -r '.results[] | map(select(.field == "@timestamp" or .field == "@message") |
 jq --null-input --arg user "$CLIENT_ID" '{"id": $user}'
 echo '{ "foo": "bar" }' | jq --compact-output '.foo |= "baz" | del(.other)'
 jq '.users[] | .first + " " + .last' || jq '.users[]|{first:.first,title:.last}'
+jq --slurp '.[0] * .[1]' file1 file2
+echo '{"a":"foo","b":"bar"} {"c":"baz","a":0}' | jq -s add
 endsnippet
 snippet json
 # NOTE: single quotes means no $vars
@@ -103,4 +105,8 @@ endsnippet
 snippet color
 echo "green" | awk '{print "\033[32m" $0 "\033[39m"}'
 echo "blue" | awk '{print "\033[34m" $0 "\033[39m"}'
+endsnippet
+snippet cookie
+COOKIE="$(/usr/bin/openssl rand -base64 32 | \
+       tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)"
 endsnippet

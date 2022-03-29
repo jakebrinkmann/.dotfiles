@@ -85,8 +85,8 @@
   wipes = !git reflog --format='%h %<|(17)%gd %ci %s' | /bin/grep --color=never WIPESAVE | head -n 15
 
   # Checkout from origin/development
-  devb = "!f() { git fetch origin development; git checkout origin/development -b $1; }; f"
-  dev = "!f() { git fetch origin development; git checkout origin/development -B development; }; f"
+  devb = "!f() { git fetch origin dev; git checkout origin/dev -b $1; }; f"
+  dev = "!f() { git fetch origin dev; git checkout origin/dev -B dev; }; f"
 
 [pull]
   rebase = false
@@ -95,7 +95,8 @@
   template = /home/hydro/.gitmessage
 
 [init]
-  defaultBranch = main
+  defaultBranch = dev
+  # dev, qa, tst, ops
 
 [feature]
   manyFiles = 1

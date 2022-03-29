@@ -255,7 +255,7 @@ let test#python#runner = 'pytest'
 let test#javascript#runner = 'jest'
 " could also use "--inspect=9229" for "chrome://inspect" dedicated DevTools
 let g:test#javascript#jest#executable =
-      \'node inspect node_modules/.bin/jest --runInBand --config ./jest.config.json'
+      \'node inspect --trace-warnings node_modules/.bin/jest --runInBand'
 " running tests on different granularities
 nmap <silent> <leader>tp :TestNearest --pdb -vv -s<CR>
 nmap <silent> <leader>tn :TestNearest<CR>

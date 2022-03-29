@@ -229,3 +229,9 @@ per-file-ignores =
     __init__.py:F401
 exclude = .venv, .git, __pycache__, build, dist, setup.py
 endsnippet
+
+snippet stdout
+import sys
+# ...
+logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
+endsnippet

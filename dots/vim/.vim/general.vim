@@ -289,6 +289,7 @@ endfunction
 autocmd BufNewFile *.pu,*.uml,*.plantuml,*.puml,*.iuml 0r ~/.vim/templates/skeleton.plantuml
 autocmd BufNewFile *docs/adr/*.md 0r ~/.vim/templates/skeleton.adr
 autocmd BufNewFile *.jsx 0r ~/.vim/templates/skeleton.jsx
+autocmd BufNewFile *.gitlab-ci.yml 0r ~/.vim/templates/skeleton.gitlab-ci.yml
    autocmd BufNewFile *.sh 0r ~/.vim/skeletons/sh.skel
    autocmd BufNewFile *.bash 0r ~/.vim/skeletons/sh.skel
    autocmd BufNewFile *.subr 0r ~/.vim/skeletons/sh.skel
@@ -301,4 +302,4 @@ autocmd BufNewFile *.jsx 0r ~/.vim/templates/skeleton.jsx
    autocmd BufNewFile *.spec 0r ~/.vim/skeletons/rpmspec.skel
    autocmd BufNewFile *.sql,*.pgsql 0r ~/.vim/skeletons/sql.skel
    autocmd BufNewFile *.cfg,*.config,*.conf 0r ~/.vim/skeletons/text.skel
-   autocmd BufNewFile *.{md,yaml,yml,bu} 0r ~/.vim/skeletons/yaml.skel
+   autocmd BufNewFile *.{yaml,yml} 0r ~/.vim/skeletons/yaml.skel
