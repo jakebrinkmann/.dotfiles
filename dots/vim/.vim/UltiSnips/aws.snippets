@@ -223,6 +223,10 @@ aws cognito-idp update-user-pool-client --user-pool-id us-east-1_ABC \
   --allowed-o-auth-scopes "openid" "profile" "email" \
   --callback-urls "[\"http://localhost:3000/\"]" \
   --supported-identity-providers "[\"MyIDP\"]"
+aws cognito-idp list-user-pools --max-results 1 --query 'UserPools[0].Id' --output text
+aws cognito-idp list-user-pool-clients --user-pool-id $UserPoolId \
+  --query "UserPoolClients[?ClientName | contains(@, 'clientWeb')].ClientId"
+aws cognito-idp describe-user-pool-client --user-pool-id $UserPoolId --client-id $ClientId
 endsnippet
 snippet cdk
 npx cdk init sample-app --language=typescript
