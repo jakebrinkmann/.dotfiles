@@ -1,3 +1,21 @@
+snippet init
+AWSTemplateFormatVersion: "2010-09-09"
+Description: ${1: Welcome to CFn template!!}
+###################################################################################################
+##  Template Parameters                                                                          ##
+###################################################################################################
+Parameters:
+Mappings:
+###################################################################################################
+##  Template Resources                                                                           ##
+###################################################################################################
+Resources:
+###################################################################################################
+##  Template outputs                                                                             ##
+###################################################################################################
+Outputs:
+endsnippet
+
 snippet sam "sam transform"
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
@@ -329,4 +347,53 @@ Resources:
         IpProtocol: tcp
         ToPort: 22
   ...
+endsnippet
+snippet eventbridge
+Parameters:
+  PagerDutyAPIKeyParam:
+    Type: String
+    Description: API Key for the PagerDuty Environment
+    NoEcho: True
+
+Resources:
+  MyConnection:
+    Type: AWS::Events::Connection
+    Properties:
+      AuthorizationType: API_KEY
+      Description: Connection to PagerDuty API
+      AuthParameters:
+        ApiKeyAuthParameters:
+          ApiKeyName: PagerDuty Authorization
+          ApiKeyValue: !Ref PagerDutyAPIKeyParam
+
+  MyApiDestination:
+    Type: AWS::Events::ApiDestination
+    Properties:
+      ConnectionArn: !GetAtt MyConnection.Arn
+      Description: API Destination to send events to PagerDuty
+      HttpMethod: POST
+      InvocationEndpoint: https://events.pagerduty.com/v2/enqueue
+
+  MyEventRule:
+    Type: 'AWS::Events::Rule'
+    Properties:
+      Description: Routes to us-east-1 event bus
+      EventBusName: MyBusName
+      State: ENABLED
+      EventPattern:
+        source:
+          - MyTestApp
+        detail:
+          - MyTestAppDetail
+      Targets:
+        - Arn: !GetAtt MyApiDestination.Arn
+          Id: 'CrossRegionDestinationBus'
+          RoleArn: !GetAtt EventBridgeIAMrole.Arn
+          HttpParameters:
+            HeaderParameters:
+              Key: Value
+            PathParameterValues:
+              - String
+            QueryStringParameters:
+              Key: Value
 endsnippet

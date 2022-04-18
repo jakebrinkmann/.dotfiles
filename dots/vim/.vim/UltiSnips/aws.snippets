@@ -24,7 +24,7 @@ endsnippet
 # aws.security.SecretsManager
 snippet aws-sm "aws secrets commands"
 aws secretsmanager create-secret --name $SECRET_NAME --secret-string $VALUE
-aws secretsmanager list-secrets | jq -c '.SecretList[].Name'
+aws secretsmanager list-secrets --query 'SecretList[].Name' --output text
 aws secretsmanager get-secret-value --secret-id $SECRET_NAME | jq -c '.SecretString | fromjson'
 aws secretsmanager put-secret-value --secret-id $SECRET_NAME --secret-string "$VALUE"
 aws secretsmanager delete-secret --secret-id $SECRET_NAME --force-delete-without-recovery
@@ -154,10 +154,13 @@ aws cloudformation package \
     --output-template-file packaged.yaml
 aws cloudformation deploy --s3-bucket $BUCKET --template-file packaged.yaml --capabilities CAPABILITY_NAMED_IAM --stack-name $STACK
 aws cloudformation delete-stack --stack-name $STACK
+aws cloudformation continue-update-rollback --stack-name $STACK
+aws cloudformation update-stack --stack-name mystack --use-previous-template
+--parameters ParameterKey=VPCID,UsePreviousValue=true ParameterKey=SubnetIDs,ParameterValue=SampleSubnetID1\\,UpdatedSampleSubnetID2
 endsnippet
 # aws.compute.ECR (Elastic Container Registry)
 # aws.compute.ECS (Elastic Container Service)
-# aws.compute.Lambda, SAM(Serverless Application Model)
+# aws.compute.Lambda
 snippet aws-lambda "aws lambda commands"
 aws lambda list-functions --query 'Functions[].FunctionName'
 FILENAME=$(mktemp --suffix '.zip'); rm $FILENAME
@@ -167,6 +170,7 @@ aws lambda update-function-configuration --function-name $LAMBDA --timeout 30 --
 aws lambda update-function-configuration --function-name $LAMBDA --handler "app.lambda_handler" --layers "arn:aws:lambda:us-east-1:017000801446:layer:AWSLambdaPowertoolsPython:4" --environment "Variables={DB_SECRET_NAME=cca/database/site_api_read_write,DB_PROXY_ENDPOINT=cca-database-proxy.proxy-cx6atckrdwx5.us-east-1.rds.amazonaws.com}" | jq -r .LastUpdateStatus
 aws lambda invoke  --function-name $LAMBDA --invocation-type RequestResponse --log-type Tail --payload "$(echo $EVENT | base64)" $tmpfile | jq -r .LogResult | base64 --decode
 endsnippet
+# SAM(Serverless Application Model)
 snippet aws-sam "aws sam commands"
 poetry export -f requirements.txt --without-hashes > requirements.txt
 sam init --location https://github.com/aws-samples/cookiecutter-aws-sam-python
@@ -197,6 +201,40 @@ endsnippet
 snippet route53
 aws route53domains check-domain-availability --domain-name <value>
 aws route53domains register-domain --domain-name <value>
+endsnippet
+snippet acm
+aws acm request-certificate \
+  --domain-name $DOMAIN_NAME \
+  --subject-alternative-names *.$DOMAIN_NAME \
+  --validation-method DNS \
+  --query CertificateArn \
+  --output text
+aws acm describe-certificate \
+  --certificate-arn $SSL_CERT_ARN \
+  --query Certificate.DomainValidationOptions
+aws route53 list-hosted-zones-by-name \
+  --dns-name $DOMAIN_NAME \
+  --query HostedZones
+$ read -r -d '' R53_CNAME_JSON << EOM
+{
+  "Comment": "DNS Validation CNAME record",
+  "Changes": [
+    {
+      "Action": "CREATE",
+      "ResourceRecordSet": {
+        "Name": "$SSL_CERT_NAME",
+        "Type": "CNAME",
+        "TTL": 300,
+        "ResourceRecords": [
+          {
+            "Value": "$SSL_CERT_VALUE"
+          }
+        ]
+      }
+    }
+  ]
+}
+EOM
 endsnippet
 snippet amplify
 npx create-react-app my-new-app
