@@ -29,7 +29,7 @@ Plug 'SirVer/ultisnips'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dotenv'
 Plug 'tpope/vim-fugitive'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer', 'for': ['python', 'javascript']}
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer', 'for': ['python', 'javascript', 'typescript']}
 Plug 'vim-scripts/timestamp.vim'
 Plug 'vim-scripts/vcscommand.vim'
 Plug 'vim-test/vim-test'

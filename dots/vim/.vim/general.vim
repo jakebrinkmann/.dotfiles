@@ -304,3 +304,4 @@ autocmd BufNewFile *.gitlab-ci.yml 0r ~/.vim/templates/skeleton.gitlab-ci.yml
    autocmd BufNewFile *.cfg,*.config,*.conf 0r ~/.vim/skeletons/text.skel
    autocmd BufNewFile *.{yaml,yml} 0r ~/.vim/skeletons/yaml.skel
    autocmd BufNewFile env.json 0r ~/.vim/templates/skeleton.env.json
+   autocmd BufNewFile CHANGELOG.md 0r ~/.vim/templates/skeleton.Changelog.md

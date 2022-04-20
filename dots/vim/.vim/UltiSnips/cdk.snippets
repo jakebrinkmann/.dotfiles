@@ -3,7 +3,7 @@ npm i -g aws-cdk
 npx cdk --version
 cdk --version
 cd hello-cdk
-cdk init sample-app --language=typescript
+cdk init sample-app --language=typescript|python
 cdk diff
 cdk deploy
 cdk deploy --hotswap
@@ -12,7 +12,7 @@ cdk synth
 cdk destroy
 endsnippet
 
-snippet constructor
+snippet constructorV2
 import * as cdk from 'aws-cdk-lib';
 
 export class CdkWorkshopStack extends cdk.Stack {

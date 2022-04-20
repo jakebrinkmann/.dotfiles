@@ -45,6 +45,10 @@ endsnippet
 snippet aws-dynamodb "aws dynamodb commands"
 aws dynamodb list-tables  --query 'TableNames[]'
 aws dynamodb scan --table-name $TABLE --max-items 1 --query 'Items[] | [0]'
+aws dynamodb put-item \
+    --table-name $TABLE \
+    --item '{"Artist": {"S": "No One You Know"}}' \
+    --return-values ALL_OLD
 aws dynamodb get-item --table-name $TABLE --key '{"id": {"N": "'$KEY'"}}'
 aws dynamodb delete-item --table-name $TABLE --key '{"id": {"S": "'$KEY'"}}'
 endsnippet

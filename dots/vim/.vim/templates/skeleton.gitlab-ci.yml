@@ -106,3 +106,46 @@ sam:production:deploy: #X.Y.Z
       - $CI_COMMIT_TAG =~ /^\d+.\d+.\d+$/
   except:
     - branches
+
+.cloud_deployment:
+  stage: deploy
+  image: aws-cdk:py39-slim-buster
+  script:
+    - cdk bootstrap aws://$AWS_ACCOUNT_ID/$AWS_REGION
+    - cdk deploy --role-arn=$AWS_ROLE_ARN --require-approval=never
+
+cloud_deployment_dev:
+  extends: .cloud_deployment
+  variables:
+    RUNTIME_ENVIRONMENT: dev
+    # AWS_PROFILE: dev
+    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID_DEV
+    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_DEV
+    AWS_ACCOUNT_ID: $AWS_ACCOUNT_DEV
+    AWS_ROLE_ARN: $AWS_ROLE_ARN_DEV
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^(dev(elop)?([\/-].*)?)$/'
+
+cloud_deployment_test:
+  extends: .cloud_deployment
+  variables:
+    RUNTIME_ENVIRONMENT: test
+    # AWS_PROFILE: test
+    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID_TEST
+    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_TEST
+    AWS_ACCOUNT_ID: $AWS_ACCOUNT_TEST
+    AWS_ROLE_ARN: $AWS_ROLE_ARN_TEST
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^(test(ing)?([\/-].*)?)$/'
+
+cloud_deployment_prod:
+  extends: .cloud_deployment
+  variables:
+    RUNTIME_ENVIRONMENT: prod
+    # AWS_PROFILE: prod
+    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID_PROD
+    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_PROD
+    AWS_ACCOUNT_ID: $AWS_ACCOUNT_PROD
+    AWS_ROLE_ARN: $AWS_ROLE_ARN_PROD
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^((prod(uction)?|(master|main))([\/-].*)?)$/'
