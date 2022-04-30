@@ -1,3 +1,20 @@
+default:
+  tags:
+    - docker
+
+workflow:
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - when: always
+
+sast:
+  stage: test
+include:
+  - template: Security/SAST.gitlab-ci.yml
+
 services: []
 
 before_script:
@@ -110,14 +127,21 @@ sam:production:deploy: #X.Y.Z
 .cloud_deployment:
   stage: deploy
   image: aws-cdk:py39-slim-buster
+  before_script:
+    - cd cdk
+    # TODO: caching dependencies with npm is not straightforward, but would be nice
+    - npm install --include=dev
   script:
     - cdk bootstrap aws://$AWS_ACCOUNT_ID/$AWS_REGION
-    - cdk deploy --role-arn=$AWS_ROLE_ARN --require-approval=never
+    - cdk deploy --all --require-approval=never
 
 cloud_deployment_dev:
   extends: .cloud_deployment
+  environment:
+    name: dev
+    url: example-dev.website.cloud
   variables:
-    RUNTIME_ENVIRONMENT: dev
+    RUNTIME_ENVIRONMENT: $CI_ENVIRONMENT_NAME
     # AWS_PROFILE: dev
     AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID_DEV
     AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_DEV
@@ -125,11 +149,17 @@ cloud_deployment_dev:
     AWS_ROLE_ARN: $AWS_ROLE_ARN_DEV
   rules:
     - if: '$CI_COMMIT_BRANCH =~ /^(dev(elop)?([\/-].*)?)$/'
+    - if: '$CI_COMMIT_REF_PROTECTED != "true"'
+      when: manual
+      allow_failure: true
 
 cloud_deployment_test:
   extends: .cloud_deployment
+  environment:
+    name: test
+    url: example-test.website.cloud
   variables:
-    RUNTIME_ENVIRONMENT: test
+    RUNTIME_ENVIRONMENT: $CI_ENVIRONMENT_NAME
     # AWS_PROFILE: test
     AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID_TEST
     AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_TEST
@@ -140,8 +170,11 @@ cloud_deployment_test:
 
 cloud_deployment_prod:
   extends: .cloud_deployment
+  environment:
+    name: prod
+    url: qie.sonifihealth.cloud
   variables:
-    RUNTIME_ENVIRONMENT: prod
+    RUNTIME_ENVIRONMENT: $CI_ENVIRONMENT_NAME
     # AWS_PROFILE: prod
     AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID_PROD
     AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_PROD

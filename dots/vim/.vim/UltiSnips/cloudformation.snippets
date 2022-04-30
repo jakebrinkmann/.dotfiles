@@ -159,6 +159,7 @@ snippet cond "conditions"
 Conditions:
   IsEnvDevelopment: !Equals [ !Ref AccountName, devel ]
   IsEnvProduction: !Not [ !Equals [ !Ref AccountName, devel ] ]
+  IsEnvProduction: !Not [ !Equals [ !Ref EnvironmentType, dev ] ]
 
 Environment:
 - Name: "NODE_ENV"
@@ -174,6 +175,7 @@ Conditions:
   UseSnapshotSelected: !Equals [ !Ref UseSnapshot, 'true' ]
 Resources:
   DbInstance:
+    Condition: IsEnvProduction
     Type: AWS::RDS::DBInstance
     Properties:
       AllocatedStorage: 20

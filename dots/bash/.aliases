@@ -76,3 +76,8 @@ alias wttr="curl wttr.in/?0"
 
 # SVN
 alias svn="svn --username=$SVN_USERNAME --password=$SVN_PASSWORD"
+
+# AWS/NodeJS
+alias cdk="npx aws-cdk"
+alias prettier="npx prettier --single-quote --print-width 120 --write"
+alias dig="dig +noadditional +noquestion +nocomments +nocmd +nostats"

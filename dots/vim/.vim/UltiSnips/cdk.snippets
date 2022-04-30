@@ -2,7 +2,7 @@ snippet i-cdk
 npm i -g aws-cdk
 npx cdk --version
 cdk --version
-cd hello-cdk
+mkdir cdk; cd cdk
 cdk init sample-app --language=typescript|python
 cdk diff
 cdk deploy
@@ -157,4 +157,60 @@ npm run watch
 npm run test
 npx cdk synth
 npm run deploy
+endsnippet
+
+snippet app
+#!/usr/bin/env node
+import * as cdk from 'aws-cdk-lib';
+import { ReportingAnalyticsStack } from '../lib/reporting-analytics-stack';
+
+const props = {
+  environmentType:
+    process.env.RUNTIME_ENVIRONMENT || process.env.USER || 'unknown'
+};
+
+const app = new cdk.App();
+new ReportingAnalyticsStack(
+  app,
+  `ReportingAnalyticsStack-${props.environmentType}`,
+  props
+);
+endsnippet
+
+snippet powertools
+
+from aws_cdk import core, aws_lambda
+
+class SampleApp(core.Construct):
+
+    def __init__(self, scope: core.Construct, id_: str, env: core.Environment) -> None:
+        super().__init__(scope, id_)
+
+        powertools_layer = aws_lambda.LayerVersion.from_layer_version_arn(
+            self,
+            id="lambda-powertools",
+            layer_version_arn=f"arn:aws:lambda:{env.region}:017000801446:layer:AWSLambdaPowertoolsPython:18"
+        )
+        aws_lambda.Function(self,
+            'sample-app-lambda',
+            runtime=aws_lambda.Runtime.PYTHON_3_9,
+            layers=[powertools_layer]
+            # other props...
+        )
+endsnippet
+
+snippet props
+const props = {
+  env: {
+    account: process.env.CDK_DEFAULT_ACCOUNT || process.env.AWS_ACCOUNT_ID,
+    region: process.env.CDK_DEFAULT_REGION || process.env.AWS_REGION,
+  }, 
+  environmentType:
+    process.env.RUNTIME_ENVIRONMENT || process.env.USER || 'unknown'
+};
+
+export interface CdkProps extends cdk.StackProps {
+  /** The name of this deployment environment **/
+  environmentType: string;
+}
 endsnippet

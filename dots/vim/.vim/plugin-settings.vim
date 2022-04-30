@@ -165,6 +165,8 @@ nnoremap =a :ALEFix<CR>
 let g:ale_linters = {
     \'python': ['flake8', 'mypy'],
     \'javascript': ['eslint'],
+    \'javascriptreact': ['eslint'],
+    \'typescript': ['eslint'],
     \'cloudformation': ['cloudformation'],
     \'yaml': ['yamllint'],
 \}
@@ -174,8 +176,9 @@ let g:ale_linters = {
 let g:ale_fixers = {
     \'*': ['remove_trailing_lines', 'trim_whitespace'],
     \'python': ['isort', 'black'],
-    \'javascript': ['eslint', 'prettier'],
-    \'javascriptreact': ['eslint', 'prettier'],
+    \'javascript': ['prettier', 'eslint'],
+    \'javascriptreact': ['prettier', 'eslint'],
+    \'typescript': ['prettier', 'eslint'],
     \'html': ['prettier'],
     \'json': ['jq'],
     \'css': ['eslint'],
