@@ -15,6 +15,7 @@ jq -r '.events[].message | select(test("^Send Event: ")) | ltrimstr("Send Event:
 jq -r '.results[] | map(select(.field == "@timestamp" or .field == "@message") | .value) | @tsv'
 jq --null-input --arg user "$CLIENT_ID" '{"id": $user}'
 echo '{ "foo": "bar" }' | jq --compact-output '.foo |= "baz" | del(.other)'
+echo '{ "foo": "bar" }' | jq @json
 jq '.users[] | .first + " " + .last' || jq '.users[]|{first:.first,title:.last}'
 jq --slurp '.[0] * .[1]' file1 file2
 echo '{"a":"foo","b":"bar"} {"c":"baz","a":0}' | jq -s add

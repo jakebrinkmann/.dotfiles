@@ -31,6 +31,7 @@ aws secretsmanager delete-secret --secret-id $SECRET_NAME --force-delete-without
 endsnippet
 # aws.storage.S3 (Simple Storage Service)
 snippet aws-s3 "aws s3 commands"
+aws s3api create-bucket --bucket $BUCKET
 aws s3api list-buckets | jq -c '.Buckets[].Name'
 aws s3api list-objects --bucket $BUCKET | jq -c '.Contents[].Key'
 aws s3 cp --website-redirect "$URL" s3://$BUCKET/$OBJECT /tmp
@@ -166,7 +167,7 @@ endsnippet
 # aws.compute.ECS (Elastic Container Service)
 # aws.compute.Lambda
 snippet aws-lambda "aws lambda commands"
-aws lambda list-functions --query 'Functions[].FunctionName'
+aws lambda list-functions --query "Functions[?FunctionName | contains(@, 'LogSubmit')].FunctionName" --output text
 FILENAME=$(mktemp --suffix '.zip'); rm $FILENAME
 pip install -r requirements.txt --target . && zip -r $FILENAME ./*
 aws lambda update-function-code --function-name $LAMBDA --zip-file "fileb://$FILENAME" --publish | jq -r .LastUpdateStatus

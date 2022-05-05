@@ -238,7 +238,9 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 " write YCM error into the console so we can see wtf is going on
 let g:ycm_server_use_vim_stdout = 1
-let g:ycm_enable_diagnostic_signs = 0
+" show type errors
+let g:ycm_enable_diagnostic_signs = 1
+let g:ycm_max_diagnostics_to_display = 30
 " To restart YCM: call YcmRestartServer
 nnoremap <silent> <leader>gt :YcmCompleter GoTo<CR>
 

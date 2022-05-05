@@ -68,7 +68,11 @@ function cut_dirname {
 # Updates the Prompt correctly
 function update_PS1 {
   ERROR=$(if [ $? = 0 ]; then echo $YELLOW; else echo $RED; fi)
-  PROFILE=$(if [ ! -z $AWS_PROFILE ]; then echo "$__YELLOW[$AWS_PROFILE] $RESET"; else echo ""; fi)
+  if [ ! -z $AWS_PROFILE ]; then 
+    PROFILE="$__YELLOW[$AWS_PROFILE] $RESET"
+  elif [ ! -z $AWS_ACCOUNT_ID ]; then 
+    PROFILE="$__YELLOW[$AWS_ACCOUNT_ID] $RESET"
+  fi
   echo -ne "$TERMTITLE$(cut_dirname)$TERMEND"
   unset PS1
   PS1+="$(git_prompt)$PROFILE$ERROR➜ $RESET"
