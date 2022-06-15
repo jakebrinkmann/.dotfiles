@@ -2,8 +2,10 @@ default:
   tags:
     - docker
 
+# https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
 workflow:
   rules:
+    - if: '$CI_COMMIT_TAG != null'
     - if: $CI_MERGE_REQUEST_ID
       when: never
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -25,6 +27,7 @@ stages:
   - test
   - build
   - deploy
+  - bridge
 
 cfn:lint:
   image: ""
@@ -170,6 +173,8 @@ cloud_deployment_test:
 
 cloud_deployment_prod:
   extends: .cloud_deployment
+  needs:
+    - cloud_build
   environment:
     name: prod
     url: qie.sonifihealth.cloud
@@ -182,3 +187,14 @@ cloud_deployment_prod:
     AWS_ROLE_ARN: $AWS_ROLE_ARN_PROD
   rules:
     - if: '$CI_COMMIT_BRANCH =~ /^((prod(uction)?|(master|main))([\/-].*)?)$/'
+
+Bridge to Docs:
+  stage: bridge
+  variables:
+    MY_VERSION_NUMBER: 3.4.5
+  rules:
+    - if: $MY_VERSION_NUMBER
+  trigger:
+    project: fpotter/examples/multi-project-example-doc-repo
+    branch: main
+    strategy: depend

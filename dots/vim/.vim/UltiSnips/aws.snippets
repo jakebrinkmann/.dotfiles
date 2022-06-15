@@ -1,4 +1,34 @@
+# aws.configure
+snippet trigger "aws configure"
+aws configservice get-discovered-resource-counts --query "totalDiscoveredResources"
+endsnippet
+# aws.security
+snippet trigger "description"
+aws securityhub get-findings \
+    --filters '{"SeverityLabel":[{"Value":"CRITICAL", "Comparison":"EQUALS"}], "WorkflowStatus":[{"Value":"NEW", "Comparison":"EQUALS"}], "RecordState":[{"Value":"ACTIVE", "Comparison":"EQUALS"}]}' \
+    --sort-criteria '{ "Field":"SeverityLabel", "SortOrder":"desc" }' \
+    --max-items 1000
+endsnippet
 # aws.compute.EC2 (Elastic Compute Cloud)
+snippet trigger "description"
+aws ssm get-parameters-by-path \
+  --path /aws/service/ami-amazon-linux-latest \
+  --query "Parameters[].Name"
+aws ssm get-parameters \
+  --names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-arm64-gp2 \
+  --query 'Parameters[0].[Value]'
+aws ec2 describe-images \
+  --image-id $IMAGEID --query "Images[*].BlockDeviceMappings"
+aws ec2 describe-images \
+    --filters "Name=block-device-mapping.encrypted,Values=true" \
+    --query 'Images[*].[ImageId]' \
+    --output text
+aws ec2 modify-instance-metadata-options \
+    --instance-id i-INSTANCE-ID \
+    --http-tokens required \ >> this sets the instance metadata to imdsv2, be careful!
+    --http-put-response-hop-limit 3 \
+    --http-endpoint enabled
+endsnippet
 # aws.management.SSM (Systems Manager)
 snippet aws-ssm "aws ssm commands"
 aws ssm list-documents --query 'DocumentIdentifiers[].Name'
@@ -15,11 +45,15 @@ aws iam create-access-key --user-name MyCdkUser
 aws iam delete-access-key --user-name MyCdkUser --access-key-id AKIAIOSFODNN7EXAMPLE
 aws configure set aws_access_key_id us-west-2 --profile integ
 aws configure set aws_secret_access_key us-west-2 --profile integ
+aws iam list-policies --scope Local --only-attached --policy-usage-filter PermissionsPolicy --query Policies[]
+aws iam get-policy-version --policy-arn <Arn> --version-id <DefaultVersionId>
 endsnippet
 # aws.security.STS (Security Token Service)
 snippet aws-sts "aws sts commands"
 aws sts get-caller-identity --output json | jq '.Account' -r
+aws sts get-caller-identity --query 'Arn' --output text
 aws sts assume-role --role-arn $ROLE --role-session-name $USER
+aws sts decode-authorization-message --encoded-message (encoded error message) --query DecodedMessage --output text | jq '.'
 endsnippet
 # aws.security.SecretsManager
 snippet aws-sm "aws secrets commands"
@@ -35,6 +69,7 @@ aws s3api create-bucket --bucket $BUCKET
 aws s3api list-buckets | jq -c '.Buckets[].Name'
 aws s3api list-objects --bucket $BUCKET | jq -c '.Contents[].Key'
 aws s3 cp --website-redirect "$URL" s3://$BUCKET/$OBJECT /tmp
+aws s3 rb s3://BUCKET-NAME --force
 aws s3api get-object --bucket $BUCKET --key $OBJECT /tmp/$OBJECT
 endsnippet
 # aws.database.RDS (Relational Data Service)
@@ -68,6 +103,7 @@ endsnippet
 # aws.integration.SNS (Simple Notification Service)
 snippet aws-sns "aws sns commands"
 aws sns list-topics | jq -c '.Topics[].TopicArn'
+aws sns list-topics --output table --query 'Topics[]'
 aws sns list-topics --query "Topics[?contains(TopicArn, 'c')].TopicArn"
 aws sns subscribe --topic-arn <value> --protocol email --notification-endpoint <email>
 aws sns list-subscriptions | jq -c '.Subscriptions[] | select(.Protocol | test("email"))'
@@ -161,13 +197,17 @@ aws cloudformation deploy --s3-bucket $BUCKET --template-file packaged.yaml --ca
 aws cloudformation delete-stack --stack-name $STACK
 aws cloudformation continue-update-rollback --stack-name $STACK
 aws cloudformation update-stack --stack-name mystack --use-previous-template
---parameters ParameterKey=VPCID,UsePreviousValue=true ParameterKey=SubnetIDs,ParameterValue=SampleSubnetID1\\,UpdatedSampleSubnetID2
+  --parameters ParameterKey=VPCID,UsePreviousValue=true ParameterKey=SubnetIDs,ParameterValue=SampleSubnetID1\\,UpdatedSampleSubnetID2
+aws cloudformation detect-stack-drift --stack-name $STACK
+aws cloudformation describe-stack-drift-detection-status --stack-drift-detection-id "ID-FROM-PREVIOUS-RESULT"
 endsnippet
 # aws.compute.ECR (Elastic Container Registry)
 # aws.compute.ECS (Elastic Container Service)
 # aws.compute.Lambda
 snippet aws-lambda "aws lambda commands"
 aws lambda list-functions --query "Functions[?FunctionName | contains(@, 'LogSubmit')].FunctionName" --output text
+aws lambda list-functions | jq ".Functions | group_by(.Runtime)|[.[]|{ (.[0].Runtime): [.[]|{ name: .FunctionName, timeout: .Timeout, memory: .MemorySize }] }]"
+aws lambda list-functions | jq -r '[.Functions[]|{name: .FunctionName, env: .Environment.Variables}]|.[]|select(.env|length > 0)'
 FILENAME=$(mktemp --suffix '.zip'); rm $FILENAME
 pip install -r requirements.txt --target . && zip -r $FILENAME ./*
 aws lambda update-function-code --function-name $LAMBDA --zip-file "fileb://$FILENAME" --publish | jq -r .LastUpdateStatus
@@ -197,7 +237,7 @@ aws logs tail $GROUP --since '10m' --follow --format short
 aws logs tail "/aws/lambda/$FUNCTION" --since '10m' --follow --format short
 aws logs start-query --log-group-names $GROUP --start-time $(date --date="30 minutes ago" "+%s") --end-time $(date "+%s") --query-string 'fields @message, @logStream | filter @message '"$QUERY"' | sort @timestamp desc | limit 20' | jq -r .queryId
 aws logs get-query-results --query-id $QID | jq -r '.results[][] | select(.field == "@message") | .value' | uniq
-
+aws logs describe-log-groups | jq '.logGroups[] | select (has("retentionInDays") | not).logGroupName'
 GROUP=$(aws logs describe-log-groups | jq -r '.logGroups[].logGroupName | select(test("Site-WS-EventFunction"))')
 STREAM=$(aws logs describe-log-streams --log-group-name $GROUP --descending --max-items 1 | jq -r '.logStreams[0].logStreamName')
 aws logs create-log-stream --log-group-name $GROUP --log-stream-name $(date "+%s")

@@ -1,14 +1,18 @@
-import { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 
 const Container = ({ children }) => {
   const [count, setCount] = useState(0)
+  const handleCountChange = useCallback((event) => {
+    // setUsername(event.target.value)
+    setCount(count + 1)
+  }, [])
 
   return (
     <div style={styles.container}>
       <header >
-        <p>Hello Vite + React!</p>
+        <p>Hello World!</p>
         <p>
-          <button onClick={() => setCount(count => count + 1)}>
+          <button onClick={handleCountChange}>
             count is: {count}
           </button>
         </p>

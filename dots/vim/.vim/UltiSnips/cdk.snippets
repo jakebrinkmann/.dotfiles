@@ -2,14 +2,23 @@ snippet i-cdk
 npm i -g aws-cdk
 npx cdk --version
 cdk --version
+cdk docs
 mkdir cdk; cd cdk
 cdk init sample-app --language=typescript|python
+cdk -v ls
 cdk diff
 cdk deploy
 cdk deploy --hotswap
 cdk watch
 cdk synth
 cdk destroy
+endsnippet
+
+snippet synk
+npm install snyk@latest -g
+snyk --version
+cdk synth –quiet
+snyk iac test cdk.out --json
 endsnippet
 
 snippet constructorV2
@@ -204,7 +213,7 @@ const props = {
   env: {
     account: process.env.CDK_DEFAULT_ACCOUNT || process.env.AWS_ACCOUNT_ID,
     region: process.env.CDK_DEFAULT_REGION || process.env.AWS_REGION,
-  }, 
+  },
   environmentType:
     process.env.RUNTIME_ENVIRONMENT || process.env.USER || 'unknown'
 };
@@ -213,4 +222,48 @@ export interface CdkProps extends cdk.StackProps {
   /** The name of this deployment environment **/
   environmentType: string;
 }
+endsnippet
+
+snippet tag
+const dbTable = new dynamodb.Table(this, 'Cars')
+// Tags will apply to sub-constructs hierarchically.
+Tags.of(scope: dbTable).add(key: 'owner', value: 'fastandfurious'
+{ key: 'Stage', value: 'prod', }, { key: 'Team', value: 'aws', },
+Tags.of(scope: stack).add(key: 'StackName', value: 'YourStack');
+Tags.of(scope: app).add(key: 'app', value: 'your-app-name')
+Tags.of(stack).add('key01', 'value01', { includeResourceTypes: [], });
+Tags.of(app).add('key01', 'value01', { applyToLaunchedInstances: true, priority: 100, includeResourceTypes: [],});
+endsnippet
+
+snippet logs
+const fn = lambda.Function.fromFunctionArn(this, 'fn')
+
+const logGroup = new LogGroup(this, 'loggroup', {
+  retention: RetentionDays.THREE_MONTHS,
+  removalPolicy: RemovalPolicy.DESTROY
+});
+new SubscriptionFilter(this, 'SubscriptionFilter', {
+  logGroup: logGroup,
+  filterPattern: FilterPattern.allTerms("WARN", "INFO"),
+  destination: new LogsDestinations.LambdaDestination(fn.Arn)
+});
+endsnippet
+
+snippet config
+// https://cloudit.blog/2021/11/16/create-custom-queries-and-rules-for-aws-config-with-cdk/
+const missingTagRule = new config.ManagedRule(this, "RequiredTags", {
+    identifier: config.ManagedRuleIdentifiers.REQUIRED_TAGS,
+    configRuleName: 'check-if-resources-are-tagged',
+    description: 'AWS managed rule that checks for wrong or missing tags',
+    inputParameters: {
+        tag1Key: "Stage",
+        tag2Key: "Team",
+        tag3Key: "Comment"
+    },
+    ruleScope: RuleScope.fromResources([
+        ResourceType.APIGATEWAY_REST_API,
+        ResourceType.XRAY_ENCRYPTION_CONFIGURATION
+    ])
+})
+missingTagRule.applyRemovalPolicy(RemovalPolicy.DESTROY)
 endsnippet

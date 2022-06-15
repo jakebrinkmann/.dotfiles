@@ -1,14 +1,23 @@
-const testSetup = require('../__shared__/test-setup');
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { deposit } from './bank-account';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
-});
+// Given ...
+describe('The balance is 1.000 €', () => {
+  const bankAccount = {};
 
-test('Ignores node_modules when detecting TypeScript', async () => {
-  await testSetup.scripts.build();
-  expect(fs.existsSync(tsConfigPath)).toBe(false);
+  beforeEach(() => {
+    bankAccount.balance = 1000;
+  });
+
+  // And ...
+  describe('The account is locked', () => {
+
+    // When ...
+    test('Making a deposit of 100 €', async () => {
+      const amount = 100;
+      const theBalance = deposit({ amount, bankAccount });
+      // Then I ...
+      expect(theBalance).toBe(1100);
+    });
+
+  })
 });

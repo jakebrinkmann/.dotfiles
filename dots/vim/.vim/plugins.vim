@@ -22,6 +22,7 @@ Plug 'jmcantrell/vim-virtualenv', { 'for': ['python'] }
 Plug 'jremmen/vim-ripgrep'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'lepture/vim-jinja', { 'for': ['jinja']}
 Plug 'matze/vim-move'
 Plug 'morhetz/gruvbox'
 Plug 'sheerun/vim-polyglot'
@@ -29,7 +30,7 @@ Plug 'SirVer/ultisnips'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dotenv'
 Plug 'tpope/vim-fugitive'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer', 'for': ['python', 'javascript', 'typescript']}
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer', 'for': ['python', 'javascript', 'typescript', 'javascriptreact', 'typescriptreact']}
 Plug 'vim-scripts/timestamp.vim'
 Plug 'vim-scripts/vcscommand.vim'
 Plug 'vim-test/vim-test'

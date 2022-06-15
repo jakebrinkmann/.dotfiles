@@ -388,3 +388,7 @@ augroup plantuml_previewer
   autocmd!
   autocmd FileType plantuml command! PlantumlAscii call PlantUmlUpdatePreview(bufnr('%'))
 augroup END
+
+augroup jijna
+  au BufNewFile,BufRead *.jinja set ft=jinja
+augroup END
