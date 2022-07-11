@@ -53,7 +53,7 @@ function! WizRO()
 endfunction
 
 function! WizGit()
-  return !IsTree() ? exists('*fugitive#head') || exists('*FugitiveHead') ? fugitive#head() : '' : ''
+  return !IsTree() ? exists('*FugitiveHead') ? fugitive#Head() : '' : ''
 endfunction
 
 function! WizName()

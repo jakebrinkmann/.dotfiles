@@ -1,4 +1,5 @@
 # 'brew bundle install'
+brew "stow"
 brew "zip"
 brew "tree"
 brew "gcc"
