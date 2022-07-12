@@ -62,6 +62,7 @@ alias _vpn='sudo ip link set dev eth0 mtu 1400'
 alias _free="sudo su -c 'sync; echo 1 > /proc/sys/vm/drop_caches'"
 alias DockerDesktop="'/c/Program Files/Docker/Docker/Docker Desktop.exe' &"
 alias PulseVpn="'/c/Program Files (x86)/Common Files/Pulse Secure/JamUI/Pulse.exe' -show &"
+alias DockerDesktop="open -a Docker"
 
 # Python Environments
 alias startenv='source $(poetry env info --path)/bin/activate && which python3'

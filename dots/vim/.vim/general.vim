@@ -80,6 +80,13 @@ let mapleader = "\<SPACE>"
 " Make Y behave like D and C
 nnoremap Y y$
 
+" Make clipboard behave on MacOS
+if system('uname -s') == "Darwin\n"
+  set clipboard=unnamed "OSX
+else
+  set clipboard=unnamedplus "Linux
+endif
+
 " Use Arrow Keys for buffer navigation
 map <silent> <up> :tabp<CR>
 map <silent> <down> :tabn<CR>
@@ -283,27 +290,30 @@ function! HeaderSetup()
   normal 1G
 endfunction
 
-" :help skeleton
-"  :autocmd BufNewFile  *.java	0r ~/vim/skeleton.java
-" au BufNewFile * :silent! exec ":0r ".$VIMHOME."templates/".&ft
-autocmd BufNewFile *.pu,*.uml,*.plantuml,*.puml,*.iuml 0r ~/.vim/templates/skeleton.plantuml
-autocmd BufNewFile *docs/adr/*.md 0r ~/.vim/templates/skeleton.adr
-autocmd BufNewFile *.jsx 0r ~/.vim/templates/skeleton.jsx
-autocmd BufNewFile *.test.js 0r ~/.vim/templates/skeleton.test.js
-autocmd BufNewFile *.test.jsx 0r ~/.vim/templates/skeleton.test.jsx
-autocmd BufNewFile *.gitlab-ci.yml 0r ~/.vim/templates/skeleton.gitlab-ci.yml
-   autocmd BufNewFile *.sh 0r ~/.vim/skeletons/sh.skel
-   autocmd BufNewFile *.bash 0r ~/.vim/skeletons/sh.skel
-   autocmd BufNewFile *.subr 0r ~/.vim/skeletons/sh.skel
-   autocmd BufNewFile *.cpp 0r ~/.vim/skeletons/cpp.skel
-   autocmd BufNewFile *.html,*.htm 0r ~/.vim/skeletons/html.skel
-   autocmd BufNewFile *.js 0r ~/.vim/skeletons/js.skel
-   autocmd BufNewFile *.json 0r ~/.vim/skeletons/json.skel
-   autocmd BufNewFile *Makefile* 0r ~/.vim/skeletons/mkfile.skel
-   autocmd BufNewFile *.py 0r ~/.vim/skeletons/python.skel
-   autocmd BufNewFile *.spec 0r ~/.vim/skeletons/rpmspec.skel
-   autocmd BufNewFile *.sql,*.pgsql 0r ~/.vim/skeletons/sql.skel
-   autocmd BufNewFile *.cfg,*.config,*.conf 0r ~/.vim/skeletons/text.skel
-   autocmd BufNewFile *.{yaml,yml} 0r ~/.vim/skeletons/yaml.skel
-   autocmd BufNewFile env.json 0r ~/.vim/templates/skeleton.env.json
-   autocmd BufNewFile CHANGELOG.md 0r ~/.vim/templates/skeleton.Changelog.md
+augroup skeletons
+  " :help skeleton
+  "  :autocmd BufNewFile  *.java	0r ~/vim/skeleton.java
+  " au BufNewFile * :silent! exec ":0r ".$VIMHOME."templates/".&ft
+  autocmd BufNewFile *.pu,*.uml,*.plantuml,*.puml,*.iuml 0r ~/.vim/templates/skeleton.plantuml
+  autocmd BufNewFile *docs/adr/*.md 0r ~/.vim/templates/skeleton.adr
+  autocmd BufNewFile *.jsx 0r ~/.vim/templates/skeleton.jsx
+  autocmd BufNewFile *.test.js 0r ~/.vim/templates/skeleton.test.js
+  autocmd BufNewFile *.test.jsx 0r ~/.vim/templates/skeleton.test.jsx
+  autocmd BufNewFile *.gitlab-ci.yml 0r ~/.vim/templates/skeleton.gitlab-ci.yml
+  autocmd BufNewFile *.sh 0r ~/.vim/skeletons/sh.skel
+  autocmd BufNewFile *.bash 0r ~/.vim/skeletons/sh.skel
+  autocmd BufNewFile *.subr 0r ~/.vim/skeletons/sh.skel
+  autocmd BufNewFile *.cpp 0r ~/.vim/skeletons/cpp.skel
+  autocmd BufNewFile *.html,*.htm 0r ~/.vim/skeletons/html.skel
+  autocmd BufNewFile *.js 0r ~/.vim/skeletons/js.skel
+  autocmd BufNewFile *.json 0r ~/.vim/skeletons/json.skel
+  autocmd BufNewFile *Makefile* 0r ~/.vim/skeletons/mkfile.skel
+  autocmd BufNewFile *.py 0r ~/.vim/skeletons/python.skel
+  autocmd BufNewFile *.spec 0r ~/.vim/skeletons/rpmspec.skel
+  autocmd BufNewFile *.sql,*.pgsql 0r ~/.vim/skeletons/sql.skel
+  autocmd BufNewFile *.cfg,*.config,*.conf 0r ~/.vim/skeletons/text.skel
+  autocmd BufNewFile *.{yaml,yml} 0r ~/.vim/skeletons/yaml.skel
+  autocmd BufNewFile env.json 0r ~/.vim/templates/skeleton.env.json
+  autocmd BufNewFile CHANGELOG.md 0r ~/.vim/templates/skeleton.Changelog.md
+  autocmd BufNewFile ~/devlogs/diary/*-*-*.mkd 0r ~/.vim/templates/diary.skel | 0put =strftime('# %A, %B %d %Y')
+augroup END

@@ -309,7 +309,7 @@ let g:neoterm_autoinsert = 1
 let g:neoterm_auto_repl_cmd = 0
 
 " Open a new terminal window
-set shell=bash\ -l
+set shell=zsh\ -l
 nnoremap <silent> <leader>tt :Ttoggle()<CR>
 tnoremap <silent> <leader>tt <C-W>:Ttoggle()<CR>
 tnoremap <silent> \\ <C-W>:Tnext<CR>
@@ -333,28 +333,20 @@ let g:mkdp_refresh_slow = 1
 let g:mkdp_page_title = '「 ${name} 」'
 let g:mkdp_auto_close = 0
 
-"" Vim Wiki
-"""""""""""
-"let g:vimwiki_list = [{'path': '~/wiki/', 'syntax': 'markdown', 'ext': '.mkd'}]
-"au FileType vimwiki setlocal shiftwidth=6 tabstop=6 noexpandtab
-"let g:vimwiki_listsyms = ' .oOX'
-"command! Diary VimwikiDiaryIndex
-"augroup vimwikigroup
-"    autocmd!
-"    " automatically update links on read diary
-"    autocmd BufWinEnter diary.mkd VimwikiDiaryGenerateLinks
-"    autocmd BufWinEnter index.mkd VimwikiRebuildTags
-"    autocmd BufWinEnter ~/wiki/todo.mkd :execute 'silent 0r !~/.vim/vimwiki-todo.py' | normal 7gg
-"    " Make a preview list of todos with Fzf Ripgrep :)
-"    command! -bang -nargs=* Todo
-"          \ call fzf#vim#grep(
-"          \ join(['rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape('^\s*- \[[ \.o0X]\] .+'), '~/wiki']), 1,
-"          \ fzf#vim#with_preview(), <bang>0)
-"    autocmd FileType vimwiki nnoremap <buffer> <Leader>wx :VimwikiToggleListItem<CR>
-"    autocmd FileType vimwiki nnoremap <buffer> <Leader>ws VimwikiSearchTags //
-"    autocmd FileType vimwiki command! Jira :%s/\s\(ENG\w*-\d\+\)/\=" [".submatch(1)."](".expand($JIRA_SERVER)."\/browse\/".submatch(1).") "/g
-
-"augroup end
+" Vim Wiki
+""""""""""
+let g:vimwiki_list = [{'path': '~/devlogs/', 'syntax': 'markdown', 'ext': '.mkd'}]
+au FileType vimwiki setlocal shiftwidth=6 tabstop=6 noexpandtab
+let g:vimwiki_listsyms = ' .oOX'
+command! Diary VimwikiDiaryIndex
+augroup vimwikigroup
+    autocmd!
+    " automatically update links on read diary
+    autocmd BufWinEnter ~/devlogs/*/diary.mkd VimwikiDiaryGenerateLinks
+    autocmd BufWinEnter ~/devlogs/*/index.mkd VimwikiRebuildTags
+    autocmd FileType vimwiki nnoremap <buffer> <Leader>wx :VimwikiToggleListItem<CR>
+    autocmd FileType vimwiki nnoremap <buffer> <Leader>ws VimwikiSearchTags //
+augroup end
 
 " vim-scripts/vcscommand.vim
 " Hack to allow me to enter my password in plaintext.
