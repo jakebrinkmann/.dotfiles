@@ -335,7 +335,18 @@ let g:mkdp_auto_close = 0
 
 " Vim Wiki
 """"""""""
-let g:vimwiki_list = [{'path': '~/devlogs/', 'syntax': 'markdown', 'ext': '.mkd'}]
+let s:vimwiki = {}
+let s:vimwiki.path = '~/devlogs/'
+let s:vimwiki.ext = '.mkd'
+let s:vimwiki.syntax = 'markdown'
+let s:vimwiki.diary_rel_path = 'journal/'
+let s:vimwiki.diary_index = 'index'
+let s:vimwiki.diary_header = 'Journal'
+let s:vimwiki.diary_sort = 'asc'
+let g:vimwiki_list = [s:vimwiki]
+let g:vimwiki_global_ext = 0
+
+
 au FileType vimwiki setlocal shiftwidth=6 tabstop=6 noexpandtab
 let g:vimwiki_listsyms = ' .oOX'
 command! Diary VimwikiDiaryIndex
@@ -344,6 +355,9 @@ augroup vimwikigroup
     " automatically update links on read diary
     autocmd BufWinEnter ~/devlogs/*/diary.mkd VimwikiDiaryGenerateLinks
     autocmd BufWinEnter ~/devlogs/*/index.mkd VimwikiRebuildTags
+    " templates for new files
+    autocmd BufNewFile ~/devlogs/journal/*-*-*.mkd 0r ~/.vim/templates/diary.skel | 0put =strftime('# %A, %B %d %Y')
+    autocmd BufNewFile ~/devlogs/projects/*/index.mkd 0r ~/.vim/templates/project.skel
     autocmd FileType vimwiki nnoremap <buffer> <Leader>wx :VimwikiToggleListItem<CR>
     autocmd FileType vimwiki nnoremap <buffer> <Leader>ws VimwikiSearchTags //
 augroup end

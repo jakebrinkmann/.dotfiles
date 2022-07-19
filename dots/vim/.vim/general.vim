@@ -315,5 +315,4 @@ augroup skeletons
   autocmd BufNewFile *.{yaml,yml} 0r ~/.vim/skeletons/yaml.skel
   autocmd BufNewFile env.json 0r ~/.vim/templates/skeleton.env.json
   autocmd BufNewFile CHANGELOG.md 0r ~/.vim/templates/skeleton.Changelog.md
-  autocmd BufNewFile ~/devlogs/diary/*-*-*.mkd 0r ~/.vim/templates/diary.skel | 0put =strftime('# %A, %B %d %Y')
 augroup END

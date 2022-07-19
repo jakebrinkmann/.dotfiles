@@ -26,7 +26,7 @@ Plug 'lepture/vim-jinja', { 'for': ['jinja']}
 Plug 'matze/vim-move'
 Plug 'morhetz/gruvbox'
 Plug 'sheerun/vim-polyglot'
-" Plug 'SirVer/ultisnips'
+"Plug 'SirVer/ultisnips'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dotenv'
 Plug 'tpope/vim-fugitive'
@@ -35,8 +35,8 @@ Plug 'vim-scripts/timestamp.vim'
 Plug 'vim-scripts/vcscommand.vim'
 Plug 'vim-test/vim-test'
 Plug 'vimwiki/vimwiki'
-Plug 'weirongxu/plantuml-previewer.vim'
-Plug 'tyru/open-browser.vim' "Dependency of plantuml-previewer
+Plug 'weirongxu/plantuml-previewer.vim', { 'for': ['plantuml'] }
+Plug 'tyru/open-browser.vim', { 'for': ['plantuml'] } "Dependency of plantuml-previewer
 call plug#end()
 " }}}
 
