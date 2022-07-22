@@ -84,6 +84,9 @@
   unwipe = "!f() { git cherry-pick $1 && git reset HEAD^; } ; f"
   wipes = !git reflog --format='%h %<|(17)%gd %ci %s' | /bin/grep --color=never WIPESAVE | head -n 15
 
+  # Yippie Kayak Other Buckets
+  now = "!f() { git add . && git commit --no-verify -qm \"`date`\"; }; f"
+
   # Checkout from origin/development
   devb = "!f() { git fetch origin dev; git checkout origin/dev -b $1; }; f"
   dev = "!f() { git fetch origin dev; git checkout origin/dev -B dev; }; f"
@@ -92,7 +95,7 @@
   rebase = false
 
 [commit]
-  template = /home/hydro/.gitmessage
+  template = ~/.gitmessage
 
 [init]
   defaultBranch = dev

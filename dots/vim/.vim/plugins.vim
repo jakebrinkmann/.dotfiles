@@ -26,7 +26,7 @@ Plug 'lepture/vim-jinja', { 'for': ['jinja']}
 Plug 'matze/vim-move'
 Plug 'morhetz/gruvbox'
 Plug 'sheerun/vim-polyglot'
-"Plug 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dotenv'
 Plug 'tpope/vim-fugitive'

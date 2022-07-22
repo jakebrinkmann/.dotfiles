@@ -585,3 +585,19 @@ partition Group #palegreen {
 stop
 @enduml
 endsnippet
+snippet c4model
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+LAYOUT_WITH_LEGEND()
+
+title Container diagram for Internet Banking System
+
+Person(customer, Customer, "A customer of the bank, with personal bank accounts")
+System_Boundary(c1, "Internet Banking") {
+    Container(web_app, "Web Application", "Java, Spring MVC", "Delivers the static content and the Internet banking SPA")
+    ContainerDb(database, "Database", "SQL Database", "Stores user registration information, hashed auth credentials, access logs, etc.")
+}
+System_Ext(email_system, "E-Mail System", "The internal Microsoft Exchange system")
+Rel(customer, web_app, "Uses", "HTTPS")
+@enduml
+endsnippet

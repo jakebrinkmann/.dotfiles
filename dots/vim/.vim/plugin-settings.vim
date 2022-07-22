@@ -353,7 +353,7 @@ command! Diary VimwikiDiaryIndex
 augroup vimwikigroup
     autocmd!
     " automatically update links on read diary
-    autocmd BufWinEnter ~/devlogs/*/diary.mkd VimwikiDiaryGenerateLinks
+    autocmd BufWinEnter ~/devlogs/journal/index.mkd VimwikiDiaryGenerateLinks
     autocmd BufWinEnter ~/devlogs/*/index.mkd VimwikiRebuildTags
     " templates for new files
     autocmd BufNewFile ~/devlogs/journal/*-*-*.mkd 0r ~/.vim/templates/diary.skel | 0put =strftime('# %A, %B %d %Y')
