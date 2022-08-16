@@ -356,10 +356,15 @@ augroup vimwikigroup
     autocmd BufWinEnter ~/devlogs/journal/index.mkd VimwikiDiaryGenerateLinks
     autocmd BufWinEnter ~/devlogs/*/index.mkd VimwikiRebuildTags
     " templates for new files
-    autocmd BufNewFile ~/devlogs/journal/*-*-*.mkd 0r ~/.vim/templates/diary.skel | 0put =strftime('# %A, %B %d %Y')
+    autocmd BufNewFile ~/devlogs/journal/*-*-*.mkd 0r ~/.vim/templates/diary.skel | 0put =strftime('# %A, %B %d %Y', strptime('%Y-%m-%d', matchstr(expand('%'), '\d\+-\d\+-\d\+')))
     autocmd BufNewFile ~/devlogs/projects/*/index.mkd 0r ~/.vim/templates/project.skel
+    autocmd Filetype vimwiki nnoremap <silent> <leader>wt :Rg '\[\s\]\s\S+.*' -g journal/*.mkd<CR>
     autocmd FileType vimwiki nnoremap <buffer> <Leader>wx :VimwikiToggleListItem<CR>
     autocmd FileType vimwiki nnoremap <buffer> <Leader>ws VimwikiSearchTags //
+    autocmd FileType vimwiki nnoremap <buffer> <Leader>w<Space>q :VimwikiMakeYesterdayDiaryNote<CR>
+    autocmd FileType vimwiki nnoremap <buffer> <Leader>w<Space>e :VimwikiMakeTomorrowDiaryNote<CR>
+    autocmd FileType vimwiki setlocal spell spelllang=en_us
+    autocmd FileType vimwiki setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab smartindent
 augroup end
 
 " vim-scripts/vcscommand.vim

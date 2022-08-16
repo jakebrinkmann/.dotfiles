@@ -10,7 +10,7 @@ set incsearch
 set laststatus=2
 " " configure termial title to look like: ~/.v/.vimrc [+]
 set title
-set titlestring=%{substitute(fnamemodify(substitute(getcwd(),\$HOME,\'~',\''),\':h'),\"\\\\(/\\\\.\\\\?.\\\\)[^/]*\",\"\\\\1\",\"g\")}/%{fnamemodify(getcwd(),':t')}%(\ %a%r%m%)
+set titlestring=%{substitute(fnamemodify(substitute(expand('%:~:h'),\$HOME,\'~',\''),\':h'),\"\\\\(/\\\\.\\\\?.\\\\)[^/]*\",\"\\\\1\",\"g\")}/%{fnamemodify(expand('%:~:h'),':t')}%(/%t%a%r%m%)
 set titlelen=72
 set titleold=
 " enable 256 colors
@@ -22,8 +22,8 @@ set splitright
 " dont auto-resize windows
 set noequalalways
 " Set scroll offset so the active line stays towards the center.
-set scrolloff=999
-set sidescrolloff=999
+set scrolloff=555
+set sidescrolloff=555
 " merge signcolumn and number column into one
 set signcolumn=number
 " show matching brackets/parenthesis
@@ -34,6 +34,8 @@ syntax on
 set synmaxcol=512
 " remove all guioptions
 set guioptions=
+" turn off the mouse
+set mouse-=a ttymouse=
 
 " Don't redraw while executing macros (good performance config)
 set lazyredraw

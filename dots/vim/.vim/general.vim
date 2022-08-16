@@ -106,6 +106,8 @@ imap kj <Esc>
 nnoremap #$ $?#<CR>D40i <Esc>40<bar>P:s/\s*$//<CR>:nohlsearch<CR>
 " nnoremap <leader>w 40i <Esc>39h<CR>:nohlsearch<CR>
 
+" \cc to changedir to current file
+nnoremap <leader>cc :cd %:p:h<CR>
 " gf to edit files, too
 nnoremap gf :e <cfile><CR>
 " Shift-G shows full path

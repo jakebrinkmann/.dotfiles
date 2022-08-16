@@ -11,3 +11,7 @@ for file in configs
     execute 'source' x
   endif
 endfor
+
+if has("gui_running")
+  execute 'source ~/.vim/gvimrc.vim'
+endif

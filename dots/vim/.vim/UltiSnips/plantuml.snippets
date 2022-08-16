@@ -224,6 +224,32 @@ class joe{
 @enduml
 endsnippet
 
+snippet json
+@startuml
+!$data={"participants":[
+  {"shape": "cloud", "name": "id1", "colour": "#green", "desc": "some text"},
+  {"shape": "folder", "name": "id2", "colour": "#blue", "desc": "more text"},
+  {"shape": "database", "name": "id3", "colour": "#red", "desc": "even more text"}
+]}
+
+rectangle Outer {
+  rectangle Inner as "
+  {{json
+  $data
+  }}
+  "
+
+  together {
+    !foreach $part in $data.participants
+      $part.shape $part.colour $part.name as "$part.desc"
+      Inner --> $part.name
+    !endfor
+  }
+
+}
+@enduml
+endsnippet
+
 snippet umlc "plantuml component diagram"
 ' https://plantuml.com/component-diagram
 @startuml
@@ -372,6 +398,7 @@ end title
 center header Generated for demonstration
 top to bottom direction
 autonumber
+skinparam guillemet [ ]
 skinparam DefaultFontSize 18
 skinparam monochrome true
 skinparam Shadowing false
@@ -586,12 +613,17 @@ stop
 @enduml
 endsnippet
 snippet c4model
+' https://github.com/plantuml-stdlib/C4-PlantUML#supported-diagram-types
 @startuml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 LAYOUT_WITH_LEGEND()
 
 title Container diagram for Internet Banking System
 
+WithoutPropertyHeader()
+AddProperty("Name", "Flash")
+AddProperty("Organization", "Zootopia")
+AddProperty("Tool", "Internet Explorer 7.0")
 Person(customer, Customer, "A customer of the bank, with personal bank accounts")
 System_Boundary(c1, "Internet Banking") {
     Container(web_app, "Web Application", "Java, Spring MVC", "Delivers the static content and the Internet banking SPA")

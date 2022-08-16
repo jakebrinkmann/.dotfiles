@@ -41,3 +41,14 @@
 # fix:                   Patch Release
 # other                  Patch/No Release
 #
+#######################################################################################
+#
+# Short explanation of change (<50 chars)
+#
+# [BREAKING] FEATURE|FIX|REFACTOR (component[, component2...]): Full
+# Log. Explain mitigation steps for breaking change if applicable.
+# (Wrap lines at 72 chars)
+#
+# DEPENDS ON (component[@hash][, component2[@hash]...])
+#
+# [TICKET NUMBER]

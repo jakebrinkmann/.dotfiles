@@ -14,7 +14,7 @@ Plug 'aklt/plantuml-syntax'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'dense-analysis/ale', { 'for': ['python', 'javascript', 'javascriptreact', 'json', 'sql', 'cloudformation', 'yaml', 'typescript'] }
 Plug 'honza/vim-snippets'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install', 'for': ['markdown']}
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install', 'for': ['markdown', 'vimwiki']}
 Plug 'itchyny/lightline.vim'
 Plug 'kassio/neoterm'
 Plug 'jeroenbourgois/vim-actionscript'
