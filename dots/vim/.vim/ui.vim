@@ -93,9 +93,9 @@ nnoremap <silent> <leader>vo :only<CR>
 nnoremap <silent> <leader>vs :vsplit<CR>
 
 " \l to highlight a line
-nnoremap <silent> <leader>l :call matchadd('Search', '\%'.line('.').'l')<cr>
+nnoremap <silent> <leader>hh :call matchadd('Search', '\%'.line('.').'l')<cr>
 " \L to remove highlighted line
-nnoremap <silent> <leader>L :
+nnoremap <silent> <leader>HH :
   \for m in filter(getmatches(), { i, v -> has_key(l:v, 'pattern') && l:v.pattern is? '\%'.line('.').'l'} )
   \<bar>           :call matchdelete(m.id)
   \<bar> :endfor<CR>

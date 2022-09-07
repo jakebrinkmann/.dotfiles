@@ -272,6 +272,10 @@ if executable('rg')
     nnoremap <leader>pg :GFiles<CR>
     " Make switching buffers easier
     nnoremap <Leader>b :Buffers<CR>
+    " Make switching buffers even easier
+    nnoremap <Leader>l :Lines<CR>
+    " Make FZF open NOT in a GUI
+    let g:fzf_layout = { 'down': '40%' }
 endif
 
 " speed optimizations

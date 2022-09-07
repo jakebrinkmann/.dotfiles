@@ -74,8 +74,10 @@ aws s3api get-object --bucket $BUCKET --key $OBJECT /tmp/$OBJECT
 endsnippet
 # aws.database.RDS (Relational Data Service)
 snippet aws-rds
+aws rds describe-db-engine-versions --engine aurora-postgresql --query '*[].[EngineVersion]'
 aws rds describe-engine-default-parameters --db-parameter-group-family mariadb10.6 \
    --query 'EngineDefaults.Parameters[?IsModifiable==`true`]'
+aws rds describe-db-cluster-parameters --db-cluster-parameter-group-name default.aurora-postgresql14
 endsnippet
 # aws.database.DDB (DynamoDB NoSQL Database)
 snippet aws-dynamodb "aws dynamodb commands"

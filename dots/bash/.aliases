@@ -65,6 +65,7 @@ alias PulseVpn="'/c/Program Files (x86)/Common Files/Pulse Secure/JamUI/Pulse.ex
 alias DockerDesktop="open -a Docker"
 
 # Python Environments
+alias mkenv='python3 -m venv .venv'
 alias startenv='source $(poetry env info --path)/bin/activate && which python3'
 alias stopenv='deactivate'
 

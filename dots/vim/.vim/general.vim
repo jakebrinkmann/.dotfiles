@@ -121,6 +121,7 @@ inoremap <c-z> <Esc>:w<CR>a
 nnoremap <leader>ss :setlocal spell! spelllang=en_us<CR>
 " Launch netrw in a little sidebar
 nnoremap <leader>pv :Lexplore<CR>
+nnoremap <leader>pv :let @/=expand("%:t") <Bar> execute 'Explore' expand("%:h") <Bar> normal n<CR>
 " \\ -- open last buffer
 nnoremap \\ <C-^>
 " \d -- delete current file
@@ -204,7 +205,7 @@ augroup vim_terminal
   setlocal ttimeoutlen=50
 
   " Turn off numbers in Terminal
-  autocmd TerminalOpen * set nolist nonumber norelativenumber colorcolumn=
+  autocmd TerminalOpen * setlocal nolist nonumber norelativenumber colorcolumn=
 augroup end
 
 augroup fancy_files
