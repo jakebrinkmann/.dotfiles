@@ -25,6 +25,7 @@ set noequalalways
 set scrolloff=20
 set sidescrolloff=20
 " merge signcolumn and number column into one
+set number
 set signcolumn=number
 " show matching brackets/parenthesis
 set showmatch
@@ -100,17 +101,9 @@ nnoremap <silent> <leader>HH :
   \<bar>           :call matchdelete(m.id)
   \<bar> :endfor<CR>
 
-" turn hybrid line numbers on when not INSERT
-set number
-augroup numbertoggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &number && mode() != "i" | set relativenumber   | endif
-  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &number                  | set norelativenumber | endif
-augroup END
-
 augroup MakeVimTransparent
   autocmd ColorScheme * highlight Normal ctermbg=none
 augroup END
 
 " Hide things for presentation mode
-nnoremap <silent> <F5> :set relativenumber! number! showmode! showcmd! hidden! ruler!<CR>
+nnoremap <silent> <F5> :set number! showmode! showcmd! hidden! ruler!<CR>

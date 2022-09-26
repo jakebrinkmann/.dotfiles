@@ -197,6 +197,7 @@ aws cloudformation package \
     --output-template-file packaged.yaml
 aws cloudformation deploy --s3-bucket $BUCKET --template-file packaged.yaml --capabilities CAPABILITY_NAMED_IAM --stack-name $STACK
 aws cloudformation delete-stack --stack-name $STACK
+aws cloudformation wait stack-delete-complete --stack-name $STACK
 aws cloudformation continue-update-rollback --stack-name $STACK
 aws cloudformation update-stack --stack-name mystack --use-previous-template
   --parameters ParameterKey=VPCID,UsePreviousValue=true ParameterKey=SubnetIDs,ParameterValue=SampleSubnetID1\\,UpdatedSampleSubnetID2

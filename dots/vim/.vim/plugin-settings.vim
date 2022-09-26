@@ -352,7 +352,8 @@ let g:vimwiki_global_ext = 0
 
 
 au FileType vimwiki setlocal shiftwidth=6 tabstop=6 noexpandtab
-let g:vimwiki_listsyms = ' .oOX'
+" let g:vimwiki_listsyms = ' .oOX'
+let g:vimwiki_listsyms = ' ✗○◐●✓'
 command! Diary VimwikiDiaryIndex
 augroup vimwikigroup
     autocmd!

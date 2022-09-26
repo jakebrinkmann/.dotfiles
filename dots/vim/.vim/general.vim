@@ -205,7 +205,7 @@ augroup vim_terminal
   setlocal ttimeoutlen=50
 
   " Turn off numbers in Terminal
-  autocmd TerminalOpen * setlocal nolist nonumber norelativenumber colorcolumn=
+  autocmd TerminalOpen * setlocal nolist nonumber colorcolumn=
 augroup end
 
 augroup fancy_files

@@ -171,13 +171,30 @@ cloud_deployment_test:
   rules:
     - if: '$CI_COMMIT_BRANCH =~ /^(test(ing)?([\/-].*)?)$/'
 
+cloud_deployment_stage:
+  extends: .cloud_deployment
+  needs:
+    - cloud_build
+  environment:
+    name: stage
+    url: api-stage.health.cloud
+  variables:
+    RUNTIME_ENVIRONMENT: $CI_ENVIRONMENT_NAME
+    # AWS_PROFILE: stage
+    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID_STAGE
+    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGE
+    AWS_ACCOUNT_ID: $AWS_ACCOUNT_STAGE
+    AWS_ROLE_ARN: $AWS_ROLE_ARN_STAGE
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^(stage|staging)([\/-].*)?)$/'
+
 cloud_deployment_prod:
   extends: .cloud_deployment
   needs:
     - cloud_build
   environment:
     name: prod
-    url: qie.sonifihealth.cloud
+    url: api.health.cloud
   variables:
     RUNTIME_ENVIRONMENT: $CI_ENVIRONMENT_NAME
     # AWS_PROFILE: prod
