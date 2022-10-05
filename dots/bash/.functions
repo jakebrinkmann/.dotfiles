@@ -39,6 +39,12 @@ pyclean() {
   sudo find ${PWD} -regextype posix-extended -regex '^.*(__pycache__|pytest_cache|\.pyc|\.pyo$)' -delete;
 }
 
+# Change all IPs in a file to mine
+replaceIp() {
+   IPADDR=`ifconfig -l | xargs -n1 ipconfig getifaddr`
+   sed -i '' 's/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/'"$IPADDR"'/g' "$1"
+}
+
 # Search files
 search() {
   find . -type f \

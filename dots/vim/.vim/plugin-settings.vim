@@ -369,7 +369,7 @@ augroup vimwikigroup
     autocmd FileType vimwiki nnoremap <buffer> <Leader>w<Space>q :VimwikiMakeYesterdayDiaryNote<CR>
     autocmd FileType vimwiki nnoremap <buffer> <Leader>w<Space>e :VimwikiMakeTomorrowDiaryNote<CR>
     autocmd FileType vimwiki setlocal spell spelllang=en_us
-    autocmd FileType vimwiki setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab smartindent
+    autocmd FileType vimwiki setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab smartindent
 augroup end
 
 " vim-scripts/vcscommand.vim

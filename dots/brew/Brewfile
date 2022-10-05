@@ -22,6 +22,7 @@ brew "httpie"
 brew "jq"
 brew "yq"
 brew "node@16"
+brew "yarn"
 brew "typescript"
 brew "gitlab-runner"
 brew "libpq", link: true

@@ -109,7 +109,7 @@ nnoremap #$ $?#<CR>D40i <Esc>40<bar>P:s/\s*$//<CR>:nohlsearch<CR>
 " \cc to changedir to current file
 nnoremap <leader>cc :cd %:p:h<CR>
 " gf to edit files, too
-nnoremap gf :e <cfile><CR>
+nnoremap gf :e %:h/<cfile><CR>
 " Shift-G shows full path
 nnoremap <leader>G :echo expand('%:p')<CR>
 " Ctrl+C to delete buffer, but keep any split
