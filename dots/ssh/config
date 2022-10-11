@@ -2,8 +2,8 @@
 
 # EC2 Bastion using SSM
 host i-* mi-*
-     IdentityFile ~/.ssh/id_rsa
-     ProxyCommand ~/.ssh/aws-ssm-ec2-proxy-command.sh %h %r %p ~/.ssh/id_rsa.pub
+     IdentityFile ~/.ssh/id_ecdsa
+     ProxyCommand ~/.ssh/aws-ssm-ec2-proxy-command.sh %h %r %p ~/.ssh/id_ecdsa.pub
      StrictHostKeyChecking no
 
 # Trusted Private LAN connections

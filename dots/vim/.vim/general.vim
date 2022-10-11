@@ -243,8 +243,8 @@ augroup AutoMkdir
 augroup END
 
 augroup AutoSpellCheck
-    autocmd FileType markdown,html,txt,tex setlocal spell spelllang=en_us
-    autocmd FileType markdown,html,txt,tex setlocal linebreak
+    autocmd FileType markdown,txt,tex setlocal spell spelllang=en_us
+    autocmd FileType markdown,txt,tex setlocal wrap linebreak 
 augroup END
 
 " Replace abbreviations as I type

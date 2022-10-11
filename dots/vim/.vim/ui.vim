@@ -45,7 +45,9 @@ set updatetime=4000
 " Set the text width to 88 and create a vertical bar in 89th column. Some
 " filetypes such as gitcommit have a custom width defined and we use autocmd
 " here so our textwidth value takes precedence.
+set textwidth=0 " disable hard linebreak
 set nowrap
+set wrapmargin=0 " disable wrap based on terminal size, use window size instead
 set colorcolumn=89
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 

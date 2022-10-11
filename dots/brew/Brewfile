@@ -16,6 +16,7 @@ brew "postgresql"
 brew "pyenv"
 brew "poetry"
 brew "awscli"
+# brew install --cask session-manager-plugin
 brew "cfn-lint"
 brew "yamllint"
 brew "httpie"
