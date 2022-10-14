@@ -20,6 +20,10 @@ jq '.users[] | .first + " " + .last' || jq '.users[]|{first:.first,title:.last}'
 jq --slurp '.[0] * .[1]' file1 file2
 echo '{"a":"foo","b":"bar"} {"c":"baz","a":0}' | jq -s add
 endsnippet
+snippet yq "some yq shortcuts"
+yq -j -I4 sample.yaml
+yq -P sample.json
+endsnippet
 snippet json
 # NOTE: single quotes means no $vars
 DATA=$(cat << '__JSON__' | jq -c

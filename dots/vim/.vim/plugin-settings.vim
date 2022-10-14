@@ -347,7 +347,7 @@ let s:vimwiki.diary_rel_path = 'journal/'
 let s:vimwiki.diary_index = 'index'
 let s:vimwiki.diary_header = 'Journal'
 let s:vimwiki.diary_sort = 'asc'
-let s:vimwiki.nested_syntaxes = {'python': 'python', 'yaml': 'yaml'}
+let s:vimwiki.nested_syntaxes = {'python': 'python', 'yaml': 'yaml', 'plantuml': 'plantuml'}
 let g:vimwiki_list = [s:vimwiki]
 let g:vimwiki_global_ext = 0
 
