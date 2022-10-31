@@ -2,10 +2,10 @@ snippet puml "basic class diagram"
 @startuml
 !$a  = 42
 class Dummy {
- -square1: uuid4, pk
- #diamond2: str[256], unique
- ~triangle()
- +circle()
+ -privateSquare1: uuid4, pk
+ #protectedDiamond2: str[256], unique
+ ~packagePrivateTriangle()
+ +publicCircle()
 }
 @enduml
 endsnippet

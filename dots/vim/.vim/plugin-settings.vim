@@ -340,7 +340,7 @@ let g:mkdp_auto_close = 0
 " Vim Wiki
 """"""""""
 let s:vimwiki = {}
-let s:vimwiki.path = '~/devlogs/'
+let s:vimwiki.path = '~/notes/'
 let s:vimwiki.ext = '.mkd'
 let s:vimwiki.syntax = 'markdown'
 let s:vimwiki.diary_rel_path = 'journal/'
@@ -359,11 +359,11 @@ command! Diary VimwikiDiaryIndex
 augroup vimwikigroup
     autocmd!
     " automatically update links on read diary
-    autocmd BufWinEnter ~/devlogs/journal/index.mkd VimwikiDiaryGenerateLinks
-    autocmd BufWinEnter ~/devlogs/*/index.mkd VimwikiRebuildTags
+    autocmd BufWinEnter ~/notes/journal/index.mkd VimwikiDiaryGenerateLinks
+    autocmd BufWinEnter ~/notes/*/index.mkd VimwikiRebuildTags
     " templates for new files
-    autocmd BufNewFile ~/devlogs/journal/*-*-*.mkd 0r ~/.vim/templates/diary.skel | 0put =strftime('# %A, %B %d %Y', strptime('%Y-%m-%d', matchstr(expand('%'), '\d\+-\d\+-\d\+')))
-    autocmd BufNewFile ~/devlogs/projects/*/index.mkd 0r ~/.vim/templates/project.skel
+    autocmd BufNewFile ~/notes/journal/*-*-*.mkd 0put =strftime('# %A, %B %d %Y', strptime('%Y-%m-%d', matchstr(expand('%'), '\d\+-\d\+-\d\+')))
+    autocmd BufNewFile ~/notes/projects/*/index.mkd 0r ~/.vim/templates/project.skel
     autocmd Filetype vimwiki nnoremap <silent> <leader>wt :Rg '\[\s\]\s\S+.*' -g journal/*.mkd<CR>
     autocmd FileType vimwiki nnoremap <buffer> <Leader>wx :VimwikiToggleListItem<CR>
     autocmd FileType vimwiki nnoremap <buffer> <Leader>ws VimwikiSearchTags //

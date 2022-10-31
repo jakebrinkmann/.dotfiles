@@ -88,7 +88,7 @@ skinparam stereotypeCBackgroundColor $ACCENT
 !$ARROWFONTCOLOR = "333"
 !$BORDERCOLOR = "999"
 !$BOXBG = "ccc"
-!$FRAMEBG = %lighten($ACCENT, 90)
+!$FRAMEBG = %lighten($ACCENT, 30)
 !$LIGHTBORDERCOLOR = "ccc"
 !$LIGHTBG = "e0e0e0"
 skinparam backgroundColor fff
@@ -101,7 +101,7 @@ skinparam backgroundColor fff
 !$ARROWFONTCOLOR = "bbb"
 !$BORDERCOLOR = "1b1b1b"
 !$BOXBG = "2e2e2e"
-!$FRAMEBG = %darken($ACCENT, 60)
+!$FRAMEBG = %darken($ACCENT, 30)
 !$LIGHTBORDERCOLOR = "767676"
 !$LIGHTBG = "575757"
 skinparam backgroundColor 777
