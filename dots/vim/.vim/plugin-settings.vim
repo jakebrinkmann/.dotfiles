@@ -313,7 +313,7 @@ let g:neoterm_autoinsert = 1
 let g:neoterm_auto_repl_cmd = 0
 
 " Open a new terminal window
-set shell=zsh\ -l
+set shell=$SHELL\ -l
 nnoremap <silent> <leader>tt :Ttoggle()<CR>
 tnoremap <silent> <leader>tt <C-W>:Ttoggle()<CR>
 tnoremap <silent> \\ <C-W>:Tnext<CR>
