@@ -59,6 +59,22 @@ search() {
     xargs -I % grep -i --color=always $@ % /dev/null
 }
 
+# Time cURL with more output
+# https://stackoverflow.com/a/22625150/1533001
+curltime() {
+  curl -w @- -o /dev/null -s "$@" <<'EOF'
+    time_namelookup:  %{time_namelookup}\n
+       time_connect:  %{time_connect}\n
+    time_appconnect:  %{time_appconnect}\n
+   time_pretransfer:  %{time_pretransfer}\n
+      time_redirect:  %{time_redirect}\n
+ time_starttransfer:  %{time_starttransfer}\n
+                    ----------\n
+         time_total:  %{time_total}\n
+      size_download: %{size_download} bytes\n
+EOF
+}
+
 # Flash the screen after 25mins (1500s)
 pomo() {
   sleep ${1:-1500}; for x in $(seq 1 60); do printf '\a'; sleep 1; done

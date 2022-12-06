@@ -54,6 +54,7 @@ alias python=python3
 # more wholesome experience
 alias please=sudo
 alias lick=touch
+alias help=man
 
 # Pulse Secure VPN
 alias _vpn='sudo ip link set dev eth0 mtu 1400'
