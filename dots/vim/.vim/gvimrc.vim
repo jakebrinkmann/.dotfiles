@@ -5,4 +5,5 @@ let macvim_hig_shift_movement = 1
 " Copy to clipboard
 set guioptions+=a
 
-autocmd VimEnter * cd ~/notes
+autocmd VimEnter * cd ~/notes | edit . 
+" autocmd VimEnter * nnoremap <leader>wt split \| VimwikiMakeDiaryNote

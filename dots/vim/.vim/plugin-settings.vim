@@ -350,6 +350,7 @@ let s:vimwiki.diary_sort = 'asc'
 let s:vimwiki.nested_syntaxes = {'python': 'python', 'yaml': 'yaml', 'plantuml': 'plantuml'}
 let g:vimwiki_list = [s:vimwiki]
 let g:vimwiki_global_ext = 0
+let g:vimwiki_ext2syntax = {}
 
 
 au FileType vimwiki setlocal shiftwidth=6 tabstop=6 noexpandtab
@@ -364,10 +365,11 @@ augroup vimwikigroup
     " templates for new files
     autocmd BufNewFile ~/notes/journal/*-*-*.mkd 0put =strftime('# %A, %B %d %Y', strptime('%Y-%m-%d', matchstr(expand('%'), '\d\+-\d\+-\d\+')))
     autocmd BufNewFile ~/notes/projects/*/index.mkd 0r ~/.vim/templates/project.skel
-    autocmd Filetype vimwiki nnoremap <silent> <leader>wt :Rg '\[\s\]\s\S+.*' -g journal/*.mkd<CR>
-    autocmd FileType vimwiki nnoremap <buffer> <Leader>wx :VimwikiToggleListItem<CR>
-    autocmd FileType vimwiki nnoremap <buffer> <Leader>ws VimwikiSearchTags //
+    autocmd FileType vimwiki nnoremap <silent> <C-]> :VimwikiIncrementListItem<CR>
+    autocmd FileType vimwiki nnoremap <silent> <C-[> :VimwikiDecrementListItem<CR>
+    autocmd FileType vimwiki nnoremap <buffer> <Leader>ws :VimwikiSearchTags //<left>
     autocmd FileType vimwiki nnoremap <buffer> <Leader>w<Space>q :VimwikiMakeYesterdayDiaryNote<CR>
+    autocmd FileType vimwiki nnoremap <buffer> <Leader>w<Space>w :VimwikiMakeDiaryNote<CR>
     autocmd FileType vimwiki nnoremap <buffer> <Leader>w<Space>e :VimwikiMakeTomorrowDiaryNote<CR>
     autocmd FileType vimwiki setlocal spell spelllang=en_us
     autocmd FileType vimwiki setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab smartindent

@@ -1,15 +1,31 @@
-snippet puml "basic class diagram"
-@startuml
-!$a  = 42
+snippet class "basic class diagram"
 class Dummy {
  -privateSquare1: uuid4, pk
  #protectedDiamond2: str[256], unique
  ~packagePrivateTriangle()
  +publicCircle()
 }
-@enduml
 endsnippet
+snippet erd "entity relationship diagram"
+!define primary_key(x) <b><color:#b8861b><&key></color> x</b>
+!define foreign_key(x) <color:#aaaaaa><&key></color> x
+!define column(x) <color:#efefef><&media-record></color> x
+!define table(x) entity x << (T, white) >>
+hide circle
 
+table( user ) {
+  primary_key( id ): UUID
+  column( isActive ): BOOLEAN
+  foreign_key( cityId ): INTEGER <<FK>>
+}
+table( city ) {
+  primary_key( id ): UUID
+  column( name ): CHARACTER VARYING
+  column( country ): CHARACTER VARYING
+  column( postCode ): INTEGER
+}
+user }|--|| city
+endsnippet
 snippet tree "plantuml creole tree"
 @startuml
 class Foo {
@@ -54,8 +70,12 @@ GUI -> User -- : success
 [<- User: Done
 note right : this is a note
 note bottom of
-  this note is on
-  several lines
+  This is **bold**
+  This is //italics//
+  This is ""monospaced""
+  This is --stricken-out--
+  This is __underlined__
+  This is ~~wave-underlined~~
 end note
 
 @enduml
@@ -159,9 +179,11 @@ Entity01 }|.left.|| e02 : OneOrMany to ExactlyOne
 Entity03 }o..o| Entity04 : ZeroOrMany to ZeroOrOne
 TimeUnit -left[hidden]-> Entity03
 
-' <|-- Extension
-' *-- Composition
-' o-- Aggregation
+' Title -- Genre : Association (have a; each hold reference to each other)
+' Title *-- Season : Composition (owns; child cannot exist independent of the parent)
+' Title o-- Actor : Aggregation (has; child can exist independently of the parent)
+' Bank Account <|-- Savings Account : Extension (is / inherits from)
+' ClassA ..> ClassB : Dependency (uses)
 @enduml
 endsnippet
 
@@ -309,6 +331,18 @@ legend
     | <#YellowGreen>  |    <&box>         | Example 4 |
     | <#Chocolate>    |    <&box>         | Example 5 |
 endlegend
+endsnippet
+snippet legend
+' #00000000 is transparent
+hide <<legendArea>> stereotype
+skinparam rectangle<<legendArea>> {
+    backgroundcolor #00000000
+    bordercolor #00000000
+}
+rectangle FLOATINGLEGEND<<legendArea>> [
+    |= Source |= Data |
+    | <#Chocolate> **SYS** | Guidebook |
+]
 endsnippet
 snippet trigger "description"
 @startuml
@@ -680,4 +714,9 @@ lambda ->> db: PUT transaction id, token
 return status code, transaction id
 return status code
 @enduml
+endsnippet
+
+snippet img
+<img:http://plantuml.com/logo3.png{scale=0.5}>
+<img:/Users/plantuml/logo3.png{scale=0.5}>
 endsnippet

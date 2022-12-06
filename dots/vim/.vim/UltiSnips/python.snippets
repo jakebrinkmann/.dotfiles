@@ -65,7 +65,36 @@ def get_records(limit: int, page: int, sort: str, search: str = None) -> tuple:
     count, pages = _count_records(stmt, limit)
     return records, count, pages
 endsnippet
-  
+
+snippet
+import os
+from sqlalchemy import create_engine
+from sqlalchemy.engine import URL
+from sqlalchemy.orm import sessionmaker
+
+
+def get_engine(credentials: dict[str, str]):
+    connect_url = URL.create(
+        'postgresql',
+        username=credentials['username'],
+        password=credentials['password'],
+        host=credentials['host'],
+        port=credentials['port'],
+        database=credentials['database'])
+    connect_args = {"application_name": "Info-Api"}
+
+    engine = create_engine(dsn, connect_args=connect_args, implicit_returning=False)
+    return engine
+
+def get_session():
+    engine = get_engine()
+    return sessionmaker(bind=engine)
+
+with get_session().begin() as session:
+    session.add(some_object)
+    session.add(some_other_object)
+    session.commit()
+endsnippet
 
 snippet pt "pytest function" b
 import pytest
@@ -234,4 +263,9 @@ snippet stdout
 import sys
 # ...
 logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
+endsnippet
+
+snippet start
+import time; start, count = time.time(), 0;
+count+=1; print(f"{count} Process time:  + {time.time() - start}")
 endsnippet
