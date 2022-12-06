@@ -306,4 +306,11 @@ skinparam frame {
   bordercolor $BORDERCOLOR
 }
 
+hide <<legendArea>> stereotype
+skinparam rectangle<<legendArea>> {
+    backgroundcolor #00000000
+    bordercolor #00000000
+}
+skinparam ArrowThickness 3
+skinparam defaultTextAlignment center
 @enduml

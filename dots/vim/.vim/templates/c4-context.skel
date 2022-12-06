@@ -1,0 +1,22 @@
+@startuml
+' https://www.cosmicpython.com/book/chapter_01_domain_model.html
+title "Context diagram for the allocation service"
+skinparam rectangleFontColor white
+
+rectangle "**Buying Team**\nNeeds to purchase furniture from suppliers" as buying <<person>> #RoyalBlue
+rectangle "**Customer**\nWants to buy furniture" as customer <<person>>  #RoyalBlue
+
+rectangle "**Purchasing**\nManages workflow for buying stock from suppliers" as purchasing <<system>> #DodgerBlue
+rectangle "**Ecommerce**\nSells goods online" as ecommerce <<system>> #DodgerBlue
+rectangle "**Allocation**\nAllocates stock to cusomer orders" as allocation <<system>> #DodgerBlue
+rectangle "**Warehouse**\nManages workflow for shipping goods to customers" as warehouse <<system>> #DodgerBlue
+
+buying --> purchasing : **Uses**
+purchasing --> allocation : **Notifies about shipments**
+allocation --> warehouse : **Sends instructions to**
+ecommerce --> allocation : **Notifies about orders**
+ecommerce --> allocation : **Asks for stock levels**
+customer --> ecommerce : **Buys from**
+warehouse --> customer : **Dispatches goods to**
+
+@enduml
