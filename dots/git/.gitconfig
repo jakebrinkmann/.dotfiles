@@ -90,6 +90,7 @@
   # Checkout from origin/development
   devb = "!f() { git fetch origin dev; git checkout origin/dev -b $1; }; f"
   dev = "!f() { git fetch origin dev; git checkout origin/dev -B dev; }; f"
+  devdf = "!f() { git fetch origin && git diff origin/dev...origin/$1; }; f"
 
   # Sort files by modified date
   sort = "!f() { git log --first-parent --date=iso-local --pretty=%ad --name-status | awk 'NF==1{date=$1}NF>1 && !seen[$2]++{print date,$0}' FS=$'\t' | sort -r; }; f"
