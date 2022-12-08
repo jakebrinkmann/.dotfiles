@@ -13,7 +13,10 @@ Date: DATE
 
 ## Decision
 
-<!-- "We Will ..." The change that we're proposing or have agreed to implement -->
+<!-- "We Will ..." The change that we're proposing or have agreed to implement.
+     Whenever we introduce an architectural pattern, we'll always
+     ask, "What do we get for this?  And what does it cost us?" -->
+
 
 ## Consequences
 

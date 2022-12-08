@@ -362,15 +362,15 @@ augroup vimwikigroup
     " automatically update links on read diary
     autocmd BufWinEnter ~/notes/journal/index.mkd VimwikiDiaryGenerateLinks
     autocmd BufWinEnter ~/notes/*/index.mkd VimwikiRebuildTags
+    autocmd BufWinEnter ~/notes/journal/* nnoremap <silent> <left> :VimwikiMakeYesterdayDiaryNote<CR>
+    autocmd BufWinEnter ~/notes/journal/* nnoremap <silent> <right> :VimwikiMakeDiaryNote<CR>
     " templates for new files
     autocmd BufNewFile ~/notes/journal/*-*-*.mkd 0put =strftime('# %A, %B %d %Y', strptime('%Y-%m-%d', matchstr(expand('%'), '\d\+-\d\+-\d\+')))
+    " autocmd BufEnter ~/notes/journal/*-*-*.mkd $pu=strftime('%a %d %b %C%y %r %Z')
     autocmd BufNewFile ~/notes/projects/*/index.mkd 0r ~/.vim/templates/project.skel
     autocmd FileType vimwiki nnoremap <silent> <C-]> :VimwikiIncrementListItem<CR>
     autocmd FileType vimwiki nnoremap <silent> <C-[> :VimwikiDecrementListItem<CR>
     autocmd FileType vimwiki nnoremap <buffer> <Leader>ws :VimwikiSearchTags //<left>
-    autocmd FileType vimwiki nnoremap <buffer> <Leader>w<Space>q :VimwikiMakeYesterdayDiaryNote<CR>
-    autocmd FileType vimwiki nnoremap <buffer> <Leader>w<Space>w :VimwikiMakeDiaryNote<CR>
-    autocmd FileType vimwiki nnoremap <buffer> <Leader>w<Space>e :VimwikiMakeTomorrowDiaryNote<CR>
     autocmd FileType vimwiki setlocal spell spelllang=en_us
     autocmd FileType vimwiki setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab smartindent
 augroup end
