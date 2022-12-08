@@ -364,6 +364,9 @@ augroup vimwikigroup
     autocmd BufWinEnter ~/notes/*/index.mkd VimwikiRebuildTags
     autocmd BufWinEnter ~/notes/journal/* nnoremap <silent> <left> :VimwikiMakeYesterdayDiaryNote<CR>
     autocmd BufWinEnter ~/notes/journal/* nnoremap <silent> <right> :VimwikiMakeDiaryNote<CR>
+    autocmd BufWinEnter ~/notes/journal/* nnoremap <silent> <up> :VimwikiDiaryNextDay<CR>
+    autocmd BufWinEnter ~/notes/journal/* nnoremap <silent> <down> :VimwikiDiaryPrevDay<CR>
+    " Use <C-Up> and <C-Down>
     " templates for new files
     autocmd BufNewFile ~/notes/journal/*-*-*.mkd 0put =strftime('# %A, %B %d %Y', strptime('%Y-%m-%d', matchstr(expand('%'), '\d\+-\d\+-\d\+')))
     " autocmd BufEnter ~/notes/journal/*-*-*.mkd $pu=strftime('%a %d %b %C%y %r %Z')
