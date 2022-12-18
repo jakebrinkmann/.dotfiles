@@ -7,22 +7,26 @@ class Dummy {
 }
 endsnippet
 snippet erd "entity relationship diagram"
+!define unique <b>U</b>
+!define not_null <b>N</b>
 !define primary_key(x) <b><color:#b8861b><&key></color> x</b>
 !define foreign_key(x) <color:#aaaaaa><&key></color> x
 !define column(x) <color:#efefef><&media-record></color> x
 !define table(x) entity x << (T, white) >>
+skinparam tabSize 2
+hide methods
 hide circle
 
 table( user ) {
-  primary_key( id ): UUID
-  column( isActive ): BOOLEAN
-  foreign_key( cityId ): INTEGER <<FK>>
+  primary_key( id ) \t UUID
+  column( isActive ) \t BOOLEAN
+  foreign_key( cityId ) \t INTEGER <<FK>>
 }
 table( city ) {
-  primary_key( id ): UUID
-  column( name ): CHARACTER VARYING
-  column( country ): CHARACTER VARYING
-  column( postCode ): INTEGER
+  primary_key( id ) \t UUID
+  column( name ) \t CHARACTER VARYING
+  column( country ) \t CHARACTER VARYING
+  column( postCode ) \t INTEGER
 }
 user }|--|| city
 endsnippet

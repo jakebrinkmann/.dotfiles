@@ -264,8 +264,13 @@ nmap <silent> <leader>tf :TestFile<CR>
 nmap <silent> <leader>tl :TestLast<CR>
 
 if executable('rg')
+    " Rg command will use FZF:
+    command! -bang -nargs=* Ripgrep
+      \ call fzf#vim#grep(
+      \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
+      \   <bang>0)
     " Search the project (globs: -g "folder/**.yaml")
-    nnoremap <leader>ps :Rg<SPACE>
+    nnoremap <leader>ps :Ripgrep<CR>
     " Find files
     nnoremap <leader>pf :Files<CR>
     " Find tracked files
@@ -362,10 +367,10 @@ augroup vimwikigroup
     " automatically update links on read diary
     autocmd BufWinEnter ~/notes/journal/index.mkd VimwikiDiaryGenerateLinks
     autocmd BufWinEnter ~/notes/*/index.mkd VimwikiRebuildTags
-    autocmd BufWinEnter ~/notes/journal/* nnoremap <silent> <left> :VimwikiMakeYesterdayDiaryNote<CR>
-    autocmd BufWinEnter ~/notes/journal/* nnoremap <silent> <right> :VimwikiMakeDiaryNote<CR>
-    autocmd BufWinEnter ~/notes/journal/* nnoremap <silent> <up> :VimwikiDiaryNextDay<CR>
-    autocmd BufWinEnter ~/notes/journal/* nnoremap <silent> <down> :VimwikiDiaryPrevDay<CR>
+    autocmd BufWinEnter ~/notes/journal/20*-*-*.mkd nnoremap <silent> <left> :VimwikiMakeYesterdayDiaryNote<CR>
+    autocmd BufWinEnter ~/notes/journal/20*-*-*.mkd nnoremap <silent> <right> :VimwikiMakeDiaryNote<CR>
+    autocmd BufWinEnter ~/notes/journal/20*-*-*.mkd nnoremap <silent> <up> :VimwikiDiaryNextDay<CR>
+    autocmd BufWinEnter ~/notes/journal/20*-*-*.mkd nnoremap <silent> <down> :VimwikiDiaryPrevDay<CR>
     " Use <C-Up> and <C-Down>
     " templates for new files
     autocmd BufNewFile ~/notes/journal/*-*-*.mkd 0put =strftime('# %A, %B %d %Y', strptime('%Y-%m-%d', matchstr(expand('%'), '\d\+-\d\+-\d\+')))

@@ -1,10 +1,13 @@
 # ADR-NNN. TITLE OF SOLVED PROBLEM AND SOLUTION
 
-Date: DATE
-
 ## Status
 
-`[ PROPOSED | REJECTED | ACCEPTED | DEPRECATED | ... | SUPERSEDED BY ADR-005 ]`
+- **PROPOSED**: DATE
+- **REJECTED**: DATE
+- **ACCEPTED**: DATE
+- **DEPRECATED**: DATE
+- ...
+- **SUPERSEDED BY ADR-005**: DATE
 
 ## Context
 
@@ -25,7 +28,7 @@ Date: DATE
 
 ## Alternatives
 
-<!-- List of viable options or alternatives -->
+<!-- List of _viable_ options or alternatives -->
 
 ## Notes
 
