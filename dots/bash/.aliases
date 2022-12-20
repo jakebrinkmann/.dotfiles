@@ -56,6 +56,9 @@ alias please=sudo
 alias lick=touch
 alias help=man
 
+# vimwiki
+alias vimwiki="vim +VimwikiIndex"
+
 # Pulse Secure VPN
 alias _vpn='sudo ip link set dev eth0 mtu 1400'
 

@@ -352,35 +352,36 @@ let s:vimwiki.diary_rel_path = 'journal/'
 let s:vimwiki.diary_index = 'index'
 let s:vimwiki.diary_header = 'Journal'
 let s:vimwiki.diary_sort = 'asc'
-let s:vimwiki.nested_syntaxes = {'python': 'python', 'yaml': 'yaml', 'plantuml': 'plantuml'}
+let s:vimwiki.nested_syntaxes = {'bash': 'bash', 'python': 'python', 'yaml': 'yaml', 'plantuml': 'plantuml'}
 let g:vimwiki_list = [s:vimwiki]
 let g:vimwiki_global_ext = 0
 let g:vimwiki_ext2syntax = {}
 
-
-au FileType vimwiki setlocal shiftwidth=6 tabstop=6 noexpandtab
 " let g:vimwiki_listsyms = ' .oOX'
 let g:vimwiki_listsyms = ' ✗○◐●✓'
-command! Diary VimwikiDiaryIndex
+
+function! VimwikiFindIncompleteTasks()
+  lvimgrep /- \[ \]/ %:p
+  lopen
+endfunction
+
+function! VimwikiFindAllIncompleteTasks()
+  VimwikiSearch /- \[ \]/
+  lopen
+endfunction
+
 augroup vimwikigroup
     autocmd!
-    " automatically update links on read diary
-    autocmd BufWinEnter ~/notes/journal/index.mkd VimwikiDiaryGenerateLinks
-    autocmd BufWinEnter ~/notes/*/index.mkd VimwikiRebuildTags
-    autocmd BufWinEnter ~/notes/journal/20*-*-*.mkd nnoremap <silent> <left> :VimwikiMakeYesterdayDiaryNote<CR>
-    autocmd BufWinEnter ~/notes/journal/20*-*-*.mkd nnoremap <silent> <right> :VimwikiMakeDiaryNote<CR>
-    autocmd BufWinEnter ~/notes/journal/20*-*-*.mkd nnoremap <silent> <up> :VimwikiDiaryNextDay<CR>
-    autocmd BufWinEnter ~/notes/journal/20*-*-*.mkd nnoremap <silent> <down> :VimwikiDiaryPrevDay<CR>
-    " Use <C-Up> and <C-Down>
-    " templates for new files
-    autocmd BufNewFile ~/notes/journal/*-*-*.mkd 0put =strftime('# %A, %B %d %Y', strptime('%Y-%m-%d', matchstr(expand('%'), '\d\+-\d\+-\d\+')))
-    " autocmd BufEnter ~/notes/journal/*-*-*.mkd $pu=strftime('%a %d %b %C%y %r %Z')
-    autocmd BufNewFile ~/notes/projects/*/index.mkd 0r ~/.vim/templates/project.skel
-    autocmd FileType vimwiki nnoremap <silent> <C-]> :VimwikiIncrementListItem<CR>
-    autocmd FileType vimwiki nnoremap <silent> <C-[> :VimwikiDecrementListItem<CR>
-    autocmd FileType vimwiki nnoremap <buffer> <Leader>ws :VimwikiSearchTags //<left>
+    autocmd FileType vimwiki setlocal shiftwidth=6 tabstop=6 noexpandtab
     autocmd FileType vimwiki setlocal spell spelllang=en_us
     autocmd FileType vimwiki setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab smartindent
+
+    autocmd FileType vimwiki nnoremap <silent> <up> :VimwikiDiaryNextDay<CR>
+    autocmd FileType vimwiki nnoremap <silent> <down> :VimwikiDiaryPrevDay<CR>
+    autocmd FileType vimwiki nnoremap <silent> <C-]> :VimwikiIncrementListItem<CR>
+    autocmd FileType vimwiki nnoremap <silent> <C-[> :VimwikiDecrementListItem<CR>
+    autocmd FileType vimwiki nnoremap <buffer> <Leader>wa :call VimwikiFindAllIncompleteTasks()<CR>
+    autocmd FileType vimwiki nnoremap <buffer> <Leader>wx :call VimwikiFindIncompleteTasks()<CR>
 augroup end
 
 " vim-scripts/vcscommand.vim
