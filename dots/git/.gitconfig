@@ -85,7 +85,7 @@
   wipes = !git reflog --format='%h %<|(17)%gd %ci %s' | grep --color=never WIPESAVE | head -n 15
 
   # Yippie Kayak Other Buckets
-  now = "!f() { git add . && git oops -qm \"`date`\"; }; f"
+  now = "!f() { git add . && git commit -qm \"`date`\"; }; f"
 
   # Checkout from origin/development
   devb = "!f() { git fetch origin dev; git checkout origin/dev -b $1; }; f"
