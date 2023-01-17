@@ -139,6 +139,8 @@ nnoremap <Leader>a :let @a="" \| g//y A <Left><Left><Left><Left><Left>
 vnoremap <Leader>t c<C-R>=strftime("%FT%T%z")<CR><ESC>
 " * -- Search for selected text
 vnoremap * y/\V<C-R>=escape(@",'/\')<CR><CR>
+" \Enter -- Browse to ticket number as URI
+xnoremap <Leader><CR> :call system('open ' . $JIRA_SERVER . '/browse/' . shellescape(@*) )<CR>
 
 " Make a new tab
 nnoremap <silent> <C-n> :tabnew<CR>
@@ -292,6 +294,13 @@ function! HeaderSetup()
   normal dd
   normal 1G
 endfunction
+
+" Add Markdown code-block delimiters to begin and end of current visual group.
+function! s:MarkCodeBlock() abort
+    call append(line("'<")-1, '```')
+    call append(line("'>"), '```')
+endfunction
+autocmd FileType markdown,vimwiki xnoremap <Leader>_ :<c-u>call <sid>MarkCodeBlock()<CR>
 
 augroup skeletons
   " :help skeleton

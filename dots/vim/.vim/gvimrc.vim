@@ -6,5 +6,5 @@ let macvim_hig_shift_movement = 1
 set guioptions+=a
 
 " autocmd VimEnter * cd ~/notes | edit index.mkd | Lexplore
-autocmd VimEnter * if (@% == "") | execute 'VimwikiIndex' | endif
 " autocmd VimEnter * nnoremap <leader>wt split \| VimwikiMakeDiaryNote
+autocmd VimEnter * if (@% == "") | execute 'VimwikiIndex' | cd %:p:h | endif

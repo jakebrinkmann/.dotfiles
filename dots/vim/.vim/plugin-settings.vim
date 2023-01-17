@@ -300,16 +300,10 @@ highlight GitGutterChange ctermfg=magenta
 highlight GitGutterDelete ctermfg=red
 highlight GitGutterChangeDelete ctermfg=red
 
-" Fugitive Mappings
-nnoremap <leader>gc :Gcommit<CR>
-nnoremap <leader>gs :Git<CR>
-nnoremap <leader>gf :Gfetch<CR>
-nnoremap <leader>gh :Ghdiffsplit<CR>
-nnoremap <leader>gd :Gdiff!<CR>
-nnoremap <leader>gn :Git difftool --name-status origin/development<CR>
-nnoremap <leader>gb :Git blame<CR>
-nnoremap <leader>go :diffget<SPACE>
-nnoremap <leader>gp :diffput<SPACE>
+" Fugitive Mappings to do code reviews:
+nnoremap <leader>gh :Gdiffsplit!<CR>
+nnoremap <leader>gd :Gdiffsplit origin/dev<CR>
+nnoremap <leader>gr :Git difftool --name-status origin/dev<CR>
 
 " NeoTERM REPLs
 """""""""""""""
@@ -348,7 +342,7 @@ let s:vimwiki = {}
 let s:vimwiki.path = '~/notes/'
 let s:vimwiki.ext = '.mkd'
 let s:vimwiki.syntax = 'markdown'
-let s:vimwiki.diary_rel_path = 'journal/'
+let s:vimwiki.diary_rel_path = 'projects/journal/'
 let s:vimwiki.diary_index = 'index'
 let s:vimwiki.diary_header = 'Journal'
 let s:vimwiki.diary_sort = 'asc'
@@ -358,7 +352,9 @@ let g:vimwiki_global_ext = 0
 let g:vimwiki_ext2syntax = {}
 
 " let g:vimwiki_listsyms = ' .oOX'
-let g:vimwiki_listsyms = ' ✗○◐●✓'
+" let g:vimwiki_listsyms = ' ✗○◐●✓'
+let g:vimwiki_listsyms = ' %*?:X>'
+let g:vimwiki_listsym_rejected = '-'
 
 function! VimwikiFindIncompleteTasks()
   lvimgrep /- \[ \]/ %:p
@@ -375,11 +371,13 @@ augroup vimwikigroup
     autocmd FileType vimwiki setlocal shiftwidth=6 tabstop=6 noexpandtab
     autocmd FileType vimwiki setlocal spell spelllang=en_us
     autocmd FileType vimwiki setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab smartindent
+    autocmd BufNewFile */journal/*-*-*.mkd 0put =strftime('# %A, %B %d %Y', strptime('%Y-%m-%d', matchstr(expand('%'), '\d\+-\d\+-\d\+'))) | 2r ~/.vim/templates/skeleton.journal
 
     autocmd FileType vimwiki nnoremap <silent> <up> :VimwikiDiaryNextDay<CR>
     autocmd FileType vimwiki nnoremap <silent> <down> :VimwikiDiaryPrevDay<CR>
     autocmd FileType vimwiki nnoremap <silent> <C-]> :VimwikiIncrementListItem<CR>
     autocmd FileType vimwiki nnoremap <silent> <C-[> :VimwikiDecrementListItem<CR>
+    autocmd FileType vimwiki nnoremap <buffer> <C-x> :VimwikiToggleRejectedListItem<CR>
     autocmd FileType vimwiki nnoremap <buffer> <Leader>wa :call VimwikiFindAllIncompleteTasks()<CR>
     autocmd FileType vimwiki nnoremap <buffer> <Leader>wx :call VimwikiFindIncompleteTasks()<CR>
 augroup end

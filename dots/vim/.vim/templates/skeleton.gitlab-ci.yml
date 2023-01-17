@@ -135,7 +135,7 @@ sam:production:deploy: #X.Y.Z
     # TODO: caching dependencies with npm is not straightforward, but would be nice
     - npm install --include=dev
   script:
-    - cdk bootstrap aws://$AWS_ACCOUNT_ID/$AWS_REGION
+    - cdk bootstrap --role-arn $AWS_ROLE_ARN aws://$AWS_ACCOUNT_ID/$AWS_REGION
     - cdk deploy --all --require-approval=never
 
 cloud_deployment_dev:
