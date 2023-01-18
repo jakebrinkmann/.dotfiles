@@ -312,19 +312,17 @@ augroup skeletons
   autocmd BufNewFile *.test.js 0r ~/.vim/templates/skeleton.test.js
   autocmd BufNewFile *.test.jsx 0r ~/.vim/templates/skeleton.test.jsx
   autocmd BufNewFile *.gitlab-ci.yml 0r ~/.vim/templates/skeleton.gitlab-ci.yml
-  autocmd BufNewFile *.sh 0r ~/.vim/skeletons/sh.skel
-  autocmd BufNewFile *.bash 0r ~/.vim/skeletons/sh.skel
-  autocmd BufNewFile *.subr 0r ~/.vim/skeletons/sh.skel
-  autocmd BufNewFile *.cpp 0r ~/.vim/skeletons/cpp.skel
-  autocmd BufNewFile *.html,*.htm 0r ~/.vim/skeletons/html.skel
-  autocmd BufNewFile *.js 0r ~/.vim/skeletons/js.skel
-  autocmd BufNewFile *.json 0r ~/.vim/skeletons/json.skel
-  autocmd BufNewFile *Makefile* 0r ~/.vim/skeletons/mkfile.skel
-  autocmd BufNewFile *.py 0r ~/.vim/skeletons/python.skel
-  autocmd BufNewFile *.spec 0r ~/.vim/skeletons/rpmspec.skel
-  autocmd BufNewFile *.sql,*.pgsql 0r ~/.vim/skeletons/sql.skel
-  autocmd BufNewFile *.cfg,*.config,*.conf 0r ~/.vim/skeletons/text.skel
-  autocmd BufNewFile *.{yaml,yml} 0r ~/.vim/skeletons/yaml.skel
+  autocmd BufNewFile *.sh,*.bash 0r ~/.vim/templates/skeleton.sh
+  autocmd BufNewFile *.html,*.htm 0r ~/.vim/templates/skeleton.html
+  autocmd BufNewFile *.py 0r ~/.vim/templates/skeleton.py
   autocmd BufNewFile env.json 0r ~/.vim/templates/skeleton.env.json
   autocmd BufNewFile CHANGELOG.md 0r ~/.vim/templates/skeleton.Changelog.md
+  "  autocmd BufNewFile *.cpp 0r ~/.vim/skeletons/cpp.skel
+  "  autocmd BufNewFile *.js 0r ~/.vim/skeletons/js.skel
+  "  autocmd BufNewFile *.json 0r ~/.vim/skeletons/json.skel
+  "  autocmd BufNewFile *Makefile* 0r ~/.vim/skeletons/mkfile.skel
+  "  autocmd BufNewFile *.spec 0r ~/.vim/skeletons/rpmspec.skel
+  "  autocmd BufNewFile *.sql,*.pgsql 0r ~/.vim/skeletons/sql.skel
+  "  autocmd BufNewFile *.cfg,*.config,*.conf 0r ~/.vim/skeletons/text.skel
+  "  autocmd BufNewFile *.{yaml,yml} 0r ~/.vim/skeletons/yaml.skel
 augroup END
