@@ -3,3 +3,4 @@ dots/vim/.vim/autoload
 dots/vim/.vim/plugged
 .netrwhist
 dots/bin/.local/
+**/.DS_Store
