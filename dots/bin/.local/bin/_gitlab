@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+#
+# ❯ _gitlab .cloud_deployment --env "RUNTIME_ENVIRONMENT=dev"
 
 if [ -z ${@} ]; then
   grep -E "^\w+:[ -~]+:" .gitlab-ci.yml | sort
@@ -8,5 +10,5 @@ else
     --docker-privileged \
     --docker-volumes /var/run/docker.sock:/var/run/docker.sock \
     --docker-pull-policy if-not-present \
-    ${@}
+    "${@}"
 fi
