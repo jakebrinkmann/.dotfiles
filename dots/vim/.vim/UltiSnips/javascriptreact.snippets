@@ -1,0 +1,38 @@
+snippet imp
+import { } from '';
+endsnippet
+snippet !!
+const App = () => (
+  <div>
+    <p></p>
+  </div>
+);
+endsnippet
+snippet reducer
+import { createStore } from 'redux';
+function reducer(state = initState, action) {
+  switch(action.type) {
+    default:
+      return state
+  }
+}
+const store = createStore(reducer);
+store.dispatch({ type: 'INCREMENT' });
+console.log(store.getState());
+endsnippet
+snippet redux
+import { Provider } from 'react-redux';
+import { store } from './app/store';
+const App = () => (
+  <Provider store={store}>
+    <p></p>
+  </Provider>
+);
+import { connect } from 'react-redux';
+function mapStateToProps(state) {
+  return {
+    count: state.count
+  }
+}
+export default connect(mapStateToProps)(Component);
+endsnippet
