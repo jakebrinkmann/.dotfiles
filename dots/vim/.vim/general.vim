@@ -317,8 +317,9 @@ augroup skeletons
   autocmd BufNewFile *.py 0r ~/.vim/templates/skeleton.py
   autocmd BufNewFile env.json 0r ~/.vim/templates/skeleton.env.json
   autocmd BufNewFile CHANGELOG.md 0r ~/.vim/templates/skeleton.Changelog.md
+  autocmd BufNewFile CONTRIBUTING.md 0r ~/.vim/templates/skeleton.CONTRIBUTING.md
+  autocmd BufNewFile *.js 0r ~/.vim/templates/skeleton.js
   "  autocmd BufNewFile *.cpp 0r ~/.vim/skeletons/cpp.skel
-  "  autocmd BufNewFile *.js 0r ~/.vim/skeletons/js.skel
   "  autocmd BufNewFile *.json 0r ~/.vim/skeletons/json.skel
   "  autocmd BufNewFile *Makefile* 0r ~/.vim/skeletons/mkfile.skel
   "  autocmd BufNewFile *.spec 0r ~/.vim/skeletons/rpmspec.skel

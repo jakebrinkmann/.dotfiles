@@ -302,8 +302,8 @@ highlight GitGutterChangeDelete ctermfg=red
 
 " Fugitive Mappings to do code reviews:
 nnoremap <leader>gh :Gdiffsplit!<CR>
-nnoremap <leader>gd :Gdiffsplit origin/dev<CR>
-nnoremap <leader>gr :Git difftool --name-status origin/dev<CR>
+nnoremap <leader>gd :Gvdiffsplit! origin/dev<CR>
+nnoremap <leader>gm :Git difftool --name-status origin/dev<CR>
 
 " NeoTERM REPLs
 """""""""""""""
@@ -342,7 +342,7 @@ let s:vimwiki = {}
 let s:vimwiki.path = '~/notes/'
 let s:vimwiki.ext = '.mkd'
 let s:vimwiki.syntax = 'markdown'
-let s:vimwiki.diary_rel_path = 'projects/journal/'
+let s:vimwiki.diary_rel_path = 'journal/'
 let s:vimwiki.diary_index = 'index'
 let s:vimwiki.diary_header = 'Journal'
 let s:vimwiki.diary_sort = 'asc'

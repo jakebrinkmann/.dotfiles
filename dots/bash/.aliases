@@ -50,8 +50,8 @@ alias gti=git
 alias gi=git
 alias vi=vim
 alias python=python3
-alias _jpy="cd ~/notes/projects/journal; poetry run jupyter lab"
-alias _ipy="cd ~/notes/projects/journal; poetry run ipython"
+alias _jpy="cd ~/notes/journal; poetry run jupyter lab"
+alias _ipy="cd ~/notes/journal; poetry run ipython"
 # %logstart -ort filename.ipy
 # %load filename.ipy
 

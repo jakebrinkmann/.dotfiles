@@ -71,6 +71,7 @@ aws s3api list-objects --bucket $BUCKET | jq -c '.Contents[].Key'
 aws s3 cp --website-redirect "$URL" s3://$BUCKET/$OBJECT /tmp
 aws s3 rb s3://BUCKET-NAME --force
 aws s3api get-object --bucket $BUCKET --key $OBJECT /tmp/$OBJECT
+aws s3 cp image.jpg s3://bucket_name/tests/image.jpg --acl public-read
 endsnippet
 # aws.database.RDS (Relational Data Service)
 snippet aws-rds
@@ -249,6 +250,8 @@ endsnippet
 snippet route53
 aws route53domains check-domain-availability --domain-name <value>
 aws route53domains register-domain --domain-name <value>
+ZONE=$(aws route53 list-hosted-zones-by-name --dns-name jbrinkmann.cloud --query 'HostedZones[0].Id' --output text)
+aws route53 list-resource-record-sets --hosted-zone-id $ZONE --query 'ResourceRecordSets[?Type==`NS`].ResourceRecords[].Value'
 endsnippet
 snippet acm
 aws acm request-certificate \

@@ -77,7 +77,11 @@ EOF
 
 # Flash the screen after 25mins (1500s)
 pomo() {
-  sleep ${1:-1500}; for x in $(seq 1 60); do printf '\a'; sleep 1; done
+  sleep 1500; for x in $(seq 1 60); do printf '\a'; sleep 1; done
+}
+# Flash the screen after 5mins (300s)
+mikado() {
+  sleep 300; say ${1:-done}; for x in $(seq 1 60); do printf '\a'; sleep 1; done
 }
 
 # Cheatsheet

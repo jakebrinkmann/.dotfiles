@@ -136,6 +136,7 @@ sam:production:deploy: #X.Y.Z
     - npm install --include=dev
   script:
     - cdk bootstrap --role-arn $AWS_ROLE_ARN aws://$AWS_ACCOUNT_ID/$AWS_REGION
+    - cdk synth
     - cdk deploy --all --require-approval=never
 
 cloud_deployment_dev:
