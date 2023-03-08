@@ -24,6 +24,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'lepture/vim-jinja', { 'for': ['jinja']}
 Plug 'matze/vim-move'
+Plug 'michal-h21/vim-zettel'
 Plug 'morhetz/gruvbox'
 Plug 'sheerun/vim-polyglot'
 Plug 'SirVer/ultisnips'

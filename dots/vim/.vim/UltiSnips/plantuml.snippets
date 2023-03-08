@@ -205,7 +205,14 @@ endsnippet
 snippet umlm "plantuml MindMap"
 @startmindmap
 'https://plantuml.com/mindmap-diagram
-+ OS
+<style>
+mindmapDiagram {
+  .rose {
+    BackgroundColor #FFBBCC
+  }
+}
+</style>
++ OS <<rose>>
 ++ Ubuntu
 +++ Linux Mint
 +++_ Kubuntu
@@ -723,4 +730,8 @@ endsnippet
 snippet img
 <img:http://plantuml.com/logo3.png{scale=0.5}>
 <img:/Users/plantuml/logo3.png{scale=0.5}>
+endsnippet
+
+snippet ln "link"
+[[http://plantuml.com/start{Tooltip for message} some link]]
 endsnippet

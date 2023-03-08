@@ -342,7 +342,7 @@ let s:vimwiki = {}
 let s:vimwiki.path = '~/notes/'
 let s:vimwiki.ext = '.mkd'
 let s:vimwiki.syntax = 'markdown'
-let s:vimwiki.diary_rel_path = 'journal/'
+let s:vimwiki.diary_rel_path = 'notes-private/journal/'
 let s:vimwiki.diary_index = 'index'
 let s:vimwiki.diary_header = 'Journal'
 let s:vimwiki.diary_sort = 'asc'
@@ -373,7 +373,8 @@ augroup vimwikigroup
     autocmd FileType vimwiki setlocal shiftwidth=6 tabstop=6 noexpandtab
     autocmd FileType vimwiki setlocal spell spelllang=en_us
     autocmd FileType vimwiki setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab smartindent
-    autocmd BufNewFile */journal/*-*-*.mkd 0put =strftime('# %A, %B %d %Y', strptime('%Y-%m-%d', matchstr(expand('%'), '\d\+-\d\+-\d\+'))) | 2r ~/.vim/templates/skeleton.journal
+    autocmd BufNewFile */journal/*-*-*.mkd 0put =strftime('# %A, %B %d %Y', strptime('%Y-%m-%d', matchstr(expand('%'), '\d\+-\d\+-\d\+')))
+    " autocmd BufNewFile */journal/*-*-*.mkd 0put =strftime('# %A, %B %d %Y', strptime('%Y-%m-%d', matchstr(expand('%'), '\d\+-\d\+-\d\+'))) | 2r ~/.vim/templates/skeleton.journal
 
     autocmd FileType vimwiki nnoremap <silent> <up> :VimwikiDiaryNextDay<CR>
     autocmd FileType vimwiki nnoremap <silent> <down> :VimwikiDiaryPrevDay<CR>
