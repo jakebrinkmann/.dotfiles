@@ -20,6 +20,7 @@ export PAGER='less --chop-long-lines --RAW-CONTROL-CHARS'
 #  export DOCKER_HOST="tcp://0.0.0.0:2375"
 #  # export DOCKER_TLS_VERIFY=0
 #fi
+export DOCKER_DEFAULT_PLATFORM=linux/arm64/v8
 
 # Store History Database
 export IPYTHONDIR=/tmp
