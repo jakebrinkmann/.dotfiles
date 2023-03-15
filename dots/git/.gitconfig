@@ -90,6 +90,7 @@
   # Checkout from origin/development
   devb = "!f() { git fetch origin dev; git checkout origin/dev -b $1; }; f"
   dev = "!f() { git fetch origin dev; git checkout origin/dev -B dev; }; f"
+  main = "!f() { git fetch origin main; git checkout origin/main -B main; }; f"
   devdf = "!f() { git fetch origin && git diff origin/dev; }; f"
 
   # Sort files by modified date
