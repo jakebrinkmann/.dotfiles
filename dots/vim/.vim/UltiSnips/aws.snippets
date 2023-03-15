@@ -90,6 +90,13 @@ aws dynamodb put-item \
     --return-values ALL_OLD
 aws dynamodb get-item --table-name $TABLE --key '{"id": {"N": "'$KEY'"}}'
 aws dynamodb delete-item --table-name $TABLE --key '{"id": {"S": "'$KEY'"}}'
+aws dynamodb scan \
+  --table-name Tables-YJX \
+  --projection-expression "THING" 
+  --expression-attribute-names '{"#l1": "level1", "#l2": "level2"}' \
+  --filter-expression '#l1.#l2 = :p' \
+  --expression-attribute-values '{":p": {"S": "match"}}' \
+  | jq '.Items[].THING.S'
 endsnippet
 # aws.integration.SF (StepFunctions)
 snippet aws-states "aws stepfunction commands"
