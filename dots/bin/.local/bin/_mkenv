@@ -42,7 +42,7 @@ if [ ! -z "$(poetry --version)" ]; then
     poetry install  --no-root || exit $?
   else
     poetry init --no-interaction || exit $?
-    poetry add --dev $DEV_DEPS || exit $?
+    poetry add --group dev $DEV_DEPS || exit $?
   fi
 
 ##### Use VirtualEnv and pip

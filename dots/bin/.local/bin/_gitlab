@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 #
 # ❯ _gitlab .cloud_deployment --env "RUNTIME_ENVIRONMENT=dev"
+#
+# https://docs.gitlab.com/runner/commands/#gitlab-runner-exec-deprecated
 
-if [ -z ${@} ]; then
+if [ -z ${1} ]; then
   grep -E "^\w+:[ -~]+:" .gitlab-ci.yml | sort
   exit 1;
 else
