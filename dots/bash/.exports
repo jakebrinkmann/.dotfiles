@@ -20,7 +20,7 @@ export PAGER='less --chop-long-lines --RAW-CONTROL-CHARS'
 #  export DOCKER_HOST="tcp://0.0.0.0:2375"
 #  # export DOCKER_TLS_VERIFY=0
 #fi
-export DOCKER_DEFAULT_PLATFORM=linux/arm64/v8
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
 
 # Store History Database
 export IPYTHONDIR=/tmp
@@ -56,6 +56,6 @@ export AWS_PAGER=""
 export HOMEBREW_NO_AUTO_UPDATE=1
 
 # make poetry create the virtual environment in `.venv``
-export POETRY_VIRTUALENVS_IN_PROJECT=true
-export POETRY_NO_INTERACTION=1
-export POETRY_VIRTUALENVS_CREATE=true
+# export POETRY_VIRTUALENVS_IN_PROJECT=true
+# export POETRY_NO_INTERACTION=1
+# export POETRY_VIRTUALENVS_CREATE=true
