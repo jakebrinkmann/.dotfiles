@@ -247,8 +247,8 @@ nnoremap <silent> <leader>gt :YcmCompleter GoTo<CR>
 " enable all syntax highlighting
 let g:python_highlight_all = 1
 " allow for local virtualenvs
-let g:virtualenv_directory = $PWD
-nnoremap <leader>tv :VirtualEnvActivate .venv<CR>
+let g:ale_python_auto_poetry = 1
+let g:ale_python_auto_virtualenv = 1
 nnoremap <leader>te :Dotenv .env<CR>
 " force vim-test to use pytest
 let test#strategy = "vimterminal"

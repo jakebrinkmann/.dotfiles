@@ -135,9 +135,22 @@ endsnippet
 snippet docker_poetry
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
 docker run -it --rm \
-  -v $PWD:/code:rw \
+  -v /tmp:/tmp:rw \
+  -v $PWD:/opt/$USER:rw \
   -v /root/.cache/pypoetry \
-  -w /code \
+  -w /opt/$USER \
   python:3.10 \
   sh -c "poetry lock"
+endsnippet
+
+snippet gitlab_runner
+gitlab-runner exec docker \
+  --docker-privileged \
+  --docker-volumes /var/run/docker.sock:/var/run/docker.sock \
+  --docker-pull-policy if-not-present \
+  --docker-volumes "/var/run/docker.sock:/var/run/docker.sock" \
+  --docker-image alpine \
+  --pre-clone-script 'git config --global http.sslVerify false;' \
+  --cicd-config-file .gitlab-ci.yml \
+  --env "GIT_SSL_NO_VERIFY=1"
 endsnippet
