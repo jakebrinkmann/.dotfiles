@@ -135,10 +135,10 @@ endsnippet
 snippet docker_poetry
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
 docker run -it --rm \
-  -v /tmp:/tmp:rw \
-  -v $PWD:/opt/$USER:rw \
+  --mount type=tmpfs,destination=/tmp \
   -v /root/.cache/pypoetry \
-  -w /opt/$USER \
+  -v $PWD:/opt/${USER}:rw \
+  -w /opt/${USER} \
   python:3.10 \
   sh -c "poetry lock"
 endsnippet

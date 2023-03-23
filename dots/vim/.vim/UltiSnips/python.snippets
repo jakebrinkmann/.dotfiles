@@ -70,7 +70,7 @@ def get_records(limit: int, page: int, sort: str, search: str = None) -> tuple:
     return records, count, pages
 endsnippet
 
-snippet
+snippet engine
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.engine import URL
@@ -272,4 +272,15 @@ endsnippet
 snippet start
 import time; start, count = time.time(), 0;
 count+=1; print(f"{count} Process time:  + {time.time() - start}")
+endsnippet
+
+snippet junit
+from unittest.mock import patch
+from django.test import TestCase
+
+class TheBigTest(TestCase):
+    @patch("service.module.function")
+    def test_happy_path(self, foo_mock):
+        """service.function: Does the hello from world."""
+        ...
 endsnippet
