@@ -268,9 +268,11 @@ if executable('rg')
     command! -bang -nargs=* Ripgrep
       \ call fzf#vim#grep(
       \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
+      \   {'options': '--delimiter : --nth 4..'},
       \   <bang>0)
     " Search the project (globs: -g "folder/**.yaml")
     nnoremap <leader>ps :Ripgrep<CR>
+    " nnoremap <leader>ps :Rg<SPACE>
     " Find files
     nnoremap <leader>pf :Files<CR>
     " Find tracked files
