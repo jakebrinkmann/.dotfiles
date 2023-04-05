@@ -5,4 +5,4 @@ let macvim_hig_shift_movement = 1
 " Copy to clipboard
 set guioptions+=a
 
-autocmd VimEnter * if (@% == "") | cd ~/notes | Lexplore | endif
+autocmd VimEnter * if (@% == "") | cd ~/notes | endif
