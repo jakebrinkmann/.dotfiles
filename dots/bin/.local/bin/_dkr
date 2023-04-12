@@ -1,4 +1,16 @@
 #!/bin/bash
+# dkr_clean() {
+#  docker rm -v $(docker ps -a -q -f status=dead -f status=paused -f status=exited );
+#  docker rmi $(docker images -f "dangling=true" -q)
+#  docker volume rm $(docker volume ls -f dangling=true -q)
+# }
+#
+# dkr_nuke() {
+#  docker rm --force $(docker ps -aq);
+#  docker volume rm $(docker volume ls -q);
+#  docker rmi -f $(docker images -q);
+#  docker network rm $(docker network ls -q);
+# }
 set -x
 clean() {
   containers=$(docker ps -a -q -f status=dead -f status=paused -f status=exited )
