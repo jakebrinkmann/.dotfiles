@@ -387,13 +387,6 @@ augroup vimwikigroup
     autocmd FileType vimwiki nnoremap <buffer> <Leader>wx :call VimwikiFindIncompleteTasks()<CR>
 augroup end
 
-augroup vimwiki_snippets
-  autocmd!
-  autocmd FileType vimwiki
-      \ inoreabbrev <buffer> == <C-R>=strftime("== %b %d %Y %H:%M ==")<CR>
-      \ inoreabbrev <buffer> ENG <C-R>=$JIRA_DEFAULT_PROJECT . '-'<CR>
-augroup end
-
 " vim-scripts/vcscommand.vim
 " Hack to allow me to enter my password in plaintext.
 " (See ../../bin/.local/bin/svn.exe)

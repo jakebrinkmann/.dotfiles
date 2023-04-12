@@ -154,3 +154,10 @@ gitlab-runner exec docker \
   --cicd-config-file .gitlab-ci.yml \
   --env "GIT_SSL_NO_VERIFY=1"
 endsnippet
+
+snippet render_openapi
+docker run --rm -p 80:8080 \
+  -e API_URL=doc/openapi.yaml \
+  -v ./doc:/usr/share/nginx/html/doc \
+  swaggerapi/swagger-ui
+endsnippet
