@@ -3,27 +3,6 @@
 # Wrap at 72 chars. ################################## which is here: #
 # Explain *what* and *why* (not *how*). Include task ID (Jira issue).
 #
-# ** TYPES **
-# 🎉 init: Initial commit, begin project
-# ✨ feat: added/changed feature
-# 🐞 fix: bug fix
-# 🚑 hotfix: Critical hotfix
-# 📦 build: build system or external packages
-# 💚 ci:  Continuous Integration config files and scripts
-# 🔧 chore: configs, don't modify src or test files
-# ✏️  docs: Documentation only changes
-# 📐 arch/diag: architecture and diagraming
-# 💡 comments: writing code comments
-# ⚡️ perf: improves performance
-# 🔨 refactor: :package: neither fixes a bug nor adds a feature
-# 📊 data: enhance analytics or reporting
-# 💀 revert: :back: previous commit
-# 💄 style: cosmetic, do not affect the meaning of the code
-# 🎨 format: format/structure code improv.
-# 🚀 release: push, release, or tag
-# 🚨 test: :rotating_light: missing tests or correcting existing tests
-# 🔒 security: security update
-#
 #
 #  - Why is it necessary? (Bug fix, feature, improvements?)
 #  - How does the change address the issue?
