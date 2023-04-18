@@ -375,7 +375,7 @@ augroup vimwikigroup
     autocmd FileType vimwiki setlocal shiftwidth=6 tabstop=6 noexpandtab
     autocmd FileType vimwiki setlocal spell spelllang=en_us
     autocmd FileType vimwiki setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab smartindent
-    autocmd BufNewFile */????-??-??.mkd 0put =strftime('# %A, %B %d %Y', strptime('%Y-%m-%d', matchstr(expand('%'), '\d\+-\d\+-\d\+')))
+    " autocmd BufNewFile ????-??-??.mkd 0put =strftime('# %A, %B %d %Y', strptime('%Y-%m-%d', matchstr(expand('%'), '\d\+-\d\+-\d\+')))
     " autocmd BufNewFile */journal/*-*-*.mkd 0put =strftime('# %A, %B %d %Y', strptime('%Y-%m-%d', matchstr(expand('%'), '\d\+-\d\+-\d\+'))) | 2r ~/.vim/templates/skeleton.journal
 
     autocmd FileType vimwiki nnoremap <silent> <up> :VimwikiDiaryNextDay<CR>
@@ -385,6 +385,15 @@ augroup vimwikigroup
     autocmd FileType vimwiki nnoremap <buffer> <C-x> :VimwikiToggleRejectedListItem<CR>
     autocmd FileType vimwiki nnoremap <buffer> <Leader>wa :call VimwikiFindAllIncompleteTasks()<CR>
     autocmd FileType vimwiki nnoremap <buffer> <Leader>wx :call VimwikiFindIncompleteTasks()<CR>
+augroup end
+
+
+augroup vimzettel
+    autocmd!
+  " michal-h21/vim-zettel
+  let g:zettel_format = "%y%m%d-%H%M-%title"
+  nnoremap <leader>zn :ZettelNew<space>
+  let g:zettel_fzf_command = "rg --column --line-number --ignore-case --no-heading --color=always "
 augroup end
 
 " vim-scripts/vcscommand.vim
