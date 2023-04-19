@@ -134,12 +134,24 @@ endsnippet
 
 snippet docker_poetry
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
-docker run -it --rm \
+docker run --detach --name pypoetry \
+  --network host \
   --mount type=tmpfs,destination=/tmp \
-  -v /root/.cache/pypoetry \
+  --mount type=tmpfs,destination=/root/.cache/pypoetry \
   -v $PWD:/opt/${USER}:rw \
   -w /opt/${USER} \
-  python:3.10 \
+  python:3.10
+
+docker run -d --name db-host \
+    --network host \
+    -p 5432 \
+    -e POSTGRES_DB=mydb \
+    -e POSTGRES_PASSWORD=WOULDNTYOULIKETOKNOW \
+    -e POSTGRES_USER=info_api \
+    postgres:14.5-alpine
+
+docker exec pypoetry \
+  -w /opt/${USER} \
   sh -c "poetry lock"
 endsnippet
 
@@ -153,6 +165,10 @@ gitlab-runner exec docker \
   --pre-clone-script 'git config --global http.sslVerify false;' \
   --cicd-config-file .gitlab-ci.yml \
   --env "GIT_SSL_NO_VERIFY=1"
+endsnippet
+
+snippet
+for x in $(seq 0 60); do printf '.'; sleep 1; done
 endsnippet
 
 snippet render_openapi

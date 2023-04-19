@@ -127,3 +127,19 @@ info:
     | a   | b   | c     |
 paths: {}
 endsnippet
+
+snippet xcorrelationid
+      responses:
+        '200':
+          description: OK - the new multipart upload was successfully started.
+          headers:
+            X-Correlation-ID:
+              "$ref": "#/components/headers/X-Correlation-ID"
+
+  headers:
+    X-Correlation-ID:
+      description: Unique ID to correlate client request with server response.
+      schema:
+        type: string
+      example: 4199533b-6290-41db-8d79-edf4f4019a74
+endsnippet
