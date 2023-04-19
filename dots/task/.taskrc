@@ -1,0 +1,202 @@
+# Files
+data.location=~/.task
+
+# Basic config
+weekstart=monday
+default.command=ready limit:page
+tasksh.autoclear=true
+journal.info=yes
+dateformat.info=Y-M-D H:M:S
+
+# Show the tracking of time
+journal.time=on
+
+# Make searches case insensitive, personal preference
+search.case.sensitive=no
+
+# Indicate the active task in reports
+active.indicator=>
+
+# Do not use color
+color=off
+
+# Shortcuts
+alias.c=context
+alias.daily=status:completed end.after:yesterday all
+alias.punt=modify wait:1d
+alias.someday=modify +someday wait:someday
+alias.a=+ACTIVE
+
+# List all projects with `task projects`, including those completed.
+list.all.projects=yes
+
+# Let's make our own scheduled report.
+report.scheduled.description=Scheduled tasks
+report.scheduled.columns=id,start.age,entry.age,priority,project,tags,recur.indicator,scheduled.relative,due.relative,until.remaining,description.count,urgency
+report.scheduled.labels=ID,Active,Age,P,Project,Tags,R,S,Due,Until,Description,Urg
+report.scheduled.sort=scheduled
+report.scheduled.filter=+SCHEDULED -COMPLETED -DELETED
+
+# I never really got into the review system in `tasksh`, but here's the config from when I tried.
+uda.reviewed.type=date
+uda.reviewed.label=Reviewed
+report._reviewed.description=Tasksh review report.  Adjust the filter to your needs.
+report._reviewed.columns=uuid
+report._reviewed.sort=reviewed+,modified+
+report._reviewed.filter=( reviewed.none: or reviewed.before:now-1week ) and ( +PENDING or +WAITING )
+
+# next report: don't show annotations
+report.next.columns=id,start.age,entry.age,depends,priority,project,tags,recur,scheduled.countdown,due.relative,until.remaining,description.count,urgency
+
+# all report: don't show annotations
+report.all.columns=uuid.short,project,tags,description.truncated
+report.all.labels=,Project,Tags,Description
+
+# Ready report: don't show annotations. Don't show depends.indicator (because not ready)
+report.ready.columns=start.active,id,urgency,start.age,entry.age,priority,project,tags.list,recur.indicator,scheduled.countdown,due.relative,until.remaining,description.count
+report.ready.labels=A,ID,Urg,Active,Age,P,Project,Tags,R,S,Due,Until,Description
+
+# OMG completed report, don't show me annotations.
+report.completed.columns=id,uuid.short,entry,end,entry.age,depends,priority,project,tags,recur.indicator,due,description.count
+report.completed.labels=ID,UUID,Created,Completed,Age,Deps,P,Project,Tags,R,Due,Description
+
+# No. Nothing should show annotations. No. Also relative dates please.
+report.waiting.labels=ID,A,Age,D,P,Project,Tags,R,Waiting,Sched,Due,Until,Description
+report.waiting.columns=id,start.active,entry.age,depends.indicator,priority,project,tags,recur.indicator,wait.remaining,scheduled,due.relative,until,description.count
+report.waiting.sort=wait+,due+,entry+
+
+# STOP! Nothing should show annotations. No.
+report.blocked.labels=ID,A,Age,D,P,Project,Tags,R,Waiting,Sched,Due,Until,Description
+report.blocked.columns=id,start.active,entry.age,depends.list,priority,project,tags,recur.indicator,wait.remaining,scheduled,due.relative,until,description.count
+report.blocked.sort=wait+,due+,entry+
+
+# Child tasks inherit their parent's urgency if that's higher.
+# It's like this option was made for me.
+urgency.inherit=on
+
+# Don't make chatty tasks important
+urgency.annotations.coefficient=              0.0 # dont care about annotations
+
+# How urgent something is depends upon what's waiting on it.
+urgency.blocking.coefficient=                 1.0 # blocking other tasks
+urgency.blocked.coefficient=                 -1.0 # blocked by other tasks
+
+# Make the "+next" tag super important
+urgency.user.tag.next.coefficient=            2.0 # +next tag
+
+# Make the "+later" tag unimportant
+urgency.user.tag.later.coefficient=           -2.0 # +later tag
+
+# More sensible priorities, plz.
+uda.priority.values = H,M,,L
+urgency.uda.priority.L.coefficient=0
+urgency.uda.priority..coefficient=1.8
+
+# # Get open work into review/testing
+# urgency.uda.jirastatus.Open.coefficient=0.0
+# urgency.uda.jirastatus.Technical Review.coefficient=1.0
+# urgency.uda.jirastatus.QA Test.coefficient=2.0
+# urgency.uda.jirastatus.In Progress.coefficient=3.0
+#
+# # # Get subtasks done before main tasks
+# urgency.uda.jiraissuetype.Task.coefficient=0.0
+# urgency.uda.jiraissuetype.Sub-task.coefficient=3.0
+
+# Focus on mine first
+urgency.uda.gitlabauthor.jbrinkmann.coefficient=3.0
+
+# Costly tasks are most important.
+urgency.user.tag.costly.coefficient=3.0
+
+# Fun things are less important
+urgency.user.project.fun.coefficient=-1.0
+urgency.user.tag.nsfw.coefficient=-1.0
+
+# Contexts! I use these for everything!
+context.f=+fun
+context.j=project~jira +YEAR
+context.g=project~gitlab -techdebt
+context.q=+quality or +techdebt
+context.r=+research or +prototype
+context.s=project~slack
+context.t=project~training
+
+# integrations project: jira.ENGabc gitlab.cloud/abcd
+# categories: +external +product +project +team +tech
+# categories: +application +business +implementation +motivation +physical +strategy +technology
+# categories: +techdebt +prototype +initial +discover +release +research
+# categories: +collaboration +curiosity +challenge +communication +quality +growth
+# programming: +bug +rfe +test
+
+# Our verbosity does not include the 2.6.x 'override' value, so I don't get warned of
+# custom overrides in my shell aliases and functions.
+verbose=blank,header,footnote,label,new-id,affected,edit,special,project,sync,unwait,recur
+
+##############################
+# bugwarrior-uda >> ~/.taskrc
+#
+# task _get 9.gitlaburl
+##############################
+# Bugwarrior UDAs
+uda.jiraissuetype.type=string
+uda.jiraissuetype.label=jiraissuetype
+uda.jirasummary.type=string
+uda.jirasummary.label=jirasummary
+uda.jiraurl.type=string
+uda.jiraurl.label=jiraurl
+uda.jiradescription.type=string
+uda.jiradescription.label=jiradescription
+uda.jiraid.type=string
+uda.jiraid.label=jiraid
+uda.jiraestimate.type=numeric
+uda.jiraestimate.label=jiraestimate
+uda.jirafixversion.type=string
+uda.jirafixversion.label=jirafixversion
+uda.jiracreatedts.type=date
+uda.jiracreatedts.label=jiracreatedts
+uda.jirastatus.type=string
+uda.jirastatus.label=jirastatus
+uda.jirasubtasks.type=string
+uda.jirasubtasks.label=jirasubtasks
+uda.jirareporter.type=string
+uda.jirareporter.label=jirareporter
+uda.jiraassignee.type=string
+uda.jiraassignee.label=jiraassignee
+uda.gitlabtitle.type=string
+uda.gitlabtitle.label=gitlabtitle
+uda.gitlabdescription.type=string
+uda.gitlabdescription.label=gitlabdescription
+uda.gitlabcreatedon.type=date
+uda.gitlabcreatedon.label=gitlabcreatedon
+uda.gitlabupdatedat.type=date
+uda.gitlabupdatedat.label=gitlabupdatedat
+uda.gitlabduedate.type=date
+uda.gitlabduedate.label=gitlabduedate
+uda.gitlabmilestone.type=string
+uda.gitlabmilestone.label=gitlabmilestone
+uda.gitlaburl.type=string
+uda.gitlaburl.label=gitlaburl
+uda.gitlabrepo.type=string
+uda.gitlabrepo.label=gitlabrepo
+uda.gitlabtype.type=string
+uda.gitlabtype.label=gitlabtype
+uda.gitlabnumber.type=string
+uda.gitlabnumber.label=gitlabnumber
+uda.gitlabstate.type=string
+uda.gitlabstate.label=gitlabstate
+uda.gitlabupvotes.type=numeric
+uda.gitlabupvotes.label=gitlabupvotes
+uda.gitlabdownvotes.type=numeric
+uda.gitlabdownvotes.label=gitlabdownvotes
+uda.gitlabwip.type=numeric
+uda.gitlabwip.label=gitlabwip
+uda.gitlabauthor.type=string
+uda.gitlabauthor.label=gitlabauthor
+uda.gitlabassignee.type=string
+uda.gitlabassignee.label=gitlabassignee
+uda.gitlabnamespace.type=string
+uda.gitlabnamespace.label=gitlabnamespace
+uda.gitlabweight.type=numeric
+uda.gitlabweight.label=gitlabweight
+# END Bugwarrior UDAs
+
