@@ -1,5 +1,5 @@
 # Files
-data.location=~/.task
+data.location=~/notes/.task
 
 # Basic config
 weekstart=monday
@@ -58,8 +58,8 @@ report.ready.columns=start.active,id,urgency,start.age,entry.age,priority,projec
 report.ready.labels=A,ID,Urg,Active,Age,P,Project,Tags,R,S,Due,Until,Description
 
 # OMG completed report, don't show me annotations.
-report.completed.columns=id,uuid.short,entry,end,entry.age,depends,priority,project,tags,recur.indicator,due,description.count
-report.completed.labels=ID,UUID,Created,Completed,Age,Deps,P,Project,Tags,R,Due,Description
+report.completed.columns=id,uuid.short,entry,end,entry.age,depends,priority,project,recur.indicator,due,description.count
+report.completed.labels=ID,UUID,Created,Completed,Age,Deps,P,Project,R,Due,Description
 
 # No. Nothing should show annotations. No. Also relative dates please.
 report.waiting.labels=ID,A,Age,D,P,Project,Tags,R,Waiting,Sched,Due,Until,Description
