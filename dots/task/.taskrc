@@ -26,6 +26,7 @@ alias.daily=status:completed end.after:yesterday all
 alias.punt=modify wait:1d
 alias.someday=modify +someday wait:someday
 alias.a=+ACTIVE
+alias.week=end.after:today-1wk completed
 
 # List all projects with `task projects`, including those completed.
 list.all.projects=yes
