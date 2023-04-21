@@ -4,6 +4,7 @@ data.location=~/notes/.task
 # Basic config
 weekstart=monday
 default.command=ready limit:page
+default.project=inbox
 tasksh.autoclear=true
 journal.info=yes
 dateformat.info=Y-M-D H:M:S
@@ -27,6 +28,7 @@ alias.punt=modify wait:1d
 alias.someday=modify +someday wait:someday
 alias.a=+ACTIVE
 alias.week=end.after:today-1wk completed
+alias.audit=modified.after:today rc.report.list.sort=modified- list
 
 # List all projects with `task projects`, including those completed.
 list.all.projects=yes
@@ -94,11 +96,11 @@ urgency.uda.priority.L.coefficient=0
 urgency.uda.priority..coefficient=1.8
 
 # # Get open work into review/testing
-# urgency.uda.jirastatus.Open.coefficient=0.0
-# urgency.uda.jirastatus.Technical Review.coefficient=1.0
-# urgency.uda.jirastatus.QA Test.coefficient=2.0
-# urgency.uda.jirastatus.In Progress.coefficient=3.0
-#
+urgency.uda.jirastatus.Open.coefficient=0.0
+urgency.uda.jirastatus.Technical Review.coefficient=1.0
+urgency.uda.jirastatus.QA Test.coefficient=2.0
+urgency.uda.jirastatus.In Progress.coefficient=3.0
+
 # # # Get subtasks done before main tasks
 # urgency.uda.jiraissuetype.Task.coefficient=0.0
 # urgency.uda.jiraissuetype.Sub-task.coefficient=3.0

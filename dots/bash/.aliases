@@ -74,6 +74,7 @@ alias DockerDesktop="open -a Docker"
 alias dcud="docker compose up -d"
 alias dcd="docker compose down"
 alias dcl="docker compose logs --tail=0 --follow"
+alias dcr="docker compose restart"
 
 # Python Environments
 alias mkenv='python3 -m venv .venv'

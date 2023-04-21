@@ -67,6 +67,7 @@ filterwarnings = [
 ]
 addopts    = """
   --color=yes
+  --strict-markers
   -p no:cacheprovider
   --verbose 
   --junitxml=report.xml
@@ -74,6 +75,9 @@ addopts    = """
   --cov-report xml 
   --cov src
 """
+markers = [
+    "integration: (deselect with '-m \"not integration\"')",
+]
 
 ##### coverage configuration: https://coverage.readthedocs.io/en/latest/config.html
 [tool.coverage]
