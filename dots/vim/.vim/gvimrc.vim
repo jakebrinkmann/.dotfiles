@@ -7,7 +7,7 @@ set guioptions+=a
 
 
 autocmd VimEnter * if (@% == "") 
-      \ | cd ~/notes/notes-private 
+      \ | cd ~/notes
       \ | execute 'VimwikiIndex' 
       \ | set lines=75 columns=120
       \ | endif
