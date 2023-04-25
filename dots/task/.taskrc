@@ -19,7 +19,7 @@ search.case.sensitive=no
 active.indicator=>
 
 # Do not use color
-color=off
+color=on
 
 # Shortcuts
 alias.c=context
@@ -203,3 +203,4 @@ uda.gitlabweight.type=numeric
 uda.gitlabweight.label=gitlabweight
 # END Bugwarrior UDAs
 
+news.version=2.6.0

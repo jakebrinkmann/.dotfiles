@@ -15,7 +15,7 @@ gitlab.include_all_todos = False
 gitlab.default_priority = L
 gitlab.description_template = {{gitlabrepo}}: {{gitlabtitle}}
 gitlab.project_template = gitlab.{{gitlabnamespace}}
-# gitlab.add_tags = {{gitlabtype}}
+gitlab.add_tags = {{gitlabtype}}
 
 # https://bugwarrior.readthedocs.io/en/latest/services/jira.html
 [company_jira]
@@ -23,10 +23,9 @@ service = jira
 jira.base_uri = http://company.atlassian.net
 jira.username = username@company.com
 jira.password = api-token
-jira.query = assignee = currentUser() AND resolution is null AND type not in (Epic, Sub-Task)
+jira.query = assignee = currentUser() AND resolution is null AND type not in (Epic) AND statusCategory in ("To Do", "In Progress")
 jira.default_priority = L
 jira.description_template = {{jiraid}}: {{jirasummary}}
-jira.project_template = jira.{{project}}
+jira.project_template = jira.{{project}}.{{ jirastatus | replace(" ","_") }}
 # jira.add_tags = {{ jiraissuetype | replace("-","_") }}
 jira.import_sprints_as_tags = True
-
