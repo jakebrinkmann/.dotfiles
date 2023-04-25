@@ -12,10 +12,15 @@ gitlab.host = git.company.com
 # gitlab.only_if_author = username
 gitlab.include_regex = cloud
 gitlab.include_all_todos = False
-gitlab.default_priority = L
 gitlab.description_template = {{gitlabrepo}}: {{gitlabtitle}}
 gitlab.project_template = gitlab.{{gitlabnamespace}}
 gitlab.add_tags = {{gitlabtype}}
+gitlab.issue_query = issues?state=opened&assignee_username[]=jbrinkmann
+gitlab.merge_request_query = merge_requests?state=opened&scope=all&reviewer_username=jbrinkmann
+gitlab.todo_query = todos?state=pending&action=directly_addressed
+gitlab.default_issue_priority = L
+gitlab.default_todo_priority = M
+gitlab.default_mr_priority = H
 
 # https://bugwarrior.readthedocs.io/en/latest/services/jira.html
 [company_jira]
