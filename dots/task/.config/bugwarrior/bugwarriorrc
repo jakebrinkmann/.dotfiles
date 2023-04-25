@@ -12,16 +12,12 @@ gitlab.host = git.company.com
 # gitlab.only_if_author = username
 gitlab.include_regex = cloud
 gitlab.include_all_todos = False
-gitlab.description_template = {{gitlabtitle}}
-
-gitlab.default_priority = L
+gitlab.description_template = {{gitlabauthor}}: {{gitlabtitle}}
 gitlab.add_tags = {{gitlabtype}}
 gitlab.project_template = gitlab.{{gitlabnamespace}}.{{gitlabrepo}}
-gitlab.include_issues = False
 gitlab.include_todos = False
-gitlab.include_merge_requests = True
-gitlab.default_mr_priority = H
-gitlab.merge_request_query = merge_requests?state=opened&scope=all&reviewer_username=jbrinkmann
+gitlab.include_all_todos = False
+gitlab.default_priority = L
 
 # https://bugwarrior.readthedocs.io/en/latest/services/jira.html
 [company_jira]
@@ -33,5 +29,5 @@ jira.query = assignee = currentUser() AND resolution is null AND type not in (Ep
 jira.default_priority = L
 jira.description_template = {{jiraid}}: {{jirasummary}}
 jira.project_template = jira.{{project}}.{{ jirastatus | replace(" ","_") }}
-# jira.add_tags = {{ jiraissuetype | replace("-","_") }}
+jira.add_tags = {{ jiraissuetype | replace("-","_") }}
 jira.import_sprints_as_tags = True
