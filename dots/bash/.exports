@@ -59,3 +59,6 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 # export POETRY_VIRTUALENVS_IN_PROJECT=true
 # export POETRY_NO_INTERACTION=1
 # export POETRY_VIRTUALENVS_CREATE=true
+
+# Wish I could configure this in timewarriorcfg
+export TIMEWARRIORDB=$HOME/notes/.timewarrior/
