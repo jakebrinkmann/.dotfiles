@@ -9,6 +9,9 @@ tasksh.autoclear=true
 journal.info=yes
 dateformat.info=Y-M-D H:M:S
 
+uda.priority.default=M
+priority.default=M
+
 # Show the tracking of time
 journal.time=on
 
@@ -17,9 +20,6 @@ search.case.sensitive=no
 
 # Indicate the active task in reports
 active.indicator=>
-
-# Do not use color
-color=on
 
 # Shortcuts
 alias.c=context
@@ -49,15 +49,28 @@ report._reviewed.sort=reviewed+,modified+
 report._reviewed.filter=( reviewed.none: or reviewed.before:now-1week ) and ( +PENDING or +WAITING )
 
 # next report: don't show annotations
-report.next.columns=id,start.age,entry.age,depends,priority,project,tags,recur,scheduled.countdown,due.relative,until.remaining,description.count,urgency
+report.next.columns=id,project,priority,due,start.active,entry.age,urgency,description.desc,tags
+report.next.labels=ID,Proj,Pri,Due,A,Age,Urg,Description,Tags
 
 # all report: don't show annotations
 report.all.columns=uuid.short,project,tags,description.truncated
 report.all.labels=,Project,Tags,Description
 
 # Ready report: don't show annotations. Don't show depends.indicator (because not ready)
-report.ready.columns=start.active,id,urgency,start.age,entry.age,priority,project,tags.list,recur.indicator,scheduled.countdown,due.relative,until.remaining,description.count
-report.ready.labels=A,ID,Urg,Active,Age,P,Project,Tags,R,S,Due,Until,Description
+report.ready.columns=id,project,priority,due,start.active,entry.age,urgency,description.truncated,tags
+report.ready.labels=ID,Proj,Pri,Due,A,Age,Urg,Description,Tags
+
+report.today.description=Tasks for Today
+report.today.columns=id,project,priority,start.active,urgency,due,description.desc,tags
+report.today.labels=ID,Proj,Pri,A,Urg,Due,Description,Tags
+report.today.filter=status:pending -BLOCKED -review and ( ( proj: and ( ( prio:H and due: ) or due.before:tomorrow or +respond or +today or +next or +inprogress or +yesterday) ) or +daytime )
+report.today.sort=urgency-
+
+report.active.description=Active Tasks
+report.active.columns=id,description.desc,tags
+report.active.labels=ID,Description,Tags
+report.active.filter=status:pending +ACTIVE
+report.active.sort=urgency-
 
 # OMG completed report, don't show me annotations.
 report.completed.columns=id,uuid.short,entry,end,entry.age,depends,priority,project,recur.indicator,due,description.count
@@ -83,6 +96,21 @@ urgency.annotations.coefficient=              0.0 # dont care about annotations
 # How urgent something is depends upon what's waiting on it.
 urgency.blocking.coefficient=                 1.0 # blocking other tasks
 urgency.blocked.coefficient=                 -1.0 # blocked by other tasks
+
+# From https://gist.github.com/djmitche/dd7c9f257306e6b8957759c4d5265cc9
+urgency.user.tag.respond.coefficient=10
+urgency.user.tag.review.coefficient=-5
+urgency.user.tag.today.coefficient=2
+urgency.user.tag.yesterday.coefficient=3
+
+# custom jira statuses
+urgency.user.tag.todo.coefficient=5
+urgency.user.tag.technicalreview.coefficient=5
+urgency.user.tag.inprogress.coefficient=2.5
+urgency.user.tag.readyforittest.coefficient=-10
+urgency.user.tag.readyforqatest.coefficient=-10
+
+urgency.user.project.team.coefficient=40
 
 # Make the "+next" tag super important
 urgency.user.tag.next.coefficient=            2.0 # +next tag
@@ -204,3 +232,54 @@ uda.gitlabweight.label=gitlabweight
 # END Bugwarrior UDAs
 
 news.version=2.6.0
+
+# Do use color
+color=on
+color.header=rgb031
+color.footnote=rgb031
+color.error=rgb031
+color.debug=rgb031
+
+color.summary.bar=white on rgb030
+color.summary.background=white on color0
+
+color.history.add=color0 on rgb010
+color.history.done=color0 on rgb030
+color.history.delete=color0 on rgb050
+
+color.burndown.pending=on rgb010
+color.burndown.started=on rgb030
+color.burndown.done=on gray4
+
+color.sync.added=gray4
+color.sync.changed=rgb030
+color.sync.rejected=red
+
+color.undo.before=rgb031
+color.undo.after=rgb053
+
+color.calendar.today=color0 on rgb151
+color.calendar.due=color0 on color249
+color.calendar.due.today=color0 on color225
+color.calendar.overdue=color0 on color255
+color.calendar.weekend=on color235
+color.calendar.holiday=rgb151 on rgb020
+color.calendar.weeknumber=rgb010
+
+color.recurring=rgb151
+color.overdue=color255
+color.due.today=color252
+color.due=color249
+color.active=bold white on rgb012
+color.uda.priority.none=
+color.uda.priority.H=rgb050
+color.uda.priority.M=rgb040
+color.uda.priority.L=rgb030
+color.tagged=none
+color.blocked=color249
+color.blocking=rgb240
+color.project.none=
+color.tag.none=
+color.alternate=on color233
+color.tag.next=rgb252
+color.tag.inprogress=rgb252
