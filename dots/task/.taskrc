@@ -40,6 +40,10 @@ report.scheduled.labels=ID,Active,Age,P,Project,Tags,R,S,Due,Until,Description,U
 report.scheduled.sort=scheduled
 report.scheduled.filter=+SCHEDULED -COMPLETED -DELETED
 
+# Try to guage how long something will take
+uda.estimate.type=numeric
+uda.estimate.label=Estimate
+
 # I never really got into the review system in `tasksh`, but here's the config from when I tried.
 uda.reviewed.type=date
 uda.reviewed.label=Reviewed
@@ -103,15 +107,6 @@ urgency.user.tag.review.coefficient=-5
 urgency.user.tag.today.coefficient=2
 urgency.user.tag.yesterday.coefficient=3
 
-# custom jira statuses
-urgency.user.tag.todo.coefficient=5
-urgency.user.tag.technicalreview.coefficient=5
-urgency.user.tag.inprogress.coefficient=2.5
-urgency.user.tag.readyforittest.coefficient=-10
-urgency.user.tag.readyforqatest.coefficient=-10
-
-urgency.user.project.team.coefficient=40
-
 # Make the "+next" tag super important
 urgency.user.tag.next.coefficient=            2.0 # +next tag
 
@@ -122,12 +117,15 @@ urgency.user.tag.later.coefficient=           -2.0 # +later tag
 uda.priority.values = H,M,,L
 urgency.uda.priority.L.coefficient=0
 urgency.uda.priority..coefficient=1.8
+urgency.uda.priority.H.coefficient=10.0
 
 # # Get open work into review/testing
 urgency.uda.jirastatus.Open.coefficient=0.0
-urgency.uda.jirastatus.Technical Review.coefficient=1.0
-urgency.uda.jirastatus.QA Test.coefficient=2.0
 urgency.uda.jirastatus.In Progress.coefficient=3.0
+urgency.uda.jirastatus.Technical Review.coefficient=1.0
+urgency.uda.jirastatus.QA Test.coefficient=-10.0
+urgency.uda.jirastatus.Ready for IT Test.coefficient=-10.0
+urgency.uda.jirastatus.Ready for QA Test.coefficient=-10.0
 
 # # # Get subtasks done before main tasks
 # urgency.uda.jiraissuetype.Task.coefficient=0.0
