@@ -50,8 +50,8 @@ alias gti=git
 alias gi=git
 alias vi=vim
 alias python=python3
-alias _jpy="cd ~/notes/notes-private/journal; poetry run jupyter lab"
-alias _ipy="cd ~/notes/notes-private/journal; poetry run ipython"
+alias _jpy="cd ~/notes/notes-private/; poetry run jupyter lab"
+alias _ipy="cd ~/notes/notes-private/; poetry run ipython"
 # %logstart -ort filename.ipy
 # %load filename.ipy
 
@@ -98,3 +98,9 @@ alias prettier="npx prettier --single-quote --print-width 120 --write"
 
 # Searching the DNS world
 alias dig="dig +noadditional +noquestion +nocomments +nocmd +nostats"
+
+# warriors
+alias tw="timew"
+alias tws="timew summary :ids"
+alias tt="task"
+alias bwp="bugwarrior-pull"
