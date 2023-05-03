@@ -14,3 +14,7 @@ command FixSyntax :syntax sync fromstart
 command W :w
 " Remove windows line endings
 command NoDOS :%s///g
+" Format as YAML
+command ToYAML :%!yq -P
+" Format as JSON
+command ToJSON :%!yq -o=json -I4

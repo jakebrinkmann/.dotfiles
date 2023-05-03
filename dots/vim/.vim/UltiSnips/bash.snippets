@@ -19,6 +19,7 @@ echo '{ "foo": "bar" }' | jq @json
 jq '.users[] | .first + " " + .last' || jq '.users[]|{first:.first,title:.last}'
 jq --slurp '.[0] * .[1]' file1 file2
 echo '{"a":"foo","b":"bar"} {"c":"baz","a":0}' | jq -s add
+jq '.events[] | [(.fieldName, .dataType)] | @csv'
 endsnippet
 snippet yq "some yq shortcuts"
 yq -j -I4 sample.yaml
@@ -180,4 +181,9 @@ docker run --rm -p 80:8080 \
   -e API_URL=doc/openapi.yaml \
   -v ./doc:/usr/share/nginx/html/doc \
   swaggerapi/swagger-ui
+endsnippet
+
+snippet git
+git difftool CHANGELOG.md
+git difftool --name-status origin/dev
 endsnippet
