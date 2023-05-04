@@ -76,6 +76,12 @@ report.active.labels=ID,Description,Tags
 report.active.filter=status:pending +ACTIVE
 report.active.sort=urgency-
 
+report.details.description=Tasks Details
+report.details.columns=id,description.desc,tags
+report.details.labels=ID,Description,Tags
+report.details.filter=status:pending
+report.details.sort=urgency-
+
 # OMG completed report, don't show me annotations.
 report.completed.columns=id,uuid.short,entry,end,entry.age,depends,priority,project,recur.indicator,due,description.count
 report.completed.labels=ID,UUID,Created,Completed,Age,Deps,P,Project,R,Due,Description

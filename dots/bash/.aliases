@@ -103,4 +103,6 @@ alias dig="dig +noadditional +noquestion +nocomments +nocmd +nostats"
 alias tw="timew"
 alias tws="timew summary :ids"
 alias tt="task"
+alias otg='f() { open $(task _get $1.gitlaburl); }; f'
+alias otj='f() { open $(task _get $1.jiraurl); }; f'
 alias bwp="bugwarrior-pull"
