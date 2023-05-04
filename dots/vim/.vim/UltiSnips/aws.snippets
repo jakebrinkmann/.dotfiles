@@ -92,7 +92,7 @@ aws dynamodb get-item --table-name $TABLE --key '{"id": {"N": "'$KEY'"}}'
 aws dynamodb delete-item --table-name $TABLE --key '{"id": {"S": "'$KEY'"}}'
 aws dynamodb scan \
   --table-name Tables-YJX \
-  --projection-expression "THING" 
+  --projection-expression "THING"
   --expression-attribute-names '{"#l1": "level1", "#l2": "level2"}' \
   --filter-expression '#l1.#l2 = :p' \
   --expression-attribute-values '{":p": {"S": "match"}}' \
@@ -242,7 +242,7 @@ snippet aws-logs "CloudWatch Observability"
 aws logs describe-log-groups | jq -c '.logGroups[].logGroupName'
 aws logs tag-log-group --log-group-name <value> --tags Key=str,Key=str
 aws logs filter-log-events --log-stream-names $STREAM --log-group-name $GROUP --filter-pattern "$QUERY" | jq -r .events[].message
-aws logs filter-log-events --log-group-name $GROUP --start-time $(date --date="1 day ago" +%s000) --filter-pattern "purchase_id" | jq -c '.events[]'
+aws logs filter-log-events --log-group-name $GROUP --start-time $(date --date="1 day ago" +%s000) --filter-pattern "purchase_id" | jq -r '.events[] | [(.timestamp, .message)] | @csv'
 aws logs get-log-events --log-group-name $GROUP --log-stream-name $STREAM
 aws logs tail $GROUP --since '10m' --follow --format short
 aws logs tail "/aws/lambda/$FUNCTION" --since '10m' --follow --format short
