@@ -101,8 +101,12 @@ alias dig="dig +noadditional +noquestion +nocomments +nocmd +nostats"
 
 # warriors
 alias tw="timew"
-alias tws="timew summary :ids"
+alias tws="timew summary :ids :annotations"
 alias tt="task"
+alias tc="task context none"
+alias tj="task context j"
+alias tg="task context g"
+alias ts="task context s"
 alias otg='f() { open $(task _get $1.gitlaburl); }; f'
 alias otj='f() { open $(task _get $1.jiraurl); }; f'
 alias bwp="bugwarrior-pull"

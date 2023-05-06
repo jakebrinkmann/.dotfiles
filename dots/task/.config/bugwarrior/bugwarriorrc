@@ -19,10 +19,10 @@ gitlab.host = git.company.com
 gitlab.filter_merge_requests = True
 gitlab.only_if_assgined = username
 gitlab.include_todos = True
-gitlab.description_template = {{gitlabrepo}}: {{gitlabtitle}}
+gitlab.description_template = {{gitlabtitle}}
 gitlab.default_priority = L
-gitlab.add_tags = {{gitlabtype}}
-gitlab.project_template = gitlab.{{gitlabnamespace}}
+gitlab.add_tags = {{gitlabtype}} {{gitlabauthor}}
+gitlab.project_template = gitlab.{{gitlabrepo}}
 
 # https://bugwarrior.readthedocs.io/en/latest/services/jira.html
 [company_jira]
@@ -32,8 +32,8 @@ jira.username = username@company.com
 jira.password = api-token
 jira.query = assignee = currentUser() AND resolution is null
 jira.default_priority = L
-jira.description_template = {{jiraid}}: {{jirasummary}}
-jira.project_template = jira.{{project}}
+jira.description_template = {{jirasummary}}
+jira.project_template = jira.{{jiraparent if jiraparent else jiraproject}}.{{jiraid}}
 # jira.add_tags = {{ jiraissuetype | replace("-","_") }}
 jira.add_tags = {{ jirastatus | replace(" ","") | lower }}
 jira.import_sprints_as_tags = True

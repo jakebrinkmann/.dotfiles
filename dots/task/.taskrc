@@ -1,5 +1,5 @@
 # Files
-data.location=~/notes/.task
+data.location=~/notes/private/.task
 
 # Basic config
 weekstart=monday
@@ -61,8 +61,8 @@ report.all.columns=uuid.short,project,tags,description.truncated
 report.all.labels=,Project,Tags,Description
 
 # Ready report: don't show annotations. Don't show depends.indicator (because not ready)
-report.ready.columns=id,project,estimate,priority,due,start.active,entry.age,urgency,description.truncated,tags
-report.ready.labels=ID,Proj,Est,Pri,Due,A,Age,Urg,Description,Tags
+report.ready.columns=id,project,estimate,priority,description.truncated,tags
+report.ready.labels=ID,Proj,Est,Pri,Description,Tags
 
 report.today.description=Tasks for Today
 report.today.columns=id,project,priority,start.active,urgency,due,description.desc,tags
