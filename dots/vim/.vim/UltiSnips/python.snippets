@@ -175,7 +175,23 @@ from enum import Enum, unique
 ...     TWO = 2
 ...     THREE = 3
 ...     FOUR = 3
+>>> EncounterId = NewType("EncounterId", int)
+endsnippet
+
+snippet dc "dataclass"
 from dataclasses import dataclass, field
+
+@dataclass
+class Language:
+    english_name: str
+    iso_639_1: str
+    locale: str
+
+@dataclass
+class Configuration:
+    languages: List[Language]
+    templates: dict[str, str] = field(default_factory=dict)
+    styles: dict[str, str] = field(default_factory=dict)
 endsnippet
 
 snippet pb "poetry black config"
