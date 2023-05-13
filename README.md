@@ -72,7 +72,7 @@ To Download/Install this project directly onto a host machine (helpful when I wa
 ```bash
 git clone git@github.com:jakebrinkmann/dotfiles.git ~/.dots
 cd ~/.dots/dots
-stow -t ~ bash git vim brew # plus whatever else you'd like
+stow -t ~ bash git nvim brew # plus whatever else you'd like
 
 cd ~
 brew bundle

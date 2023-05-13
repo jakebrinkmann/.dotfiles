@@ -48,10 +48,10 @@ alias emacs="emacs -nw"
 alias g=git
 alias gti=git
 alias gi=git
-alias vi=vim
+alias vi=nvim
 alias python=python3
-alias _jpy="cd ~/notes/notes-private/; poetry run jupyter lab"
-alias _ipy="cd ~/notes/notes-private/; poetry run ipython"
+alias _jpy="cd ~/notes/private/; poetry run jupyter lab"
+alias _ipy="cd ~/notes/private/; poetry run ipython"
 # %logstart -ort filename.ipy
 # %load filename.ipy
 
@@ -59,9 +59,6 @@ alias _ipy="cd ~/notes/notes-private/; poetry run ipython"
 alias please=sudo
 alias lick=touch
 alias help=man
-
-# vimwiki
-alias vimwiki="vim +VimwikiIndex"
 
 # Pulse Secure VPN
 alias _vpn='sudo ip link set dev eth0 mtu 1400'
