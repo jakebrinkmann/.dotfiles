@@ -54,7 +54,6 @@ require('lazy').setup({
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
       { 'quangnguyen30192/cmp-nvim-ultisnips', opts = {} },
-      'hrsh7th/cmp-buffer',
     },
   },
 
