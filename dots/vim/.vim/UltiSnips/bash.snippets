@@ -21,6 +21,9 @@ jq --slurp '.[0] * .[1]' file1 file2
 echo '{"a":"foo","b":"bar"} {"c":"baz","a":0}' | jq -s add
 jq '.events[] | [(.fieldName, .dataType)] | @csv'
 endsnippet
+snippet rsync
+rsync --recursive --progress --size-only ~/Downloads/ROMS/ root@192.168.0.44:/userdata/roms/
+endsnippet
 snippet yq "some yq shortcuts"
 yq -j -I4 sample.yaml
 yq -P sample.json

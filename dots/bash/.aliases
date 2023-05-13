@@ -96,14 +96,13 @@ alias prettier="npx prettier --single-quote --print-width 120 --write"
 # Searching the DNS world
 alias dig="dig +noadditional +noquestion +nocomments +nocmd +nostats"
 
+# Notes
+alias notes="cd ~/notes && gvim"
+
 # warriors
 alias tw="timew"
-alias tws="timew summary :ids :annotations"
+alias tws="timew summary :ids"
 alias tt="task"
-alias tc="task context none"
-alias tj="task context j"
-alias tg="task context g"
-alias ts="task context s"
 alias otg='f() { open $(task _get $1.gitlaburl); }; f'
 alias otj='f() { open $(task _get $1.jiraurl); }; f'
 alias bwp="bugwarrior-pull"

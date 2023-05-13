@@ -68,7 +68,8 @@
   # Stage peice by peice
   ap = add --patch
   # Perform interactive rebase on upstream
-  ready = rebase -i @{u}
+  # ready = rebase -i @{u}
+  ready = rebase -i origin/dev
   # Un-Stage
   rp = reset --patch
   rh = reset HEAD
@@ -76,9 +77,6 @@
   # Undo the last commit and unstage any changes
   undo = reset HEAD^
   st = status -sb
-
-  # Grab last tag
-  last-tag = "!sh -c 'git checkout $(git describe --tags $(git rev-list --tags --max-count=1))'"
 
   # Work In Progress Commit (will keep appending to previous if also wip)
   wip = "!sh -c 'git add . && [ \"`git log -1 --pretty=%B`\" = \"wip\" ] && git oops || git commit --no-verify -am wip'"
@@ -92,9 +90,8 @@
 
   # Checkout from origin/development
   devb = "!f() { git fetch origin dev; git checkout origin/dev -b $1; }; f"
-  dev = "!f() { git fetch origin dev; git checkout origin/dev -B dev; }; f"
-  main = "!f() { git fetch origin main; git checkout origin/main -B main; }; f"
-  devdf = "!f() { git fetch origin && git diff origin/dev; }; f"
+  go = "!f() { git fetch origin $1; git checkout origin/$1 -B $1; }; f"
+  to = "!sh -c 'git checkout $(git describe --tags $(git rev-list --tags --max-count=1))'"
 
   # Sort files by modified date
   sort = "!f() { git log --first-parent --date=iso-local --pretty=%ad --name-status | awk 'NF==1{date=$1}NF>1 && !seen[$2]++{print date,$0}' FS=$'\t' | sort -r; }; f"

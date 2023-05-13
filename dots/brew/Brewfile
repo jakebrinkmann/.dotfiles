@@ -19,6 +19,7 @@ brew "pyenv"
 brew "poetry"
 brew "awscli"
 # brew install --cask session-manager-plugin
+# brewk install --cask powershell
 brew "cfn-lint"
 brew "yamllint"
 brew "httpie"

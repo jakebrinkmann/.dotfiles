@@ -32,8 +32,8 @@ jira.username = username@company.com
 jira.password = api-token
 jira.query = assignee = currentUser() AND resolution is null
 jira.default_priority = L
-jira.description_template = {{jirasummary}}
-jira.project_template = jira.{{jiraparent if jiraparent else jiraproject}}.{{jiraid}}
+jira.description_template = {{jiraid}}: {{jirasummary}}
+jira.project_template = jira.{{jiraparent if jiraparent else jiraproject}}
 # jira.add_tags = {{ jiraissuetype | replace("-","_") }}
 jira.add_tags = {{ jirastatus | replace(" ","") | lower }}
 jira.import_sprints_as_tags = True

@@ -326,3 +326,6 @@ augroup skeletons
   "  autocmd BufNewFile *.cfg,*.config,*.conf 0r ~/.vim/skeletons/text.skel
   "  autocmd BufNewFile *.{yaml,yml} 0r ~/.vim/skeletons/yaml.skel
 augroup END
+
+" Insert the current date
+cnoremap ZMD <C-R>=strftime("%y%m%d-%H%M-")<CR>

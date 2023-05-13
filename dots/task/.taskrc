@@ -41,7 +41,8 @@ report.scheduled.sort=scheduled
 report.scheduled.filter=+SCHEDULED -COMPLETED -DELETED
 
 # Try to guage how long something will take
-uda.estimate.type=numeric
+# (Use a string because '5' is prettier than '5.00000'
+uda.estimate.type=string
 uda.estimate.label=Est
 
 # I never really got into the review system in `tasksh`, but here's the config from when I tried.
@@ -154,7 +155,7 @@ context.g=project~gitlab -techdebt
 context.q=+quality or +techdebt
 context.r=+research or +prototype
 context.s=project~slack
-context.t=project~training
+context.t=+today
 
 # integrations project: jira.ENGabc gitlab.cloud/abcd
 # categories: +external +product +project +team +tech
@@ -287,3 +288,4 @@ color.tag.none=
 color.alternate=on color233
 color.tag.next=rgb252
 color.tag.inprogress=rgb252
+context=t

@@ -306,6 +306,9 @@ highlight GitGutterChangeDelete ctermfg=red
 nnoremap <leader>gh :Gdiffsplit!<CR>
 nnoremap <leader>gd :Gvdiffsplit! origin/dev<CR>
 nnoremap <leader>gm :Git difftool --name-status origin/dev<CR>
+augroup fugitive
+  autocmd filetype netrw call NetrwMapping()
+augroup end
 
 " NeoTERM REPLs
 """""""""""""""
