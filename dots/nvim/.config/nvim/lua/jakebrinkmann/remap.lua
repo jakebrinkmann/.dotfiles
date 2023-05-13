@@ -1,5 +1,4 @@
 vim.g.mapleader = " "
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 -- [[ Basic Keymaps ]]
 vim.keymap.set('n', '<C-h>', [[<Cmd>wincmd h<CR>]])

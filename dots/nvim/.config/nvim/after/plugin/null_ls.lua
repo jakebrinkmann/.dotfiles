@@ -1,3 +1,4 @@
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local null_ls = require("null-ls")
 
 local code_actions = null_ls.builtins.code_actions
@@ -25,13 +26,19 @@ null_ls.setup({
     hover.dictionary,
   },
   on_attach = function(client, bufnr)
-    if client.server_capabilities.documentformattingprovider then
-      vim.cmd("nnoremap <silent><buffer> <space>f :lua vim.lsp.buf.format()<cr>")
-      -- format on save
-      vim.cmd("autocmd bufwritepost <buffer> lua vim.lsp.buf.formatting()")
-    end
-    if client.server_capabilities.documentrangeformattingprovider then
-      vim.cmd("xnoremap <silent><buffer> <space>f :lua vim.lsp.buf.range_formatting({})<cr>")
+    if client.supports_method("textDocument/formatting") then
+      vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = augroup,
+        buffer = bufnr,
+        callback = function()
+          -- :help vim.lsp.buf.format
+          vim.lsp.buf.format({
+            async = false,
+            filter = function(client) return client.name ~= "tsserver" end
+          })
+        end,
+      })
     end
   end,
 })

@@ -25,7 +25,7 @@ local servers = {
   sqlls = { SQL = { } },
   taplo = { TOML = { } },
   tsserver = { TypeScript = { } },
-  ruff_lsp = { Python = { } },
+  pyright = { Python = { } },
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
