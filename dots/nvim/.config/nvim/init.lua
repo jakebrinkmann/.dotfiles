@@ -57,7 +57,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 
-require("jakebrinkmann")
+require("jakebrinkmann.remap")
+require("jakebrinkmann.lazy")
+require("kickstart.plugins.autoformat")
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
