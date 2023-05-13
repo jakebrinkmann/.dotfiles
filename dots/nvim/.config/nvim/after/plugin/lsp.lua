@@ -15,17 +15,28 @@ local servers = {
   -- gopls = {},
   -- pyright = {},
   -- rust_analyzer = {},
-  -- tsserver = {},
-
+  bashls = { Bash = { } },
+  dockerls = { Docker = { } },
+  docker_compose_language_service = { DockerCompose = { } },
+  eslint = { JavaScript = { } },
+  html = { HTML = { } },
+  jsonls = { JSON = { } },
+  spectral = { OpenAPI = { } },
+  sqlls = { SQL = { } },
+  taplo = { TOML = { } },
+  tsserver = { TypeScript = { } },
+  ruff_lsp = { Python = { } },
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
     },
   },
+  yamlls = { YAML = { } },
 }
 
 -- Ensure the servers above are installed
+-- :help mason-lspconfig-introduction
 local mason_lspconfig = require 'mason-lspconfig'
 
 mason_lspconfig.setup {
