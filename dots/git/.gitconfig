@@ -125,3 +125,11 @@
     commit-decoration-style = bold yellow box ul
     file-style = bold yellow ul
     file-decoration-style = none
+
+[filter "cleanPass"]
+	clean = sed -e 's/secretpassword/hiddenpassword/g'
+	smudge = sed -e 's/hiddenpassword/secretpassword/g'
+
+[filter "reductScript"]
+	smudge = ~/.git-filter --smudge
+	clean = ~/.git-filter --clean
