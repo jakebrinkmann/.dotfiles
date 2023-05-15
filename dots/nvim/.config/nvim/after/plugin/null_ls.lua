@@ -12,18 +12,30 @@ null_ls.setup({
     code_actions.shellcheck,
     code_actions.refactoring,
     code_actions.cspell,
-    formatting.djlint,
-    formatting.stylua,
-    formatting.jq,
+
+    -- Python
     formatting.isort,
-    diagnostics.checkstyle,
-    -- diagnostics.codespell.with({ filetypes = { "python" } }),
-    diagnostics.flake8.with({
-      -- extra_args = { "--ignore", "e501", "--select", "e126" }
-    }),
+    diagnostics.mypy,
+    diagnostics.flake8,
+
+    -- JS yaml html markdown
+    formatting.prettier,
     diagnostics.eslint,
-    -- diagnostics.mypy,
+
+    -- Lua
+    -- cargo install stylua
+    -- add ~/.cargo/bin to PATH
+    formatting.stylua,
+
+    formatting.jq,
+    diagnostics.checkstyle,
     hover.dictionary,
+
+    -- Spell checking
+    diagnostics.codespell.with({
+      args = { "--builtin", "clear,rare,code", "-" },
+    }),
+
   },
   on_attach = function(client, bufnr)
     if client.supports_method("textDocument/formatting") then

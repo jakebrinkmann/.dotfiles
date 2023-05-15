@@ -10,3 +10,4 @@ for file in ~/.{aliases,functions,path,exports,extra,bash_prompt}; do
 done
 unset file
 
+. "$HOME/.cargo/env"

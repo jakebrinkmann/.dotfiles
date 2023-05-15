@@ -18,6 +18,7 @@ brew "postgresql"
 # brew "python@3.9"
 brew "pyenv"
 brew "poetry"
+brew "rustup"
 brew "awscli"
 # brew install --cask session-manager-plugin
 # brewk install --cask powershell

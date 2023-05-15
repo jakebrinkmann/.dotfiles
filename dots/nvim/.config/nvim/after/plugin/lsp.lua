@@ -13,7 +13,6 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 local servers = {
   -- clangd = {},
   -- gopls = {},
-  -- pyright = {},
   -- rust_analyzer = {},
   bashls = {},
   dockerls = {},
@@ -26,10 +25,12 @@ local servers = {
   taplo = {},
   tsserver = {},
   -- https://github.com/charliermarsh/ruff-lsp
-  ruff_lsp = {},
+  pyright = {},
   lua_ls = {
-    workspace = { checkThirdParty = false },
-    telemetry = { enable = false },
+    Lua = {
+      workspace = { checkThirdParty = false },
+      telemetry = { enable = false },
+    }
   },
   yamlls = {},
 }
@@ -45,7 +46,8 @@ mason_lspconfig.setup {
 -- LSP settings.
 --  This function gets run when an LSP connects to a particular buffer.
 local builtin = require('telescope.builtin')
-local on_attach = function(_, bufnr)
+local navic = require("nvim-navic")
+local on_attach = function(client, bufnr)
   -- NOTE: Remember that lua is a real programming language, and as such it is possible
   -- to define small helper and utility functions so you don't have to repeat yourself
   -- many times.
@@ -86,6 +88,8 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
     vim.lsp.buf.format()
   end, { desc = 'Format current buffer with LSP' })
+
+  navic.attach(client, bufnr)
 end
 
 mason_lspconfig.setup_handlers {

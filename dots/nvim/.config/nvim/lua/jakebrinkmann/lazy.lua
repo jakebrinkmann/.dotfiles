@@ -23,8 +23,10 @@ require('lazy').setup({
   -- NOTE: First, some plugins that don't require any configuration
 
   -- Git related plugins
-  'tpope/vim-fugitive',
-  'tpope/vim-rhubarb',
+  {
+    'tpope/vim-fugitive',
+    dependencies = { 'tpope/vim-rhubarb', }
+  },
 
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
@@ -46,6 +48,32 @@ require('lazy').setup({
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
+
+      {
+        "iamcco/markdown-preview.nvim",
+        run = function()
+          vim.fn["mkdp#util#install"]()
+        end,
+        ft = "markdown",
+        cmd = { "MarkdownPreview" },
+      },
+
+      {
+        'weirongxu/plantuml-previewer.vim',
+        dependencies = {
+          'aklt/plantuml-syntax',
+          'tyru/open-browser.vim',
+        },
+        ft = "plantuml"
+      },
+
+      {
+        "SmiteshP/nvim-navic",
+        dependencies = { "neovim/nvim-lspconfig" },
+        config = function()
+          require("nvim-navic").setup()
+        end,
+      },
 
       {
         "SmiteshP/nvim-navbuddy",
@@ -135,10 +163,17 @@ require('lazy').setup({
     -- See `:help lualine.txt`
     opts = {
       options = {
-        icons_enabled = false,
+        icons_enabled = true,
         theme = 'onedark',
         component_separators = '|',
         section_separators = '',
+      },
+      sections = {
+        lualine_c = {
+          "navic",
+          color_correction = nil,
+          navic_opts = nil
+        }
       },
     },
   },
@@ -194,7 +229,7 @@ require('lazy').setup({
     event = "BufReadPost",
     dependencies = {
       { "mfussenegger/nvim-dap-python", },
-      { "rcarriga/nvim-dap-ui", config = true, },
+      { "rcarriga/nvim-dap-ui",         config = true, },
     },
   },
   --[[
