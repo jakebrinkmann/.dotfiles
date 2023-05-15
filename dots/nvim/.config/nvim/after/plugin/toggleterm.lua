@@ -1,5 +1,7 @@
 -- https://github.com/akinsho/toggleterm.nvim
-require("toggleterm").setup{}
+require("toggleterm").setup {
+  shell = vim.o.shell .. ' --login'
+}
 
 -- :ToggleTerm size=40 dir=~/Desktop direction=horizontal
 -- 2TermExec cmd="git status" dir=~/<my-repo-path>

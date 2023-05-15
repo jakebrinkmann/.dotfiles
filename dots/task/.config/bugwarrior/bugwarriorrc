@@ -11,13 +11,13 @@ static_fields = project
 # https://bugwarrior.readthedocs.io/en/latest/services/gitlab.html
 [company_gitlab]
 service = gitlab
-gitlab.login = username
-gitlab.token = api-token
-gitlab.host = git.company.com
+gitlab.login = USERNAME
+gitlab.token = GITLAB_API_TOKEN
+gitlab.host = WORK_GIT_SERVER
 # gitlab.include_repos = me/project_foo, bar/project_fox
 # gitlab.include_regex = foo/ep_.*
 gitlab.filter_merge_requests = True
-gitlab.only_if_assgined = username
+gitlab.only_if_assigned = USERNAME
 gitlab.include_todos = True
 gitlab.description_template = {{gitlabtitle}}
 gitlab.default_priority = L
@@ -27,9 +27,9 @@ gitlab.project_template = gitlab.{{gitlabrepo}}
 # https://bugwarrior.readthedocs.io/en/latest/services/jira.html
 [company_jira]
 service = jira
-jira.base_uri = http://company.atlassian.net
-jira.username = username@company.com
-jira.password = api-token
+jira.base_uri = WORK_JIRA_SERVER
+jira.username = EMAIL
+jira.password = JIRA_API_TOKEN
 jira.query = assignee = currentUser() AND resolution is null
 jira.default_priority = L
 jira.description_template = {{jiraid}}: {{jirasummary}}
