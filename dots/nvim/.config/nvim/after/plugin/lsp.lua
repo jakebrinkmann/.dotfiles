@@ -15,25 +15,23 @@ local servers = {
   -- gopls = {},
   -- pyright = {},
   -- rust_analyzer = {},
-  bashls = { Bash = {} },
-  dockerls = { Docker = {} },
-  docker_compose_language_service = { DockerCompose = {} },
-  eslint = { JavaScript = {} },
-  html = { HTML = {} },
-  jsonls = { JSON = {} },
+  bashls = {},
+  dockerls = {},
+  docker_compose_language_service = {},
+  eslint = {},
+  html = {},
+  jsonls = {},
   -- spectral = { OpenAPI = { } },
-  sqlls = { SQL = {} },
-  taplo = { TOML = {} },
-  tsserver = { TypeScript = {} },
+  sqlls = {},
+  taplo = {},
+  tsserver = {},
   -- https://github.com/charliermarsh/ruff-lsp
-  ruff_lsp = { Python = {} },
+  ruff_lsp = {},
   lua_ls = {
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
-    },
+    workspace = { checkThirdParty = false },
+    telemetry = { enable = false },
   },
-  yamlls = { YAML = {} },
+  yamlls = {},
 }
 
 -- Ensure the servers above are installed
