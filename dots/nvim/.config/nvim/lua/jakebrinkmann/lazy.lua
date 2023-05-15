@@ -38,6 +38,7 @@ require('lazy').setup({
       -- Automatically install LSPs to stdpath for neovim
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
+      'jose-elias-alvarez/null-ls.nvim',
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -45,6 +46,46 @@ require('lazy').setup({
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
+
+      {
+        "SmiteshP/nvim-navbuddy",
+        dependencies = {
+          "SmiteshP/nvim-navic",
+          "MunifTanjim/nui.nvim",
+          "numToStr/Comment.nvim",
+          "nvim-telescope/telescope.nvim",
+        },
+        config = function()
+          local navbuddy = require("nvim-navbuddy")
+          local actions = require("nvim-navbuddy.actions")
+          navbuddy.setup({
+            lsp = {
+              auto_attach = true,
+              preference = {
+                "pyright",
+                "tsserver",
+                "graphql",
+                "cssls",
+                "html",
+                "bashls",
+                "dockerls",
+                "yamlls",
+                "jsonls",
+                "taplo",
+                "lua_ls",
+              },
+            },
+            mappings = {
+              ["<Left>"] = require("nvim-navbuddy.actions").parent,
+              ["<Right>"] = require("nvim-navbuddy.actions").children,
+              ["<Up>"] = require("nvim-navbuddy.actions").previous_sibling,
+              ["<Down>"] = require("nvim-navbuddy.actions").next_sibling,
+              ["<C-Up>"] = require("nvim-navbuddy.actions").move_up,
+              ["<C-Down>"] = require("nvim-navbuddy.actions").move_down,
+            },
+          })
+        end,
+      },
     },
   },
 
@@ -147,15 +188,62 @@ require('lazy').setup({
     config = true
   },
 
-  { 'jose-elias-alvarez/null-ls.nvim', dependencies = { 'nvim-lua/plenary.nvim' } },
+  -- Testing
+  {
+    "mfussenegger/nvim-dap",
+    event = "BufReadPost",
+    dependencies = {
+      { "mfussenegger/nvim-dap-python", },
+      { "rcarriga/nvim-dap-ui", config = true, },
+    },
+  },
+  --[[
+       Call :lua require('dap').continue() to start debugging.
+       Use :lua require('dap-python').test_method()
+  --]]
+  {
+    "nvim-neotest/neotest",
+    event = "BufReadPost",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-neotest/neotest-python",
+    },
+    config = function()
+      require("neotest").setup({
+        adapters = {
+          require("neotest-python")({
+            args = { "-vvv", "--no-cov", "--disable-warnings" },
+          }),
+        },
+        quickfix = {
+          enabled = false,
+          open = false,
+        },
+        output = {
+          enabled = true,
+          open_on_run = false,
+        },
+        floating = {
+          border = "rounded",
+          max_height = 0.9,
+          max_width = 0.9,
+          options = {}
+        },
+        summary = {
+          open = "botright vsplit | vertical resize 60"
+        },
+        status = {
+          enabled = true,
+          signs = true,
+          virtual_text = false,
+        },
+      })
+    end,
+  },
 
-  -- NOTE: The import below automatically adds your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
-  --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping
-  --    up-to-date with whatever is in the kickstart repo.
-  --
-  --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
-  --
-  --    An additional note is that if you only copied in the `init.lua`, you can just comment this line
-  --    to get rid of the warning telling you that there are not plugins in `lua/custom/plugins/`.
-  { import = 'custom.plugins' },
+  {
+    "andymass/vim-matchup",
+    event = "BufReadPost",
+  },
 }, {})

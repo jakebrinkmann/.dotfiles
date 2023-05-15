@@ -18,10 +18,10 @@ null_ls.setup({
     formatting.isort,
     diagnostics.checkstyle,
     -- diagnostics.codespell.with({ filetypes = { "python" } }),
-    -- diagnostics.flake8.with({
-    --   extra_args = { "--ignore", "e501", "--select", "e126" }
-    -- }),
-    -- diagnostics.eslint,
+    diagnostics.flake8.with({
+      -- extra_args = { "--ignore", "e501", "--select", "e126" }
+    }),
+    diagnostics.eslint,
     -- diagnostics.mypy,
     hover.dictionary,
   },

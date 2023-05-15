@@ -3,8 +3,8 @@ require("toggleterm").setup{}
 
 -- :ToggleTerm size=40 dir=~/Desktop direction=horizontal
 -- 2TermExec cmd="git status" dir=~/<my-repo-path>
-vim.keymap.set("n", "<leader>tt", vim.cmd.ToggleTerm)
-vim.keymap.set("n", "<leader>tr", vim.cmd.ToggleTermSendCurrentLine)
+vim.keymap.set("n", "<leader>tt", vim.cmd.ToggleTerm, { desc = "Open terminal" })
+vim.keymap.set("n", "<leader>tr", vim.cmd.ToggleTermSendCurrentLine, { desc = "Send CurrentLine" })
 vim.keymap.set("v", "<leader>tr", vim.cmd.ToggleTermSendVisualSelection)
 
 function _G.set_terminal_keymaps()
