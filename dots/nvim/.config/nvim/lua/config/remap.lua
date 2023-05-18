@@ -26,3 +26,6 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagn
 
 -- Remap the CMap
 vim.keymap.set("c", "ZMD", [[<C-R>=strftime("%y%m%d-%H%M-")<CR>]])
+
+-- Format
+vim.keymap.set("n", "=a", [[<cmd>lua vim.lsp.buf.format { async = true }<CR>]], { desc = "Format the file" })
