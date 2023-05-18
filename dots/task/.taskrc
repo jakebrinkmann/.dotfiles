@@ -139,7 +139,7 @@ urgency.uda.jirastatus.Ready for QA Test.coefficient=-10.0
 # urgency.uda.jiraissuetype.Sub-task.coefficient=3.0
 
 # Focus on mine first
-urgency.uda.gitlabauthor.jbrinkmann.coefficient=3.0
+urgency.uda.gitlabauthor.USERNAME.coefficient=3.0
 
 # Costly tasks are most important.
 urgency.user.tag.costly.coefficient=3.0
@@ -288,4 +288,3 @@ color.tag.none=
 color.alternate=on color233
 color.tag.next=rgb252
 color.tag.inprogress=rgb252
-context=t
