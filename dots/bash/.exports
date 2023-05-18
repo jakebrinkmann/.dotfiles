@@ -9,7 +9,7 @@ export HISTFILE="$HOME/.bash_history_$(date '+%Y_%m')"
 export HISTCONTROL=ignorespace:ignoredups:erasedups
 export HISTIGNORE='pwd:exit:fg:bg:top:clear:history:ls:uptime:df:cd:logout:bh *'
 
-export EDITOR='vim'
+export EDITOR='nvim'
 export PAGER='less --chop-long-lines --RAW-CONTROL-CHARS'
 
 ### NOT NEEDED WITH WSL 2
@@ -62,3 +62,6 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 
 # Wish I could configure this in timewarriorcfg
 export TIMEWARRIORDB=$HOME/notes/private/.timewarrior/
+
+# Setup C++14 compiling on MacOS
+export CC=/opt/homebrew/Cellar/llvm/15.0.6/bin/clang

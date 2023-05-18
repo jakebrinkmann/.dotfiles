@@ -1,9 +1,11 @@
 # 'brew bundle install'
 brew "stow"
 brew "cmake"
+brew "codespell"
 brew "zip"
 brew "tree"
 brew "gcc"
+brew "llvm"
 brew "gsed"
 brew "zlib"
 brew "git-delta"
