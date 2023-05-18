@@ -3,8 +3,10 @@ vim.g.mapleader = " "
 -- [[ Basic Keymaps ]]
 vim.keymap.set("n", "<C-h>", [[<Cmd>wincmd h<CR>]])
 vim.keymap.set("n", "<C-j>", [[<Cmd>wincmd j<CR>]])
-vim.keymap.set("n", "<C-k>", [[<Cmd>wincmd k<CR>]])
+vim.keymap.set("n", "<C-k>", [[<Cmd>wincmd k<CR>]]) -- This is buggy
 vim.keymap.set("n", "<C-l>", [[<Cmd>wincmd l<CR>]])
+
+vim.keymap.set("n", "<C-c>", [[<Cmd>bn|:bd!#<CR>]], { desc = "Delete buffer" })
 vim.keymap.set("n", "<leader>vs", vim.cmd.vsplit)
 
 -- [[ \\ switches back/forth between buffers ]]
@@ -29,3 +31,6 @@ vim.keymap.set("c", "ZMD", [[<C-R>=strftime("%y%m%d-%H%M-")<CR>]])
 
 -- Format
 vim.keymap.set("n", "=a", [[<cmd>lua vim.lsp.buf.format { async = true }<CR>]], { desc = "Format the file" })
+
+-- Escape
+vim.keymap.set("i", "kj", [[<Esc>]])

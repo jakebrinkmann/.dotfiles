@@ -50,8 +50,8 @@ alias gti=git
 alias gi=git
 alias vi=nvim
 alias python=python3
-alias _jpy="cd ~/notes/private/_notebooks/; poetry run jupyter lab"
-alias _ipy="cd ~/notes/private/_notebooks/; poetry run ipython"
+alias _jpy="cd ~/notes/notebooks/; poetry run jupyter lab"
+alias _ipy="cd ~/notes/notebooks/; poetry run ipython"
 # %logstart -ort filename.ipy
 # %load filename.ipy
 
@@ -97,7 +97,7 @@ alias prettier="npx prettier --single-quote --print-width 120 --write"
 alias dig="dig +noadditional +noquestion +nocomments +nocmd +nostats"
 
 # Notes
-alias notes="cd ~/notes && nvim"
+alias notes="cd ~/notes && nvim +'Neorg journal today'"
 
 # warriors
 alias tw="timew"
