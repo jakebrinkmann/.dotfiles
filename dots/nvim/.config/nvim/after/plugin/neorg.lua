@@ -33,13 +33,8 @@ neorg.setup({
 	},
 })
 
-local journal = require("neorg.modules.core.journal.module")
 if os.getenv("NEORGJOURNAL") then
-	-- Open Table of Contents
-	journal[os.getenv("NEORGJOURNAL")].open_toc()
-	-- Split, open today's journal
-	vim.cmd.vsplit()
-	vim.cmd("wincmd l | :Neorg journal today")
+	vim.cmd("Neorg index")
 end
 
 -- The line beneath this is called `modeline`. See `:help modeline`
