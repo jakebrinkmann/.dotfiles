@@ -12,17 +12,17 @@ neorg.setup({
 		["core.dirman"] = {
 			config = {
 				workspaces = {
-					private = "~/notes/private",
+					work = "~/notes/work",
 					public = "~/notes/public",
 				},
-				default_workspace = "private",
+				default_workspace = "work",
 			},
 		},
 		["core.journal"] = {
 			config = {
 				journal_folder = "journal",
 				strategy = "flat",
-				workspace = "private",
+				workspace = "work",
 			},
 		},
 		["core.completion"] = {
