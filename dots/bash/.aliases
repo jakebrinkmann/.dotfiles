@@ -97,7 +97,8 @@ alias prettier="npx prettier --single-quote --print-width 120 --write"
 alias dig="dig +noadditional +noquestion +nocomments +nocmd +nostats"
 
 # Notes
-alias notes="NEORGJOURNAL=work nvim"
+alias notes="nvim +'cd ~/notes|:Neorg index'"
+# alias notes="gvim +'cd ~/notes|:VimwikiIndex'"
 
 # warriors
 alias tw="timew"

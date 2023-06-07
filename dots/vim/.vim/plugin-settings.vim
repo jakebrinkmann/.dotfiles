@@ -270,11 +270,11 @@ if executable('rg')
       \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
       \   {'options': '--delimiter : --nth 4..'},
       \   <bang>0)
-    " Search the project (globs: -g "folder/**.yaml")
-    nnoremap <leader>ps :Ripgrep<CR>
+    " [S]earch [G]rep the project (globs: -g "folder/**.yaml")
+    nnoremap <leader>sg :Ripgrep<CR>
     " nnoremap <leader>ps :Rg<SPACE>
-    " Find files
-    nnoremap <leader>pf :Files<CR>
+    " [S]earch [f]iles
+    nnoremap <leader>sf :Files<CR>
     " Find tracked files
     nnoremap <leader>pg :GFiles<CR>
     " Make switching buffers easier
@@ -347,7 +347,7 @@ let s:vimwiki = {}
 let s:vimwiki.path = '~/notes/'
 let s:vimwiki.ext = '.mkd'
 let s:vimwiki.syntax = 'markdown'
-let s:vimwiki.diary_rel_path = 'private/'
+let s:vimwiki.diary_rel_path = 'work/journal/'
 let s:vimwiki.diary_index = 'index'
 let s:vimwiki.diary_header = 'Journal'
 let s:vimwiki.diary_sort = 'asc'

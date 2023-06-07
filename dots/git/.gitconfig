@@ -40,7 +40,12 @@
 	default = current
 
 [merge]
-    conflictstyle = diff3
+  tool = vim
+[mergetool "vim"]
+  cmd = vim -f -c \"Gdiffsplit!\" \"$MERGED\"
+[mergetool]
+  prompt = false
+  keepBackup = false
 
 [alias]
   # -sb for a less verbose status
@@ -61,8 +66,8 @@
   fo = !git fetch origin --prune && git remote prune origin
   # See the most recent commit
   last = !git --no-pager log -1 --oneline --color
-  lol = log --graph --decorate --pretty=oneline --abbrev-commit
-  lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+  lol = log --graph --decorate --abbrev-commit --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+  lola = lol --all
   # Search git history: git search <regexp>
   search = log --all -p -G
   # Stage peice by peice

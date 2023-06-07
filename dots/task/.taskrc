@@ -22,7 +22,7 @@ search.case.sensitive=no
 active.indicator=>
 
 # Shortcuts
-alias.c=context
+alias.cx=context
 alias.daily=status:completed end.after:yesterday all
 alias.punt=modify wait:1d
 alias.someday=modify +someday wait:someday
@@ -149,7 +149,6 @@ urgency.user.project.fun.coefficient=-1.0
 urgency.user.tag.nsfw.coefficient=-1.0
 
 # Contexts! I use these for everything!
-context.f=+fun
 context.j=project~jira +YEAR
 context.g=project~gitlab -techdebt
 context.q=+quality or +techdebt

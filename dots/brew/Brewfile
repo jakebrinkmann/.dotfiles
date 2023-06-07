@@ -1,4 +1,4 @@
-# 'brew bundle install'
+# brew bundle install
 brew "stow"
 brew "cmake"
 brew "codespell"
@@ -41,6 +41,7 @@ brew "ffmpeg"
 # brew tap homebrew/cask-fonts
 # brew install --cask font-hack-nerd-font
 brew "macvim"
+brew "neovim-qt"
 brew "neovim"
 brew "netcat"
 brew "telnet"
