@@ -7,6 +7,13 @@ neorg.setup({
 		["core.concealer"] = {
 			config = {
 				icon_preset = "basic",
+				icons = {
+					todo = {
+						undone = {
+							icon = "܀",
+						},
+					},
+				},
 			},
 		},
 		["core.dirman"] = {
@@ -30,12 +37,13 @@ neorg.setup({
 				engine = "nvim-cmp",
 			},
 		},
+		["core.presenter"] = {
+			config = {
+				zen_mode = "zen-mode",
+			},
+		},
 	},
 })
-
-if os.getenv("NEORGJOURNAL") then
-	vim.cmd("Neorg index")
-end
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

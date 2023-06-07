@@ -124,7 +124,7 @@ require("lazy").setup({
 			"hrsh7th/cmp-nvim-lsp",
 			"L3MON4D3/LuaSnip",
 			"saadparwaiz1/cmp_luasnip",
-			{ "quangnguyen30192/cmp-nvim-ultisnips", opts = {} },
+			-- { "quangnguyen30192/cmp-nvim-ultisnips", opts = {} },
 		},
 	},
 
@@ -308,6 +308,10 @@ require("lazy").setup({
 				-- mini.align for table alignment
 				-- :help MiniAlign  nnoremap gAip
 				{ "echasnovski/mini.nvim", version = false },
+				{
+					"folke/zen-mode.nvim",
+					dependencies = { "folke/twilight.nvim", opts = {} },
+				},
 			},
 		},
 	},
