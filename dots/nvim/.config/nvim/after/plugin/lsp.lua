@@ -45,7 +45,12 @@ local servers = {
 	-- XML
 	lemminx = {},
 	-- YAML
-	yamlls = {},
+	yamlls = {
+		yaml = {
+			-- FIX mapKeyOrder warning
+			keyOrdering = false,
+		},
+	},
 }
 
 -- Ensure the servers above are installed
