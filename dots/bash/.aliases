@@ -107,3 +107,6 @@ alias tt="task"
 alias otg='f() { open $(task _get $1.gitlaburl); }; f'
 alias otj='f() { open $(task _get $1.jiraurl); }; f'
 alias bwp="bugwarrior-pull"
+
+# crontab
+alias crontab-e='vi ~/.crontab && crontab ~/.crontab'

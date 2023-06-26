@@ -64,7 +64,7 @@ py:test:
 sam:build:
   image: public.ecr.aws/sam/build-python3.8:latest
   stage: build
-  tags: [docker]
+  tags: [ docker ]
   variables:
     AWS_DEFAULT_REGION: us-east-1
   script:
@@ -78,14 +78,14 @@ sam:build:
 js:build:
   image: node:8.16.0-alpine
   stage: build
-  tags: [docker]
+  tags: [ docker ]
   script:
     - npm config ls -l
 
 .sam:deploy: &sam_deploy
   image: public.ecr.aws/sam/build-python3.8:latest
   stage: deploy
-  tags: [docker]
+  tags: [ docker ]
   dependencies:
     - sam:build
   script:
@@ -100,7 +100,8 @@ sam:dev:deploy:
     refs:
       - development
 
-sam:stage:deploy: #X.Y.Z-RC.N
+sam:stage:deploy:
+  #X.Y.Z-RC.N
   <<: *sam_deploy
   environment:
     name: Staging
@@ -110,7 +111,8 @@ sam:stage:deploy: #X.Y.Z-RC.N
   except:
     - branches
 
-sam:canary:deploy: #X.Y.Z-beta
+sam:canary:deploy:
+  #X.Y.Z-beta
   <<: *sam_deploy
   environment:
     name: Canary
@@ -120,7 +122,8 @@ sam:canary:deploy: #X.Y.Z-beta
   except:
     - branches
 
-sam:production:deploy: #X.Y.Z
+sam:production:deploy:
+  #X.Y.Z
   <<: *sam_deploy
   environment:
     name: Production
@@ -129,6 +132,19 @@ sam:production:deploy: #X.Y.Z
       - $CI_COMMIT_TAG =~ /^\d+.\d+.\d+$/
   except:
     - branches
+
+make-release:
+  stage: build
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  script:
+    - echo "Create release"
+  release:
+    tag_name: $CI_COMMIT_TAG
+    description: "./CHANGELOG.md"
+    tag_message: $CI_COMMIT_TAG_MESSAGE
+  rules:
+    # Matches v1.2.3 and v1.2.3-alpha.4
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(-\w+\.\d+)?$/'
 
 .cloud_deployment:
   stage: deploy
@@ -235,31 +251,31 @@ stack:deploy:
     - if: '$CI_COMMIT_REF_PROTECTED == "false"'
       when: manual
       variables:
-        CDK_DEFAULT_ACCOUNT: '123456789'
+        CDK_DEFAULT_ACCOUNT: 'PASSWORD789'
         AWS_ACCESS_KEY_ID: ${CDK_ACCESS_KEY_ID_development}
         AWS_SECRET_ACCESS_KEY: ${CDK_SECRET_ACCESS_KEY_development}
         ACCOUNT_NAME: devel
     - if: '$CI_COMMIT_REF_NAME == "development"'
       variables:
-        CDK_DEFAULT_ACCOUNT: '123456789'
+        CDK_DEFAULT_ACCOUNT: 'PASSWORD789'
         AWS_ACCESS_KEY_ID: ${CDK_ACCESS_KEY_ID_development}
         AWS_SECRET_ACCESS_KEY: ${CDK_SECRET_ACCESS_KEY_development}
         ACCOUNT_NAME: devel
     - if: '$CI_COMMIT_REF_NAME == "testing"'
       variables:
-        CDK_DEFAULT_ACCOUNT: '123456789'
+        CDK_DEFAULT_ACCOUNT: 'PASSWORD789'
         AWS_ACCESS_KEY_ID: ${CDK_ACCESS_KEY_ID_testing}
         AWS_SECRET_ACCESS_KEY: ${CDK_SECRET_ACCESS_KEY_testing}
         ACCOUNT_NAME: test
     - if: '$CI_COMMIT_REF_NAME == "staging"'
       variables:
-        CDK_DEFAULT_ACCOUNT: '123456789'
+        CDK_DEFAULT_ACCOUNT: 'PASSWORD789'
         AWS_ACCESS_KEY_ID: ${CDK_ACCESS_KEY_ID_staging}
         AWS_SECRET_ACCESS_KEY: ${CDK_SECRET_ACCESS_KEY_staging}
         ACCOUNT_NAME: stage
     - if: '$CI_COMMIT_REF_NAME == "master"'
       variables:
-        CDK_DEFAULT_ACCOUNT: '123456789'
+        CDK_DEFAULT_ACCOUNT: 'PASSWORD789'
         AWS_ACCESS_KEY_ID: ${CDK_ACCESS_KEY_ID_production}
         AWS_SECRET_ACCESS_KEY: ${CDK_SECRET_ACCESS_KEY_production}
         ACCOUNT_NAME: prod

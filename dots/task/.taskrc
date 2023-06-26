@@ -4,7 +4,7 @@ data.location=~/notes/work/.task
 # Basic config
 weekstart=monday
 default.command=ready limit:page
-default.project=inbox
+default.project=
 tasksh.autoclear=true
 journal.info=yes
 dateformat.info=Y-M-D H:M:S
@@ -40,7 +40,7 @@ report.scheduled.labels=ID,Active,Age,P,Project,Tags,R,S,Due,Until,Description,U
 report.scheduled.sort=scheduled
 report.scheduled.filter=+SCHEDULED -COMPLETED -DELETED
 
-# Try to guage how long something will take
+# Try to gauge how long something will take
 # (Use a string because '5' is prettier than '5.00000'
 uda.estimate.type=string
 uda.estimate.label=Est
@@ -65,10 +65,17 @@ report.all.labels=,Project,Tags,Description
 report.ready.columns=id,project,estimate,priority,description.truncated,tags
 report.ready.labels=ID,Proj,Est,Pri,Description,Tags
 
+# Trust but verify
+report.triage.description=Recurring Triage
+report.triage.columns=id,priority,start.active,urgency,due,description.desc,tags
+report.triage.labels=ID,Pri,A,Urg,Due,Description,Tags
+report.triage.filter=(( proj: ) or ( due.before:tomorrow or due: )) status:pending -WAITING
+report.triage.sort=urgency-
+
 report.today.description=Tasks for Today
 report.today.columns=id,project,priority,start.active,urgency,due,description.desc,tags
 report.today.labels=ID,Proj,Pri,A,Urg,Due,Description,Tags
-report.today.filter=status:pending -BLOCKED -review and ( ( proj: and ( ( prio:H and due: ) or due.before:tomorrow or +respond or +today or +next or +inprogress or +yesterday) ) or +daytime )
+report.today.filter=status:pending -BLOCKED -review and ( ( prio:H and due: ) or due.before:tomorrow or +respond or +today or +next or +inprogress or +yesterday)
 report.today.sort=urgency-
 
 report.active.description=Active Tasks
@@ -102,7 +109,7 @@ report.blocked.sort=wait+,due+,entry+
 urgency.inherit=on
 
 # Don't make chatty tasks important
-urgency.annotations.coefficient=              0.0 # dont care about annotations
+urgency.annotations.coefficient=              0.0 # don't care about annotations
 
 # How urgent something is depends upon what's waiting on it.
 urgency.blocking.coefficient=                 1.0 # blocking other tasks

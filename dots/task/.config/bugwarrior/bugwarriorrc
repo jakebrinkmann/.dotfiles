@@ -1,6 +1,6 @@
 # https://bugwarrior.readthedocs.io/en/latest/common_configuration.html
 [general]
-targets = company_gitlab, company_jira
+targets = gitlab-respond, gitlab-review, jira-assigned, jira-started, jira-respond
 # log.level = DEBUG
 shorten = true
 annotation_comments = false
@@ -9,7 +9,20 @@ static_tags = next, today, yesterday, contrib
 static_fields = project
 
 # https://bugwarrior.readthedocs.io/en/latest/services/gitlab.html
-[company_gitlab]
+[gitlab-respond]
+service = gitlab
+gitlab.login = USERNAME
+gitlab.token = GITLAB_API_TOKEN
+gitlab.host = WORK_GIT_SERVER
+gitlab.default_priority = L
+gitlab.only_if_assigned = USERNAME
+gitlab.include_todos = True
+gitlab.include_all_todos = False
+gitlab.add_tags = respond
+gitlab.project_template = gitlab.{{gitlabrepo}}
+gitlab.description_template = {{gitlaburl}} {{gitlabtitle}}
+
+[gitlab-review]
 service = gitlab
 gitlab.login = USERNAME
 gitlab.token = GITLAB_API_TOKEN
@@ -17,23 +30,48 @@ gitlab.host = WORK_GIT_SERVER
 # gitlab.include_repos = me/project_foo, bar/project_fox
 # gitlab.include_regex = foo/ep_.*
 gitlab.filter_merge_requests = True
-gitlab.only_if_assigned = USERNAME
-gitlab.include_todos = True
-gitlab.description_template = {{gitlabtitle}}
+gitlab.only_if_author = USERNAME
 gitlab.default_priority = L
-gitlab.add_tags = {{gitlabtype}} {{gitlabauthor}}
+gitlab.add_tags = review
 gitlab.project_template = gitlab.{{gitlabrepo}}
+gitlab.description_template = {{gitlaburl}} {{gitlabtitle}}
 
 # https://bugwarrior.readthedocs.io/en/latest/services/jira.html
-[company_jira]
+[jira-assigned]
 service = jira
 jira.base_uri = WORK_JIRA_SERVER
 jira.username = EMAIL
 jira.password = JIRA_API_TOKEN
-jira.query = assignee = currentUser() AND resolution is null
+jira.query = assignee = currentUser() AND sprint in openSprints() AND status in (Open, Reopened)
 jira.default_priority = L
-jira.description_template = {{jiraid}}: {{jirasummary}}
+jira.description_template = {{jiraurl}} {{jirasummary}}
 jira.project_template = jira.{{jiraparent if jiraparent else jiraproject}}
 # jira.add_tags = {{ jiraissuetype | replace("-","_") }}
-jira.add_tags = {{ jirastatus | replace(" ","") | lower }}
 jira.import_sprints_as_tags = True
+jira.add_tags = 
+
+# https://bugwarrior.readthedocs.io/en/latest/services/jira.html
+[jira-started]
+service = jira
+jira.base_uri = WORK_JIRA_SERVER
+jira.username = EMAIL
+jira.password = JIRA_API_TOKEN
+jira.query = assignee = currentUser() AND sprint in openSprints() AND status in ("In Progress")
+jira.default_priority = L
+jira.description_template = {{jiraurl}} {{jirasummary}}
+jira.project_template = jira.{{jiraparent if jiraparent else jiraproject}}
+# jira.add_tags = {{ jiraissuetype | replace("-","_") }}
+jira.import_sprints_as_tags = True
+jira.add_tags = inprogress
+
+[jira-respond]
+service = jira
+jira.base_uri = WORK_JIRA_SERVER
+jira.username = EMAIL
+jira.password = JIRA_API_TOKEN
+jira.query = (assignee is EMPTY OR assignee = currentUser()) AND sprint in openSprints() AND status in ("Technical Review")
+jira.default_priority = L
+jira.description_template = {{jiraurl}} {{jirasummary}}
+jira.project_template = jira.{{jiraparent if jiraparent else jiraproject}}
+jira.import_sprints_as_tags = True
+jira.add_tags = respond
