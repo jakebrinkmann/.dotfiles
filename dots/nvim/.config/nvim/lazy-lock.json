@@ -42,6 +42,9 @@
   "vim-matchup": { "branch": "master", "commit": "6c8909b682803d8c3a054259079f158a73a0e30f" },
   "vim-rhubarb": { "branch": "master", "commit": "ee69335de176d9325267b0fd2597a22901d927b1" },
   "vim-sleuth": { "branch": "master", "commit": "1cc4557420f215d02c4d2645a748a816c220e99b" },
+  "vimwiki": { "branch": "dev", "commit": "65b9f0e68b1c4b6c2023a02b22d11a178e13445e" },
+  "vimwiki-rs": { "branch": "master", "commit": "4c6b7ffbcbe7fcae6d2e79de4db01aadbe52a0d1" },
+  "vimwiki.nvim": { "branch": "master", "commit": "5a8fab371988ad84be9c3c567d9f1a89ea0ca15c" },
   "which-key.nvim": { "branch": "main", "commit": "5a6c954a5a46023c19acc03a8b6d7c3e57964fc5" },
   "zen-mode.nvim": { "branch": "main", "commit": "68f554702de63f4b7b6b6d4bcb10178f41a0acc7" }
 }

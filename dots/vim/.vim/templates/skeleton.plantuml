@@ -1,9 +1,0 @@
-@startuml
-!define LIGHTGREEN
-!include %getenv("HOME")/.vim/templates/style.pu
-
-title "__PROCESS|SCENARIO__ - Goal for <x>"
-left to right direction
-allow_mixing
-
-@enduml

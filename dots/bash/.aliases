@@ -97,7 +97,7 @@ alias prettier="npx prettier --single-quote --print-width 120 --write"
 alias dig="dig +noadditional +noquestion +nocomments +nocmd +nostats"
 
 # Notes
-alias notes="nvim +'cd ~/notes|:Neorg index'"
+alias notes="nvim +'cd ~/notes|:e .'"
 # alias notes="gvim +'cd ~/notes|:VimwikiIndex'"
 
 # warriors
@@ -110,3 +110,6 @@ alias bwp="bugwarrior-pull"
 
 # crontab
 alias crontab-e='vi ~/.crontab && crontab ~/.crontab'
+
+# Calendar CLI
+alias today='icalBuddy -npn -nc -ps "/: /" -iep "datetime,title" -po "datetime, title" -ic "Calendar" eventsToday'

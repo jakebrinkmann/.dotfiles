@@ -50,12 +50,14 @@ require("lazy").setup({
 			"folke/neodev.nvim",
 
 			{
+				-- Install with yarn or npm
 				"iamcco/markdown-preview.nvim",
-				run = function()
-					vim.fn["mkdp#util#install"]()
+				cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+				build = "cd app && yarn install",
+				init = function()
+					vim.g.mkdp_filetypes = { "markdown" }
 				end,
-				ft = "markdown",
-				cmd = { "MarkdownPreview" },
+				ft = { "markdown" },
 			},
 
 			{
@@ -313,6 +315,14 @@ require("lazy").setup({
 					dependencies = { "folke/twilight.nvim", opts = {} },
 				},
 			},
+		},
+	},
+	-- NOT CONFIGURED CORRECTLY (YET)
+	{
+		"chipsenkbeil/vimwiki.nvim",
+		dependencies = {
+			"vimwiki/vimwiki",
+			"chipsenkbeil/vimwiki-rs",
 		},
 	},
 }, {})

@@ -14,7 +14,6 @@ service = gitlab
 gitlab.login = USERNAME
 gitlab.token = GITLAB_API_TOKEN
 gitlab.host = WORK_GIT_SERVER
-gitlab.default_priority = L
 gitlab.only_if_assigned = USERNAME
 gitlab.include_todos = True
 gitlab.include_all_todos = False
@@ -31,7 +30,6 @@ gitlab.host = WORK_GIT_SERVER
 # gitlab.include_regex = foo/ep_.*
 gitlab.filter_merge_requests = True
 gitlab.only_if_author = USERNAME
-gitlab.default_priority = L
 gitlab.add_tags = review
 gitlab.project_template = gitlab.{{gitlabrepo}}
 gitlab.description_template = {{gitlaburl}} {{gitlabtitle}}
@@ -43,7 +41,6 @@ jira.base_uri = WORK_JIRA_SERVER
 jira.username = EMAIL
 jira.password = JIRA_API_TOKEN
 jira.query = assignee = currentUser() AND sprint in openSprints() AND status in (Open, Reopened)
-jira.default_priority = L
 jira.description_template = {{jiraurl}} {{jirasummary}}
 jira.project_template = jira.{{jiraparent if jiraparent else jiraproject}}
 # jira.add_tags = {{ jiraissuetype | replace("-","_") }}
@@ -57,7 +54,6 @@ jira.base_uri = WORK_JIRA_SERVER
 jira.username = EMAIL
 jira.password = JIRA_API_TOKEN
 jira.query = assignee = currentUser() AND sprint in openSprints() AND status in ("In Progress")
-jira.default_priority = L
 jira.description_template = {{jiraurl}} {{jirasummary}}
 jira.project_template = jira.{{jiraparent if jiraparent else jiraproject}}
 # jira.add_tags = {{ jiraissuetype | replace("-","_") }}
@@ -69,8 +65,7 @@ service = jira
 jira.base_uri = WORK_JIRA_SERVER
 jira.username = EMAIL
 jira.password = JIRA_API_TOKEN
-jira.query = (assignee is EMPTY OR assignee = currentUser()) AND sprint in openSprints() AND status in ("Technical Review")
-jira.default_priority = L
+jira.query = ("Additional Assignee[User Picker (single user)]" = currentUser() OR assignee = currentUser()) AND sprint in openSprints() AND status in ("Technical Review")
 jira.description_template = {{jiraurl}} {{jirasummary}}
 jira.project_template = jira.{{jiraparent if jiraparent else jiraproject}}
 jira.import_sprints_as_tags = True
