@@ -1,0 +1,86 @@
+``` ur "unreleased"
+## [Unreleased]
+### Added
+### Changed
+### Fixed
+```
+
+``` dd "current date"
+`!v strftime('%a, %d %b %Y %X %z')`
+-------------------------------
+```
+
+``` du "current week"
+`!v strftime('Week %U, %Y')`
+-------------
+```
+
+``` ta "task tracking pomodoro"
+- [ ] task pending planned grey/comment
+- [%] some percentage done `WIP`
+- [*] in progress right now `WIP`
+- [?] stalled (by lack of info) `WAIT`
+- [.] paused (by me)
+- [:] blocked (by external condition)
+- { } optional/stretch goal
+
+# DONE
+[x] done
+[+] added and done
+[>] bumped to next week
+[-] removed
+[/] failed
+
+[ ]' internal interruption
+[ ]- external interruption
+[ ]. 25-minute pomodoro
+```
+
+``` uml "plantuml example"
+```plantuml
+Bob -> Alice : hello
+Alice -> Bob : hi
+```
+```
+
+``` ditaa "ditaa diagram"
+```ditaa
+    +--------+   +-------+    +-------+
+    |        | --+ ditaa +--> |       |
+    |  Text  |   +-------+    |diagram|
+    |Document|   |!magic!|    |       |
+    |     {d}|   |       |    |       |
+    +---+----+   +-------+    +-------+
+        :                         ^
+        |       Lots of work      |
+        +-------------------------+
+```
+```
+
+``` diagram "diagram stuff"
+```
+┌───────┐  ╭─────╮       ╱╲
+┃       ┃◀─┃     ┃─▶    ╱  ╲
+└───────┛  ╰────╼╯     ╱    ╲
+                      ╱      ╲
+                      ‾‾‾‾‾‾‾‾
+  ╔═══════╗  ┼╌╌╌╌╌╌┼
+◁═╣       ╠═▷┆      ┆
+  ║       ║  ┆      ┆──❯
+  ╚═══════╝  ┼╍╍╍╍╍╍┼
+
+⌇⏞⏞⏞⏞⌇    ⎛⌢⌢⌢⌢⎞     ╱╲
+⌇⏟⏟⏟⏟⌇    ⎜    ⎟    ╱  ╲
+          ⎝⌣⌣⌣⌣⎠    ╲  ╱
+                     ╲╱
+```
+```
+
+``` table
+# Event design table
+
+| API (sync)  |            Input Events            |  Service   |      Action      |                 Output Events                  |             Notes             |
+| :---------: | :--------------------------------: | :--------: | :--------------: | :--------------------------------------------: | :---------------------------: |
+| CreateOrder |            CreateOrder             |   Order    |   CreateOrder    |                  OrderCreated                  |          Public API.          |
+|             |            OrderCreated            | Inventory  |   ReserveItem    |         ItemReserved ItemNotAvailable          |                               |
+```

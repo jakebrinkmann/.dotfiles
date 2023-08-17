@@ -1,0 +1,123 @@
+# Cookie cutter Makefile for docker/python/aws (pytest, sam, cfn-lint)
+
+# Dockerfile
+```dockerfile
+FROM python:3.8-alpine
+
+RUN pip install --no-cache-dir \
+    awscli==1.19.3 \
+    aws-sam-cli==1.17.0 \
+    requests==2.23.0
+
+RUN pip install --no-cache-dir \
+    black \
+    unittest2 \
+    pytest \
+    pytest-cov \
+    pytest-mock \
+    cfn-lint
+```
+
+# Makefile
+```make
+SRC:= ./src
+REGISTRY:= private.com:4443
+IMAGE:= resources/test
+TAG:= latest
+DOCKER_IMAGE= $(REGISTRY)/$(IMAGE):$(TAG)
+TEST_CMD= docker run --rm -it \
+			--name $(IMAGE)\
+			-v $(CURDIR):/var/task:ro \
+			--tmpfs /tmp:rw \
+			$(DOCKER_TAG)
+
+.PHONY: test ## Run Test Suite
+test: test-a test-b
+
+.PHONY: test-a ## Run Test Suite A
+test: test-a
+	$(TEST_CMD)python -B -m py.test tests/src --cov=$(SRC)--cov-fail-under=85 --no-cov-on-fail
+
+.PHONY: lint
+lint: cfn-lint py-lint
+
+.PHONY: py-lint ## Run Python Style Checker
+py-lint:
+	$(TEST_CMD)black --check --line-length=120 $(SRC)
+	$(TEST_CMD)flynt --fail-on-change $(SRC)
+	$(TEST_CMD)flake8 --max-line-length=120 $(SRC)
+	$(TEST_CMD)pydocstyle $(SRC)
+	$(TEST_CMD)isort -c -rc --line-width=120 -m 3 $(SRC)
+	$(TEST_CMD)mypy --silent-imports $(SRC)
+
+.PHONY: py-format ## Run Code Auto Formatters
+py-format:
+	$(TEST_CMD)black --line-length=120 $(SRC)
+	$(TEST_CMD)flynt $(SRC)
+	$(TEST_CMD)isort -rc -sl $(SRC)
+	$(TEST_CMD)autoflake --remove-all-unused-imports -i -r $(SRC)
+	$(TEST_CMD)isort -rc --line-width=120 -m 3 $(SRC)
+
+.PHONY: cfn-lint ## Run C12N Template Checker
+cfn-lint:
+	$(TEST_CMD)cfn-lint template.yaml
+
+.PHONY: image ## Build test image
+image:
+	docker build --compress \
+		-f Dockerfile -t $(DOCKER_TAG)$(CURDIR)
+
+.PHONY: login  ## Authenticate to Docker registry.
+login:
+	docker login $(REGISTRY)
+
+.PHONY: push  ## Push image to Docker registry.
+push: login
+	docker push $(DOCKER_TAG)
+
+.PHONY: all
+all: lint test
+```
+
+```make
+CFN_STACK_NAME= StackName
+#CFN_ROLE = arn:aws:iam::1234:role/Roles-StackNameCloudformation-ABC123
+CFN_S3= stack-name-dev-cfn
+
+.PHONY: validate ## Make sure SAM template is valid
+validate:
+	sam validate --template template.yaml
+
+.PHONY: build ## Process AWS SAM template file
+build:
+	sam build --template template.yaml
+
+.PHONY: package ## Upload code/dependencies to Amazon S3 as .zip
+package:
+	sam package \
+		--output-template-file packaged.yaml \
+		--s3-bucket $(CFN_S3)\
+		--force-upload
+
+.PHONY: deploy
+deploy:
+	sam deploy \
+		--template-file packaged.yaml \
+		--capabilities CAPABILITY_NAMED_IAM \
+		--stack-name $(CFN_STACK_NAME)\
+		--tags StackName=$(CFN_STACK_NAME)\
+		--no-confirm-changeset #--role-arn $(CFN_ROLE)
+
+.PHONY: sam
+sam: validate build package deploy
+```
+
+
+```ini
+#Configurations to make pytest run faster inside docker
+# filename: pytest.ini
+python_files= tests.py test_*.py
+testpaths= tests
+norecursedirs= data *.egg-info .git .tox .pytest_cache .aws-sam
+addopts= -p no:cacheprovider
+```

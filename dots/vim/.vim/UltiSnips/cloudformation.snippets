@@ -1,0 +1,401 @@
+``` init
+AWSTemplateFormatVersion: "2010-09-09"
+Description: ${1: Welcome to CFn template!!}
+###################################################################################################
+##  Template Parameters                                                                          ##
+###################################################################################################
+Parameters:
+Mappings:
+###################################################################################################
+##  Template Resources                                                                           ##
+###################################################################################################
+Resources:
+###################################################################################################
+##  Template outputs                                                                             ##
+###################################################################################################
+Outputs:
+```
+
+``` sam "sam transform"
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: HTTP API
+
+Resources:
+```
+``` sqs "sqs queue resource"
+MyQueue:
+  Type: AWS::SQS::Queue
+```
+``` param ""
+Parameters:
+  lambdaFunctionName:
+    Type: String
+    AllowedPattern: "[a-zA-Z0-9]+[a-zA-Z0-9-]+[a-zA-Z0-9]+"
+    Default: qr-function
+```
+``` oapi "sam open api"
+  ServerlessRestApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name:
+        Fn::Sub: ${AppName}-api-${Stage}
+      StageName: !Ref Stage
+      DefinitionBody:
+        Fn::Transform:
+          Name: AWS::Include
+          Parameters:
+            Location: swagger.yml
+```
+``` xamz "xamazon"
+openapi: 3.0.0
+
+info:
+  title: openapi-example
+  version: 0.3.0
+  description: "This is an example OpenAPI specification"
+  termsOfService: "http://example.com/tos"
+  contact:
+    email: "example@example.com"
+x-amazon-apigateway-request-validators:
+  all:
+    validateRequestBody: true
+    validateRequestParameters: true
+  params:
+    validateRequestBody: true
+    validateRequestParameters: true
+  body:
+    validateRequestBody: true
+    validateRequestParameters: false
+
+paths:
+  /testFunc:
+    get:
+      operationId: testFunc
+      description: Test sam local functionality with API Gateway & Open API
+      x-amazon-apigateway-request-validator: params
+      parameters:
+        - in: query
+          name: testQuery
+          description: a test parameter to see how parameters are passed via swagger & API Gateway.
+          required: true
+          schema:
+            type: string
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TestFunction.Arn}/invocations
+        httpMethod: POST
+        timeoutInMillis: 3000
+        type: "aws_proxy"
+      responses:
+        '200':
+          description: A 200 response.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: bad input parameter
+```
+``` xyz
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: HTTP API for Deciphering QR Codes
+
+Parameters:
+  apiGatewayName:
+    Type: String
+    Default: qr-api
+  lambdaFunctionName:
+    Type: String
+    AllowedPattern: "[a-zA-Z0-9]+[a-zA-Z0-9-]+[a-zA-Z0-9]+"
+    Default: qr-function
+
+Globals:
+  Function:
+    Runtime: python3.9
+    MemorySize: 128
+    Timeout: 30
+    Environment:
+      Variables:
+        USER_POOL_ID: !FindInMap [ AccountMap, !Ref AccountName, UserPoolId ]
+        ROLE_TABLE_NAME: !Ref DDBRoles
+
+Resources:
+  ServerlessRestApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      EndpointConfiguration:
+        type: REGIONAL
+      Name: !Ref apiGatewayName
+      Cors:
+        AllowMethods: "'*'"
+        AllowHeaders: "'*'"
+        AllowOrigin: "'*'"
+        MaxAge: "'500'"
+
+  ServerlessFunction:
+    Type: AWS::Serverless::Function
+    Name: !Ref lambdaFunctionName
+    Properties:
+      CodeUri: aws-qr/
+      Handler: index.handler
+      Policies:
+        - AWSLambdaExecute
+      Events:
+        GetCodeEvent:
+          Type: Api
+          Properties:
+            Path: /qr-code
+            Method: GET
+            RestApiId: !Ref ServerlessRestApi
+
+Outputs:
+  ServerlessApiEndpoint:
+    Description: "API endpoint"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+```
+``` cond "conditions"
+Conditions:
+  IsEnvDevelopment: !Equals [ !Ref AccountName, devel ]
+  IsEnvProduction: !Not [ !Equals [ !Ref AccountName, devel ] ]
+  IsEnvProduction: !Not [ !Equals [ !Ref EnvironmentType, dev ] ]
+
+Environment:
+- Name: "NODE_ENV"
+  Value: !Ref "NodeEnv"
+- !If
+  - "IsEnvStage"
+  - Name: "CORE_URL"
+    Value: !Sub "https://staging.${DnsHostedZoneName}"
+  - Name: "NCVCORE_URL"
+    Value: !Sub "https://${DnsHostedZoneName}"
+
+Conditions:
+  UseSnapshotSelected: !Equals [ !Ref UseSnapshot, 'true' ]
+Resources:
+  DbInstance:
+    Condition: IsEnvProduction
+    Type: AWS::RDS::DBInstance
+    Properties:
+      AllocatedStorage: 20
+      DBInstanceClass: db.t2.micro
+      Engine: mysql
+      MasterUsername: !Ref MasterUsername
+      MasterUserPassword: !Ref MasterUserPassword
+      DBSnapshotIdentifier: !If [ UseSnapshotSelected, !Ref DbSnapshot, !Ref 'AWS::NoValue' ]
+```
+# https://github.com/awsdocs/aws-step-functions-developer-guide/blob/master/doc_source/supported-services-awssdk.md
+# https://states-language.net/spec.html
+# https://github.com/aws/amazon-states-language-service/blob/master/src/snippets/states.json
+``` statemachine
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "An example template with an IAM role for a Lambda state machine."
+Resources:
+  LambdaExecutionRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: "sts:AssumeRole"
+
+  MyLambdaFunction:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Handler: "index.handler"
+      Role: !GetAtt [ LambdaExecutionRole, Arn ]
+      Code:
+        ZipFile: |
+          exports.handler = (event, context, callback) => {
+              callback(null, "Hello World!");
+          };
+      Runtime: "nodejs12.x"
+      Timeout: "25"
+
+  StatesExecutionRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - !Sub states.${AWS::Region}.amazonaws.com
+            Action: "sts:AssumeRole"
+      Path: "/"
+      Policies:
+        - PolicyName: StatesExecutionPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "lambda:InvokeFunction"
+                Resource: "*"
+
+  StateMachineLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/stepfunction/${AWS::StackName}-MyStateMachine"
+      RetentionInDays: 30
+
+  MyStateMachine:
+    Type: "AWS::StepFunctions::StateMachine"
+    Properties:
+      DefinitionUri: StateMachine.asl.json
+      DefinitionSubstitutions:
+        ResourceArn: !GetAtt LambdaFunction.Arn
+      Logging:
+        IncludeExecutionData: True
+        Level: ALL || ERROR
+        Destinations:
+          - CloudWatchLogsLogGroup:
+              LogGroupArn: !GetAtt OptionsUpdateStateMachineLogGroup.Arn
+      Type: STANDARD
+
+      DefinitionString:
+        !Sub
+          - |-
+            {
+              "Comment": "A Hello World example using an AWS Lambda function",
+              "StartAt": "HelloWorld",
+              "States": {
+                "HelloWorld": {
+                  "Type": "Task",
+                  "Resource": "arn:aws:states:::lambda:invoke",
+                  "OutputPath": "$.Payload",
+                  "Parameters": {
+                    "FunctionName": "MapSampleProj-ReadFromSQSQueueLambda-1MY3M63RMJVA9",
+                    "Payload":{
+                       "model.$":"$.new_model",
+                       "token.$":"$$.Task.Token"
+                    },
+                  },
+                  "End": true
+                }
+              }
+            }
+          - {lambdaArn: !GetAtt [ MyLambdaFunction, Arn ]}
+      RoleArn: !GetAtt [ StatesExecutionRole, Arn ]
+```
+``` ec2
+Parameters:
+  ...
+  InstanceAMI:
+    # https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-public-parameters-ami.html
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Description: The SSM public parameter for the ARM AMI
+    Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-arm64-gp2'
+  KeyName:
+    ConstraintDescription: must be the name of an existing EC2 KeyPair.
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the instances
+    Type: AWS::EC2::KeyPair::KeyName
+  InstanceType:
+    AllowedValues:
+    - t1.micro
+    - t2.nano
+    - t4g.nano
+    ConstraintDescription: must be a valid EC2 instance type.
+    Default: t4g.nano
+    Description: WebServer EC2 instance type
+    Type: String
+Resources:
+  ...
+  WebServer:
+    Type: AWS::EC2::Instance
+    Metadata:
+      AWS::CloudFormation::Init:
+        configSets:
+          install:
+          - config
+        config:
+          packages:
+            yum:
+              jq: []
+    Properties:
+      ImageId: !Ref InstanceAMI
+      InstanceType:
+        Ref: InstanceType
+      KeyName:
+        Ref: KeyName
+      SubnetId: !ImportValue VPC-PublicSubnet2
+      SecurityGroups:
+      - Ref: WebServerSecurityGroup
+      UserData:
+        Fn::Base64: !Sub |
+           #!/bin/bash -xe
+           yum update -y aws-cfn-bootstrap
+           /opt/aws/bin/cfn-init -v --stack ${AWS::StackId} --resource WebServer --configsets wordpress_install --region ${AWS::Region}
+           /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackId} --resource WebServer --region ${AWS::Region}
+    ...
+  ...
+
+  WebServerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Enable HTTP access via port 80 locked down to the load balancer + SSH access"
+      SecurityGroupIngress:
+      - CidrIp: 0.0.0.0/0
+        FromPort: 80
+        IpProtocol: tcp
+        ToPort: 80
+      - CidrIp: !Ref SSHLocation
+        FromPort: 22
+        IpProtocol: tcp
+        ToPort: 22
+  ...
+```
+``` eventbridge
+Parameters:
+  PagerDutyAPIKeyParam:
+    Type: String
+    Description: API Key for the PagerDuty Environment
+    NoEcho: True
+
+Resources:
+  MyConnection:
+    Type: AWS::Events::Connection
+    Properties:
+      AuthorizationType: API_KEY
+      Description: Connection to PagerDuty API
+      AuthParameters:
+        ApiKeyAuthParameters:
+          ApiKeyName: PagerDuty Authorization
+          ApiKeyValue: !Ref PagerDutyAPIKeyParam
+
+  MyApiDestination:
+    Type: AWS::Events::ApiDestination
+    Properties:
+      ConnectionArn: !GetAtt MyConnection.Arn
+      Description: API Destination to send events to PagerDuty
+      HttpMethod: POST
+      InvocationEndpoint: https://events.pagerduty.com/v2/enqueue
+
+  MyEventRule:
+    Type: 'AWS::Events::Rule'
+    Properties:
+      Description: Routes to us-east-1 event bus
+      EventBusName: MyBusName
+      State: ENABLED
+      EventPattern:
+        source:
+          - MyTestApp
+        detail:
+          - MyTestAppDetail
+      Targets:
+        - Arn: !GetAtt MyApiDestination.Arn
+          Id: 'CrossRegionDestinationBus'
+          RoleArn: !GetAtt EventBridgeIAMrole.Arn
+          HttpParameters:
+            HeaderParameters:
+              Key: Value
+            PathParameterValues:
+              - String
+            QueryStringParameters:
+              Key: Value
+```

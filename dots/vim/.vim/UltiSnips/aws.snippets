@@ -1,0 +1,19 @@
+# SAM(Serverless Application Model)
+```bash
+poetry export -f requirements.txt --without-hashes > requirements.txt
+sam init --location https://github.com/aws-samples/cookiecutter-aws-sam-python
+sam build --use-container
+sam package --output-template-file packaged.yaml --s3-bucket $BUCKET
+sam deploy --stack-name $STACK --tags StackName=$STACK --capabilities CAPABILITY_IAM --no-fail-on-empty-changeset --s3-bucket $BUCKET --confirm-changeset
+sam logs --stack-name $STACK --name $FUNCTION --tail
+python serverless-application-model/bin/sam-translate.py --template-file=packaged.yaml --output-template=cft.json
+```
+
+``` cdk
+npx cdk init sample-app --language=typescript
+npx cdk ls
+npx cdk bootstrap \
+  --profile ProjectXProd \
+  --cloudformation-execution-policies 'arn:aws:iam::aws:policy/AdministratorAccess' \
+  PASSWORD789012/us-east-1 PASSWORD789012/us-west-1
+```

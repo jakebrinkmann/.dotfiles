@@ -1,0 +1,7 @@
+``` "randint([0-9]*)?" "Random integer" r
+`!p if not snip.c: snip.rv = ''.join(str(random.randint(0,10)) for x in range(int(match.group(1) if match.group(1) else 10)))`
+```
+
+``` "randstr([0-9]*)?" "Random String" r
+`!p if not snip.c: snip.rv = ''.join(random.choices(string.ascii_uppercase + string.digits, k=int(match.group(1)) if int(match.group(1)) else 10))`
+```

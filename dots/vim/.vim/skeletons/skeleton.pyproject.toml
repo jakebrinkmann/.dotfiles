@@ -1,0 +1,94 @@
+[tool.poetry]
+name = "python-poetry-aws-sam"
+version = "0.1.0"
+description = ""
+authors = ["Jake Brinkmann <jakebrinkmann@gmail.com>"]
+#packages = [
+#    { include = "my_sub_package", from = "src" }
+#]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.dev-dependencies]
+black = "*"
+coverage = {version = "*", extras = ["toml"]}
+flake8 = "*"
+flake8-black = "*"
+flake8-bugbear = "*"
+flake8-docstrings = "*"
+flake8-isort = "*"
+flake8-unused-arguments = "*"
+isort = "*"
+pep8-naming = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-mock = "*"
+aws-sam-cli = "*"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+##### isort configuration https://pycqa.github.io/isort/docs/configuration/config_files.html
+[tool.isort]
+profile = "black"
+default_section = "THIRDPARTY"
+sections = "FUTURE,STDLIB,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
+skip = "__init__.py"
+
+##### black configuration https://black.readthedocs.io/en/stable/usage_and_configuration/the_basics.html#configuration-via-a-file
+[tool.black]
+line-length    = 88
+target_version = ['py39']
+
+##### flake8-pyproject config https://flake8.pycqa.org/en/latest/user/configuration.html #####
+[tool.flake8]
+exclude = ".git,__pycache__,.venv,*tests/"
+max-line-length = 120
+jobs = 8
+
+
+##### pytest configuration: http://doc.pytest.org/en/latest/customize.html
+[tool.pytest.ini_options]
+minversion = "6.0"
+python_files = [ "test_*.py" ]
+norecursedirs = [
+  ".git",
+  ".pytest_cache",
+  ".aws-sam"
+]
+filterwarnings = [
+  "error::UserWarning",
+  "error::DeprecationWarning",
+  "error::PendingDeprecationWarning"
+]
+addopts    = """
+  --color=yes
+  --strict-markers
+  -p no:cacheprovider
+  --verbose 
+  --junitxml=report.xml
+  --cov-report term-missing:skip-covered
+  --cov-report xml 
+  --cov src
+"""
+markers = [
+    "integration: (deselect with '-m \"not integration\"')",
+]
+
+##### coverage configuration: https://coverage.readthedocs.io/en/latest/config.html
+[tool.coverage]
+[tool.coverage.paths]
+source = ["src"]
+
+[tool.coverage.run]
+branch = true
+source = ["src"]
+omit = ["tests/*"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 100
