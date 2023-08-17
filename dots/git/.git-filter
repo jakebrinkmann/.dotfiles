@@ -17,6 +17,7 @@ REPLACE_CONTENT = [
     ('JIRA_API_TOKEN', os.getenv('JIRA_TOKEN')),
     ('GITLAB_API_TOKEN', os.getenv('GITLAB_BUGWARRIOR_TOKEN')),
     ('AWS_SSO_ROLE_NAME', os.getenv('AWS_SSO_ROLE_NAME')),
+    ('AWS_RO_ROLE_NAME', os.getenv('AWS_RO_ROLE_NAME')),
     ('AWS_SSO_START_URL', os.getenv('AWS_SSO_START_URL')),
 ]
 
