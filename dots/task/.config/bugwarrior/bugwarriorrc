@@ -1,6 +1,6 @@
 # https://bugwarrior.readthedocs.io/en/latest/common_configuration.html
 [general]
-targets = gitlab-respond, gitlab-review, jira-assigned, jira-started, jira-respond
+targets = gitlab-respond, jira-assigned, jira-started, jira-respond
 # log.level = DEBUG
 shorten = true
 annotation_comments = false
@@ -14,23 +14,10 @@ service = gitlab
 gitlab.login = USERNAME
 gitlab.token = GITLAB_API_TOKEN
 gitlab.host = WORK_GIT_SERVER
-gitlab.only_if_assigned = USERNAME
 gitlab.include_todos = True
 gitlab.include_all_todos = False
-gitlab.add_tags = respond
-gitlab.project_template = gitlab.{{gitlabrepo}}
-gitlab.description_template = {{gitlaburl}} {{gitlabtitle}}
-
-[gitlab-review]
-service = gitlab
-gitlab.login = USERNAME
-gitlab.token = GITLAB_API_TOKEN
-gitlab.host = WORK_GIT_SERVER
-# gitlab.include_repos = me/project_foo, bar/project_fox
-# gitlab.include_regex = foo/ep_.*
-gitlab.filter_merge_requests = True
-gitlab.only_if_author = USERNAME
-gitlab.add_tags = review
+gitlab.only_if_assigned = USERNAME
+gitlab.add_tags = {{'review' if gitlabtype == 'merge_request' else 'respond'}}
 gitlab.project_template = gitlab.{{gitlabrepo}}
 gitlab.description_template = {{gitlaburl}} {{gitlabtitle}}
 
@@ -42,7 +29,7 @@ jira.username = EMAIL
 jira.password = JIRA_API_TOKEN
 jira.query = assignee = currentUser() AND sprint in openSprints() AND status in (Open, Reopened)
 jira.description_template = {{jiraurl}} {{jirasummary}}
-jira.project_template = jira.{{jiraparent if jiraparent else jiraproject}}
+jira.project_template = jira.{{jirastatus}}.{{jiraparent if jiraparent else jiraproject}}
 # jira.add_tags = {{ jiraissuetype | replace("-","_") }}
 jira.import_sprints_as_tags = True
 jira.add_tags = 
@@ -55,7 +42,7 @@ jira.username = EMAIL
 jira.password = JIRA_API_TOKEN
 jira.query = assignee = currentUser() AND sprint in openSprints() AND status in ("In Progress")
 jira.description_template = {{jiraurl}} {{jirasummary}}
-jira.project_template = jira.{{jiraparent if jiraparent else jiraproject}}
+jira.project_template = jira.{{jirastatus}}.{{jiraparent if jiraparent else jiraproject}}
 # jira.add_tags = {{ jiraissuetype | replace("-","_") }}
 jira.import_sprints_as_tags = True
 jira.add_tags = inprogress
@@ -67,6 +54,6 @@ jira.username = EMAIL
 jira.password = JIRA_API_TOKEN
 jira.query = ("Additional Assignee[User Picker (single user)]" = currentUser() OR assignee = currentUser()) AND sprint in openSprints() AND status in ("Technical Review")
 jira.description_template = {{jiraurl}} {{jirasummary}}
-jira.project_template = jira.{{jiraparent if jiraparent else jiraproject}}
+jira.project_template = jira.{{jirastatus}}.{{jiraparent if jiraparent else jiraproject}}
 jira.import_sprints_as_tags = True
 jira.add_tags = respond
