@@ -1,4 +1,4 @@
-``` lambda
+snippet lambda
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
 export const lambdaHandler = async (
@@ -13,13 +13,13 @@ export const lambdaHandler = async (
     body: `{"Queries":, "${queries}"}`
   };
 };
-```
+snippet
 
-``` inst
+snippet inst
 npm i -D jest @types/jest
-```
+snippet
 
-``` test
+snippet test
 import { APIGatewayProxyEvent } from "aws-lambda";
 import { lambdaHandler } from "../../src-ts/app";
 
@@ -36,4 +36,4 @@ describe('Unit test for app handler', function () {
         expect(result.body).toEqual(`Queries: ${JSON.stringify(event.queryStringParameters)}`);
     });
 });
-```
+snippet

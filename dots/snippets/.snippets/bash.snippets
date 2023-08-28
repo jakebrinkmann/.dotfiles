@@ -1,3 +1,7 @@
+command 2> errors.txt
+command &> output.txt
+my_command 2>err.log 1>out.log
+
 ``` conditional
 [ -z "$VAR" ] && echo "VAR=" && read VAR
 -e file -- True if file exists.
@@ -155,7 +159,7 @@ docker run -d --name db-host \
     -e POSTGRES_USER=info_api \
     postgres:14.5-alpine
 
-docker exec pypoetry \
+docker exec -it pypoetry \
   -w /opt/${USER} \
   sh -c "poetry lock"
 ```

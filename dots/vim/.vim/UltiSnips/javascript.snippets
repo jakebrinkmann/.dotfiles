@@ -1,45 +1,45 @@
-``` db "" b
+snippet db "" b
 debugger; //
-```
+snippet
 
-``` cl "" b
+snippet cl "" b
 console.log("${1:HERE}")
-```
+snippet
 
-``` r "" b
+snippet r "" b
 throw "${1:HANDS IN THE AIR}"
-```
+snippet
 
-``` async
+snippet async
 (async () => {return (await Promise.resolve('hi'))})()
-```
+snippet
 
-``` ednl
+snippet ednl
 // eslint-disable-next-line
-```
+snippet
 
-``` jsdoc
+snippet jsdoc
 /**
  * Foo takes any argument.
  * The return value is 'baz' in all cases.
  * @param {*} bar - Any argument
  * @param {string} [optionalArg] - An optional argument that is a string
  */
-```
+snippet
 
-``` promise
+snippet promise
 const myPromise = new Promise((resolve, reject) => {
   setTimeout(() => {
     resolve('foo');
   }, 300);
 });
-```
+snippet
 
-``` script
+snippet script
 #!/usr/bin/env node
-```
+snippet
 
-``` lambda
+snippet lambda
 exports.handler = async function(event) {
   console.log("request:", JSON.stringify(event, undefined, 2));
   return {
@@ -48,9 +48,9 @@ exports.handler = async function(event) {
     body: "{\"Hello\":, \"Lambda!\"}"
   };
 };
-```
+snippet
 
-``` aws-sdk
+snippet aws-sdk
 const { DynamoDB, Lambda } = require('aws-sdk');
 
 exports.handler = async function(event) {
@@ -79,8 +79,8 @@ exports.handler = async function(event) {
   // return response back to upstream caller
   return JSON.parse(resp.Payload);
 };
-```
+snippet
 
-``` npm
+snippet npm
 npm adduser --registry http://npm.example.com
-```
+snippet

@@ -1,8 +1,8 @@
-``` venv
+snippet venv
 # Activate venv
 python3 -m venv .venv
-```
-``` st "boto3 stubber" b
+snippet
+snippet st "boto3 stubber" b
 import botocore
 @pytest.fixture
 def stub_${1:ddb}():
@@ -15,15 +15,15 @@ def test_get(stub_$1):
     stub_$1.add_response(
         "query", {"Items": [{"column1": {"S": "0000001 0000002 0000003"}}]}
     )
-```
+snippet
 
-``` ex "sqlalchemy execute block" b
+snippet ex "sqlalchemy execute block" b
 with get_connection() as connection:
     with connection.begin():
         connection.execute(${1:stmt}${2:, items})
-```
+snippet
 
-``` sa "sqlalchemy boilerplate" b
+snippet sa "sqlalchemy boilerplate" b
 import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 tbl_${1:my_table} = sa.Table(
@@ -37,10 +37,10 @@ def _select_records() -> 'sa.Select':
 
 def list_records() -> list:
     return execute(_select_records()).mappings().fetchall()
-```
+snippet
 
 
-``` ct "sqlalchemy count boilerplate" b
+snippet ct "sqlalchemy count boilerplate" b
 def _count_records_stmt(stmt: "sa.Select", limit: int) -> "sa.Select":
     return sa.select(
         [
@@ -68,9 +68,9 @@ def get_records(limit: int, page: int, sort: str, search: str = None) -> tuple:
     records = execute(_limit_records_stmt(stmt, limit, page)).fetchall()
     count, pages = _count_records(stmt, limit)
     return records, count, pages
-```
+snippet
 
-``` engine
+snippet engine
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.engine import URL
@@ -98,9 +98,9 @@ with get_session().begin() as session:
     session.add(some_object)
     session.add(some_other_object)
     session.commit()
-```
+snippet
 
-``` pt "pytest function" b
+snippet pt "pytest function" b
 import pytest
 
 from ${1:foo} import ${2:bar} as subject
@@ -126,9 +126,9 @@ def test_$2(mock_db, event):
 
     # THEN I should <<expected testable outcome>>
     assert 0
-```
+snippet
 
-``` param "pytest parametrize"
+snippet param "pytest parametrize"
 # https://docs.pytest.org/en/6.2.x/parametrize.html
 @pytest.mark.parametrize("x", [0, 1])
 @pytest.mark.parametrize("y", [2, 3])
@@ -141,9 +141,9 @@ def test_foo(x, y):
     ('demand', DEMAND)
     ('try', TRY),
 ])
-```
+snippet
 
-``` aaa "arrange act assert" b
+snippet aaa "arrange act assert" b
 """Scenario: <<determinable situation>>"""
 # Given there is <<precondition or input>>
 
@@ -152,21 +152,21 @@ result = subject()
 
 # Then I should <<expected testable outcome>>
 assert 0
-```
+snippet
 
-``` pdb "" b
+snippet pdb "" b
 breakpoint()
-```
+snippet
 
-``` rn "" b
+snippet rn "" b
 raise NotImplementedError(${1:"TODO"})
-```
+snippet
 
-``` a "" b
+snippet a "" b
 assert ${1:False}
-```
+snippet
 
-``` dc "" b
+snippet dc "" b
 from typing import List, Optional, Union, Dict, NewType
 from enum import Enum, unique
 >>> @unique
@@ -176,9 +176,9 @@ from enum import Enum, unique
 ...     THREE = 3
 ...     FOUR = 3
 >>> EncounterId = NewType("EncounterId", int)
-```
+snippet
 
-``` dc "dataclass"
+snippet dc "dataclass"
 from dataclasses import dataclass, field, asdict
 
 @dataclass
@@ -201,15 +201,15 @@ class Base:
 @dataclass(kw_only=True)
 class Foo(Base):
 	id: int
-```
+snippet
 
-``` pb "poetry black config"
+snippet pb "poetry black config"
 [tool.black]
 line-length = 120
 target_version = ['py39']
-```
+snippet
 
-``` pt "poetry pytest config"
+snippet pt "poetry pytest config"
 [tool.pytest.ini_options]
 minversion = "6.0"
 python_files = [ "test_*.py" ]
@@ -232,9 +232,9 @@ addopts = [
   "--junitxml=report.xml",
   "--cov"
 ]
-```
+snippet
 
-``` pc "poetry converage config"
+snippet pc "poetry converage config"
 [tool.coverage]
 [tool.coverage.run]
 branch = true
@@ -254,9 +254,9 @@ exclude_lines = [
 
 [tool.coverage.xml]
 output = "coverage.xml"
-```
+snippet
 
-``` poaws "poetry aws config"
+snippet poaws "poetry aws config"
 [tool.poetry.dependencies]
 python = "^3.9"
 boto3 = "*"
@@ -277,29 +277,29 @@ pytest-cov = "*"
 pytest-mock = "*"
 pytest-mccabe = "*"
 pyupgrade = "*"
-```
+snippet
 
-``` flake8 ".flake8"
+snippet flake8 ".flake8"
 [flake8]
 max-line-length = 120
 max-complexity = 10
 per-file-ignores =
     __init__.py:F401
 exclude = .venv, .git, __pycache__, build, dist, setup.py
-```
+snippet
 
-``` stdout
+snippet stdout
 import sys
 # ...
 logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
-```
+snippet
 
-``` start
+snippet start
 import time; start, count = time.time(), 0;
 count+=1; print(f"{count} Process time:  + {time.time() - start}")
-```
+snippet
 
-``` junit
+snippet junit
 from unittest.mock import patch
 from django.test import TestCase
 
@@ -308,13 +308,13 @@ class TheBigTest(TestCase):
     def test_happy_path(self, foo_mock):
         """service.function: Does the hello from world."""
         ...
-```
+snippet
 
-```python
+snippetpython
 def hello_decorator(func):
 	def inner1():
 		print("Hello, this is before function execution")
 		func()
 		print("This is after function execution")
 	return inner1
-```
+snippet

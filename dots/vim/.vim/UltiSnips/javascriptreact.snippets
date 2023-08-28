@@ -1,14 +1,14 @@
-``` imp
+snippet imp
 import { } from '';
-```
-``` !!
+snippet
+snippet !!
 const App = () => (
   <div>
     <p></p>
   </div>
 );
-```
-``` reducer
+snippet
+snippet reducer
 import { createStore } from 'redux';
 function reducer(state = initState, action) {
   switch(action.type) {
@@ -19,8 +19,8 @@ function reducer(state = initState, action) {
 const store = createStore(reducer);
 store.dispatch({ type: 'INCREMENT' });
 console.log(store.getState());
-```
-``` redux
+snippet
+snippet redux
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 const App = () => (
@@ -35,4 +35,4 @@ function mapStateToProps(state) {
   }
 }
 export default connect(mapStateToProps)(Component);
-```
+snippet
