@@ -38,6 +38,8 @@ profile = "black"
 default_section = "THIRDPARTY"
 sections = "FUTURE,STDLIB,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
 skip = "__init__.py"
+multi_line_output = 3
+combine_as_imports = true
 
 ##### black configuration https://black.readthedocs.io/en/stable/usage_and_configuration/the_basics.html#configuration-via-a-file
 [tool.black]

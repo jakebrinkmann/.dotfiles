@@ -18,7 +18,7 @@ gitlab.include_todos = True
 gitlab.include_all_todos = False
 gitlab.only_if_assigned = USERNAME
 gitlab.add_tags = {{'review' if gitlabtype == 'merge_request' else 'respond'}}
-gitlab.project_template = gitlab.{{gitlabrepo}}
+gitlab.project_template = gitlab.{{gitlabtype}}.{{gitlabrepo}}
 gitlab.description_template = {{gitlaburl}} {{gitlabtitle}}
 
 # https://bugwarrior.readthedocs.io/en/latest/services/jira.html
@@ -29,7 +29,7 @@ jira.username = EMAIL
 jira.password = JIRA_API_TOKEN
 jira.query = assignee = currentUser() AND sprint in openSprints() AND status in (Open, Reopened)
 jira.description_template = {{jiraurl}} {{jirasummary}}
-jira.project_template = jira.{{jirastatus}}.{{jiraparent if jiraparent else jiraproject}}
+jira.project_template = jira.{{jirastatus | replace(" ","")}}.{{jiraparent if jiraparent else jiraproject}}
 # jira.add_tags = {{ jiraissuetype | replace("-","_") }}
 jira.import_sprints_as_tags = True
 jira.add_tags = 
@@ -42,7 +42,7 @@ jira.username = EMAIL
 jira.password = JIRA_API_TOKEN
 jira.query = assignee = currentUser() AND sprint in openSprints() AND status in ("In Progress")
 jira.description_template = {{jiraurl}} {{jirasummary}}
-jira.project_template = jira.{{jirastatus}}.{{jiraparent if jiraparent else jiraproject}}
+jira.project_template = jira.{{jirastatus | replace(" ","")}}.{{jiraparent if jiraparent else jiraproject}}
 # jira.add_tags = {{ jiraissuetype | replace("-","_") }}
 jira.import_sprints_as_tags = True
 jira.add_tags = inprogress
@@ -54,6 +54,6 @@ jira.username = EMAIL
 jira.password = JIRA_API_TOKEN
 jira.query = ("Additional Assignee[User Picker (single user)]" = currentUser() OR assignee = currentUser()) AND sprint in openSprints() AND status in ("Technical Review")
 jira.description_template = {{jiraurl}} {{jirasummary}}
-jira.project_template = jira.{{jirastatus}}.{{jiraparent if jiraparent else jiraproject}}
+jira.project_template = jira.{{jirastatus | replace(" ","")}}.{{jiraparent if jiraparent else jiraproject}}
 jira.import_sprints_as_tags = True
 jira.add_tags = respond

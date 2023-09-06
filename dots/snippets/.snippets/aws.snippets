@@ -57,6 +57,12 @@ aws rds describe-db-engine-versions --engine aurora-postgresql --query '*[].[Eng
 aws rds describe-engine-default-parameters --db-parameter-group-family mariadb10.6 \
    --query 'EngineDefaults.Parameters[?IsModifiable==`true`]'
 aws rds describe-db-cluster-parameters --db-cluster-parameter-group-name default.aurora-postgresql14
+aws rds describe-db-clusters | jq -r '.DBClusters[].DBClusterArn'
+aws rds-data execute-statement \
+  --resource-arn $DB_ARN \
+  --secret-arn $SECRET_ARN \
+  --database $DB_NAME \
+  --sql "select * from "
 
 # aws.database.DDB (DynamoDB NoSQL Database)
 aws dynamodb list-tables  --query 'TableNames[]'
@@ -282,7 +288,7 @@ aws sts decode-authorization-message --encoded-message (encoded error message) -
 
 # aws.security.SecretsManager
 aws secretsmanager create-secret --name $SECRET_NAME --secret-string $VALUE
-aws secretsmanager list-secrets --query 'SecretList[].Name' --output text
+aws secretsmanager list-secrets --query "SecretList[?contains(Name, 'ApiCredentials')].ARN" --output text
 aws secretsmanager get-secret-value --secret-id $SECRET_NAME | jq -c '.SecretString | fromjson'
 aws secretsmanager put-secret-value --secret-id $SECRET_NAME --secret-string "$VALUE"
 aws secretsmanager delete-secret --secret-id $SECRET_NAME --force-delete-without-recovery
@@ -315,6 +321,7 @@ aws cognito-idp update-user-pool-client --user-pool-id us-east-1_ABC \
   --callback-urls "[\"http://localhost:3000/\"]" \
   --supported-identity-providers "[\"MyIDP\"]"
 aws cognito-idp list-user-pools --max-results 1 --query 'UserPools[0].Id' --output text
+aws cognito-idp describe-user-pool --user-pool-id us-west-2_aaaaaaaaa
 aws cognito-idp list-user-pool-clients --user-pool-id $UserPoolId \
   --query "UserPoolClients[?ClientName | contains(@, 'clientWeb')].ClientId"
 aws cognito-idp describe-user-pool-client --user-pool-id $UserPoolId --client-id $ClientId
