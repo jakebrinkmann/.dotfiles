@@ -48,11 +48,10 @@ alias emacs="emacs -nw"
 alias g=git
 alias gti=git
 alias gi=git
-alias vi=nvim
+alias vi='f() { test -f pyproject.toml && poetry run $EDITOR $@ || $EDITOR $@; }; f'
 alias python=python3
 alias _jpy="cd ~/notes/notebooks/; poetry run jupyter lab"
 alias _ipy="cd ~/notes/notebooks/; poetry run ipython"
-alias _pvi="poetry run nvim .;"
 # %logstart -ort filename.ipy
 # %load filename.ipy
 
@@ -81,7 +80,7 @@ alias stopenv='deactivate'
 
 # Helper aliases
 alias archive='tar --create --gzip --verbose --file'
-alias dotenv='export $(cat .env | xargs)'
+alias dotenv='[ ! -f .env ] || export $(grep -v '^#' .env | xargs)'
 
 # console-oriented
 alias wttr="curl wttr.in/?0"

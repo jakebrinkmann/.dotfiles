@@ -41,6 +41,7 @@ export NODE_OPTION=--max_old_space_size=2048
 export FZF_DEFAULT_OPTS='--no-mouse --bind '\
 'shift-up:preview-up,shift-down:preview-down,'\
 'page-up:preview-page-up,page-down:preview-page-down'
+export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
 # This is sometimes useful, consider also ~/.pg_service.conf
 export PGHOST=127.0.0.1
