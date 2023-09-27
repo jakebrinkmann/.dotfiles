@@ -15,6 +15,7 @@ null_ls.setup({
 
     -- Python
     formatting.isort,
+    formatting.black,
     diagnostics.mypy,
     diagnostics.flake8,
 
@@ -35,7 +36,6 @@ null_ls.setup({
     diagnostics.codespell.with({
       args = { "--builtin", "clear,rare,code", "-" },
     }),
-
   },
   on_attach = function(client, bufnr)
     if client.supports_method("textDocument/formatting") then
@@ -47,7 +47,9 @@ null_ls.setup({
           -- :help vim.lsp.buf.format
           vim.lsp.buf.format({
             async = false,
-            filter = function(client) return client.name ~= "tsserver" end
+            filter = function(client)
+              return client.name ~= "tsserver"
+            end,
           })
         end,
       })
