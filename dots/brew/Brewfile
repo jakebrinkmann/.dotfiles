@@ -1,3 +1,8 @@
+# updates homebrew itself:
+# 	brew update
+# upgrade all individual packages:
+# 	brew upgrade
+#
 # brew bundle install
 brew "stow"
 brew "cmake"
@@ -8,29 +13,25 @@ brew "gcc"
 brew "llvm"
 brew "gsed"
 brew "zlib"
+brew "git-lfs"
 brew "git-delta"
 brew "bat"
 brew "bat-extras"
-brew "git-lfs"
 brew "subversion"
+brew "cvs"
 brew "ripgrep"
 brew "pgformatter"
-brew "postgresql@14"
-# brew "asyncapi" #< prefer `npm install -g @asyncapi/cli`
-# brew "python@3.10"
-# brew "python@3.9"
+brew "postgresql"
 brew "pyenv"
 brew "poetry"
 brew "rustup"
 brew "awscli"
-# brew install --cask session-manager-plugin
-# brewk install --cask powershell
 brew "cfn-lint"
 brew "yamllint"
 brew "httpie"
 brew "jq"
 brew "yq"
-brew "node@18"
+brew "nvm" #nvm install v20
 brew "yarn"
 brew "typescript"
 brew "gitlab-runner"
@@ -39,12 +40,7 @@ brew "graphviz"
 brew "boxes"
 brew "pre-commit"
 brew "ffmpeg"
-# brew install --cask iterm2
-# brew tap homebrew/cask-fonts
-# brew install --cask font-hack-nerd-font
-brew "macvim"
 brew "ical-buddy"
-brew "neovim-qt"
 brew "neovim"
 brew "netcat"
 brew "telnet"
@@ -52,3 +48,14 @@ brew "nmap"
 brew "glab"
 brew "task"
 brew "timewarrior"
+# brew "asyncapi" #< prefer `npm install -g @asyncapi/cli`
+# brew "python@3.10"
+# brew "python@3.9"
+# brew install --cask session-manager-plugin
+# brewk install --cask powershell
+#brew "node@20"
+# brew install --cask iterm2
+# brew tap homebrew/cask-fonts
+# brew install --cask font-hack-nerd-font
+# brew "macvim"
+# brew "neovim-qt"
