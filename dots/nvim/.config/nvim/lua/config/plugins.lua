@@ -130,6 +130,16 @@ require("lazy").setup({
 		},
 	},
 
+	{
+		-- Show function signature when you type
+		"ray-x/lsp_signature.nvim",
+		event = "VeryLazy",
+		opts = {},
+		config = function(_, opts)
+			require("lsp_signature").setup(opts)
+		end,
+	},
+
 	-- Useful plugin to show you pending keybinds.
 	{ "folke/which-key.nvim", opts = {} },
 	{
@@ -188,9 +198,14 @@ require("lazy").setup({
 		"lukas-reineke/indent-blankline.nvim",
 		-- Enable `lukas-reineke/indent-blankline.nvim`
 		-- See `:help indent_blankline.txt`
+		main = "ibl",
 		opts = {
-			char = "┊",
-			show_trailing_blankline_indent = false,
+			indent = {
+				char = "┊",
+			},
+			whitespace = {
+				remove_blankline_trail = false,
+			},
 		},
 	},
 
@@ -225,8 +240,12 @@ require("lazy").setup({
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter-textobjects",
 		},
+		-- NOTE: having trouble with treesitter after update? Try :TSUpdate
 		build = ":TSUpdate",
 	},
+
+	-- conceal typical boiler Code
+	{ "Jxstxs/conceal.nvim", dependencies = "nvim-treesitter/nvim-treesitter" },
 
 	{
 		"akinsho/toggleterm.nvim",
