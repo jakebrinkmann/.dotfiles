@@ -35,7 +35,7 @@ vim.o.smartcase = true
 vim.wo.signcolumn = "yes"
 
 -- Decrease update time
-vim.o.updatetime = 250
+vim.o.updatetime = 1000
 vim.o.timeout = true
 vim.o.timeoutlen = 300
 
@@ -45,19 +45,9 @@ vim.o.completeopt = "menuone,noselect"
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
--- [[ Highlight on yank ]]
--- See `:help vim.highlight.on_yank()`
-local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
-vim.api.nvim_create_autocmd("TextYankPost", {
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-  group = highlight_group,
-  pattern = "*",
-})
-
 require("config.remap")
 require("config.plugins")
+require("config.autocmds")
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

@@ -34,3 +34,9 @@ vim.keymap.set("n", "=a", [[<cmd>lua vim.lsp.buf.format { async = true }<CR>]], 
 
 -- Escape
 vim.keymap.set("i", "kj", [[<Esc>]])
+
+-- TODO: how to do this in lua?
+vim.cmd([[
+vnoremap > >gv
+vnoremap < <gv
+]])
