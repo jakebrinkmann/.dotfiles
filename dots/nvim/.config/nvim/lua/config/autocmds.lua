@@ -13,7 +13,7 @@ api.nvim_create_autocmd("TextYankPost", {
 
 -- TODO: [[ Highlight variable under cursor ]]
 vim.cmd([[
-	au CursorHold * :exec 'match TermCursor /\V\<' . expand('<cword>') . '\>/'
+	au CursorHold * :exec 'match Question /\V\<' . expand('<cword>') . '\>/'
 ]])
 
 api.nvim_create_user_command("W", "noautocmd write", { nargs = 0 })
