@@ -1,3 +1,5 @@
+-- https://github.com/Jarmos-san/dotfiles/issues/34
+-- FIXME: Null-Ls is unmaintained and the repository is archived!
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local null_ls = require("null-ls")
 

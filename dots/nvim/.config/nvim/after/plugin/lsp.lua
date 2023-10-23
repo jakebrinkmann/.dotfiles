@@ -34,7 +34,14 @@ local servers = {
 	-- Typescript
 	tsserver = {},
 	-- Python
-	pyright = {},
+	pyright = {
+		python = {
+			disableLanguageServices = true,
+			disableOrganizeImports = false,
+			reportMissingImports = false,
+			reportMissingTypeStubs = false,
+		},
+	},
 	-- Lua
 	lua_ls = {
 		Lua = {
