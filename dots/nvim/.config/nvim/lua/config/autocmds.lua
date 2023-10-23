@@ -18,3 +18,8 @@ vim.cmd([[
 ]])
 
 api.nvim_create_user_command("W", "noautocmd write", { nargs = 0 })
+
+-- " Move VISUAL-LINE up
+vim.cmd("xnoremap <Up> dkP`[V`]")
+-- "Move VISUAL-LINE down
+vim.cmd("xnoremap <Down> dp`[V`]")
