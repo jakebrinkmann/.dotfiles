@@ -4,6 +4,3 @@
 [submodule "dots/emacs/.emacs.d"]
 	path = dots/emacs/.emacs.d
 	url = https://github.com/syl20bnr/spacemacs
-[submodule "notes-public"]
-	path = notes
-	url = git@github.com:jakebrinkmann/notes-public.git
