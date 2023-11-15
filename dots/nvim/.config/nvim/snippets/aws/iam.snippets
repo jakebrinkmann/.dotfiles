@@ -1,0 +1,33 @@
+# aws.security.IAM (Identity and Access Management)
+snippet iam-list-roles
+    aws iam list-roles | jq -c '.Roles[].Arn'
+
+snippet iam-create-user
+    aws iam create-user --user-name MyCdkUser
+
+snippet iam-create-key
+    aws iam create-access-key --user-name MyCdkUser
+
+snippet iam-delete-key
+    aws iam delete-access-key --user-name MyCdkUser --access-key-id AKIAIOSFODNN7EXAMPLE
+
+snippet iam-list-policies
+    aws iam list-policies \
+        --scope Local --only-attached --policy-usage-filter PermissionsPolicy --query Policies[]
+
+snippet iam-get-policy
+    aws iam get-policy-version --policy-arn <Arn> --version-id <DefaultVersionId>
+
+# aws.security.STS (Security Token Service)
+snippet sts-get-id
+    aws sts get-caller-identity --output json | jq '.Account' -r
+
+snippet sts-get-id-query
+    aws sts get-caller-identity --query 'Arn' --output text
+
+snippet sts-assume
+    aws sts assume-role --role-arn $ROLE --role-session-name $USER
+
+snippet sts-decode-msg
+    aws sts decode-authorization-message \
+        --encoded-message (encoded error message) --query DecodedMessage --output text | jq '.'

@@ -1,0 +1,17 @@
+# aws.integration.SQS (Simple Queue Service)
+snippet sqs-list
+    aws sqs list-queues | jq -c '.QueueUrls[]'
+
+snippet sqs-list-select
+    QUEUE=$(aws sqs list-queues | jq -r '.QueueUrls[] | select(test("'$1'"))')
+
+snippet sqs-send
+    aws sqs send-message \
+        --queue-url $QUEUE_URL \
+        --message-body file://$EVENT_PATH
+
+snippet sqs-send-group
+    aws sqs send-message \
+        --message-group-id $1 \
+        --queue-url $QUEUE_URL \
+        --message-body "$MSG"

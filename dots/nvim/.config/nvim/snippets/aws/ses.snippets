@@ -1,0 +1,31 @@
+# aws.engagement.SES (Simple Email Service)
+snippet ses-list-ids
+    aws ses list-identities \
+        --query 'Identities'
+
+snippet ses-verify-email
+    aws ses verify-email-identity \
+        --email-address $EMAIL
+
+snippet ses-verify-email-attrs
+    aws ses get-identity-verification-attributes \
+        --identities $EMAIL
+
+snippet ses-verify-id
+    aws ses verify-domain-identity \
+        --domain $HOSTEDZONENAME | jq -r .VerificationToken
+
+snippet ses-set-mail
+    aws ses set-identity-mail-from-domain \
+        --identity $HOSTEDZONENAME \
+        --mail-from-domain "no-reply.$HOSTEDZONENAME" \
+        --behavior-on-mx-failure UseDefaultValue
+
+snippet sesv2-create-sns-dest
+    #>> commonly used with route53 change-resource-record-sets
+    aws sesv2 create-configuration-set-event-destination \
+      --configuration-set-name EmailEventConfigSet \
+      --event-destination-name EmailSnsEventDestination \
+      --event-destination $(cat << '__JSON__' | jq -c
+      {      "Enabled": true    }
+      __JSON__

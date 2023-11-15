@@ -1,0 +1,60 @@
+# aws.compute.Lambda
+snippet lambda-list-all
+    aws lambda list-functions | jq '.Functions[].FunctionName' | sort;
+
+snippet lambda-list-select
+    LAMBDA=$(aws lambda list-functions \
+      | jq -r '.Functions[].FunctionName | select(test("'"${1}"'"))')
+
+snippet lambda-list-all
+    aws lambda list-functions \
+        --query "Functions[?FunctionName | contains(@, 'LogSubmit')].FunctionName" \
+        --output text
+
+snippet lambda-list-summary
+    aws lambda list-functions \
+        | jq ".Functions | group_by(.Runtime)|[.[]|{ (.[0].Runtime): [.[]|{ name: .FunctionName, timeout: .Timeout, memory: .MemorySize }] }]"
+
+snippet lambda-list-envs
+    aws lambda list-functions \
+        | jq -r '[.Functions[]|{name: .FunctionName, env: .Environment.Variables}]|.[]|select(.env|length > 0)'
+
+snippet lambda-mktmp
+    FILENAME=$(mktemp --suffix '.zip'); rm $FILENAME
+
+snippet lambda-py-pip
+    poetry export --only ${1} -o lambda_assets/requirements.txt --without-hashes
+    pip install -r requirements.txt --target .
+    zip $tmpfile -r ./* &> /dev/null
+
+snippet lambda-config
+    aws lambda get-function-configuration \
+          --function-name $FUNCTION \
+          --qualifier '$LATEST' | jq .Environment.Variables
+
+snippet lambda-fn-upload
+    aws lambda update-function-code \
+        --function-name $LAMBDA \
+        --zip-file "fileb://$tmpfile" \
+        --publish | jq -r .LastUpdateStatus
+
+snippet lambda-fn-config
+    aws lambda update-function-configuration \
+        --function-name $LAMBDA \
+        --timeout 30 \
+        --memory-size 256 | jq -r .LastUpdateStatus
+
+snippet lambda-fn-confg-init
+    aws lambda update-function-configuration \
+        --function-name $LAMBDA \
+        --handler "app.lambda_handler" \
+        --layers "arn:aws:lambda:us-east-1:017000801446:layer:AWSLambdaPowertoolsPython:4" \
+        --environment "Variables={FOO=BAR}" | jq -r .LastUpdateStatus
+
+snippet lambda-invoke
+    aws lambda invoke  \
+        --function-name $LAMBDA \
+        --invocation-type RequestResponse \
+        --log-type Tail \
+        --payload "$(echo $EVENT | base64)" $tmpfile \
+            | jq -r .LogResult | base64 --decode

@@ -1,0 +1,122 @@
+# aws.management.CloudWatch
+snippet logs-list
+    aws logs describe-log-groups \
+        --query 'logGroups[].logGroupName'
+
+snippet logs-tag-group
+    aws logs tag-log-group --log-group-name <value> --tags Key=str,Key=str
+
+snippet logs-list-select
+      LOG_GROUP=$(aws logs describe-log-groups \
+        --query 'logGroups[].logGroupName' | \
+            jq -r '. | map(select(test("'$LOG_GROUP_NAME'"))) | .[0]')
+
+snippet logs-filter-events
+    RESULTS=$(aws logs filter-log-events \
+     --log-group-name $LOG_GROUP \
+     --start-time $START_TIME_IN_MS \
+     --end-time $END_TIME_IN_MS \
+     --log-stream-names $LOG_STREAM \
+     --filter-pattern "$MY_QUERY" | jq -r '.events[].message')
+
+    START_TIME_IN_MS=$(echo "$RESULTS" | jq -r '.[0].timestamp')
+    END_TIME_IN_MS=$(echo "$RESULTS" | jq -r '.[-1].timestamp')
+    LOG_STREAM=$(echo "$RESULTS" | jq -r '.[-1].logStreamName')
+
+snippet logs-filter-csv
+    aws logs filter-log-events \
+        --log-group-name $GROUP \
+        --start-time $START_TIME_IN_MS \
+        --filter-pattern "purchase_id" \
+            | jq -r '.events[] | [(.timestamp, .message)] | @csv'
+
+snippet logs-tail
+    aws logs tail "/aws/lambda/$LAMBDA" \
+        --since '0m' \
+        --follow \
+        --format short
+
+snippet logs-events
+    aws logs get-log-events --log-group-name $GROUP --log-stream-name $STREAM
+
+snippet logs-stream-get
+    STREAM=$(aws logs describe-log-streams \
+        --log-group-name $GROUP \
+        --descending \
+        --max-items 1 \
+            | jq -r '.logStreams[0].logStreamName')
+
+snippet logs-stream-create
+    aws logs create-log-stream --log-group-name $GROUP --log-stream-name $(date "+%s")
+
+snippet logs-stream-delete
+    aws logs delete-log-stream --log-group-name $GROUP --log-stream-name $STREAM
+
+snippet logs-missing-retention
+    aws logs describe-log-groups | jq '.logGroups[] | select (has("retentionInDays") | not).logGroupName'
+
+
+snippet logs-insights
+    fields @timestamp, @message
+    # Filtering all messages and keep only those that contains the word connect (case insensitive)
+    | filter @message like /(?i)(connect)/
+    # Create an ephemeral field named user based on the regex provided, in this case, either root or something like user18_prod
+    | parse @message /(?<@user>[.]*(root|user[0-9]{1,2}_[a-z]*)[.]*)/
+    # Create an ephemeral field named ip based on the regex provided (I know it's not the proper IP format, but it works for me)
+    | parse @message /(?<@ip>[.]*@([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})[.]*)/
+    # create an aggregate named counter from user and ip field
+    | stats count() AS counter by @user, @ip
+    # Sort first by the user field, then by the counter field
+    | sort by @user desc, @counter desc
+    | limit 50
+
+snippet logs-insights-parse
+    parse @message '* *, * - - [*] "* * *" * * "*" "*"' as cloudfront, client, host, dateTimeString, httpVerb, url, protocol, statusCode, bytes, referer, userAgent
+    | fields @timestamp, @url, @statusCode
+    | filter statusCode like /5\d\d/
+    | count(*) as x by url
+    | sort x desc
+
+snippet logs-insights-math
+    fields @timestamp, @message
+    | filter @message like /cache.hit/
+    | fields strcontains(@message, "true") as @CacheHit,
+             strcontains(@message, "false") as @CacheMiss
+    | stats sum(@CacheHit) as CacheHits, sum(@CacheMiss) as CacheMisses, sum(@CacheHit) / (sum(@CacheMiss) + sum(@CacheHit)) * 100 as HitPercentage by bin(30s)
+    | sort @timestamp desc
+
+snippet logs-insights-query
+    QID=$(aws logs start-query \
+        --log-group-names $GROUP \
+        --start-time $START_TIME_IN_MS \
+        --end-time $END_TIME_IN_MS \
+        --query-string 'fields @message, @logStream | filter @message '"$QUERY"' | sort @timestamp desc | limit 20' \
+            | jq -r .queryId)
+
+snippet logs-insights-results
+    aws logs get-query-results \
+        --query-id $QID | jq -r '.results[][] | select(.field == "@message") | .value' | uniq
+
+snippet logs-insights-wait
+    STATUS="Running"
+    while [ $STATUS = "Running" ]; do
+      sleep 1;
+      STATUS=$(aws logs get-query-results --query-id $QUERY_ID | jq -r '.status');
+    done
+
+snippet logs-put
+    aws logs put-log-events \
+      --log-group-name $GROUP \
+      --log-stream-name $STREAM \
+      --log-events "$EVENTS"
+
+snippet logs-put-JSON 
+    EVENTS=$(cat << EOF | jq -c
+    [
+      {
+        "timestamp": $timestamp,
+        "message": "$message"
+      }
+    ]
+    EOF
+    )

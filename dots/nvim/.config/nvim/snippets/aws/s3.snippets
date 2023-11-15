@@ -1,0 +1,40 @@
+# aws.storage.S3 (Simple Storage Service)
+snippet s3-create
+    aws s3api create-bucket --bucket $BUCKET
+
+snippet s3-list
+    aws s3api list-buckets | jq -c '.Buckets[].Name'
+
+snippet s3-cp-website
+    aws s3 cp --website-redirect "$URL" s3://$BUCKET/$OBJECT /tmp
+
+snippet s3-delete
+    aws s3 rb s3://BUCKET-NAME --force
+
+snippet s3-upload
+    aws s3 cp image.jpg s3://bucket_name/tests/image.jpg --acl public-read
+
+snippet s3-list-select
+    BUCKET_NAME=$(aws s3api list-buckets \
+        | jq -r '.Buckets  | map(select(.Name | test("'"$1"'-salt"))) | .[0].Name')
+
+snippet s3-list-objects
+    aws s3api list-objects \
+        --bucket $BUCKET \
+            | jq -c '.Contents[].Key' | sort | tail
+
+snippet s3-list-objects-select
+    OBJECT_KEY=$(aws s3api list-objects \
+        --bucket $BUCKET_NAME \
+        --prefix 'xyz/' \
+            | jq -r '.Contents | map(select(.Key | test("'$1'"))) | .[0].Key')
+
+snippet s3-head
+    aws s3api head-object \
+        --bucket $BUCKET_NAME \
+        --key $OBJECT_KEY
+
+snippet s3-get
+    aws s3api get-object \
+        --bucket $BUCKET_NAME \
+        --key $OBJECT_KEY $FILENAME

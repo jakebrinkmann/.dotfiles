@@ -1,0 +1,8 @@
+snippet pickle-dump
+    with open('/tmp/data.pickle', 'wb') as f:
+        # Pickle the 'data' dictionary using the highest protocol available.
+        pickle.dump(data, f, pickle.HIGHEST_PROTOCOL)
+
+snippet pickle-load
+    with open('/tmp/data.pickle', 'rb') as f:
+        data = pickle.load(f)
