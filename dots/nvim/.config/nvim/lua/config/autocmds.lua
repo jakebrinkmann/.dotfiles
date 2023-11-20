@@ -17,7 +17,7 @@ vim.cmd([[
 	au CursorHold * :exec 'match TermCursor /\V\<' . expand('<cword>') . '\>/'
 ]])
 
-api.nvim_create_user_command("W", "noautocmd write", { nargs = 0 })
+api.nvim_create_user_command("W", "noautocmd write ++p", { nargs = 0 })
 
 -- " Move VISUAL-LINE up
 vim.cmd("xnoremap <Up> dkP`[V`]")
