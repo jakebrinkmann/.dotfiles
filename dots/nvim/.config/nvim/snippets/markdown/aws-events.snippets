@@ -1,0 +1,21 @@
+
+snippet events-list
+    aws events list-event-buses \
+        --query 'EventBuses[].Name'
+
+snippet events-put
+    aws events put-events \
+        --entries "$EVENT"
+
+snippet events-put-JSON 
+    EVENT=$(cat << '__END__' | jq -c
+    [
+      {
+        "EventBusName": "My-Bus",
+        "Source": "urn:uri:urc",
+        "DetailType": "cloud.urn.failed.v1",
+        "Detail": "{}"
+      }
+    ]
+    __END__
+    )

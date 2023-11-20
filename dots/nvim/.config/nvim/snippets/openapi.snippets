@@ -1,3 +1,10 @@
+snippet render_openapi
+  docker run --rm -p 80:8080 \
+    -e API_URL=doc/openapi.yaml \
+    -v ./doc:/usr/share/nginx/html/doc \
+    swaggerapi/swagger-ui
+endsnippet
+sni:
 ``` 310 "openapi 3.1.0 OAI/OpenAPI-Specification/examples/v3.1/webhook-example.yaml"
 openapi: 3.1.0
 info:

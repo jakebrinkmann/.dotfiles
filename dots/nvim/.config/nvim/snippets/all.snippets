@@ -1,0 +1,37 @@
+snippet randint([0-9]*)? "Random integer" r
+    `!p if not snip.c: snip.rv = ''.join(str(random.randint(0,10)) for x in range(int(match.group(1) if match.group(1) else 10)))`
+
+snippet randstr([0-9]*)? "Random String" r
+    `!p if not snip.c: snip.rv = ''.join(random.choices(string.ascii_uppercase + string.digits, k=int(match.group(1)) if int(match.group(1)) else 10))`
+snippet JSON
+    $(cat << '__JSON__' | jq -c
+    {      "Enabled": true    }
+    __JSON__
+
+snippet JSON-FILE
+    cat << __JSON__ > $TMPFILE
+    {      "Name": "no-reply.$HOSTEDZONENAME"    }
+    __JSON__
+
+snippet date-back-ms
+    START_TIME_IN_MS=$(date --date="30 minutes ago" "+%s000")
+
+snippet date-now-ms
+    END_TIME_IN_MS=$(date "+%s000")
+
+snippet exit-ok
+    exit 0;
+
+snippet exit-fail
+    exit 1
+
+snippet env-bash
+    #!/usr/bin/env bash
+
+snippet eof-py
+    python <<EOF
+    print("Hello world")
+    EOF
+
+snippet eoux
+    set -eoux pipefail

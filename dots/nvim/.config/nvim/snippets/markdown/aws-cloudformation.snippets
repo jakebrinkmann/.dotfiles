@@ -1,0 +1,60 @@
+# aws.management.CFN (CloudFormation Infrastructure Stack)
+snippet cfn-list-exports
+    aws cloudformation list-exports | jq -c '.Exports[].Name'
+
+snippet cfn-list-stacks
+    aws cloudformation describe-stacks | jq -c '.Stacks[].StackName'
+
+snippet cfn-list-stacks-status
+    aws cloudformation describe-stacks \
+        --stack-name $STACK | jq -c '.Stacks[].StackStatus'
+
+snippet cfn-list-stacks-outputs
+    aws cloudformation describe-stacks \
+        --stack-name $STACK | jq -c '.Stacks[].Outputs'
+
+snippet cfn-list-stacks-outputs-select
+    aws cloudformation describe-stacks \
+        --stack-name CfgBucket \
+        --query "Stacks[0].Outputs[?OutputKey == 'BucketName'].OutputValue" \
+        --output text
+
+snippet cfn-list-resources
+    aws cloudformation describe-stack-resources \
+        --stack-name $STACK | jq -c '.StackResources[].PhysicalResourceId'
+
+snippet cfn-pkg
+    aws cloudformation package \
+        --template-file template.yaml \
+        --s3-bucket ${ARTIFACT_BUCKET} \
+        --output-template-file packaged.yaml
+
+snippet cfn-pkg-deploy
+    aws cloudformation deploy \
+        --s3-bucket $BUCKET \
+        --template-file packaged.yaml \
+        --capabilities CAPABILITY_NAMED_IAM \
+        --stack-name $STACK
+
+snippet cfn-delete-stack
+    aws cloudformation delete-stack --stack-name $STACK
+
+snippet cfn-wait-delete-complete
+    aws cloudformation wait stack-delete-complete --stack-name $STACK
+
+snippet cfn-continue-rollback
+    aws cloudformation continue-update-rollback --stack-name $STACK
+
+snippet cfn-update-stack
+    aws cloudformation update-stack \
+        --stack-name $STACK \
+        --use-previous-template \
+        --parameters 'ParameterKey=FOO,ParameterValue=BAR'
+
+snippet cfn-stack-drift
+    aws cloudformation detect-stack-drift --stack-name $STACK
+
+snippet cfn-stack-drift-status
+    aws cloudformation describe-stack-drift-detection-status \
+        --stack-drift-detection-id "ID-FROM-PREVIOUS-RESULT"
+

@@ -1,3 +1,5 @@
+tmpfile=$(mktemp /tmp/abc-script.XXXXXX)
+
 command 2> errors.txt
 command &> output.txt
 my_command 2>err.log 1>out.log
@@ -31,6 +33,7 @@ rsync --recursive --progress --size-only ~/Downloads/ROMS/ root@192.168.0.44:/us
 ``` yq "some yq shortcuts"
 yq -j -I4 sample.yaml
 yq -P sample.json
+xq . --xml-item-depth=2
 ```
 ``` json
 # NOTE: single quotes means no $vars

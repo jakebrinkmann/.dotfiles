@@ -1,0 +1,28 @@
+# https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/logs.html
+snippet logs
+    logs = session.client("logs")
+
+snippet logs-describe
+    paginator = logs.get_paginator('describe_log_groups')
+    for page in paginator.paginate(logGroupNamePrefix=PREFIX):
+        log_groups += page["logGroups"]
+
+snippet logs-retention
+    logs.put_retention_policy(
+        logGroupName=log_group['logGroupName'],
+        retentionInDays=3
+    )
+
+snippet logs-tag
+    logs.tag_resource(
+        resourceArn=log_group['arn'],
+        tags={'owner': 'string'}
+    )
+
+snippet logs-streams
+    paginator = logs.get_paginator('describe_log_streams')
+    for page in paginator.paginate(logGroupName=log_group["logGroupName"], orderBy="LastEventTime"):
+        log_streams += page["logStreams"]
+
+snippet logs-delete
+    logs.delete_log_group(logGroupName=log_group["logGroupName"])

@@ -1,0 +1,95 @@
+snippet erd classes-with-specific-links
+    !include db_organizations_model.puml
+    !include db_projects_model.puml
+    !include db_needs_model.puml
+
+    Needs::project -> Projects::id
+    Projects::organizations -> Organizations::id
+
+snippet erd entity-relationship-diagram
+    !define unique <b>U</b>
+    !define not_null <b>N</b>
+    !define primary_key(x) <b><color:#b8861b><&key></color> x</b>
+    !define foreign_key(x) <color:#aaaaaa><&key></color> x
+    !define column(x) <color:#efefef><&media-record></color> x
+    !define table(x) entity x << (T, white) >>
+    skinparam tabSize 2
+    hide methods
+    hide circle
+
+    table( user ) {
+      primary_key( id ) \t UUID
+      column( isActive ) \t BOOLEAN
+      foreign_key( cityId ) \t INTEGER <<FK>>
+    }
+    table( city ) {
+      primary_key( id ) \t UUID
+      column( name ) \t CHARACTER VARYING
+      column( country ) \t CHARACTER VARYING
+      column( postCode ) \t INTEGER
+    }
+    user }|--|| city
+
+snippet erd
+    ' https://plantuml.com/ie-diagram
+
+    entity "Entity01" as e01 {
+      *e1_id : number <<generated>>
+      --
+      *name : text
+      description : text
+    }
+
+    entity "Entity02" as e02 {
+      *e2_id : number <<generated>>
+      --
+      *e1_id : number <<FK>>
+      other_details : text
+    }
+
+    e01 ||..o{ e02
+
+snippet erd
+    hide private members
+    hide public members
+
+    hide entity fields
+    hide object stereotypes
+
+    ' hide the label
+    hide circle
+
+    package foo1.foo2 {
+    note "This is a floating note" as N1
+    entity Entity01 {
+      {static} * identifying_attribute : number <<generated>>
+      --
+      * <b>mandatory_attribute</b> : text
+      optional_attribute : text
+    }
+    }
+
+    package foo2.foo3 <<Cloud>> {
+    class "Entity02" as e02 {
+      *e2_id : number <<generated>>
+      --
+      *e1_id : number <<FK>>
+      {abstract} other_details : text
+    }
+    }
+
+    enum TimeUnit {
+      DAYS
+      HOURS
+      MINUTES
+    }
+
+    Entity01 }|.left.|| e02 : OneOrMany to ExactlyOne
+    Entity03 }o..o| Entity04 : ZeroOrMany to ZeroOrOne
+    TimeUnit -left[hidden]-> Entity03
+
+    ' Title -- Genre : Association (have a; each hold reference to each other)
+    ' Title *-- Season : Composition (owns; child cannot exist independent of the parent)
+    ' Title o-- Actor : Aggregation (has; child can exist independently of the parent)
+    ' Bank Account <|-- Savings Account : Extension (is / inherits from)
+    ' ClassA ..> ClassB : Dependency (uses)

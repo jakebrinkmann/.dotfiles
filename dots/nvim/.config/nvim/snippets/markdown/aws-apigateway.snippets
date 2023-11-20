@@ -1,0 +1,10 @@
+# aws.network.APIGateway
+snippet apigateway-test-authorizer
+    aws apigateway test-invoke-authorizer \
+        --rest-api-id $RESTAPI \
+        --authorizer-id $AUTHORIZER \
+        --headers Authorization="Bearer $JWT"
+
+snippet apigateway-test-invoke
+    aws apigateway test-invoke-method \
+        --rest-api-id $API_ID --resource-id $RES_ID --http-method GET --path-with-query-string '/pets/1'

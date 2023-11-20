@@ -169,6 +169,8 @@ aws stepfunctions start-execution --state-machine-arn $STATEMACHINE --input $EVE
 # aws.integration.SQS (Simple Queue Service)
 aws sqs list-queues | jq -c '.QueueUrls[]'
 aws sqs send-message --queue-url $QUEUE_URL --message-body file://$EVENT_PATH
+aws sqs purge-queue --queue-url $(aws sqs get-queue-url --queue-name $QUEUE_NAME) && sleep 60
+aws sqs get-queue-attributes --queue-url $QUEUE_URL --attribute-names All | jq -r .Attributes.ApproximateNumberOfMessages
 
 # aws.integration.SNS (Simple Notification Service)
 aws sns list-topics | jq -c '.Topics[].TopicArn'
@@ -334,6 +336,7 @@ aws cognito-idp list-user-pool-clients --user-pool-id $UserPoolId \
   --query "UserPoolClients[?ClientName | contains(@, 'clientWeb')].ClientId"
 aws cognito-idp describe-user-pool-client --user-pool-id $UserPoolId --client-id $ClientId
 aws cognito-idp initiate-auth --region YOU_REGION --auth-flow USER_PASSWORD_AUTH --client-id YOUR_CLIENT_ID --auth-parameters USERNAME=YOUR_EMAIL,PASSWORD=YOUR_PASSWORD
+aws cognito-idp get-user --access-token $OAUTH_JWT_ACCESS_TOKEN
 
 # aws.storage.S3 (Simple Storage Service)
 aws s3api create-bucket --bucket $BUCKET

@@ -1,3 +1,22 @@
+# https://github.com/aws-samples/aws-cdk-project-structure-python
+# The recommended project structure example
+.
+|-- backend
+|   |-- api
+|   |   |-- runtime
+|   |   |   |-- lambda_function.py
+|   |   |   `-- requirements.txt
+|   |   `-- infrastructure.py
+|   |-- database
+|   |   `-- infrastructure.py
+|   |-- monitoring
+|   |   `-- infrastructure.py
+|   `-- component.py
+|-- app.py
+|-- constants.py
+|-- requirements.txt
+`-- toolchain.py
+
 ``` i-cdk
 npm i -g aws-cdk
 npx cdk --version
