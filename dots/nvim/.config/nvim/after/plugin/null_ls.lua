@@ -18,7 +18,9 @@ null_ls.setup({
     -- Python
     formatting.isort,
     formatting.black,
+    formatting.ruff,
     diagnostics.mypy,
+    diagnostics.ruff,
     diagnostics.flake8,
 
     -- JS yaml html markdown
