@@ -26,36 +26,10 @@ mkdir cdk; cd cdk; cdk init sample-app --language=typescript|python
 cdk -v ls
 cdk diff
 cdk deploy
-cdk watch --hotswap --no-rollback
+cdk deploy --hotswap
 cdk watch
 cdk synth
 cdk destroy
-```
-
-
-snippet cdk-tags
-  tags = {
-      "Project": "veda",
-      "Owner": deployment.owner,
-      "Client": "nasa-impact",
-      "Stack": deployment.stage,
-      "Build|GitCommit": git_sha,
-      "GitTag": git_tag,
-  }
-
-snippet cdk-nag
-  // npm install cdk-nag
-  import { App, Aspects } from 'aws-cdk-lib';
-  import { AwsSolutionsChecks, HIPAASecurityChecks } from 'cdk-nag';
-
-  const app = new App();
-  Aspects.of(app).add(new AwsSolutionsChecks());
-  Aspects.of(app).add(new HIPAASecurityChecks({ verbose: true }));
-  // npx cdk synth
-
-```
-//cdk.json
-  "app": "poetry run python3 app.py",
 ```
 
 ``` synk
@@ -333,3 +307,55 @@ const missingTagRule = new config.ManagedRule(this, "RequiredTags", {
 })
 missingTagRule.applyRemovalPolicy(RemovalPolicy.DESTROY)
 ```
+
+```
+# https://docs.aws.amazon.com/cdk/v2/guide/stacks.html
+from aws_cdk import App, Stack
+from constructs import Construct
+
+# imagine these stacks declare a bunch of related resources
+class ControlPlane(Stack): pass
+class DataPlane(Stack): pass
+class Monitoring(Stack): pass
+
+class MyService(Construct):
+
+  def __init__(self, scope: Construct, id: str, *, prod=False):
+
+    super().__init__(scope, id)
+
+    # we might use the prod argument to change how the service is configured
+    ControlPlane(self, "cp")
+    DataPlane(self, "data")
+    Monitoring(self, "mon")
+    MyStack(self, "not:a:stack:name", stack_name="this-is-stack-name")
+
+app = App();
+MyService(app, "beta")
+MyService(app, "prod", prod=True)
+
+app.synth()
+
+
+------------------------------------------------------------------------
+
+# https://docs.aws.amazon.com/cdk/api/v2/python/aws_cdk/Stack.html
+import aws_cdk as cdk
+import aws_cdk.aws_kinesis as kinesis
+
+
+app = cdk.App()
+stack = cdk.Stack(app, "Stack", env=cdk.Environment(region="us-west-2"))
+
+stream1 = kinesis.Stream(stack, "Stream1")
+stream2 = kinesis.Stream.from_stream_arn(stack, "Stream2", "arn:aws:kinesis:us-east-2:PASSWORD789012:stream/my-stream")
+
+global_table = dynamodb.TableV2(self, "GlobalTable",
+    partition_key=dynamodb.Attribute(name="id", type=dynamodb.AttributeType.STRING),
+    kinesis_stream=stream1,  # for table in us-west-2
+    replicas=[dynamodb.ReplicaTableProps(region="us-east-1"), dynamodb.ReplicaTableProps(
+        region="us-east-2",
+        kinesis_stream=stream2
+    )
+    ]
+)
