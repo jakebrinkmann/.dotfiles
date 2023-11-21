@@ -1,0 +1,72 @@
+# this is a comment
+snippet img
+    ![alt text](Isolated.png "Title")
+
+snippet ur unreleased
+    ## [Unreleased]
+    ### Added
+    ### Changed
+    ### Fixed
+
+snippet plantuml
+    ```plantuml
+    Bob -> Alice : hello
+    Alice -> Bob : hi
+    ```
+
+snippet dd current-date
+    `!v strftime('%a, %d %b %Y %X %z')`
+    -------------------------------
+
+snippet du current-week
+    `!v strftime('Week %U, %Y')`
+    -------------
+
+snippet ditaa "diagram-ditaa"
+    ```ditaa
+        +--------+   +-------+    +-------+
+        |        | --+ ditaa +--> |       |
+        |  Text  |   +-------+    |diagram|
+        |Document|   |!magic!|    |       |
+        |     {d}|   |       |    |       |
+        +---+----+   +-------+    +-------+
+            :                         ^
+            |       Lots of work      |
+            +-------------------------+
+    ```
+
+
+snippet diagram shapes
+    ```
+    ┌───────┐  ╭─────╮       ╱╲
+    ┃       ┃◀─┃     ┃─▶    ╱  ╲
+    └───────┛  ╰────╼╯     ╱    ╲
+                          ╱      ╲
+                          ‾‾‾‾‾‾‾‾
+      ╔═══════╗  ┼╌╌╌╌╌╌┼
+    ◁═╣       ╠═▷┆      ┆
+      ║       ║  ┆      ┆──❯
+      ╚═══════╝  ┼╍╍╍╍╍╍┼
+
+    ⌇⏞⏞⏞⏞⌇    ⎛⌢⌢⌢⌢⎞     ╱╲
+    ⌇⏟⏟⏟⏟⌇    ⎜    ⎟    ╱  ╲
+              ⎝⌣⌣⌣⌣⎠    ╲  ╱
+                         ╲╱
+    ```
+
+
+# Event design table
+snippet table-eda
+    | API (sync)  |            Input Events            |  Service   |      Action      |                 Output Events                  |             Notes             |
+    | :---------: | :--------------------------------: | :--------: | :--------------: | :--------------------------------------------: | :---------------------------: |
+    | CreateOrder |            CreateOrder             |   Order    |   CreateOrder    |                  OrderCreated                  |          Public API.          |
+    |             |            OrderCreated            | Inventory  |   ReserveItem    |         ItemReserved ItemNotAvailable          |                               |
+
+
+snippet --
+    ---
+    title: $1
+    date: $2
+    tags: $3
+    url: $4
+    ---

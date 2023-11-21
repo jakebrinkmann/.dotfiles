@@ -11,6 +11,7 @@ authors = ["Jake Brinkmann <jakebrinkmann@gmail.com>"]
 python = "^3.9"
 
 [tool.poetry.dev-dependencies]
+ruff = "*"
 black = "*"
 coverage = {version = "*", extras = ["toml"]}
 flake8 = "*"
@@ -31,6 +32,17 @@ aws-sam-cli = "*"
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
+
+##### https://docs.astral.sh/ruff/configuration/ #####
+[tool.ruff]
+exclude = [
+    ".git",
+    ".mypy_cache",
+    "__pypackages__",
+]
+fix = true
+line-length = 120
+indent-width = 4
 
 ##### isort configuration https://pycqa.github.io/isort/docs/configuration/config_files.html
 [tool.isort]
@@ -71,10 +83,10 @@ addopts    = """
   --color=yes
   --strict-markers
   -p no:cacheprovider
-  --verbose 
+  --verbose
   --junitxml=report.xml
   --cov-report term-missing:skip-covered
-  --cov-report xml 
+  --cov-report xml
   --cov src
 """
 markers = [

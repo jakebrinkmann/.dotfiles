@@ -1,0 +1,52 @@
+# aws.compute.EC2 (Elastic Compute Cloud)
+snippet ec2-imgs
+    aws ec2 describe-images \
+      --image-id $IMAGEID --query "Images[*].BlockDeviceMappings"
+
+snippet ec2-imgs-crypt
+    aws ec2 describe-images \
+        --filters "Name=block-device-mapping.encrypted,Values=true" \
+        --query 'Images[*].[ImageId]' \
+        --output text
+
+snippet ec2-modify
+    #>> this sets the instance metadata to imdsv2, be careful!
+    aws ec2 modify-instance-metadata-options \
+        --instance-id i-INSTANCE-ID \
+        --http-tokens required \ 
+        --http-put-response-hop-limit 3 \
+        --http-endpoint enabled
+
+snippet ec2-get-host
+    AWS_HOST=$(aws ec2 describe-instances \
+        --filters "Name=tag:Name,Values=${1}" \
+        --query 'Reservations[*].Instances[*].{Instance:InstanceId}' \
+        --output text)
+
+# aws.management.SSM (Systems Manager)
+snippet ssm-get-param-path
+    aws ssm get-parameters-by-path \
+      --path /aws/service/ami-amazon-linux-latest \
+      --query "Parameters[].Name"
+
+snippet ssm-get-param
+    aws ssm get-parameters \
+      --names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-arm64-gp2 \
+      --query 'Parameters[0].[Value]'
+
+snippet ssm-list-docs
+    DOCUMENT=$(aws ssm list-documents \
+        --filters 'Key=Name,Values=${1}' \
+        | jq -r .DocumentIdentifiers[0].Name)
+
+snippet ssm-send-cmd
+    CMD_ID=$(aws ssm send-command \
+        --instance-ids $AWS_HOST \
+        --document-name $DOCUMENT \
+        --parameters "minion=ZYX,foo=bar" \
+        | jq -r '.Command.CommandId')
+
+snippet ssm-get-cmd
+    aws ssm get-command-invocation \
+        --instance-id $AWS_HOST \
+        --command-id $CMDID

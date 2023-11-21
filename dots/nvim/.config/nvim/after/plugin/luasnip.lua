@@ -16,7 +16,7 @@ ls.setup({
 		html = { "javascript" },
 	}),
 })
-require("luasnip.loaders.from_snipmate").lazy_load({ paths = "~/.config/nvim/snippets" })
+require("luasnip.loaders.from_snipmate").lazy_load({ paths = "~/.snippets" })
 
 vim.keymap.set({ "i" }, "<C-K>", function()
 	ls.expand()

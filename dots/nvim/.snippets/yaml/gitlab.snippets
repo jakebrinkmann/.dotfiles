@@ -1,0 +1,38 @@
+snippet stages
+    stages:
+      - .pre
+      - test
+      - deploy
+      - deliver
+      - .post
+
+snippet include
+    include:
+      - project: "namespace/project"
+        ref: main
+        file: "path/to/gitlab/ci/template.yml"
+
+snippet poetry
+      image: python:310
+      script:
+        - pip install --upgrade poetry
+        - poetry lock -v --no-update
+      artifacts:
+        paths:
+          - poetry.lock
+
+snippet bot
+  before_script:
+    - git config user.email 'gitlab_ci_bot@example.com'
+    - git config user.name 'Gitlab CI Bot'
+    - mkdir -p /root/.ssh
+    - cp "$CI_USER_DEPLOY_TOKEN_FILE" /root/.ssh/id_rsa
+    - chmod 600 /root/.ssh/id_rsa
+    - ssh -T -o "StrictHostKeyChecking=no" git@git.example.com
+    - git remote set-url origin git@git.example.com:$CI_PROJECT_PATH.git
+  script:
+    - git add poetry.lock
+    - git commit -m "Update poetry pins"
+    - git push -o ci.skip origin HEAD:$CI_COMMIT_BRANCH
+  rules:
+    - if: ($CI_COMMIT_REF_PROTECTED == "true")

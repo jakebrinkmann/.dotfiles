@@ -1,0 +1,8 @@
+# aws.compute.ECR (Elastic Container Registry)
+snippet ecr-login
+    aws ecr get-login-password \
+        | docker login --username AWS \
+            --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+
+# aws.compute.ECS (Elastic Container Service)
+

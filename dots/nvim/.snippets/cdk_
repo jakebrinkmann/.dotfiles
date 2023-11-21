@@ -26,10 +26,36 @@ mkdir cdk; cd cdk; cdk init sample-app --language=typescript|python
 cdk -v ls
 cdk diff
 cdk deploy
-cdk deploy --hotswap
+cdk watch --hotswap --no-rollback
 cdk watch
 cdk synth
 cdk destroy
+```
+
+
+snippet cdk-tags
+  tags = {
+      "Project": "veda",
+      "Owner": deployment.owner,
+      "Client": "nasa-impact",
+      "Stack": deployment.stage,
+      "Build|GitCommit": git_sha,
+      "GitTag": git_tag,
+  }
+
+snippet cdk-nag
+  // npm install cdk-nag
+  import { App, Aspects } from 'aws-cdk-lib';
+  import { AwsSolutionsChecks, HIPAASecurityChecks } from 'cdk-nag';
+
+  const app = new App();
+  Aspects.of(app).add(new AwsSolutionsChecks());
+  Aspects.of(app).add(new HIPAASecurityChecks({ verbose: true }));
+  // npx cdk synth
+
+```
+//cdk.json
+  "app": "poetry run python3 app.py",
 ```
 
 ``` synk
