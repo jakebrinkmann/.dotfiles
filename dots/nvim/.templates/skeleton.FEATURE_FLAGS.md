@@ -18,6 +18,23 @@ Flags come in three types:
 
 <!-- END table -->
 
+## Currently recommended cdk.json
+
+The following json shows the current recommended set of flags, as `cdk init` would generate it for new projects.
+
+<!-- BEGIN json -->
+```json
+{
+  "context": {
+    "@example-project/core:target-partitions": [
+      "potato",
+      "potato-cn"
+    ],
+  }
+}
+```
+<!-- END json -->
+
 ## Feature flag details
 
 Here are more details about each of the flags:
@@ -29,22 +46,6 @@ Here are more details about each of the flags:
 
 If this flag is specified, all `Stack`s will use the `DefaultStackSynthesizer` by
 default. If it is not set, they will use the `LegacyStackSynthesizer`.
-
-
-| Since | Default | Recommended |
-| ----- | ----- | ----- |
-| 1.39.0 | `false` | `true` |
-| 2.0.0 | `true` | `true` |
-
-
-### @example-project/core:target-partitions
-
-*What regions to include in lookup tables of environment agnostic stacks* (config)
-
-Has no effect on stacks that have a defined region, but will limit the amount
-of unnecessary regions included in stacks without a known region.
-
-The type of this value should be a list of strings.
 
 
 | Since | Default | Recommended |

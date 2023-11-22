@@ -4,6 +4,7 @@ default:
 
 # https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
 variables:
+  GLOBAL_VAR: "A global variable"
   VERSION: 22-13
 
 workflow:
@@ -31,6 +32,17 @@ stages:
   - build
   - deploy
   - bridge
+
+job1:
+  variables:
+    JOB_VAR: "A job variable"
+  script:
+    - echo "Variables are '$GLOBAL_VAR' and '$JOB_VAR'"
+
+job2:
+  variables: {}
+  script:
+    - echo This job does not need any variables
 
 cfn:lint:
   image: ""
