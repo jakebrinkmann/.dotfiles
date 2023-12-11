@@ -46,6 +46,7 @@ However, the `dotfiles` and `setups` should work on any debian system, and not b
 These tools must first be installed on the system:
 
 * [Docker](https://docs.docker.com/install/), create, deploy, and run applications by using containers.
+* [Brew](https://brew.sh/), manage software dependencies and installation.
 * [GNU stow](http://www.gnu.org/software/stow/), a free, portable, lightweight symlink farm manager.
 
 ## Usage [&#x219F;](#contents)
@@ -71,6 +72,8 @@ To Download/Install this project directly onto a host machine (helpful when I wa
 
 ```bash
 # ssh-keygen -t ed25519 -C "your_email@example.com"
+# /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# brew install stow
 
 git clone git@github.com:jakebrinkmann/dotfiles.git ~/.dots
 cd ~/.dots/dots
