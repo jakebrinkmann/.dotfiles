@@ -70,6 +70,8 @@ make run
 To Download/Install this project directly onto a host machine (helpful when I want tofly native on a machine, without the additional overhead of containers... trading off for reproducibility in my environment, though):
 
 ```bash
+# ssh-keygen -t ed25519 -C "your_email@example.com"
+
 git clone git@github.com:jakebrinkmann/dotfiles.git ~/.dots
 cd ~/.dots/dots
 stow -t ~ bash git nvim brew # plus whatever else you'd like
