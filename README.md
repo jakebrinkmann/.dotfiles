@@ -81,7 +81,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 
 # https://monaspace.githubnext.com/
 # brew tap homebrew/cask-fonts
-# brew install font-monaspace
+# brew install font-hack-nerd-font
 
 git clone git@github.com:jakebrinkmann/dotfiles.git ~/.dots
 cd ~/.dots/dots

@@ -10,7 +10,6 @@ export HISTCONTROL=ignorespace:ignoredups:erasedups
 export HISTIGNORE='pwd:exit:fg:bg:top:clear:history:ls:uptime:df:cd:logout:bh *'
 
 export EDITOR='nvim'
-export EDITOR='vim'
 export PAGER='less --chop-long-lines --RAW-CONTROL-CHARS'
 
 ### NOT NEEDED WITH WSL 2
