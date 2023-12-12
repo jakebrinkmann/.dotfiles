@@ -79,6 +79,9 @@ To Download/Install this project directly onto a host machine (helpful when I wa
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
+# https://monaspace.githubnext.com/
+# brew tap homebrew/cask-fonts
+# brew install font-monaspace
 
 git clone git@github.com:jakebrinkmann/dotfiles.git ~/.dots
 cd ~/.dots/dots
