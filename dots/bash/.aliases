@@ -48,7 +48,6 @@ alias emacs="emacs -nw"
 alias g=git
 alias gti=git
 alias gi=git
-alias vi='f() { test -f pyproject.toml && poetry run $EDITOR $@ || $EDITOR $@; }; f'
 alias python=python3
 alias _jpy="cd ~/notes/notebooks/; poetry run jupyter lab"
 alias _ipy="cd ~/notes/notebooks/; poetry run ipython"

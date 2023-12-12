@@ -66,4 +66,4 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 # export TIMEWARRIORDB=$HOME/notes/work/.timewarrior/
 
 # Setup C++14 compiling on MacOS
-export CC=/opt/homebrew/Cellar/llvm/15.0.6/bin/clang
+# export CC=/opt/homebrew/Cellar/llvm/15.0.6/bin/clang
