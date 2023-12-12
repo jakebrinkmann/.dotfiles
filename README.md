@@ -75,8 +75,8 @@ To Download/Install this project directly onto a host machine (helpful when I wa
 # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 # eval $(/opt/homebrew/bin/brew shellenv) && brew install stow
 
-# sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-# git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+# git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+# echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
 
 git clone git@github.com:jakebrinkmann/dotfiles.git ~/.dots
 cd ~/.dots/dots
