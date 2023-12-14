@@ -135,3 +135,16 @@ __pgadmin4() {
     -v pgadmindata:/var/lib/pgadmin/storage/ \
     -d $image
 }
+
+
+__docker_local() {
+  IMAGE="$1"
+  CMDS="$*"
+  docker run --detach --name pypoetry \
+    --network host \
+    --mount type=tmpfs,destination=/tmp \
+    --mount type=tmpfs,destination=/root/.cache/pypoetry \
+    -v "$PWD:/opt/${USER}:rw" \
+    -w "/opt/${USER}" \
+    "$IMAGE" "$CMDS"
+}

@@ -60,10 +60,12 @@ brew "timewarrior"
 # brew install --cask session-manager-plugin
 # brewk install --cask powershell
 #brew "node@20"
-# brew install --cask iterm2
 tap "homebrew/cask-fonts"
 cask "font-hack-nerd-font"
 # brew "macvim"
 # brew "neovim-qt"
 brew "scrcpy"
 cask "android-platform-tools"
+cask "postman"
+cask "soapui"
+#cask "iterm2"
