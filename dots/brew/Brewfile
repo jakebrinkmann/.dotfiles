@@ -40,6 +40,7 @@ brew "nvm" #nvm install v20
 brew "yarn"
 brew "typescript"
 brew "gitlab-runner"
+brew "gitlab-ci-local"
 brew "graphviz"
 brew "boxes"
 brew "pre-commit"
