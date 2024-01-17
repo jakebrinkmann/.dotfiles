@@ -1,3 +1,6 @@
+.gitlab-ci-local/
+.gitlab-ci-local-variables.yml
+
 ##################################################
 ##### //github.com/github/gitignore/blob/master/Python.gitignore
 ##################################################
