@@ -97,8 +97,9 @@ alias prettier="npx prettier --single-quote --print-width 120 --write"
 alias dig="dig +noadditional +noquestion +nocomments +nocmd +nostats"
 
 # Notes
-alias notes="nvim +'cd ~/notes|:e .'"
-# alias notes="gvim +'cd ~/notes|:VimwikiIndex'"
+alias notes="nvim +'cd ~/Documents/|:e .'"
+alias devlog="nvim +'cd ~/dev/github/jakebrinkmann/notes-public|:e .'"
+# git@github.com:jakebrinkmann/notes-public.git
 
 # warriors
 alias tw="timew"
