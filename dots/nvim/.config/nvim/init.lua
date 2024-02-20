@@ -49,6 +49,10 @@ vim.o.completeopt = "menuone,noselect"
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
+-- Set vim title
+vim.o.title = true
+vim.o.titlestring = [[%f %h%m%r%w]]
+
 require("config.remap")
 require("config.plugins")
 require("config.autocmds")

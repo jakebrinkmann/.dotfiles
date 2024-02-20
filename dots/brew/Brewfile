@@ -55,6 +55,7 @@ brew "nmap"
 brew "glab"
 brew "task"
 brew "timewarrior"
+brew "gcal"
 # brew "asyncapi" #< prefer `npm install -g @asyncapi/cli`
 # brew "python@3.10"
 # brew "python@3.9"
