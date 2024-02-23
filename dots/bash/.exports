@@ -9,8 +9,14 @@ export HISTFILE="$HOME/.bash_history_$(date '+%Y_%m')"
 export HISTCONTROL=ignorespace:ignoredups:erasedups
 export HISTIGNORE='pwd:exit:fg:bg:top:clear:history:ls:uptime:df:cd:logout:bh *'
 
+export EMAIL=jakebrinkmann@gmail.com
 export EDITOR='nvim'
 export PAGER='less --chop-long-lines --RAW-CONTROL-CHARS'
+
+# Configure git commits through shell
+export GIT_AUTHOR_NAME="Jake Brinkmann"
+export GIT_AUTHOR_EMAIL=$EMAIL
+export GIT_COMMITTER_EMAIL=$EMAIL
 
 ### NOT NEEDED WITH WSL 2
 #### # To connect from WSL to Docker4windows Daemon

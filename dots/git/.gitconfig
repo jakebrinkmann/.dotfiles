@@ -1,7 +1,6 @@
-[user]
-  name = Jake Brinkmann
-  email = jakebrinkmann@gmail.com
-
+# git config --local  ...  #writes to .git/config in the .git folder 'underneath' your repository
+# git config --global ...  #writes to ~/.gitconfig on your PC
+# git config --system ...  #writes to /etc/gitconfig on your PC
 [help]
   autocorrect = 1
 
@@ -52,6 +51,7 @@
   keepBackup = false
 
 [alias]
+  tsv = "!f() { git fetch origin; git tag -l | grep -E '^v\\d+\\.\\d+\\.\\d+$' | sort -V; } ; f"
   # -sb for a less verbose status
   st = status -sb
   # I have a limited number of keystrokes in my lifetime, use them wisely
