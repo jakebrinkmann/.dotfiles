@@ -7,8 +7,12 @@ require("toggleterm").setup({
 -- 2TermExec cmd="git status" dir=~/<my-repo-path>
 vim.keymap.set("n", "<leader>tt", vim.cmd.ToggleTerm, { desc = "Open terminal" })
 vim.keymap.set("n", "<leader>tr", vim.cmd.ToggleTermSendCurrentLine, { desc = "Send CurrentLine to terminal" })
--- vim.keymap.set("x", "<leader>tr", vim.cmd.ToggleTermSendVisualSelection, { desc = "Send Selection to terminal" })
-vim.cmd("xnoremap <Leader>tr :ToggleTermSendVisualSelection<CR>gv")
+
+-- Sends the entire line, no partial line
+-- vim.cmd("xnoremap <Leader>tr :ToggleTermSendVisualLines<CR>")
+vim.keymap.set("x", "<leader>tr", vim.cmd.ToggleTermSendVisualLines, { desc = "Send Lines to terminal" })
+-- Send only the selected text (not the lines)
+-- vim.keymap.set("v", "<leader>tr", vim.cmd.ToggleTermSendVisualSelection, { desc = "Send Selection to terminal" })
 
 function _G.set_terminal_keymaps()
 	local opts = { buffer = 0 }
