@@ -75,3 +75,4 @@ cask "devtoys"
 cask "drawio"
 cask "obsidian"
 cask "vscodium"
+cask "chromium" # brew install --cask chromium --no-quarantine
