@@ -4,9 +4,3 @@
 [submodule "dots/emacs/.emacs.d"]
 	path = dots/emacs/.emacs.d
 	url = https://github.com/syl20bnr/spacemacs
-[submodule "dots/nvim/.config/nvim/snippets"]
-	path = dots/nvim/.config/nvim/snippets
-	url = git@github.com:jakebrinkmann/snippets.git
-[submodule "dots/nvim/.snippets"]
-	path = dots/nvim/.snippets
-	url = git@github.com:jakebrinkmann/snippets.git
