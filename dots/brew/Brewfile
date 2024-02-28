@@ -4,6 +4,7 @@
 # 	brew upgrade
 #
 # brew bundle install
+brew "coreutils"
 brew "stow"
 brew "cmake"
 brew "zip"
