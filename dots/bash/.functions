@@ -36,7 +36,11 @@ function task_active {
 
 # Delete python leftovers
 pyclean() {
-  sudo find ${PWD} -regextype posix-extended -regex '^.*(__pycache__|pytest_cache|\.pyc|\.pyo$)' -delete;
+  sudo find "${PWD}" -iname '__pycache__' -print -delete;
+  sudo find "${PWD}" -iname 'pytest_cache'-print -delete;
+  sudo find "${PWD}" -iname '.pyc'        -print -delete;
+  sudo find "${PWD}" -iname '.pyo'        -print -delete;
+  sudo find "${PWD}" -iname '.mypy_cache' -print -delete;
 }
 
 # Change all IPs in a file to mine
