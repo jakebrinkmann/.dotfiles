@@ -4,6 +4,8 @@
 # 	brew upgrade
 #
 # brew bundle install
+# brew bundle check --debug
+# brew bundle cleanup --force
 brew "coreutils"
 brew "stow"
 brew "cmake"
@@ -67,6 +69,7 @@ brew "gcal"
 # brew install --cask session-manager-plugin
 # brewk install --cask powershell
 #brew "node@20"
+brew "golang"
 tap "homebrew/cask-fonts"
 cask "font-hack-nerd-font"
 # brew "macvim"
@@ -80,4 +83,4 @@ cask "devtoys"
 cask "drawio"
 cask "obsidian"
 cask "vscodium"
-cask "chromium" # brew install --cask chromium --no-quarantine
+cask "chromium", args: { no_quarantine: true }
