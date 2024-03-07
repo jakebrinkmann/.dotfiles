@@ -33,6 +33,7 @@ brew "cookiecutter"
 brew "rustup"
 brew "awscli"
 brew "awslogs"
+cask "session-manager-plugin"
 tap "lucagrulla/tap"
 brew "cw" # CloudWatch logs
 brew "cfn-lint"
@@ -66,7 +67,6 @@ brew "gcal"
 # brew "asyncapi" #< prefer `npm install -g @asyncapi/cli`
 # brew "python@3.10"
 # brew "python@3.9"
-# brew install --cask session-manager-plugin
 # brewk install --cask powershell
 #brew "node@20"
 brew "golang"
