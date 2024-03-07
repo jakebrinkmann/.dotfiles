@@ -84,3 +84,4 @@ cask "drawio"
 cask "obsidian"
 cask "vscodium"
 cask "chromium", args: { no_quarantine: true }
+cask "xmind"
