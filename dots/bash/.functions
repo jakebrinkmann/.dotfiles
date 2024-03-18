@@ -152,3 +152,7 @@ __docker_local() {
     -w "/opt/${USER}" \
     "$IMAGE" "$CMDS"
 }
+
+__flatten_folder() {
+  find . -type f -name "*" | sed 's/$/"/;s/^/"/;h;s/^...//;s/^/"/;y/\//_/;H;g;s/\n/ /g;s/^/cp -v /' | sh
+}

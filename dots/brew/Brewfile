@@ -6,6 +6,12 @@
 # brew bundle install
 # brew bundle check --debug
 # brew bundle cleanup --force
+tap "homebrew/core"
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "buo/cask-upgrade"
+tap "homebrew/cask-fonts"
+
 brew "coreutils"
 brew "stow"
 brew "cmake"
