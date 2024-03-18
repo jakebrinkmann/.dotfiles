@@ -83,7 +83,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 # brew tap homebrew/cask-fonts
 # brew install font-hack-nerd-font
 
-git clone git@github.com:jakebrinkmann/.dotfiles.git ~/
+git clone git@github.com:jakebrinkmann/.dotfiles.git ~/.dotfiles
 cd ~/.dotfiles/dots
 stow -t ~ bash git nvim brew ripgrep python psql vim zsh bin ssh
 
