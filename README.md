@@ -83,12 +83,12 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 # brew tap homebrew/cask-fonts
 # brew install font-hack-nerd-font
 
-git clone git@github.com:jakebrinkmann/dotfiles.git ~/.dots
-cd ~/.dots/dots
-stow -t ~ bash git nvim brew # plus whatever else you'd like
+git clone git@github.com:jakebrinkmann/.dotfiles.git ~/
+cd ~/.dotfiles/dots
+stow -t ~ bash git nvim brew ripgrep python psql vim zsh bin ssh
 
 cd ~
-brew bundle
+brew bundle install
 ```
 
 To build the Docker image locally:
