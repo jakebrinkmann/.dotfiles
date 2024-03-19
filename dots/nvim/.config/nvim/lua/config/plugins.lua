@@ -54,6 +54,7 @@ require("lazy").setup({
   -- set virtualedit=all
   -- :VBox
 
+  -- Plantuml (.pu, .puml, .plantuml)
   {
     "weirongxu/plantuml-previewer.vim",
     dependencies = {
