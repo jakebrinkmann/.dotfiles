@@ -31,6 +31,8 @@ brew "cvs"
 brew "ripgrep"
 brew "speedtest-cli"
 
+brew "openjdk" # MUST LINK
+# sudo ln -sfn /opt/homebrew/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
 brew "plantuml"
 brew "graphviz"
 brew "boxes"

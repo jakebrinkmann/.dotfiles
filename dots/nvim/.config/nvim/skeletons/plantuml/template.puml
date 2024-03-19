@@ -1,6 +1,5 @@
 @startuml
 !define LIGHTGREEN
-!include %HOME%/.dotfiles/style.pu
 
 title "__PROCESS|SCENARIO__ - Goal for <x>"
 left to right direction

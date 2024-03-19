@@ -54,16 +54,6 @@ require("lazy").setup({
   -- set virtualedit=all
   -- :VBox
 
-  -- Plantuml (.pu, .puml, .plantuml)
-  {
-    "weirongxu/plantuml-previewer.vim",
-    dependencies = {
-      "aklt/plantuml-syntax",
-      "tyru/open-browser.vim",
-    },
-    ft = "plantuml",
-  },
-
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   {
