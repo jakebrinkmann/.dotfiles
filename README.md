@@ -72,23 +72,22 @@ To Download/Install this project directly onto a host machine (helpful when I wa
 
 ```bash
 # ssh-keygen -t ed25519 -C "your_email@example.com"
-# /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-# eval $(/opt/homebrew/bin/brew shellenv) && brew install stow
-
-# https://ohmyz.sh/
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-
-# https://monaspace.githubnext.com/
-# brew tap homebrew/cask-fonts
-# brew install font-hack-nerd-font
-
 git clone git@github.com:jakebrinkmann/.dotfiles.git ~/.dotfiles
 cd ~/.dotfiles/dots
 stow -t ~ bash git nvim brew ripgrep python psql vim zsh bin ssh
 
 cd ~
 brew bundle install
+
+# Change default shell to zsh
+chsh -s /bin/zsh
+
+# https://brew.sh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# https://ohmyz.sh/
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 ```
 
 To build the Docker image locally:
