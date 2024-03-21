@@ -1,7 +1,7 @@
 # updates homebrew itself:
 # 	brew update
 # upgrade all individual packages:
-# 	brew upgrade
+# 	brew upgrade <package>
 #
 # brew bundle install
 # brew bundle check --debug
@@ -57,6 +57,7 @@ brew "httpie"
 brew "jq"
 brew "yq"
 brew "nvm" #nvm install v20
+# brew "node@20"
 brew "yarn"
 brew "typescript"
 brew "gitlab-runner"
@@ -79,17 +80,14 @@ brew "gcal"
 # brew "python@3.10"
 # brew "python@3.9"
 # brewk install --cask powershell
-#brew "node@20"
 brew "golang"
 tap "homebrew/cask-fonts"
 cask "font-hack-nerd-font"
-# brew "macvim"
-# brew "neovim-qt"
 brew "scrcpy"
 cask "android-platform-tools"
 cask "postman"
 cask "soapui"
-#cask "iterm2"
+cask "iterm2"
 cask "devtoys"
 cask "drawio"
 cask "obsidian"
