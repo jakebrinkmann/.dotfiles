@@ -1,3 +1,6 @@
+# Get latest everything:
+# 	brew update && brew bundle
+#
 # updates homebrew itself:
 # 	brew update
 # upgrade all individual packages:
@@ -88,6 +91,7 @@ cask "android-platform-tools"
 cask "postman"
 cask "soapui"
 cask "iterm2"
+cask "alacritty"
 cask "devtoys"
 cask "drawio"
 cask "obsidian"
