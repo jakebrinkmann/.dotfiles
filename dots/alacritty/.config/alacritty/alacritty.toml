@@ -5,3 +5,7 @@ args = ["--login"]
 
 [window]
 dimensions = { columns = 132, lines = 43 }
+
+[selection]
+semantic_escape_chars=",│`|:\"' ()[]{}<>\t"
+save_to_clipboard=true
