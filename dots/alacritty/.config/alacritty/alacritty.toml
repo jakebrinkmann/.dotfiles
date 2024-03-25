@@ -16,3 +16,12 @@ bold = { family = "Hack Nerd Font Mono", style = "Bold" }
 italic = { family = "Hack Nerd Font Mono", style = "Italic" }
 bold_italic = { family = "Hack Nerd Font Mono", style = "Bold Italic" }
 size = 12
+
+[keyboard]
+bindings = [
+	{ key = "Key0", mods = "Control", action = "ResetFontSize" },
+	{ key = "=", mods = "Control", action = "IncreaseFontSize" },
+	{ key = "+", mods = "Control|Shift", action = "IncreaseFontSize" },
+	{ key = "-", mods = "Control", action = "DecreaseFontSize" },
+	{ key = "_", mods = "Control|Shift", action = "DecreaseFontSize" },
+]
