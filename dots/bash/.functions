@@ -189,3 +189,7 @@ __gh_sync() {
 
   echo "$results"
 }
+
+__fonts() {
+  fc-list : family | sort -f
+}
