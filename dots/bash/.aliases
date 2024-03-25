@@ -48,10 +48,8 @@ alias emacs="emacs -nw"
 alias g=git
 alias gti=git
 alias gi=git
-alias vi="\$EDITOR"
-alias python=python3
-alias _jpy="cd ~/notes/notebooks/; poetry run jupyter lab"
-alias _ipy="cd ~/notes/notebooks/; poetry run ipython"
+alias _jpy="(cd ~/Documents/notebooks/ && poetry run jupyter lab)"
+alias _ipy="(cd ~/Documents/notebooks/ && poetry run ipython)"
 # %logstart -ort filename.ipy
 # %load filename.ipy
 
@@ -60,19 +58,13 @@ alias please=sudo
 alias lick=touch
 alias help=man
 
-# Pulse Secure VPN
-alias _vpn='sudo ip link set dev eth0 mtu 1400'
-
-# WSL2 Memory Leak
-alias _free="sudo su -c 'sync; echo 1 > /proc/sys/vm/drop_caches'"
-alias DockerDesktop="'/c/Program Files/Docker/Docker/Docker Desktop.exe' &"
-alias PulseVpn="'/c/Program Files (x86)/Common Files/Pulse Secure/JamUI/Pulse.exe' -show &"
 alias DockerDesktop="open -a Docker"
-alias Obsidian="open 'obsidian://open'"
 alias dcud="docker compose up -d"
 alias dcd="docker compose down"
 alias dcl="docker compose logs --tail=0 --follow"
 alias dcr="docker compose restart"
+
+alias Obsidian="open 'obsidian://open'"
 
 # Python Environments
 alias mkenv='python3 -m venv .venv'
