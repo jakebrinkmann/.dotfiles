@@ -60,35 +60,6 @@ aws lambda invoke  --function-name $LAMBDA --invocation-type RequestResponse --l
 # aws.configure
 aws configservice get-discovered-resource-counts --query "totalDiscoveredResources"
 
-# aws.database.RDS (Relational Data Service)
-aws rds describe-db-engine-versions --engine aurora-postgresql --query '*[].[EngineVersion]'
-aws rds describe-engine-default-parameters --db-parameter-group-family mariadb10.6 \
-   --query 'EngineDefaults.Parameters[?IsModifiable==`true`]'
-aws rds describe-db-cluster-parameters --db-cluster-parameter-group-name default.aurora-postgresql14
-aws rds describe-db-clusters | jq -r '.DBClusters[].DBClusterArn'
-aws rds-data execute-statement \
-  --resource-arn $DB_ARN \
-  --secret-arn $SECRET_ARN \
-  --database $DB_NAME \
-  --sql "select * from "
-
-# aws.database.DDB (DynamoDB NoSQL Database)
-aws dynamodb list-tables  --query 'TableNames[]'
-aws dynamodb scan --table-name $TABLE --max-items 1 --query 'Items[] | [0]'
-aws dynamodb put-item \
-    --table-name $TABLE \
-    --item '{"Artist": {"S": "No One You Know"}}' \
-    --return-values ALL_OLD
-aws dynamodb get-item --table-name $TABLE --key '{"id": {"N": "'$KEY'"}}'
-aws dynamodb delete-item --table-name $TABLE --key '{"id": {"S": "'$KEY'"}}'
-aws dynamodb scan \
-  --table-name Tables-YJX \
-  --projection-expression "THING"
-  --expression-attribute-names '{"#l1": "level1", "#l2": "level2"}' \
-  --filter-expression '#l1.#l2 = :p' \
-  --expression-attribute-values '{":p": {"S": "match"}}' \
-  | jq '.Items[].THING.S'
-
 # aws.engagement.SES (Simple Email Service)
 aws ses verify-email-identity --email-address $jbrinkmann@sonifi.com
 aws route53 list-hosted-zones-by-name --dns-name $HOSTEDZONENAME | jq -r .HostedZones[0].Id
@@ -279,7 +250,7 @@ aws securityhub get-findings \
     --filters '{"SeverityLabel":[{"Value":"CRITICAL", "Comparison":"EQUALS"}], "WorkflowStatus":[{"Value":"NEW", "Comparison":"EQUALS"}], "RecordState":[{"Value":"ACTIVE", "Comparison":"EQUALS"}]}' \
     --sort-criteria '{ "Field":"SeverityLabel", "SortOrder":"desc" }' \
     --max-items 1000
-    
+
 # aws.security.IAM (Identity and Access Management)
 aws iam list-roles | jq -c '.Roles[].Arn'
 aws iam create-user --user-name MyCdkUser
@@ -316,7 +287,7 @@ aws acm describe-certificate \
 aws route53 list-hosted-zones-by-name \
   --dns-name $DOMAIN_NAME \
   --query HostedZones
-  
+
 # aws.security.Cognito
 aws cognito-idp create-user-pool \
   --pool-name example-corp-prd-userpool
