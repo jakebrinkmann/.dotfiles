@@ -233,3 +233,20 @@ snippet enum
 	    RED = 1
 	    GREEN = 2
 	    BLUE = 3
+
+snippet dataclasses
+	from dataclasses import dataclass
+
+	@dataclass
+	class DomainError:
+	    """Class for keeping track of an item in inventory."""
+	    name: str
+	    unit_price: float
+	    quantity_on_hand: int = 0
+
+snippet ABC
+	from abc import ABC, abstractmethod
+	class Shape(ABC):
+	    @abstractmethod
+	    def area(self):
+		pass
