@@ -1,0 +1,76 @@
+snippet docker
+  docker run --rm -p 80:8080 \
+    -e API_URL=doc/openapi.yaml \
+    -v ./doc:/usr/share/nginx/html/doc \
+    swaggerapi/swagger-ui
+
+
+snippet ref-responses
+  components:
+    responses:
+      methodNotAllowed:
+	description: "Method Not Allowed response"
+	content":
+	  application/json":
+	    schema:
+	      $ref: "#/components/schemas/methodNotAllowedResponse"
+
+
+snippet table
+  # YAML example
+  swagger: '2.0'
+  info:
+    version: 1.0.0
+    title: Table demo
+    description: |
+      Sample table:
+
+      | One | Two | Three |
+      |-----|-----|-------|
+      | a   | b   | c     |
+  paths: {}
+
+
+snippet xcorrelationid
+      responses:
+	'200':
+	  description: OK - the new multipart upload was successfully started.
+	  headers:
+	    X-Correlation-ID:
+	      "$ref": "#/components/headers/X-Correlation-ID"
+
+  headers:
+    X-Correlation-ID:
+      description: Unique ID to correlate client request with server response.
+      schema:
+	type: string
+      example: 4199533b-6290-41db-8d79-edf4f4019a74
+
+snippet parameters
+  paths:
+    /users/{userId}:
+      get:
+	summary: Get a user by ID
+	parameters:
+	  - in: path
+	    name: userId
+	    schema:
+	      type: integer
+	      minimum: 0
+	      default: 0
+	    required: false
+	    description: Numeric ID of the user to get
+	- in: query
+          name: status
+          schema:
+            type: string
+            enum:
+              - available
+              - pending
+              - sold
+        - in: header
+          name: X-Request-ID
+          schema:
+            type: string
+            format: uuid
+          required: true

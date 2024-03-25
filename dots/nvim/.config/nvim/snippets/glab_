@@ -1,0 +1,17 @@
+# https://gitlab.com/gitlab-org/cli/-/tree/main/docs/source/variable
+``` set_variables
+glab variable set -g $GROUP_NAME AWS_ROLE_ARN_STAGE "$(aws iam list-roles | jq -r '.Roles[].Arn | select(test("cfn-exec-role"))')"
+glab variable set -g $GROUP_NAME AWS_ACCOUNT_STAGE "$AWS_ACCOUNT_ID"
+```
+
+``` list_variables
+glab variable list -R $GROUP_NAME/cloud-stack --group $GROUP_NAME
+```
+
+``` get_variables
+glab variable get -g $GROUP_NAME AWS_ACCOUNT_STAGE
+```
+
+``` create_mr
+glab mr create -R $REPO -a jbrinkmann -s dev -b test -t "Push dev ⭆ test"
+```

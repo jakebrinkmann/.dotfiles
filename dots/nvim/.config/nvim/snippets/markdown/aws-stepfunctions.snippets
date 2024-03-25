@@ -1,0 +1,14 @@
+# aws.integration.SF (StepFunctions)
+snippet sfn-list
+    aws stepfunctions list-state-machines \
+        --max-items 1000 --query stateMachines[].name
+
+snippet sfn-list-arn
+    aws stepfunctions list-state-machines \
+        --query 'stateMachines[].stateMachineArn'
+
+snippet sfn-start
+    aws stepfunctions start-execution \
+        --state-machine-arn ${STATEMACHINE} \
+        --name "Example exec $(uuidgen)" \
+        --input '{"key": "value"}'

@@ -1,0 +1,37 @@
+# aws.network.Route53
+snippet route53-list-zones
+    aws route53 list-hosted-zones-by-name \
+        --dns-name $HOSTEDZONENAME | jq -r .HostedZones[0].Id
+
+snippet route53-batch
+    aws route53 change-resource-record-sets \
+        --hosted-zone-id $HOSTEDZONEID \
+        --change-batch file://$TMPFILE
+
+snippet route53-check-domain
+    aws route53domains check-domain-availability --domain-name <value>
+
+snippet route53-register
+    aws route53domains register-domain --domain-name <value>
+
+snippet route53-list-zones
+    ZONE=$(aws route53 list-hosted-zones-by-name \
+        --dns-name jbrinkmann.cloud --query 'HostedZones[0].Id' --output text)
+
+snippet route53-list-records
+    aws route53 list-resource-record-sets \
+        --hosted-zone-id $ZONE --query 'ResourceRecordSets[?Type==`NS`].ResourceRecords[].Value'
+
+# aws.security.ACM
+snippet acm-request-cert
+    aws acm request-certificate \
+      --domain-name $DOMAIN_NAME \
+      --subject-alternative-names *.$DOMAIN_NAME \
+      --validation-method DNS \
+      --query CertificateArn \
+      --output text
+
+snippet acm-describe-cert
+    aws acm describe-certificate \
+      --certificate-arn $SSL_CERT_ARN \
+      --query Certificate.DomainValidationOptions

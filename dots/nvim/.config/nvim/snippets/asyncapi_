@@ -1,0 +1,91 @@
+> The AsyncAPI document is a machine-readable definition of your Event-Driven API.
+
+```sh
+mqtt pub -t 'light/measured' -h 'test.mosquitto.org' -m '{"id": 1, "lumens": "3", "sentAt": "2017-06-07T12:34:32.000Z"}'
+```
+
+- [AsyncAPI Studio](https://studio.asyncapi.com/)
+
+```yaml
+asyncapi: 2.6.0
+id: urn:io.example.user-signedup
+info:
+  title: Hello world application
+  version: '0.1.0'
+servers:
+  mosquitto:
+    url: mqtt://test.mosquitto.org
+    protocol: mqtt
+defaultContentType: application/json
+channels:
+  user/signedup:
+    subscribe:
+      message:
+        headers:
+          type: object
+          properties:
+            custom-header:
+              type: string
+            content-type:
+              type: string
+              enum:
+                - 'application/cloudevents+json; charset=UTF-8'
+        payload:
+          $ref: '#/components/schemas/userSignedUpPayload'
+        examples:
+          - summary: Example for John Doe user
+            payload:
+              fullName: John Doe
+              email: john@microcks.io
+              age: 36
+components:
+  schemas:
+    userSignedUpPayload:
+      type: object
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/cloudevents/spec/v1.0.1/spec.json'
+      properties:
+        data:
+          $ref: '#/components/schemas/userSignedUpData'
+    userSignedUpData:
+      type: object
+      properties:
+        fullName:
+          type: string
+        email:
+          type: string
+          format: email
+        age:
+          type: integer
+          minimum: 18
+```
+
+
+> AsyncAPI is an open source initiative that seeks to improve the current state of Event-Driven Architectures (EDA).
+
+> [AsyncAPI is the industry standard for or defining asynchronous APIs.](https://www.asyncapi.com/ "https://www.asyncapi.com/")
+
+- [spec/examples/streetlights-kafka.yml at master · asyncapi/spec (github.com)](https://github.com/asyncapi/spec/blob/master/examples/streetlights-kafka.yml)
+
+[Introduction | AsyncAPI Initiative for event-driven APIs](https://www.asyncapi.com/docs/tools/generator)
+[asyncapi/python-paho-template: Python Paho template for the AsyncAPI generator (github.com)](https://github.com/asyncapi/python-paho-template)
+```sh
+npm install -g @asyncapi/cli
+
+❯ asyncapi generate fromTemplate asyncapi.yaml @asyncapi/python-paho-template
+  Generation in progress. Keep calm and wait a bit... done
+
+  Generator Error: Version 2.6.0 is not supported.
+```
+
+```bash
+asyncapi generate fromTemplate asyncapi.yaml @asyncapi/python-paho-template -o dist --force-write
+```
+
+
+[modelina/examples/generate-python-pydantic-models at master · asyncapi/modelina (github.com)](https://github.com/asyncapi/modelina/tree/master/examples/generate-python-pydantic-models)
+
+```bash
+npm install -g @asyncapi/modelina
+❯ asyncapi generate models python ./asyncapi.yaml --fail-severity=error --output=./output
+```

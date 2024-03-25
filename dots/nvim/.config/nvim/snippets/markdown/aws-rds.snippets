@@ -1,0 +1,47 @@
+# aws.database.RDS (Relational Data Service)
+snippet rds-desc-postgres
+    aws rds describe-db-engine-versions --engine aurora-postgresql --query '*[].[EngineVersion]'
+
+snippet rds-desc-maria
+    aws rds describe-engine-default-parameters --db-parameter-group-family mariadb10.6 \
+       --query 'EngineDefaults.Parameters[?IsModifiable==`true`]'
+
+snippet rds-cluster-params
+    aws rds describe-db-cluster-parameters \
+        --db-cluster-parameter-group-name default.aurora-postgresql14
+
+# aws.database.DDB (DynamoDB NoSQL Database)
+snippet dynamodb-list
+    aws dynamodb list-tables  \
+        --query 'TableNames[]'
+
+snippet dynamodb-scan
+    aws dynamodb scan \
+        --table-name $TABLE \
+        --max-items 1 \
+        --query 'Items[] | [0]'
+
+snippet dynamodb-put
+    aws dynamodb put-item \
+        --table-name $TABLE \
+        --item '{"Artist": {"S": "No One You Know"}}' \
+        --return-values ALL_OLD
+
+snippet dynamodb-get
+    aws dynamodb get-item \
+        --table-name $TABLE \
+        --key '{"id": {"N": "'$KEY'"}}'
+
+snippet dynamodb-delete
+    aws dynamodb delete-item \
+        --table-name $TABLE \
+        --key '{"id": {"S": "'$KEY'"}}'
+
+snippet dynamodb-scan-filter
+    aws dynamodb scan \
+      --table-name Tables-YJX \
+      --projection-expression "THING"
+      --expression-attribute-names '{"#l1": "level1", "#l2": "level2"}' \
+      --filter-expression '#l1.#l2 = :p' \
+      --expression-attribute-values '{":p": {"S": "match"}}' \
+      | jq '.Items[].THING.S'

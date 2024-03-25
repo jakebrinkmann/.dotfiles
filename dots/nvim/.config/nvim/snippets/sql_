@@ -1,0 +1,78 @@
+``` with
+WITH regional_sales AS (
+        SELECT region, SUM(amount) AS total_sales
+        FROM orders
+        GROUP BY region
+     ), top_regions AS (
+        SELECT region
+        FROM regional_sales
+        WHERE total_sales > (SELECT SUM(total_sales)/10 FROM regional_sales)
+     )
+SELECT region,
+       product,
+       SUM(quantity) AS product_units,
+       SUM(amount) AS product_sales
+FROM orders
+WHERE region IN (SELECT region FROM top_regions)
+GROUP BY region, product;
+```
+``` jsonb
+update thing1.config set location = location || '{"timezone": "America/Chicago"}' where site_id = 290912
+```
+``` increment "increment on insert"
+\echo "===== Create increment_thing2_modified_func"
+CREATE OR REPLACE FUNCTION hash_place_service_number()
+RETURNS TRIGGER AS $BODY$ BEGIN
+    RAISE NOTICE 'Calling hash_place_service_number';
+    IF (NEW."id" IS NULL) THEN
+        SELECT MD5(COALESCE(NEW.thing1::text, 'None') || '-' || NEW.number) INTO NEW."id";
+    END IF;
+    RAISE NOTICE 'Data (%s)', NEW."id";
+    RETURN NEW;
+END $BODY$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS set_id_hash ON service;
+CREATE TRIGGER set_id_hash BEFORE INSERT ON service
+FOR EACH ROW EXECUTE PROCEDURE hash_place_service_number();
+```
+``` func "make a function"
+create or replace function get_film_count(len_from int, len_to int)
+returns int
+as $$
+declare
+   film_count integer;
+begin
+   select count(*)
+   into film_count
+   from film
+   where length between len_from and len_to;
+
+   return film_count;
+end $$ language plpgsql;
+```
+``` schema
+\echo '===== Create schema:  group'
+DROP SCHEMA IF EXISTS "group" CASCADE;
+CREATE SCHEMA "group";
+COMMENT ON SCHEMA  "group"  IS 'This schema contains';
+
+SET SCHEMA 'group';
+```
+``` table
+CREATE TYPE definition_type  AS ENUM ('place', 'person', 'thing');
+\echo '===== Create table:  definition'
+CREATE TABLE IF NOT EXISTS definition
+(
+    -- Columns
+    id                                  UUID            PRIMARY KEY     DEFAULT gen_random_uuid(),
+    name                                TEXT            NOT NULL                                CHECK (name ~ '^[ -~]*$'),
+    type                                definition_type NOT NULL,
+    codes                               TEXT[],
+    last_modified                       TIMESTAMP WITH TIME ZONE        DEFAULT CURRENT_TIMESTAMP,
+    -- Constraints
+    PRIMARY KEY (id),
+    FOREIGN KEY (name)               REFERENCES things.place(name)       ON DELETE CASCADE
+);
+COMMENT ON TABLE  definition  IS 'This table defines.';
+COMMENT ON COLUMN definition.id IS 'Unique ID';
+```

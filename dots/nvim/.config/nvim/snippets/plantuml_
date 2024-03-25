@@ -1,0 +1,789 @@
+``` class "basic class diagram"
+class Dummy {
+ -privateSquare1: uuid4, pk
+ #protectedDiamond2: str[256], unique
+ ~packagePrivateTriangle()
+ +publicCircle()
+}
+```
+``` erd "entity relationship diagram"
+!define unique <b>U</b>
+!define not_null <b>N</b>
+!define primary_key(x) <b><color:#b8861b><&key></color> x</b>
+!define foreign_key(x) <color:#aaaaaa><&key></color> x
+!define column(x) <color:#efefef><&media-record></color> x
+!define table(x) entity x << (T, white) >>
+skinparam tabSize 2
+hide methods
+hide circle
+
+table( user ) {
+  primary_key( id ) \t UUID
+  column( isActive ) \t BOOLEAN
+  foreign_key( cityId ) \t INTEGER <<FK>>
+}
+table( city ) {
+  primary_key( id ) \t UUID
+  column( name ) \t CHARACTER VARYING
+  column( country ) \t CHARACTER VARYING
+  column( postCode ) \t INTEGER
+}
+user }|--|| city
+```
+``` tree "plantuml creole tree"
+@startuml
+class Foo {
+  **Bar (Model)**
+  |_ prop
+  |_ **Bom (Model)**
+    |_ prop2
+    |_ prop3
+      |_ prop3.1
+  |_ prop4 :(
+  --
+}
+@enduml
+```
+
+``` umls "plantuml"
+@startuml
+' https://plantuml.com/sequence-diagram
+' https://plantuml-documentation.readthedocs.io/en/latest/diagrams/sequence.html
+
+' participant Participant
+' collections Collections
+:User:
+boundary "Web GUI" as GUI
+box "Internal Service" #LightBlue
+["Shopping Cart"] as SC
+entity Widget
+database Widgets
+' queue Queue
+endbox
+
+[-> GUI : <back:red><color:white>1. incoming
+note on link #White
+<code>
+  POST /v1/token
+end note
+User -> GUI ++ : To boundary
+GUI -> SC : To control
+SC -> Widget : To entity
+Widget -[bold]> Widgets : To database
+GUI -> User -- : success
+[<- User: Done
+note right : this is a note
+note bottom of
+  This is **bold**
+  This is //italics//
+  This is ""monospaced""
+  This is --stricken-out--
+  This is __underlined__
+  This is ~~wave-underlined~~
+end note
+
+@enduml
+```
+
+``` umlc "plantuml"
+@startuml
+
+class server1 {
+ url: mqtt://localhost:1883
+ protocol: mqtt
+}
+FlightMonitorService --|> server1:flight/update
+server1 --|> FlightNotifierService:flight/update
+FlightSubscriberService --|> server1:flight/queue
+server1 --|> FlightMonitorService:flight/queue
+@enduml
+```
+
+``` umla "plantuml activity"
+@startuml
+' https://plantuml.com/activity-diagram-legacy
+(*) --> if "Some Test" then
+  -->[true] "action 1"
+  if "" then
+    -> "action 3" as a3
+  else
+    if "Other test" then
+      -left-> "action 5"
+    else
+      --> "action 6"
+    endif
+  endif
+else
+  ->[false] "action 2"
+endif
+
+a3  --> (*)
+@enduml
+```
+
+``` umle "plantuml ERD"
+@startuml
+' https://plantuml.com/ie-diagram
+
+entity "Entity01" as e01 {
+  *e1_id : number <<generated>>
+  --
+  *name : text
+  description : text
+}
+
+entity "Entity02" as e02 {
+  *e2_id : number <<generated>>
+  --
+  *e1_id : number <<FK>>
+  other_details : text
+}
+
+e01 ||..o{ e02
+@enduml
+```
+
+``` umlerd "entity relationship"
+@startuml
+hide private members
+hide public members
+
+hide entity fields
+hide object stereotypes
+
+' hide the label
+hide circle
+
+package foo1.foo2 {
+note "This is a floating note" as N1
+entity Entity01 {
+  {static} * identifying_attribute : number <<generated>>
+  --
+  * <b>mandatory_attribute</b> : text
+  optional_attribute : text
+}
+}
+
+package foo2.foo3 <<Cloud>> {
+class "Entity02" as e02 {
+  *e2_id : number <<generated>>
+  --
+  *e1_id : number <<FK>>
+  {abstract} other_details : text
+}
+}
+
+enum TimeUnit {
+  DAYS
+  HOURS
+  MINUTES
+}
+
+Entity01 }|.left.|| e02 : OneOrMany to ExactlyOne
+Entity03 }o..o| Entity04 : ZeroOrMany to ZeroOrOne
+TimeUnit -left[hidden]-> Entity03
+
+' Title -- Genre : Association (have a; each hold reference to each other)
+' Title *-- Season : Composition (owns; child cannot exist independent of the parent)
+' Title o-- Actor : Aggregation (has; child can exist independently of the parent)
+' Bank Account <|-- Savings Account : Extension (is / inherits from)
+' ClassA ..> ClassB : Dependency (uses)
+@enduml
+```
+
+``` pumlerd "plantuml classes with specific links"
+@startuml
+!include db_organizations_model.puml
+!include db_projects_model.puml
+!include db_needs_model.puml
+
+Needs::project -> Projects::id
+Projects::organizations -> Organizations::id
+@enduml
+```
+
+``` umlm "plantuml MindMap"
+@startmindmap
+'https://plantuml.com/mindmap-diagram
+<style>
+mindmapDiagram {
+  .rose {
+    BackgroundColor #FFBBCC
+  }
+}
+</style>
++ OS <<rose>>
+++ Ubuntu
++++ Linux Mint
++++_ Kubuntu
+++_ LMDE
+--_ Windows 98
+-- Windows NT
+--- Windows 10
+@endmindmap
+```
+
+``` notes "plantuml braindump"
+@startmindmap
+
++ **myThoughts**
+++ Thought 1
+'tag::details[]
++++_ Thought 1.1
++++_ Thought 1.2
+'end::details[]
+++ Thought 2
+++ Thought 3
+
+'tag::left[]
+-- Thought A
+-- Thought B
+-- Thought C
+'end::left[]
+
+@endmindmap
+' +-bullets will be rendered as thoughts to the right
+' --bullets to the left,
+' underscore _ to omit the box
+```
+
+``` pumlhide "plantuml hide"
+@startuml
+hide <<tag>>
+class bob <<tag>>{
+}
+class joe{
+}
+@enduml
+```
+
+``` json
+@startuml
+!$data={"participants":[
+  {"shape": "cloud", "name": "id1", "colour": "#green", "desc": "some text"},
+  {"shape": "folder", "name": "id2", "colour": "#blue", "desc": "more text"},
+  {"shape": "database", "name": "id3", "colour": "#red", "desc": "even more text"}
+]}
+
+rectangle Outer {
+  rectangle Inner as "
+  {{json
+  $data
+  }}
+  "
+
+  together {
+    !foreach $part in $data.participants
+      $part.shape $part.colour $part.name as "$part.desc"
+      Inner --> $part.name
+    !endfor
+  }
+
+}
+@enduml
+```
+
+``` umlc "plantuml component diagram"
+' https://plantuml.com/component-diagram
+@startuml
+package "Some Group" {
+  HTTP - [First Component]
+  [Another Component]
+  interface Interf3
+}
+
+node "Other Groups" {
+  FTP - [Second Component]
+  [First Component] ..> FTP
+}
+
+together {
+    [PostgreSQL database] as PostgresDB <<Database>>
+    [Mail server] as Mail <<Mail server>>
+}
+
+cloud {
+{{json
+{"name": "component c1",
+"color": ["normal", "green", "red"],
+"visible": true}
+}}
+}
+
+
+database "MySql" {
+  folder "This is my folder" {
+    [Folder 3]
+  }
+  frame "Foo" {
+    [Frame 4]
+  }
+}
+
+
+[Another Component] --> [Example 1]  #Blue
+[Example 1] ---> [Folder 3]  #Blue
+[Folder 3] -> [Frame 4]  #Blue
+footer //Adding "component" to force diagram to be a **component diagram**//
+' package node folder frame cloud database
+legend
+  | Color | Workflow |
+  |<#Red>|  Flow 1 |
+  |<#Blue>|  Flow 2 |
+endlegend
+@enduml
+```
+``` legend
+legend
+    |= Color |= Type |= Description |
+    | <#Crimson>      |    <&arrow-right> | Example 1 |
+    | <#LightSeaGreen>|    <&arrow-right> | Example 2 |
+    | <#DarkGreen>    |    <&arrow-right> | Example 3 |
+    | <#YellowGreen>  |    <&box>         | Example 4 |
+    | <#Chocolate>    |    <&box>         | Example 5 |
+endlegend
+```
+``` legend
+' #00000000 is transparent
+hide <<legendArea>> stereotype
+skinparam rectangle<<legendArea>> {
+    backgroundcolor #00000000
+    bordercolor #00000000
+}
+rectangle FLOATINGLEGEND<<legendArea>> [
+    |= Source |= Data |
+    | <#Chocolate> **SYS** | Guidebook |
+]
+```
+``` trigger "description"
+@startuml
+allow_mixing
+' :actor:
+' [component]
+' () "interface"
+' (usecase)
+actor actor
+agent agent
+artifact artifact
+boundary boundary
+card card
+cloud cloud
+collections collections
+component component
+control control
+database database
+entity entity
+file file
+folder folder
+frame frame
+hexagon hexagon
+interface  interface
+label label
+node node
+package package
+person person
+queue queue
+stack stack
+rectangle rectangle
+storage storage
+usecase usecase
+@enduml
+```
+``` umli "plantuml with icons"
+' https://plantuml.com/stdlib
+@startuml
+'Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+'SPDX-License-Identifier: MIT (For details, see https://github.com/awslabs/aws-icons-for-plantuml/blob/master/LICENSE)
+
+!include <awslib/AWSCommon>
+
+' Uncomment the following line to create simplified view
+' !include <awslib/AWSSimplified>
+
+!include <awslib/General/Users>
+!include <awslib/Mobile/APIGateway>
+!include <awslib/SecurityIdentityAndCompliance/Cognito>
+!include <awslib/Compute/Lambda>
+!include <awslib/Database/DynamoDB>
+
+left to right direction
+
+Users(sources, "Events", "millions of users")
+APIGateway(votingAPI, "Voting API", "user votes")
+Cognito(userAuth, "User Authentication", "jwt to submit votes")
+Lambda(generateToken, "User Credentials", "return jwt")
+Lambda(recordVote, "Record Vote", "enter or update vote per user")
+DynamoDB(voteDb, "Vote Database", "one entry per user")
+
+sources --> userAuth
+sources --> votingAPI
+userAuth <--> generateToken
+votingAPI --> recordVote
+recordVote --> voteDb
+@enduml
+```
+``` umlc "plantuml colors"
+' http://www.plantuml.com/plantuml/png/SoWkIImgAStDuKhEpyalAkPoICrB0N81
+rectangle Application    #Application ' teal
+rectangle Business       #Business ' yellow
+rectangle Implementation #Implementation ' pink
+rectangle Motivation     #Motivation ' Purple
+rectangle Physical       #Physical
+rectangle Strategy       #Strategy ' brown
+rectangle Technology     #Technology ' green
+
+' https://plantuml-documentation.readthedocs.io/en/latest/formatting/all-skin-params.html
+@startuml
+!define DARKBLUE | LIGHTBLUE | DARKRED | DARKGREEN
+!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml
+title "__Messages__ - **Sequence** Diagram"
+title
+  hello
+end title
+center header Generated for demonstration
+top to bottom direction
+autonumber
+skinparam guillemet [ ]
+skinparam DefaultFontSize 18
+skinparam monochrome true
+skinparam Shadowing false
+skinparam linetype ortho
+skinparam packageStyle rectangle
+skinparam responseMessageBelowArrow true
+skinparam nodesep 5
+skinparam minClassWidth 125
+skinparam nodesep 10
+skinparam ranksep 10
+
+colors
+skinparam component {
+    FontColor          black
+    AttributeFontColor black
+    FontSize           17
+    AttributeFontSize  15
+    AttributeFontname  Droid Sans Mono
+    BackgroundColor    #6A9EFF
+    BorderColor        black
+    ArrowColor         #222266
+}
+skinparam package<<Layout>> {
+  borderColor Transparent
+  backgroundColor Transparent
+  fontColor Transparent
+  stereotypeFontColor Transparent
+}
+skinparam actorBorderColor<<customer>> #Red
+skinparam actorBorderColor<<consumer>> #Blue
+skinparam boundaryBorderColor<<ehr>> #Green
+#Orange #ffdfba
+#Pink #ffd4e5
+#Cyan #d4ffea
+#Purple #eecbff
+#Yellow #feffa3
+#Green #e1f7d5
+#Blue #c9c9ff
+#Red #ffbdbd
+' tailwind
+red #f44336
+pink #e91e63
+purple #9c27b0
+blue #2196f3
+cyan #00bcd4
+teal #009688
+green #4caf50
+yellow #ffeb3b
+amber #ffc107
+orange #ff9800
+brown #795548
+grey #9e9e9e
+blue-grey #607d8b
+@enduml
+```
+``` stateo "state of object"
+[*] --> active
+
+active -right-> inactive : disable
+inactive -left-> active  : enable
+
+inactive --> closed  : close
+active --> closed  : close
+
+closed --> [*]
+```
+``` state "plantuml statemachine activity"
+@startuml
+start
+while (App) is (running)
+  :enter username;
+  repeat
+    :enter password;
+    if (Password correct?) then (yes)
+      :Play game;
+      stop
+    endif
+  repeat while (Third attempt?) is (no) not (yes)
+endwhile (exit)
+stop
+@enduml
+```
+``` defs "plantuml with defs"
+@startuml(id=TAG1)
+Alice->Bob : TAG1
+@enduml
+
+@startuml(id=TAG2)
+Alice->Bob : TAG2
+@enduml
+
+@startuml
+!include file.pu!TAG2
+Alice->Bob : hello
+@enduml
+```
+``` defs "plantuml with defs"
+@startdef(id=macro_def_id)
+Alice -> Bob : hello1
+@enddef
+
+@startuml
+!includedef macro_def_id
+Alice -> Bob : hello2
+@enduml
+```
+``` activation
+@startuml
+!$foo = { "name": "John", "age" : 30 }
+alice -> bob ++ : hello1 $foo.name
+bob -> charlie --++ : hello2
+charlie --> alice -- : ok
+@enduml
+```
+``` style "style.puml"
+!define LOGIC_COLOR #3333C4
+!define LOGIC_COLOR_T1 #7777DB
+!define LOGIC_COLOR_T2 #5252CE
+!define LOGIC_COLOR_T3 #1616B0
+!define LOGIC_COLOR_T4 #101086
+box Logic LOGIC_COLOR_T2
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+```
+``` icon "openicon"
+'https://useiconic.com/open/
+card "<&key> key"
+card "<size:42><&wrench></size>"
+
+skinparam cardBorderColor none
+skinparam cardBackgroundColor none
+skinparam cardShadowing false
+```
+``` c4 "c4 model"
+person "Administrator" as ADMIN <<persona>>
+' human user (actor, roles, persona)
+frame "Sample System" <<boundary>> {
+  ' highest abstraction delivering value to user
+  agent "Web Application" as APP <<container>>
+  ' not separately deployable units
+}
+rectangle "Twitter" as TWIT <<system>>
+' applications and datastores
+
+ADMIN --> APP : **Uses**\n[HTTPS]
+APP --> TWIT : **Gets tweets from**\n[HTTPS]
+```
+``` footer
+' https://plantuml.com/preprocessing
+!THE_DATE = %date("yyyy-MM-dd")
+footer "Generated by jbrinkmann on THE_DATE"
+```
+``` java
+java -Dapple.awt.UIElement=true \
+  -jar "/home/hydro/.vim/plugged/plantuml-previewer.vim/lib/plantuml.jar" \
+  "diagram.puml" \
+  -charset UTF-8 \
+  -tpng
+```
+``` themes
+help themes
+!theme cyborg
+Bob -> Alice :  hello
+Bob <- Alice :  $success("success: hello B.")
+Bob -x Alice :  $failure("failure")
+Bob ->> Alice : $warning("warning")
+```
+``` table
+<#silver>|= code|= output|
+| \n This is ""~**bold**""\n | \n This is **bold** |
+| \n This is ""~//italics//""\n | \n This is //italics// |
+| \n This is ""~""monospaced~"" ""\n | \n This is ""monospaced"" |
+| \n This is ""~--stroked--""\n | \n This is --stroked-- |
+| \n This is ""~__underlined__""\n |  \n This is __underlined__ |
+| \n This is ""<U+007E><U+007E>waved<U+007E><U+007E>""\n | \n This is ~~waved~~ |
+| \n This is ""~<s:""<color:green>""green""</color>"">stroked</s>""\n | \n  This is <s:green>stroked</s> |
+| \n This is ""~<u:""<color:red>""red""</color>"">underlined</u>""\n | \n This is <u:red>underlined</u> |
+| \n This is ""~<w:""<color:#0000FF>""#0000FF""</color>"">waved</w>""\n | \n This is <w:#0000FF>waved</w> |
+```
+``` note
+note as N123
+Replace this note text with
+your own text.
+
+Click on <b><color:royalBlue>refine UML</color>
+to access all PlantUML
+<size:18>markdown</size> <u>features</u>.
+end note
+```
+``` act
+@startuml
+skinparam shadowing false
+|#pink|a1| actor1
+|m| middleActor
+|#gold|a2| actor2
+
+|a1|
+start
+:action1;
+:action2;
+|m|
+:action middleActor;
+partition Group #palegreen {
+  |a1|
+  :action3;
+  |a2|
+  :action4;
+  :action5;
+  |a1|
+  :action6;
+}
+stop
+@enduml
+```
+``` c4model
+' https://github.com/plantuml-stdlib/C4-PlantUML#supported-diagram-types
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+LAYOUT_WITH_LEGEND()
+
+title Container diagram for Internet Banking System
+
+WithoutPropertyHeader()
+AddProperty("Name", "Flash")
+AddProperty("Organization", "Zootopia")
+AddProperty("Tool", "Internet Explorer 7.0")
+Person(customer, Customer, "A customer of the bank, with personal bank accounts")
+System_Boundary(c1, "Internet Banking") {
+    Container(web_app, "Web Application", "Java, Spring MVC", "Delivers the static content and the Internet banking SPA")
+    ContainerDb(database, "Database", "SQL Database", "Stores user registration information, hashed auth credentials, access logs, etc.")
+}
+System_Ext(email_system, "E-Mail System", "The internal Microsoft Exchange system")
+Rel(customer, web_app, "Uses", "HTTPS")
+@enduml
+```
+``` awssequence
+@startuml Sequence Diagram - Images
+'Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+'SPDX-License-Identifier: MIT (For details, see https://github.com/awslabs/aws-icons-for-plantuml/blob/master/LICENSE)
+
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v13.1/dist
+!include AWSPuml/AWSCommon.puml
+!include AWSPuml/Compute/Lambda.puml
+!include AWSPuml/ApplicationIntegration/APIGateway.puml
+!include AWSPuml/General/Internetalt1.puml
+!include AWSPuml/Database/DynamoDB.puml
+
+'Comment out to use default PlantUML sequence formatting
+skinparam participant {
+    BackgroundColor AWS_BG_COLOR
+    BorderColor AWS_BORDER_COLOR
+}
+skinparam sequence {
+    ArrowThickness 2
+    LifeLineBorderColor AWS_COLOR
+    LifeLineBackgroundColor AWS_BORDER_COLOR
+    BoxBorderColor AWS_COLOR
+}
+
+'Hide the bottom boxes / Use filled triangle arrowheads
+hide footbox
+skinparam style strictuml
+
+actor User as user
+box AWS Cloud
+'Instead of using ...Participant(), native creole img tags can be used
+participant "$APIGatewayIMG()\nCredit Card System\nAll methods are POST" as api << REST API >>
+participant "$LambdaIMG()\nAuthorizeCard\nReturns status" as lambda << python3.9 >>
+participant "PaymentTransactions\n$DynamoDBIMG()\nsortkey=transaction_id+token" as db << on-demand >>
+endbox
+participant "Authorizer\nReturns status and token\n$Internetalt1IMG()" as processor
+
+'Use shortcut syntax for activation with colored lifelines and return keyword
+user -> api++ #CC2264: Process transaction\nPOST /prod/process
+api -> lambda++ #D86613: Invokes lambda with cardholder details
+lambda -> processor++ #232F3E: Submit via API token\ncard number, expiry, CID
+processor -> processor: Validate and create token
+return status code and token
+lambda ->> db: PUT transaction id, token
+return status code, transaction id
+return status code
+@enduml
+```
+
+``` img
+<img:http://plantuml.com/logo3.png{scale=0.5}>
+<img:/Users/plantuml/logo3.png{scale=0.5}>
+```
+
+``` ln "link"
+[[http://plantuml.com/start{Tooltip for message} some link]]
+```
+
+``` gantt "gantt chart"
+' https://plantuml.com/gantt-diagram
+@startgantt
+
+Project starts 2020-09-01
+
+[taskA] starts 2020-09-01 and lasts 3 days
+[taskB] starts 2020-09-10 and lasts 3 days
+[taskB] displays on same row as [taskA]
+
+[task01] starts 2020-09-05 and lasts 4 days
+
+then [task02] lasts 8 days
+
+then [task03] lasts 7 days
+
+-- separator --
+
+[taskC] starts 2020-09-02 and lasts 5 days
+[taskD] starts 2020-09-09 and lasts 5 days
+[taskD] displays on same row as [taskC]
+
+[task 10] starts 2020-09-05 and lasts 5 days
+then [task 11] lasts 5 days
+@endgantt
+```
+
+```plantuml swimlanes
+@startuml
+title something
+
+|#dee4e8|GUI|
+|#c4c9cd|Core-Domain|
+|#daf0fe|Email-Provider|
+
+|GUI|
+start
+:enter-data;
+|Core-Domain|
+:validate-address;
+:validate-credit-card;
+|Email-Provider|
+:send-optin-mail;
+:validate-smtp-return;
+|Core-Domain|
+:prepare-welcome-\npackage;
+|GUI|
+:display-success-message;
+stop
+@enduml
+```

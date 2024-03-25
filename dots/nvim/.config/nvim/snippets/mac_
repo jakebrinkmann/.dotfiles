@@ -1,0 +1,4 @@
+```bash
+# List calendar events today
+icalBuddy -npn -nc -ps "/: /" -iep "datetime,title" -po "datetime, title" -ic "Calendar" eventsToday
+```

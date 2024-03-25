@@ -1,0 +1,168 @@
+snippet cdk-json
+    // cdk.json
+    "app": "npx ts-node --prefer-ts-exts infra/app-main",
+
+snippet cdk-stack
+	import * as cdk from 'aws-cdk-lib';
+
+	export class CdkWorkshopStack extends cdk.Stack {
+	  constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
+	    super(scope, id, props);
+
+	    // nothing here!
+	  }
+	}
+
+snippet cdk-construct
+	import * as cdk from 'aws-cdk-lib';
+	import * as lambda from 'aws-cdk-lib/aws-lambda';
+	import { Construct } from 'constructs';
+
+	export interface HitCounterProps {
+	  /** the function for which we want to count url hits **/
+	  downstream: lambda.IFunction;
+	}
+
+	export class HitCounter extends Construct {
+	  constructor(scope: Construct, id: string, props: HitCounterProps) {
+	    super(scope, id);
+
+	    // TODO
+	  }
+	}
+
+snippet cdk-lambda
+	import * as lambda from 'aws-cdk-lib/aws-lambda';
+	...
+	    // defines an AWS Lambda resource
+	    const hello = new lambda.Function(this, 'HelloHandler', {
+	      runtime: lambda.Runtime.NODEJS_14_X,    // execution environment
+	      code: lambda.Code.fromAsset('lambda'),  // code loaded from "lambda" directory
+	      handler: 'hello.handler'                // file is "hello", function is "handler"
+	    });
+
+snippet cdk-apigw
+	import * as apigw from 'aws-cdk-lib/aws-apigateway';
+	...
+	    // defines an API Gateway REST API resource backed by our "hello" function.
+	    const gateway = new apigw.LambdaRestApi(this, 'Endpoint', {
+	      handler: hello
+	    });
+
+	    this.Endpoint = new cdk.CfnOutput(this, 'GatewayUrl', {
+	      value: gateway.url
+	    });
+
+snippet cdk-dynamo
+	import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
+	...
+
+	  /** allows accessing the counter function */
+	  public readonly handler: lambda.Function;
+
+	  /**
+	   * The read capacity units for the table
+	   *
+	   * Must be greater than 5 and lower than 20
+	   *
+	   * @default 5
+	   */
+	  readCapacity?: number;
+	  ...
+
+	    if (props.readCapacity !== undefined && (props.readCapacity < 5 || props.readCapacity > 20)) {
+	      throw new Error('readCapacity must be greater than 5 and less than 20');
+	    }
+
+	    const table = new dynamodb.Table(this, 'Hits', {
+		partitionKey: { name: 'path', type: dynamodb.AttributeType.STRING },
+		encryption: dynamodb.TableEncryption.AWS_MANAGED,
+		readCapacity: props.readCapacity ?? 5
+	    });
+
+	    this.handler = new lambda.Function(this, 'HitCounterHandler', {
+		runtime: lambda.Runtime.NODEJS_14_X,
+		handler: 'hitcounter.handler',
+		code: lambda.Code.fromAsset('lambda'),
+		environment: {
+		    DOWNSTREAM_FUNCTION_NAME: props.downstream.functionName,
+		    HITS_TABLE_NAME: table.tableName
+		}
+	    });
+
+	    // grant the lambda role read/write permissions to our table
+	    table.grantReadWriteData(this.handler);
+
+	    // grant the lambda role invoke permissions to the downstream function
+	    props.downstream.grantInvoke(this.handler);
+
+snippet cdk-test-assert
+	import { Template, Capture } from 'aws-cdk-lib/assertions';
+	import * as cdk from 'aws-cdk-lib';
+	import * as lambda from 'aws-cdk-lib/aws-lambda';
+	import { HitCounter }  from '../lib/hitcounter';
+
+	test('DynamoDB Table Created', () => {
+	  const stack = new cdk.Stack();
+	  // WHEN
+	  new HitCounter(stack, 'MyTestConstruct', {
+	    downstream:  new lambda.Function(stack, 'TestFunction', {
+	      runtime: lambda.Runtime.NODEJS_14_X,
+	      handler: 'hello.handler',
+	      code: lambda.Code.fromAsset('lambda')
+	    })
+	  });
+	  // THEN
+
+	  const template = Template.fromStack(stack);
+	  template.resourceCountIs("AWS::DynamoDB::Table", 1);
+	});
+
+	test('read capacity can be configured', () => {
+	  const stack = new cdk.Stack();
+
+	  expect(() => {
+	    new HitCounter(stack, 'MyTestConstruct', {
+	      downstream:  new lambda.Function(stack, 'TestFunction', {
+		runtime: lambda.Runtime.NODEJS_14_X,
+		handler: 'hello.handler',
+		code: lambda.Code.fromAsset('lambda')
+	      }),
+	      readCapacity: 3
+	    });
+	  }).toThrowError(/readCapacity must be greater than 5 and less than 20/);
+	});
+
+snippet cdk-app
+	#!/usr/bin/env node
+	import * as cdk from 'aws-cdk-lib';
+	import { ReportingAnalyticsStack } from '../lib/reporting-analytics-stack';
+
+	const props = {
+	  env: {
+	    account: process.env.CDK_DEFAULT_ACCOUNT || process.env.AWS_ACCOUNT_ID,
+	    region: process.env.CDK_DEFAULT_REGION || process.env.AWS_REGION,
+	  },
+	  environmentType:
+	    process.env.RUNTIME_ENVIRONMENT || process.env.USER || 'unknown'
+	};
+
+	const app = new cdk.App();
+	new ReportingAnalyticsStack(
+	  app,
+	  `ReportingAnalyticsStack-${props.environmentType}`,
+	  props
+	);
+
+snippet cdk-logs
+	const fn = lambda.Function.fromFunctionArn(this, 'fn')
+
+	const logGroup = new LogGroup(this, 'loggroup', {
+	  retention: RetentionDays.THREE_MONTHS,
+	  removalPolicy: RemovalPolicy.DESTROY
+	});
+	new SubscriptionFilter(this, 'SubscriptionFilter', {
+	  logGroup: logGroup,
+	  filterPattern: FilterPattern.allTerms("WARN", "INFO"),
+	  destination: new LogsDestinations.LambdaDestination(fn.Arn)
+	});
