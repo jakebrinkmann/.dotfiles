@@ -16,17 +16,6 @@ pushd $(pwd)
 cd $(dirname -- "$(readlink -f -- "$BASH_SOURCE")")
 popd
 ```
-``` jq "some jq shortcuts"
-jq -r '.events[].message | select(test("^Send Event: ")) | ltrimstr("Send Event: ") | fromjson'
-jq -r '.results[] | map(select(.field == "@timestamp" or .field == "@message") | .value) | @tsv'
-jq --null-input --arg user "$CLIENT_ID" '{"id": $user}'
-echo '{ "foo": "bar" }' | jq --compact-output '.foo |= "baz" | del(.other)'
-echo '{ "foo": "bar" }' | jq @json
-jq '.users[] | .first + " " + .last' || jq '.users[]|{first:.first,title:.last}'
-jq --slurp '.[0] * .[1]' file1 file2
-echo '{"a":"foo","b":"bar"} {"c":"baz","a":0}' | jq -s add
-jq '.events[] | [(.fieldName, .dataType)] | @csv'
-```
 ``` rsync
 rsync --recursive --progress --size-only ~/Downloads/ROMS/ root@192.168.0.44:/userdata/roms/
 ```
@@ -34,15 +23,6 @@ rsync --recursive --progress --size-only ~/Downloads/ROMS/ root@192.168.0.44:/us
 yq -j -I4 sample.yaml
 yq -P sample.json
 xq . --xml-item-depth=2
-```
-``` json
-# NOTE: single quotes means no $vars
-DATA=$(cat << '__JSON__' | jq -c
-{
-  "Enabled": true,
-}
-__JSON__
-)
 ```
 ``` curl
 curl -d "@data.txt" -X POST http://localhost:3000/data

@@ -12,8 +12,9 @@ local func = ls.function_node
 -- Other filetypes just load themselves.
 ls.setup({
 	load_ft_func = require("luasnip.extras.filetype_functions").extend_load_ft({
-		markdown = { "plantuml", "json" },
+		markdown = { "plantuml", "json", "bash" },
 		html = { "javascript" },
+		sh = { "bash" },
 	}),
 })
 require("luasnip.loaders.from_snipmate").lazy_load({ paths = "~/.config/nvim/snippets" })
