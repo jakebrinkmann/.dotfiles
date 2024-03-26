@@ -9,92 +9,104 @@
 # brew bundle install
 # brew bundle check --debug
 # brew bundle cleanup --force
-tap "homebrew/core"
-tap "homebrew/bundle"
-tap "homebrew/cask"
-tap "buo/cask-upgrade"
-tap "homebrew/cask-fonts"
 
+# set arguments for all 'brew install --cask' commands
+cask_args appdir: '/Applications', no_quarantine: true
+
+# ----------------------------------------------------------------------------------------------------------
+tap "homebrew/bundle"
+tap "buo/cask-upgrade"
+# ----------------------------------------------------------------------------------------------------------
+tap "homebrew/cask-fonts"
+cask "font-hack-nerd-font"
+# ----------------------------------------------------------------------------------------------------------
+tap 'romkatv/powerlevel10k'
+brew 'powerlevel10k'
+cask "alacritty"
+# ----------------------------------------------------------------------------------------------------------
 brew "coreutils"
 brew "stow"
 brew "cmake"
 brew "zip"
 brew "tree"
 brew "gcc"
-brew "llvm" # specify version of llvm for M1 MacOS
-# export CC=/opt/homebrew/Cellar/llvm/15.0.6/bin/clang
+brew "llvm"
 brew "gsed"
+brew 'watch'
 brew "zlib"
-brew "git-lfs"
-brew "git-delta"
+brew "openjdk"
+brew "fd"
 brew "bat"
 brew "bat-extras"
-brew "subversion"
-brew "cvs"
 brew "ripgrep"
+brew "neovim"
+brew "netcat"
+brew "telnet"
+brew "nmap"
+# ----------------------------------------------------------------------------------------------------------
+brew "gitlab-runner"
+brew "gitlab-ci-local"
+brew "glab"
+brew "gh"
+brew "pre-commit"
+brew "git-lfs"
+brew "git-delta"
+brew "cvs"
+brew "subversion"
+# ----------------------------------------------------------------------------------------------------------
+brew "httpie"
+brew "jq"
+brew "yq"
 brew "speedtest-cli"
-
-brew "openjdk" # MUST LINK
-# sudo ln -sfn /opt/homebrew/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
+brew "ffmpeg"
+cask "postman"
+cask "soapui"
+cask "devtoys"
+cask "docker"
+# ----------------------------------------------------------------------------------------------------------
 brew "plantuml"
 brew "graphviz"
 brew "boxes"
-
+cask "drawio"
+cask "xmind"
+# ----------------------------------------------------------------------------------------------------------
 brew "pgformatter"
 brew "postgresql@14"
 brew "libpq"
 brew "pyenv"
 # brew "poetry" # do not install outside pyenv
+# brew "python@3.10"
+# brew "python@3.9"
 brew "cookiecutter"
 brew "rustup"
-brew "stylua"
-brew "awscli"
+brew "nvm" #nvm install v20
+# brew "node@20"
+# brew "asyncapi" #< prefer `npm install -g @asyncapi/cli`
+brew "yarn"
+brew "typescript"
+brew "golang"
+# ----------------------------------------------------------------------------------------------------------
+brew "awscli", link: true
 brew "awslogs"
 cask "session-manager-plugin"
 tap "lucagrulla/tap"
 brew "cw" # CloudWatch logs
 brew "cfn-lint"
+# ----------------------------------------------------------------------------------------------------------
+brew "stylua"
 brew "yamllint"
 brew "codespell"
 brew "shellcheck"
-brew "httpie"
-brew "jq"
-brew "yq"
-brew "nvm" #nvm install v20
-# brew "node@20"
-brew "yarn"
-brew "typescript"
-brew "gitlab-runner"
-brew "gitlab-ci-local"
-brew "pre-commit"
-brew "ffmpeg"
-brew "ical-buddy"
-brew "neovim"
-brew "fd"
-# brew "neovide"
-brew "netcat"
-brew "telnet"
-brew "nmap"
-brew "glab"
-brew "gh"
+# ----------------------------------------------------------------------------------------------------------
 brew "task"
 brew "timewarrior"
-brew "gcal"
-# brew "asyncapi" #< prefer `npm install -g @asyncapi/cli`
-# brew "python@3.10"
-# brew "python@3.9"
-# brewk install --cask powershell
-brew "golang"
-tap "homebrew/cask-fonts"
-cask "font-hack-nerd-font"
+# ----------------------------------------------------------------------------------------------------------
 brew "scrcpy"
 cask "android-platform-tools"
-cask "postman"
-cask "soapui"
-cask "alacritty", args: { no_quarantine: true }
-cask "devtoys"
-cask "drawio"
+# ----------------------------------------------------------------------------------------------------------
 cask "obsidian"
 cask "vscodium"
-cask "chromium", args: { no_quarantine: true }
-cask "xmind"
+cask "chromium"
+
+# brew remove --force $(brew list --formula)
+# brew remove --cask --force $(brew list)
