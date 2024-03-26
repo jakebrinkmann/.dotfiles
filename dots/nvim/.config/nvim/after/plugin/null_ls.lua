@@ -28,8 +28,6 @@ null_ls.setup({
     diagnostics.eslint,
 
     -- Lua
-    -- cargo install stylua
-    -- add ~/.cargo/bin to PATH
     formatting.stylua,
 
     formatting.jq,

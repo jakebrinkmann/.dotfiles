@@ -47,6 +47,7 @@ brew "pyenv"
 # brew "poetry" # do not install outside pyenv
 brew "cookiecutter"
 brew "rustup"
+brew "stylua"
 brew "awscli"
 brew "awslogs"
 cask "session-manager-plugin"
