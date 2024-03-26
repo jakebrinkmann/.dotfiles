@@ -18,4 +18,5 @@ snippet rds-data-exec
       --resource-arn $DB_ARN \
       --secret-arn $SECRET_ARN \
       --database $DB_NAME \
-      --sql "select * from "
+      --format-records-as "JSON" \
+      --sql "select * from schema.table;" | jq '.formattedRecords | fromjson'
