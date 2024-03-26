@@ -76,6 +76,12 @@ git clone git@github.com:jakebrinkmann/.dotfiles.git ~/.dotfiles
 cd ~/.dotfiles/dots
 stow -t ~ bash git nvim brew ripgrep python psql vim zsh bin ssh
 
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    stow -t ~/Library/Application\ Support/VSCodium vscode
+else
+    stow -t ~/.config/VSCodium vscode
+fi
+
 cd ~
 brew bundle install
 

@@ -1,4 +1,5 @@
 {
+  "update.showReleaseNotes": false,
   "window.zoomLevel": 0.00001,
   "window.restoreWindows": "none",
   "explorer.confirmDelete": false,
@@ -8,7 +9,9 @@
   // "editor.formatOnPaste": true,
   // "editor.formatOnSaveTimeout": 3750,
   "editor.tabSize": 2,
-  "editor.rulers": [88],
+  "editor.rulers": [
+    88
+  ],
   "editor.insertSpaces": true,
   "editor.detectIndentation": false,
   "git.enabled": true,
@@ -18,7 +21,9 @@
   },
   "gitlens.outputLevel": "verbose",
   "terminal.integrated.shell.windows": "C:\\Windows\\System32\\bash.exe",
-  "terminal.integrated.shellArgs.windows": ["--login"],
+  "terminal.integrated.shellArgs.windows": [
+    "--login"
+  ],
   "terminal.integrated.env.windows": {
     "CHERE_INVOKING": "1",
     "MSYSTEM": "MINGW64"
@@ -27,8 +32,13 @@
   "python.linting.pylintEnabled": true,
   "python.linting.pydocstyleEnabled": true,
   "python.linting.pep8Enabled": true,
-  "python.linting.pep8Args": ["--max-line-length=88"],
-  "python.formatting.blackArgs": ["--safe", "--quiet"],
+  "python.linting.pep8Args": [
+    "--max-line-length=88"
+  ],
+  "python.formatting.blackArgs": [
+    "--safe",
+    "--quiet"
+  ],
   "python.pythonPath": "/usr/bin/python",
   "python.unitTest.pyTestArgs": [],
   "python.unitTest.pyTestEnabled": true,
