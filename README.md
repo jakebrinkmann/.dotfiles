@@ -74,7 +74,7 @@ To Download/Install this project directly onto a host machine (helpful when I wa
 # ssh-keygen -t ed25519 -C "your_email@example.com"
 git clone git@github.com:jakebrinkmann/.dotfiles.git ~/.dotfiles
 cd ~/.dotfiles/dots
-stow -t ~ bash git nvim brew ripgrep python psql vim zsh bin ssh
+stow -t ~ bash git nvim brew ripgrep python psql zsh bin ssh task
 
 stow -t ~/.config/ vscode
 [[ "$OSTYPE" == "darwin"* ]] && stow -t ~/Library/Application\ Support vscode

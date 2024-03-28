@@ -3,4 +3,5 @@ dots/vim/.vim/autoload
 dots/vim/.vim/plugged
 .netrwhist
 dots/bin/.local/
+dots/task/.timewarrior/data/
 **/.DS_Store
