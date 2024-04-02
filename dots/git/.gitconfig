@@ -51,6 +51,9 @@
   keepBackup = false
 
 [alias]
+  url = config --get remote.origin.url
+  # usage: git hotfix v1.2.3 v1.2.4
+  hotfix = "!f() { git fetch origin && git checkout $1 -b hotfix/$2; }; f"
   tsv = "!f() { git fetch origin; git tag -l | grep -E '^v\\d+\\.\\d+\\.\\d+$' | sort -V; } ; f"
   # -sb for a less verbose status
   st = status -sb
