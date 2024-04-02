@@ -49,6 +49,14 @@ require("lazy").setup({
     end,
     ft = { "markdown" },
   },
+  {
+    "zk-org/zk-nvim",
+    config = function()
+      require("zk").setup({
+        picker = "telescope",
+      })
+    end,
+  },
 
   "jbyuki/venn.nvim",
   -- set virtualedit=all
@@ -347,7 +355,7 @@ require("lazy").setup({
 
   -- Easy Skeletons
   {
-    'cvigilv/esqueleto.nvim',
+    "cvigilv/esqueleto.nvim",
     opts = {},
   },
   -- NOT CONFIGURED CORRECTLY (YET)
