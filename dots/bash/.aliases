@@ -45,7 +45,8 @@ alias map="xargs -d '\n' -n1"
 alias emacs="emacs -nw"
 
 # Quick Development Shortcuts
-alias vi="\$EDITOR"
+alias vi=vim
+alias n=nvim
 alias g=git
 alias gti=git
 alias gi=git
