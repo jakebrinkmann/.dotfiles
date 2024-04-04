@@ -46,6 +46,7 @@ pyclean() {
 # Change all IPs in a file to mine
 replaceIp() {
    IPADDR=`ifconfig -l | xargs -n1 ipconfig getifaddr`
+   [ "1" -ne $(wc -l <<< "$IPADDR") ] && echo "TOO MANY INTERNET CONNECTIONS!" && return 1
    sed -i '' 's/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/'"$IPADDR"'/g' "$1"
 }
 
