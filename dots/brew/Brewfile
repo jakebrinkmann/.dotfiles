@@ -10,8 +10,8 @@
 # brew bundle check --debug
 # brew bundle cleanup --force
 
-# set arguments for all 'brew install --cask' commands
-cask_args appdir: '/Applications', no_quarantine: true
+# set arguments for all "brew install --cask" commands
+cask_args appdir: "/Applications", no_quarantine: true
 
 # ---------------------------------------------------------------------------------------------------
 tap "homebrew/bundle"
@@ -20,8 +20,10 @@ tap "buo/cask-upgrade"
 tap "homebrew/cask-fonts"
 cask "font-hack-nerd-font"
 # ---------------------------------------------------------------------------------------------------
-tap 'romkatv/powerlevel10k'
-brew 'powerlevel10k'
+brew "zsh"
+brew "zsh-autosuggestions"
+tap "romkatv/powerlevel10k"
+brew "powerlevel10k"
 cask "alacritty"
 # ---------------------------------------------------------------------------------------------------
 brew "coreutils"
@@ -32,7 +34,7 @@ brew "tree"
 brew "gcc"
 brew "llvm"
 brew "gsed"
-brew 'watch'
+brew "watch"
 brew "zlib"
 brew "openjdk"
 brew "fd"
@@ -105,7 +107,7 @@ brew "timewarrior"
 brew "scrcpy"
 cask "android-platform-tools"
 # ---------------------------------------------------------------------------------------------------
-brew "zk", args: ['HEAD']
+brew "zk", args: ["HEAD"]
 cask "obsidian"
 cask "vscodium"
 cask "chromium"
