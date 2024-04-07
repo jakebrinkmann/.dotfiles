@@ -70,7 +70,7 @@ make run
 
 To Download/Install this project directly onto a host machine (helpful when I want tofly native on a machine, without the additional overhead of containers... trading off for reproducibility in my environment, though):
 
-`sh -c "$(curl -fsSl raw.github.com/jakebrinkmann/.dotfiles/main/install/dotfiles.sh)"`
+`sh -c "$(curl -fsSL raw.github.com/jakebrinkmann/.dotfiles/main/install/dotfiles.sh)"`
 
 To build the Docker image locally:
 
