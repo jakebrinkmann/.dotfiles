@@ -70,28 +70,7 @@ make run
 
 To Download/Install this project directly onto a host machine (helpful when I want tofly native on a machine, without the additional overhead of containers... trading off for reproducibility in my environment, though):
 
-```bash
-# ssh-keygen -t ed25519 -C "your_email@example.com"
-git clone git@github.com:jakebrinkmann/.dotfiles.git ~/.dotfiles
-cd ~/.dotfiles/dots
-stow -t ~ bash git nvim brew ripgrep python psql zsh bin ssh task
-
-stow -t ~/.config/ vscode
-[[ "$OSTYPE" == "darwin"* ]] && stow -t ~/Library/Application\ Support vscode
-
-cd ~
-brew bundle install
-
-# Change default shell to zsh
-chsh -s /bin/zsh
-
-# https://brew.sh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-# https://ohmyz.sh/
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-```
+`sh -c "$(curl -fsSl raw.github.com/jakebrinkmann/.dotfiles/main/install/dotfiles.sh)"`
 
 To build the Docker image locally:
 
