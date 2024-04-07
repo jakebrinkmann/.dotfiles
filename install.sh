@@ -9,7 +9,7 @@ cd "$HOME" || exit
 brew bundle install
 
 # https://ohmyz.sh/
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # Change default shell to zsh
 chsh -s $(which zsh)
