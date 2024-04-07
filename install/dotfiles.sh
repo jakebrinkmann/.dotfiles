@@ -8,7 +8,7 @@ stow -t ~/.config/ vscode
 [[ "$OSTYPE" == "darwin"* ]] && stow -t ~/Library/Application\ Support vscode
 
 # https://brew.sh/
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+NONINTERACTIVE=1 sh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 cd "$HOME" || exit
 brew bundle install
