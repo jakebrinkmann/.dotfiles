@@ -1,6 +1,6 @@
 # https://alacritty.org/config-alacritty.html
 [shell]
-program = "/opt/homebrew/bin/zsh"
+program = "/bin/zsh"
 args = ["--login"]
 
 [window]
