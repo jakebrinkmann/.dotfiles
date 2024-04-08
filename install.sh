@@ -10,9 +10,7 @@ brew bundle install
 
 # https://ohmyz.sh/
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-# Change default shell to zsh
-chsh -s $(which zsh)
+mv ~/.zshrc{,.bak}
 
 cd "$HOME/.dotfiles/dots" || exit
 stow -t ~ bash git nvim brew ripgrep python psql zsh bin ssh task
