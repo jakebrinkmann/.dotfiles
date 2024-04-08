@@ -1,5 +1,17 @@
+# https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/templates/zshrc.zsh-template
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+plugins=(
+	git
+	aws
+	aliases
+	docker
+	docker-compose
+	dotenv
+	fzf
+	taskwarrior
+)
 source $ZSH/oh-my-zsh.sh
 source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme

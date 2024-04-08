@@ -53,11 +53,6 @@ alias lick=touch
 alias help=man
 
 alias DockerDesktop="open -a Docker"
-alias dcud="docker compose up -d"
-alias dcd="docker compose down"
-alias dcl="docker compose logs --tail=0 --follow"
-alias dcr="docker compose restart"
-
 alias Obsidian="open 'obsidian://open'"
 
 # Python Environments
@@ -68,7 +63,6 @@ alias po:stop='deactivate'
 
 # Helper aliases
 alias archive='tar --create --gzip --verbose --file'
-alias dotenv='[ ! -f .env ] || export $(grep -v '^#' .env | xargs)'
 
 # console-oriented
 alias wttr="curl 'wttr.in/?0'"
