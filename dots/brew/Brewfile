@@ -92,7 +92,7 @@ brew "awscli", link: true
 brew "awslogs"
 cask "session-manager-plugin"
 tap "lucagrulla/tap"
-brew "cw" # CloudWatch logs
+brew "lucagrulla/tap/cw" # CloudWatch logs
 brew "cfn-lint"
 # ---------------------------------------------------------------------------------------------------
 brew "stylua"
