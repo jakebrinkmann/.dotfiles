@@ -71,7 +71,7 @@ alias archive='tar --create --gzip --verbose --file'
 alias dotenv='[ ! -f .env ] || export $(grep -v '^#' .env | xargs)'
 
 # console-oriented
-alias wttr="curl wttr.in/?0"
+alias wttr="curl 'wttr.in/?0'"
 
 # SVN
 alias svn="svn --username=$SVN_USERNAME --password=$SVN_PASSWORD"
@@ -86,15 +86,14 @@ alias prettier="npx prettier --single-quote --print-width 120 --write"
 alias dig="dig +noadditional +noquestion +nocomments +nocmd +nostats"
 
 # Notes
-alias notes="nvim +'cd \$ZK_NOTEBOOK_DIR|ZkNotes'"
-alias learnings="codium ~/learnings"
+# https://github.com/zk-org/zk/blob/main/docs/getting-started.md
+alias notes:work="nvim +'cd ~/Documents|ZkNotes'"
+alias notes:learn="nvim +'cd ~/learnings|ZkNotes'"
 
 # warriors
 alias tw="timew"
 alias tws="timew summary :ids"
 alias tt="task"
-alias otg='f() { open $(task _get $1.gitlaburl); }; f'
-alias otj='f() { open $(task _get $1.jiraurl); }; f'
 alias bwp="bugwarrior-pull"
 
 # crontab
