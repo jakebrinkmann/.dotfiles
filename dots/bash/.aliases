@@ -44,16 +44,8 @@ alias map="xargs -d '\n' -n1"
 # Disable GUI
 alias emacs="emacs -nw"
 
-# Quick Development Shortcuts
-alias vi=vim
-alias n=nvim
-alias g=git
-alias gti=git
-alias gi=git
-alias _jpy="(cd ~/Documents/notebooks/ && poetry run jupyter lab)"
-alias _ipy="(cd ~/Documents/notebooks/ && poetry run ipython)"
-# %logstart -ort filename.ipy
-# %load filename.ipy
+# I cannot unlearn using vi
+alias vi='$EDITOR'
 
 # more wholesome experience
 alias please=sudo
