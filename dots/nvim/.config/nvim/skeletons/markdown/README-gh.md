@@ -28,7 +28,9 @@ Description...
 
 ## Contributing  [&#x219F;](#contents)
 
-No contribution is too small!
+- No contribution is too small!
+- Please submit as many fixes for typos and grammar bloopers as you can!
+- Try to limit each pull request to one change only.
 
 ## Meta [&#x219F;](#contents)
 
