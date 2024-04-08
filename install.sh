@@ -9,8 +9,8 @@ cd "$HOME" || exit
 brew bundle install
 
 # https://ohmyz.sh/
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
-mv ~/.zshrc{,.bak}
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+[ -f ~/.zshrc ] && mv ~/.zshrc{,.bak}
 
 cd "$HOME/.dotfiles/dots" || exit
 stow -t ~ bash git nvim brew ripgrep python psql zsh bin ssh task
