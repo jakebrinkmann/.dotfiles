@@ -9,7 +9,7 @@ cd "$HOME" || exit
 brew bundle install
 
 # https://ohmyz.sh/
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
 mv ~/.zshrc{,.bak}
 
 cd "$HOME/.dotfiles/dots" || exit
