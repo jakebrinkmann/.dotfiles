@@ -10,6 +10,7 @@ brew bundle install
 
 # https://ohmyz.sh/
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+git clone https://github.com/MichaelAquilina/zsh-you-should-use.git ~/.oh-my-zsh/custom/plugins/you-should-use
 [ -f ~/.zshrc ] && mv ~/.zshrc{,.bak}
 
 cd "$HOME/.dotfiles/dots" || exit
