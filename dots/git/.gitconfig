@@ -50,68 +50,6 @@
   prompt = false
   keepBackup = false
 
-[alias]
-  url = config --get remote.origin.url
-  # usage: git hotfix v1.2.3 v1.2.4
-  hotfix = "!f() { git fetch origin && git checkout $1 -b hotfix/$2; }; f"
-  tsv = "!f() { git fetch origin; git tag -l | grep -E '^v\\d+\\.\\d+\\.\\d+$' | sort -V; } ; f"
-  # -sb for a less verbose status
-  st = status -sb
-  # I have a limited number of keystrokes in my lifetime, use them wisely
-  co = checkout
-  cm = commit -m
-  cmf = commit --allow-empty-message --no-verify -m
-  # Fix your last commit without prompting an editor
-  oops = commit --no-verify --amend --no-edit
-  # Edit the last commit message
-  edit = commit --no-verify --amend
-  # Show the changes in the cache/index (i.e. staged changes)
-  dc = diff --cached
-  # Shortcut for diff
-  df = diff
-  # Fetch origin
-  fo = !git fetch origin --prune && git remote prune origin
-  # See the most recent commit
-  last = !git --no-pager log -1 --oneline --color
-  lol = log --graph --decorate --abbrev-commit --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
-  lola = lol --all
-  # Search git history: git search <regexp>
-  search = log --all -p -G
-  # Stage peice by peice
-  ap = add --patch
-  # Perform interactive rebase on upstream
-  # ready = rebase -i @{u}
-  ready = rebase -i origin/dev
-  # Un-Stage
-  rp = reset --patch
-  rh = reset HEAD
-  rsoft = reset --soft HEAD^
-  # Undo the last commit and unstage any changes
-  undo = reset HEAD^
-  st = status -sb
-
-  # Work In Progress Commit (will keep appending to previous if also wip)
-  wip = "!sh -c 'git add . && [ \"`git log -1 --pretty=%B`\" = \"wip\" ] && git oops || git commit --no-verify -am wip'"
-  # Trash Working Files (commit changes first in case we want to recover our work)
-  wipe = "!f() { git add -A && git commit --no-verify -qm \"WIPESAVE $@\" && git reset HEAD~1 --hard; } ; f"
-  unwipe = "!f() { git cherry-pick $1 && git reset HEAD^; } ; f"
-  wipes = !git reflog --format='%h %<|(17)%gd %ci %s' | grep --color=never WIPESAVE | head -n 15
-
-  # Yippie Kayak Other Buckets
-  now = "!f() { git add . && git commit -qm \"`date`\"; }; f"
-
-  # Checkout from origin/development
-  devb = "!f() { git fetch origin dev && git checkout origin/dev -b $1; }; f"
-  go = "!f() { git fetch origin $1 && git checkout origin/$1 -B $1; }; f"
-  to = "!sh -c 'git checkout $(git describe --tags $(git rev-list --tags --max-count=1))'"
-
-  # Sort files by modified date
-  sort = "!f() { git log --first-parent --date=iso-local --pretty=%ad --name-status | awk 'NF==1{date=$1}NF>1 && !seen[$2]++{print date,$0}' FS=$'\t' | sort -r; }; f"
-
-  # Helper to manage review requests
-  review = "!f() { [ -z "$1" ] && echo "Missing branch name" && exit 1; git go $1 && git reset origin/dev; }; f"
-
-
 [pull]
   rebase = false
 
