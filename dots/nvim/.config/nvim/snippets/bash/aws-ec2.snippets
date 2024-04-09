@@ -13,7 +13,7 @@ snippet ec2-modify
     #>> this sets the instance metadata to imdsv2, be careful!
     aws ec2 modify-instance-metadata-options \
         --instance-id i-INSTANCE-ID \
-        --http-tokens required \ 
+        --http-tokens required \
         --http-put-response-hop-limit 3 \
         --http-endpoint enabled
 
@@ -50,3 +50,13 @@ snippet ssm-get-cmd
     aws ssm get-command-invocation \
         --instance-id $AWS_HOST \
         --command-id $CMDID
+
+snippet ec2-sd-list
+    aws ec2 describe-security-groups \
+        --filters Name=group-name,Values="*test*" \
+        | jq -c ".SecurityGroups[]|{Name:.GroupName,ID:.GroupId}"
+
+snippet ec2-sg-iprules
+    aws ec2 describe-security-group-rules \
+        --filters Name="group-id",Values="$SG_ID" \
+        | jq -r ".SecurityGroupRules[]|[.IpProtocol, .FromPort, .ToPort, .CidrIpv4]|@tsv"
