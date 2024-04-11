@@ -95,3 +95,6 @@ alias crontab-e='vi ~/.crontab && crontab ~/.crontab'
 
 # Calendar CLI
 alias today='icalBuddy -npn -nc -ps "/: /" -iep "datetime,title" -po "datetime, title" -ic "Calendar" eventsToday'
+
+# Git aliases (not handled by oh-my-zsh)
+alias gpuc='ggpush -o ci.skip'
