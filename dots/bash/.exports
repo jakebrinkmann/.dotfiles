@@ -56,7 +56,6 @@ export PGPASSWORD=
 
 export AWS_DEFAULT_REGION=us-east-1
 export AWS_DEFAULT_OUTPUT=json
-export AWS_PROFILE=default
 export AWS_PAGER=""
 
 # I do not want homebrew to update everything
