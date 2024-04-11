@@ -1,116 +1,64 @@
-#!/usr/bin/env bash
-# List currently running EC2 instances, currently billed charges
-running() {
-    AWS_INSTANCE=$(aws ec2 describe-instances \
-            --filters "Name=instance-state-name,Values=running" \
-            --query "Reservations[0].Instances[0].InstanceId" \
-            --output text) \
-        && echo $AWS_INSTANCE;
-}
-# List EC2 instances available to be started
-not-running() {
-    AWS_INSTANCE=$(aws ec2 describe-instances \
-            --filters "Name=instance-state-name,Values=stopped" \
-            --query "Reservations[0].Instances[0].InstanceId" \
-            --output text) \
-        && echo $AWS_INSTANCE;
-}
-# Check status of EC2 instance
-_status() {
-    if [ -z "$AWS_INSTANCE" ]; then echo "Missing AWS_INSTANCE!" && false; fi \
-        && aws ec2 describe-instance-status --instance-ids $AWS_INSTANCE \
-        && echo $AWS_INSTANCE;
-}
-# Start a stopped EC2 instance
-_start() {
-    if [ -z "$AWS_INSTANCE" ]; then not-running; fi \
-        && aws ec2 start-instances --instance-ids $AWS_INSTANCE \
-        && echo $AWS_INSTANCE;
-}
-# Reboot running EC2 instance
-_restart() {
-    if [ -z "$AWS_INSTANCE" ]; then running; fi \
-    && aws ec2 reboot-instances --instance-ids $AWS_INSTANCE \
-        && echo $AWS_INSTANCE;
-}
-# Used to turn off EC2 instance, to stop billing charges
-_stop() {
-    if [ -z "$AWS_INSTANCE" ]; then running; fi \
-    && aws ec2 stop-instances --instance-ids $AWS_INSTANCE \
-        && echo $AWS_INSTANCE;
-}
-# Get hostname of ec2 bastion host
-host() {
-    export AWS_HOST=$(aws ec2 describe-instances \
-        --filters "Name=tag:Name,Values=Ubuntu Bastion" \
-        --query 'Reservations[*].Instances[*].{Instance:InstanceId}' \
-        --output text) \
-        && echo $AWS_HOST;
-}
-# SSH via AWS SSM without any ssh port in you security groups
-_ssh() {
-    host \
-        && ssh ssm-user@$AWS_HOST;
+#!/bin/bash
+[ -n "$DEBUG" ] && set -x
+
+_aws_cfg_region() {
+  aws configure get region
 }
 
-# Connect to RDS via SSH tunnel
-# /etc/ssh/sshd_config needs AllowTcpForwarding yes PermitOpen any PermitTunnel yes
-# sudo systemctl restart sshd.service
-# sudo service sshd restart
-_psql() {
-    host \
-        && ssh -nN -L "5432:$PGHOST:5432" ssm-user@$AWS_HOST;
-    # ssh -N -L localPort:rdsHost:remotePort -i ~/path/to/key user@remoteHost
+_aws_sts_account() {
+  aws sts get-caller-identity | jq -r '.Account'
 }
 
-# Transfer a file from the SSM session
-_scp() {
-    host \
-        && scp ssm-user@$AWS_HOST:$1 .;
+# aws.compute.ECR (Elastic Container Registry)
+_aws_ecr_dkr_login() {
+  aws ecr get-login-password \
+      | docker login --username AWS \
+        --password-stdin "$(_aws_sts_account).dkr.ecr.$(_aws_cfg_region).amazonaws.com"
 }
+
+# aws.compute.ECS (Elastic Container Service)
+_aws_ecs_ls_clstrs() {
+  aws ecs list-clusters --region=us-east-1 \
+    | jq -r '.clusterArns[0]'
+}
+
+_aws_ecs_ls_svcs() {
+  aws ecs list-services --region us-east-1 --cluster=$ECS_HSA_CLUSTER_ID \
+    | jq -r '.serviceArns | map(select(. | contains("<SERVICE_NAME>")))[0]'
+}
+
+_aws_ecs_ls_tasks() {
+  aws ecs list-tasks \
+    --cluster="$ECS_CLUSTER_ID" \
+    --service-name="$ECS_HSA_SERVICE_ID" \
+    | jq -r '.taskArns[0]'
+}
+
+
+_aws_ecs_exc_bash() {
+  aws ecs execute-command \
+    --cluster="$ECS_CLUSTER_ID" \
+    --task="$ECS_TASK_ID" \
+    --container="$ECS_CONTAINER_ID" \
+    --command="bash" \
+    --interactive
+}
+
+__parse_local_foos() {
+  typeset -F | grep 'declare -f _aws_' | sed 's/declare.*_aws_/\t/' | sort | tr '\n' ', '| sed 's/, $/\n/'
+}
+
 
 main() {
-    cmd=$1;
-    case $cmd in
-        running)
-            running
-            ;;
-        not-running)
-            not-running
-            ;;
-        status)
-            _status
-            ;;
-        start)
-            _start
-            ;;
-        restart)
-            _restart
-            ;;
-        stop)
-            _stop
-            ;;
-        ssh)
-            _ssh
-            ;;
-        curl)
-            _curl
-            ;;
-        psql)
-            _psql
-            ;;
-        scp)
-            _scp "${@:2}"
-            ;;
-        *)
-            echo "Usage:"
-            echo "    _aws {running,not-running,status,start,restart,stop,ssh,curl,psql}"
-            ;;
-    esac
+  cmd="_aws_$1";
+  shift
+  if [ -n "$(type $cmd 2>/dev/null)" ]; then
+      $cmd "$@"
+  else
+      echo "Command not found. Available:"
+      printf "\t %s" "$(__parse_local_foos)"
+      return 1
+  fi
 }
 
 main "$@"
-
-
-# aws secretsmanager list-secrets | jq '.SecretList[].Name'
-# aws secretsmanager get-secret-value --secret-id $1
