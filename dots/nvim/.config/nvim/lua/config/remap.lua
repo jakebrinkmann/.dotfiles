@@ -40,3 +40,8 @@ vim.cmd([[
 vnoremap > >gv
 vnoremap < <gv
 ]])
+
+-- " Move VISUAL-LINE up
+vim.cmd("xnoremap K dkP`[V`]")
+-- "Move VISUAL-LINE down
+vim.cmd("xnoremap J dp`[V`]")
