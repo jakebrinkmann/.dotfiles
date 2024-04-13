@@ -7,6 +7,7 @@ NONINTERACTIVE=1 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebre
 
 cd "$HOME" || exit
 brew bundle install
+(cd ~/.dotfiles && git secrets --install)
 
 # https://ohmyz.sh/
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended

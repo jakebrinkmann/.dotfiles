@@ -61,11 +61,11 @@ aws lambda invoke  --function-name $LAMBDA --invocation-type RequestResponse --l
 aws configservice get-discovered-resource-counts --query "totalDiscoveredResources"
 
 # aws.engagement.SES (Simple Email Service)
-aws ses verify-email-identity --email-address $jbrinkmann@sonifi.com
+aws ses verify-email-identity --email-address $me@example.com
 aws route53 list-hosted-zones-by-name --dns-name $HOSTEDZONENAME | jq -r .HostedZones[0].Id
 aws ses verify-domain-identity --domain $HOSTEDZONENAME | jq -r .VerificationToken
 aws ses list-identities --query 'Identities'
-aws ses get-identity-verification-attributes --identities $jbrinkmann@sonifi.com
+aws ses get-identity-verification-attributes --identities $me@example.com
 aws ses set-identity-mail-from-domain --identity $HOSTEDZONENAME --mail-from-domain "no-reply.$HOSTEDZONENAME" --behavior-on-mx-failure UseDefaultValue
 aws sesv2 create-configuration-set-event-destination \
   --configuration-set-name EmailEventConfigSet \
@@ -306,7 +306,7 @@ aws cognito-idp describe-user-pool --user-pool-id us-west-2_aaaaaaaaa
 aws cognito-idp list-user-pool-clients --user-pool-id $UserPoolId \
   --query "UserPoolClients[?ClientName | contains(@, 'clientWeb')].ClientId"
 aws cognito-idp describe-user-pool-client --user-pool-id $UserPoolId --client-id $ClientId
-aws cognito-idp initiate-auth --region YOU_REGION --auth-flow USER_123456_AUTH --client-id YOUR_CLIENT_ID --auth-parameters jbrinkmann=YOUR_jbrinkmann@sonifi.com,123456=YOUR_123456
+aws cognito-idp initiate-auth --region YOU_REGION --auth-flow USER_123456_AUTH --client-id YOUR_CLIENT_ID --auth-parameters jbrinkmann=YOUR_EMAIL@example.com,123456=YOUR_123456
 aws cognito-idp get-user --access-token $OAUTH_JWT_ACCESS_TOKEN
 
 # aws.storage.S3 (Simple Storage Service)
