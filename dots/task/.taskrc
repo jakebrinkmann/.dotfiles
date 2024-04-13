@@ -1,19 +1,26 @@
+# # Taskwarrior program configuration file.
+# 	https://taskwarrior.org/docs/examples/
+
 # Files
-data.location=~/.task
+data.location=~/.config/task
+
+# Color theme
+include /opt/homebrew/share/doc/task/rc/dark-blue-256.theme
 
 # Basic config
 weekstart=monday
 default.command=ready limit:page
 default.project=
 tasksh.autoclear=true
-journal.info=yes
-dateformat.info=Y-M-D H:M:S
+dateformat.info=Y-M-D H:N
+dateformat.annotation=Y-M-D H:N
 
 uda.priority.default=M
 priority.default=M
 
 # Show the tracking of time
 journal.time=on
+journal.info=yes
 
 # Make searches case insensitive, personal preference
 search.case.sensitive=no
@@ -22,7 +29,6 @@ search.case.sensitive=no
 active.indicator=>
 
 # Shortcuts
-alias.cx=context
 alias.daily=status:completed end.after:yesterday all
 alias.punt=modify wait:1d
 alias.someday=modify +someday wait:someday
@@ -243,54 +249,3 @@ uda.gitlabweight.label=gitlabweight
 # END Bugwarrior UDAs
 
 news.version=2.6.0
-
-# Do use color
-color=on
-color.header=rgb031
-color.footnote=rgb031
-color.error=rgb031
-color.debug=rgb031
-
-color.summary.bar=white on rgb030
-color.summary.background=white on color0
-
-color.history.add=color0 on rgb010
-color.history.done=color0 on rgb030
-color.history.delete=color0 on rgb050
-
-color.burndown.pending=on rgb010
-color.burndown.started=on rgb030
-color.burndown.done=on gray4
-
-color.sync.added=gray4
-color.sync.changed=rgb030
-color.sync.rejected=red
-
-color.undo.before=rgb031
-color.undo.after=rgb053
-
-color.calendar.today=color0 on rgb151
-color.calendar.due=color0 on color249
-color.calendar.due.today=color0 on color225
-color.calendar.overdue=color0 on color255
-color.calendar.weekend=on color235
-color.calendar.holiday=rgb151 on rgb020
-color.calendar.weeknumber=rgb010
-
-color.recurring=rgb151
-color.overdue=color255
-color.due.today=color252
-color.due=color249
-color.active=bold white on rgb012
-color.uda.priority.none=
-color.uda.priority.H=rgb050
-color.uda.priority.M=rgb040
-color.uda.priority.L=rgb030
-color.tagged=none
-color.blocked=color249
-color.blocking=rgb240
-color.project.none=
-color.tag.none=
-color.alternate=on color233
-color.tag.next=rgb252
-color.tag.inprogress=rgb252

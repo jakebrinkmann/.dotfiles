@@ -14,7 +14,6 @@ alias mkdir='mkdir -pv'
 alias wget='wget -c'
 
 alias d='date "+%j/%Y [%m/%d] %H:%M:%S (%I:%M%p) %Z"'
-alias t="top -M -u ${USER}; c"
 alias grep="grep --color=auto"
 alias m="find . \( ! -regex '.*/\..*' \) -printf '%T@ %Tc %p\n' | sort -n | tail -n 25"
 alias first="head -n1"
@@ -85,10 +84,12 @@ alias notes:work="nvim +'cd ~/Documents|ZkNotes'"
 alias notes:learn="nvim +'cd ~/learnings|ZkNotes'"
 
 # warriors
+alias tt="task"
+alias tcx="task context"
 alias tw="timew"
 alias tws="timew summary :ids"
-alias tt="task"
-alias bwp="bugwarrior-pull"
+alias bwp="bugwarrior pull"
+alias bwpd="bugwarrior pull --debug"
 
 # crontab
 alias crontab-e='vi ~/.crontab && crontab ~/.crontab'
