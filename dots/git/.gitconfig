@@ -80,8 +80,8 @@
     file-decoration-style = none
 
 [filter "reductScript"]
-	smudge = ~/.local/bin/git-smudge-clean --smudge
-	clean = ~/.local/bin/git-smudge-clean --clean
+	smudge = ~/.local/bin/git-smudge-clean smudge
+	clean = ~/.local/bin/git-smudge-clean clean
 
 [secrets]
 	# git secrets --register-aws --global

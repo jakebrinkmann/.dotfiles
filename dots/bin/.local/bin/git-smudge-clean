@@ -1,43 +1,37 @@
-#!/usr/bin/env python
+#!/usr/bin/env bash
 #######################################################################################
 # This script is meant to be used as a global smudge-clean filter for removing        #
 # sensitive data from your commits.                                                   #
 #######################################################################################
 # Install:
-# 	git config --global filter.reductScript.smudge "~/.local/bin/git-smudge-clean --smudge"
-# 	git config --global filter.reductScript.clean "~/.local/bin/git-smudge-clean --clean"
-import sys
-import os
-from functools import reduce
+# 	git config --global filter.reductScript.smudge "~/.local/bin/git-smudge-clean smudge"
+# 	git config --global filter.reductScript.clean "~/.local/bin/git-smudge-clean clean"
 
+declare -A mapArr
 
-REPLACE_CONTENT = [
-    ("XR2lGR14OKGOxCAG", os.getenv("GITLAB_PRIVATE_TOKEN")),
-    ("gitlab.mywork.net", os.getenv("GITLAB_SERVER")),
-    ("cDmOpxuW2vX1WAz9", os.getenv("GITLAB_TOKEN")),
-    ("oops@mycompany.net", os.getenv("JIRA_EMAIL")),
-    ("atlassian.somewhere.net", os.getenv("JIRA_SERVER")),
-    ("vqy0SzyalcagmHRB", os.getenv("JIRA_TOKEN")),
-    ("9UdfWpz4k2Gk6Ufy", os.getenv("SVN_PASSWORD")),
-    ("mycompany", os.getenv("WORK_NAME")),
-]
-REPLACE_CONTENT=[(r,o) for r,o in REPLACE_CONTENT if o]
+mapArr["XR2lGR14OKGOxCAG"]="$GITLAB_PRIVATE_TOKEN"
+mapArr["gitlab.mywork.net"]="$GITLAB_SERVER"
+mapArr["cDmOpxuW2vX1WAz9"]="$GITLAB_TOKEN"
+mapArr["oops@mycompany.net"]="$JIRA_EMAIL"
+mapArr["atlassian.somewhere.net"]="$JIRA_SERVER"
+mapArr["vqy0SzyalcagmHRB"]="$JIRA_TOKEN"
+mapArr["9UdfWpz4k2Gk6Ufy"]="$SVN_PASSWORD"
+mapArr["mycompany"]="$WORK_NAME"
 
-def smudge():
-    for line in sys.stdin:
-        line = reduce(lambda s, r: s.replace(*r), REPLACE_CONTENT, line)
-        sys.stdout.write(line)
+# mac users should use gsed instead of sed
+sedcmd="sed"
+[[ "$OSTYPE" == "darwin"* ]] && sedcmd="gsed"
+if [[ "$1" == "clean" ]]; then
+  for key in "${!mapArr[@]}"; do
+    sedcmd+=" -e \"s/${key}/${mapArr[${key}]}/g\""
+  done
+elif [[ "$1" == "smudge" ]]; then
+  for key in "${!mapArr[@]}"; do
+    sedcmd+=" -e \"s/${mapArr[${key}]}/${key}/g\""
+  done
+else
+  echo "use smudge/clean as the first argument"
+  exit 1
+fi
 
-def clean():
-    for line in sys.stdin:
-        line = reduce(lambda s, r: s.replace(*r[::-1]), REPLACE_CONTENT, line)
-        sys.stdout.write(line)
-
-if __name__ == '__main__':
-    try:
-        if sys.argv[1] == '--smudge':
-            smudge()
-        elif sys.argv[1] == '--clean':
-            clean()
-    except Exception as e:
-        print(e)
+eval "$sedcmd"
