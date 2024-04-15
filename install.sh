@@ -18,3 +18,5 @@ cd "$HOME/.dotfiles/dots" || exit
 stow -t ~ bash git nvim brew ripgrep python psql zsh bin ssh task
 stow -t ~/.config/ vscode
 [[ "$OSTYPE" == "darwin"* ]] && stow -t ~/Library/Application\ Support vscode
+
+pip install 'bugwarrior[all]'

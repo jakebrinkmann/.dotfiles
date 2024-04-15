@@ -88,8 +88,8 @@ alias tt="task"
 alias tcx="task context"
 alias tw="timew"
 alias tws="timew summary :ids"
-alias bwp="bugwarrior pull"
-alias bwpd="bugwarrior pull --debug"
+alias bwp="bugwarrior-pull"
+alias bwpd="bugwarrior-pull --debug"
 
 # crontab
 alias crontab-e='vi ~/.crontab && crontab ~/.crontab'
