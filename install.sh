@@ -19,4 +19,6 @@ stow -t ~ bash git nvim brew ripgrep python psql zsh bin ssh task
 stow -t ~/.config/ vscode
 [[ "$OSTYPE" == "darwin"* ]] && stow -t ~/Library/Application\ Support vscode
 
-pip install 'bugwarrior[all]'
+git clone git@github.com:ralphbean/bugwarrior.git ~/dev/github.com/ralphbean/bugwarrior
+cd ~/dev/github.com/ralphbean/bugwarrior
+pip install --user -e '.[all]'
