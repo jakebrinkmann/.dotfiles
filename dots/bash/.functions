@@ -44,32 +44,6 @@ __flatten_folder() {
   find . -type f -name "*" | sed 's/$/"/;s/^/"/;h;s/^...//;s/^/"/;y/\//_/;H;g;s/\n/ /g;s/^/cp -v /' | sh
 }
 
-
-__gh_sync() {
-  # NOTE: using 'blobless clone' to make it fast.
-  SRC=~/dev/github.com/
-  mkdir -p $SRC
-  for x in $(gh api user/starred --paginate | jq -r '.[].full_name'); do
-    if [ ! -d "$SRC/$x" ]; then
-      git clone --filter=blob:none "git@github.com:$x.git" "$SRC/$x"
-    fi
-  done
-
-  for x in $(gh api user/repos --paginate | jq -r '.[].full_name'); do
-    if [ ! -d "$SRC/$x" ]; then
-      git clone --filter=blob:none "git@github.com:$x.git" "$SRC/$x"
-    fi
-  done
-
-  USER=$(gh api user | jq -r '.login')
-  for x in $(gh api gists --paginate | jq -r '.[].id'); do
-    if [ ! -d "$SRC/$USER/$x" ]; then
-      # NOTE: using 'blobless clone' to make it fast.
-      git clone --filter=blob:none "git@github.com:$x.git" "$SRC/$USER/$x"
-    fi
-  done
-}
-
 __fonts() {
   fc-list : family | sort -f
 }
