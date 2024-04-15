@@ -1,0 +1,54 @@
+#!/bin/bash
+set -eou pipefail
+
+# NOTE: using 'blobless clone' to make it fast.
+gitcmd="git clone --filter=blob:none"
+
+SRC=~/dev/github.com/
+mkdir -p $SRC
+
+_gh_sync_starred() {
+  for x in $(gh api user/starred --paginate | jq -r '.[].full_name'); do
+    if [ ! -d "$SRC/$x" ]; then
+      $gitcmd "git@github.com:$x.git" "$SRC/$x"
+    fi
+  done
+}
+
+_gh_sync_repos() {
+  for x in $(gh api user/repos --paginate | jq -r '.[].full_name'); do
+    if [ ! -d "$SRC/$x" ]; then
+      $gitcmd "git@github.com:$x.git" "$SRC/$x"
+    fi
+  done
+}
+
+_gh_sync_gists() {
+  USER=$(gh api user | jq -r '.login')
+  for x in $(gh api gists --paginate | jq -r '.[].id'); do
+    if [ ! -d "$SRC/$USER/$x" ]; then
+      $gitcmd "git@github.com:$x.git" "$SRC/$USER/$x"
+    fi
+  done
+}
+
+main() {
+  cmd=${1:-help};
+
+  case $cmd in
+    repos)
+      _gh_sync_repos
+      ;;
+    starred)
+      _gh_sync_starred
+      ;;
+    gists)
+      _gh_sync_gists
+      ;;
+    *)
+      echo "Usage:"
+      echo "  _github {repos,starred,gists}"
+  esac
+}
+
+main "$@"

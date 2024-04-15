@@ -1,89 +1,32 @@
 #!/bin/bash
 if (sudo -nv &> /dev/null); then
-  sudo="sudo"
+  sudocmd="sudo"
 else
-  sudo=""
+  sudocmd=""
 fi
-
-# Find things in internal history
-bh() { grep -a "$@" ${HOME}/.bash_history*; }
-
-# folder contents
-l() {
-  clear;
-  ls -ld $(pwd);
-  heading="============================================================================"
-  heading+=$heading
-  heading+=$heading
-  echo -e "${heading::$COLUMNS}";
-  /usr/bin/ls --color=auto -ACF $@;
-}
-
-# the-child-of-mkdir-and-cd
-function mkdircd () { mkdir -p "$@" && cd "$@"; }
-
-# ----------------------------------
-# ANSI Color Ref
-# Format: $green = "\033[01;32m";
-function c() { echo -ne "\[\033[0$1m\]"; }
-
-function task_active {
-  MSG=""
-  MSG+="$(task _ids +ACTIVE): "
-  MSG+="$(task _get $(task _ids +ACTIVE).description)"
-  echo $MSG
-}
 
 # Delete python leftovers
 pyclean() {
-  sudo find "${PWD}" -iname '__pycache__' -print -delete;
-  sudo find "${PWD}" -iname 'pytest_cache'-print -delete;
-  sudo find "${PWD}" -iname '.pyc'        -print -delete;
-  sudo find "${PWD}" -iname '.pyo'        -print -delete;
-  sudo find "${PWD}" -iname '.mypy_cache' -print -delete;
+  $sudocmd find "${PWD}" -iname '__pycache__' -print -delete;
+  $sudocmd find "${PWD}" -iname 'pytest_cache'-print -delete;
+  $sudocmd find "${PWD}" -iname '.pyc'        -print -delete;
+  $sudocmd find "${PWD}" -iname '.pyo'        -print -delete;
+  $sudocmd find "${PWD}" -iname '.mypy_cache' -print -delete;
 }
 
 # Change all IPs in a file to mine
 replaceIp() {
-   IPADDR=`ifconfig -l | xargs -n1 ipconfig getifaddr`
-   [ "1" -ne $(wc -l <<< "$IPADDR") ] && echo "TOO MANY INTERNET CONNECTIONS!" && return 1
-   sed -i '' 's/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/'"$IPADDR"'/g' "$1"
-}
-
-# Search files
-search() {
-  find . -type f \
-    -not -ipath "*python*" \
-    -not -ipath "*node_modules*" \
-    -not -ipath "*aws-sam*" \
-    -not -ipath "*tests*" \
-    -not -ipath "*.venv*" \
-    -not -ipath "*.git*" \
-    -printf "%T@ %Td-%Tb-%TY %Tk:%Tm %p\n" \
-    | sort -rn | tr -s ' ' | cut -d " " -f 4- |
-    xargs -I % grep -i --color=always $@ % /dev/null
-}
-
-# Time cURL with more output
-# https://stackoverflow.com/a/22625150/1533001
-curltime() {
-  curl -w @- -o /dev/null -s "$@" <<'EOF'
-    time_namelookup:  %{time_namelookup}\n
-       time_connect:  %{time_connect}\n
-    time_appconnect:  %{time_appconnect}\n
-   time_pretransfer:  %{time_pretransfer}\n
-      time_redirect:  %{time_redirect}\n
- time_starttransfer:  %{time_starttransfer}\n
-                    ----------\n
-         time_total:  %{time_total}\n
-      size_download: %{size_download} bytes\n
-EOF
+  local filename="$1"
+  IPADDR=$(ifconfig -l | xargs -n1 ipconfig getifaddr)
+  [ "1" -ne "$(wc -l <<< "$IPADDR")" ] && echo "TOO MANY INTERNET CONNECTIONS!" && return 1
+  sed -i '' 's/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/'"$IPADDR"'/g' "$filename"
 }
 
 # Flash the screen after 25mins (1500s)
 pomo() {
   sleep 1500; for x in $(seq 1 60); do printf '\a'; sleep 1; done
 }
+
 # Flash the screen after 5mins (300s)
 mikado() {
   sleep 300; say ${1:-done}; for x in $(seq 1 60); do printf '\a'; sleep 1; done
@@ -97,63 +40,6 @@ cht() {
   fi
 }
 
-# Run newman using docker
-__newman() {
-  local image=docker.io/postman/newman:alpine
-  docker run --rm -it \
-    -v "${PWD}":/etc/newman \
-    -t $image \
-    "$@";
-}
-
-# Run AWS CLI using docker
-__aws() {
-  local image=docker.io/amazon/aws-cli:latest
-  docker run --rm -it \
-    -v ${HOME}/.aws:/root/.aws \
-    -v ${PWD}:/aws \
-    -e AWS_REGION \
-    -e AWS_PROFILE \
-    $image "$@";
-}
-
-__postgres() {
-  local image=docker.io/library/postgres:14.1
-  docker pull $image
-  docker run -p 5432:5432 \
-    --name "postgresql" \
-    -e 'POSTGRES_USER=postgres' \
-    -e 'POSTGRES_PASSWORD=postgres' \
-    -v pgdata:/var/lib/postgresql/data \
-    -d $image
-}
-
-__pgadmin4() {
-  # https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html
-  local image=docker.io/dpage/pgadmin4:6.2
-  docker pull $image
-  docker run -p 5050:80 \
-    --name "pgadmin4" \
-    --link "postgresql" \
-    -e 'PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org' \
-    -e 'PGADMIN_DEFAULT_PASSWORD=postgres' \
-    -v pgadmindata:/var/lib/pgadmin/storage/ \
-    -d $image
-}
-
-
-__docker_local() {
-  IMAGE="$1"
-  CMDS="$*"
-  docker run --detach --name pypoetry \
-    --network host \
-    --mount type=tmpfs,destination=/tmp \
-    --mount type=tmpfs,destination=/root/.cache/pypoetry \
-    -v "$PWD:/opt/${USER}:rw" \
-    -w "/opt/${USER}" \
-    "$IMAGE" "$CMDS"
-}
-
 __flatten_folder() {
   find . -type f -name "*" | sed 's/$/"/;s/^/"/;h;s/^...//;s/^/"/;y/\//_/;H;g;s/\n/ /g;s/^/cp -v /' | sh
 }
@@ -161,21 +47,17 @@ __flatten_folder() {
 
 __gh_sync() {
   # NOTE: using 'blobless clone' to make it fast.
-  SRC=~/dev/github
+  SRC=~/dev/github.com/
   mkdir -p $SRC
-  results=""
-
   for x in $(gh api user/starred --paginate | jq -r '.[].full_name'); do
     if [ ! -d "$SRC/$x" ]; then
       git clone --filter=blob:none "git@github.com:$x.git" "$SRC/$x"
-      results+="\n ⭐️ ~${SRC##$HOME}/$x"
     fi
   done
 
   for x in $(gh api user/repos --paginate | jq -r '.[].full_name'); do
     if [ ! -d "$SRC/$x" ]; then
       git clone --filter=blob:none "git@github.com:$x.git" "$SRC/$x"
-      results+="\n 💾 ~${SRC##$HOME}/$x"
     fi
   done
 
@@ -184,11 +66,8 @@ __gh_sync() {
     if [ ! -d "$SRC/$USER/$x" ]; then
       # NOTE: using 'blobless clone' to make it fast.
       git clone --filter=blob:none "git@github.com:$x.git" "$SRC/$USER/$x"
-      results+="\n 📝 ~${SRC##$HOME}/$USER/$x"
     fi
   done
-
-  echo "$results"
 }
 
 __fonts() {
