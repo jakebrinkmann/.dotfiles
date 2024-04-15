@@ -79,9 +79,11 @@
     file-style = bold yellow ul
     file-decoration-style = none
 
+[filter "reductScript"]
+	smudge = ~/.local/bin/git-smudge-clean --smudge
+	clean = ~/.local/bin/git-smudge-clean --clean
+
 [secrets]
-	# git secrets --add-provider --global -- my-secrets
-	providers = my-secrets
 	# git secrets --register-aws --global
 	providers = git secrets --aws-provider
 	patterns = (A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}
