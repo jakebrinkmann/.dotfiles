@@ -7,3 +7,8 @@ for file in ~/.{aliases,functions,path,exports,extra}; do
 	fi
 done
 unset file
+
+if [ ! -f /tmp/fortune-$(date +%y%m%d%p) ]; then
+	touch /tmp/fortune-$(date +%y%m%d%p)
+	fortune ~/.dotfiles/quotes/quotes
+fi

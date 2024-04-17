@@ -23,6 +23,7 @@ cask "font-hack-nerd-font"
 brew "zsh"
 brew "zsh-autosuggestions"
 brew "powerlevel10k"
+brew "fortune"
 cask "alacritty"
 # ---------------------------------------------------------------------------------------------------
 brew "coreutils"
