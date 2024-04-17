@@ -11,6 +11,8 @@ export HISTIGNORE='pwd:exit:fg:bg:top:clear:history:ls:uptime:df:cd:logout:bh *'
 
 export EMAIL=jakebrinkmann@gmail.com
 export EDITOR='nvim'
+export TERMINAL="alacritty"
+export BROWSER="chromium"
 export PAGER='less --chop-long-lines --RAW-CONTROL-CHARS'
 
 # Configure git commits through shell

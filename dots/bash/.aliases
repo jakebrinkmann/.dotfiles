@@ -12,6 +12,8 @@ alias mv='mv -v'
 alias mkdir='mkdir -pv'
 # Always try to (c)ontinue getting a partially-downloaded file
 alias wget='wget -c'
+# Use a more syntax-aware option
+alias cat='bat'
 
 alias d='date "+%j/%Y [%m/%d] %H:%M:%S (%I:%M%p) %Z"'
 alias grep="grep --color=auto"
@@ -58,14 +60,14 @@ alias Obsidian="open 'obsidian://open'"
 alias mkenv='python3 -m venv .venv'
 alias po:in='poetry install --no-root'
 alias po:lk='poetry lock --no-update'
-alias po:start='source $(poetry env info --path)/bin/activate && which python3'
-alias po:stop='deactivate'
+alias po:st='source $(poetry env info --path)/bin/activate && which python3'
+alias po:sp='deactivate'
 
 # Helper aliases
 alias archive='tar --create --gzip --verbose --file'
 
 # console-oriented
-alias wttr="curl 'wttr.in/?0'"
+alias weather="clear && curl 'wttr.in/?0'"
 
 # SVN
 alias svn="svn --username=$SVN_USERNAME --password=$SVN_PASSWORD"

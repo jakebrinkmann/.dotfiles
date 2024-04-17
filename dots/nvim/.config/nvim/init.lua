@@ -56,6 +56,7 @@ vim.o.titlestring = [[%f %h%m%r%w]]
 require("config.remap")
 require("config.plugins")
 require("config.autocmds")
+require("config.usercmds")
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

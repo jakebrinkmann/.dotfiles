@@ -34,7 +34,7 @@ mikado() {
 
 # Cheatsheet
 cht() {
-  selected=$(curl -ks cht.sh/:list | ~/.vim/plugged/fzf/bin/fzf --preview 'curl -ks cht.sh/{}' -q "$*")
+  selected=$(curl -ks cht.sh/:list | fzf --preview 'curl -ks cht.sh/{}' -q "$*")
   if [[ -n "$selected" ]]; then
     curl -ks cht.sh/$selected
   fi
