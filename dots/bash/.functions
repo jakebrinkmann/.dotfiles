@@ -47,3 +47,13 @@ __flatten_folder() {
 __fonts() {
   fc-list : family | sort -f
 }
+
+
+__wait_port() {
+  URI="http://localhost:${1:-8080}"
+  echo "$URI"
+  until (curl --output /dev/null --silent --head --fail "$URI"); do
+      printf '.'
+      sleep 5
+  done
+}
