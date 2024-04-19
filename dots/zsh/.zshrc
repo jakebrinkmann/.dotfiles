@@ -8,7 +8,6 @@ plugins=(
 	aliases
 	docker
 	docker-compose
-	dotenv
 	fzf
 	taskwarrior
 	you-should-use
