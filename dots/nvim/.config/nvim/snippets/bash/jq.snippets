@@ -40,3 +40,7 @@ snippet jq-for-loop
         }
        echo $(_jq '.name')
     done
+
+snippet jq-convert-to-json
+    df -P |
+      jq -Rs 'split("\n")[1:-1] | map(split(" +";"")) | map({FileSystem: .[0], Used:.[1], Available : .[2], Capacity: .[3]})'
