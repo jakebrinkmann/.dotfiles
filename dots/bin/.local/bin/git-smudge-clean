@@ -21,11 +21,11 @@ mapArr["mycompany"]="$WORK_NAME"
 # mac users should use gsed instead of sed
 sedcmd="sed"
 [[ "$OSTYPE" == "darwin"* ]] && sedcmd="gsed"
-if [[ "$1" == "clean" ]]; then
+if [[ "$1" == "smudge" ]]; then
   for key in "${!mapArr[@]}"; do
     sedcmd+=" -e \"s/${key}/${mapArr[${key}]}/g\""
   done
-elif [[ "$1" == "smudge" ]]; then
+elif [[ "$1" == "clean" ]]; then
   for key in "${!mapArr[@]}"; do
     sedcmd+=" -e \"s/${mapArr[${key}]}/${key}/g\""
   done
