@@ -17,6 +17,7 @@ plugins=(
 	history
 	httpie
 	isodate
+	jira
 	taskwarrior
 	you-should-use
 )

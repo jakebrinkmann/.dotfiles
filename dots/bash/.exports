@@ -13,6 +13,8 @@ export EMAIL=jakebrinkmann@gmail.com
 export EDITOR='nvim'
 export TERMINAL="alacritty"
 export BROWSER="chromium"
+[[ "$OSTYPE" == "darwin"* ]] \
+  && export BROWSER="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 export PAGER='less --chop-long-lines --RAW-CONTROL-CHARS'
 
 # Configure git commits through shell
