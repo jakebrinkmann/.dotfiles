@@ -86,9 +86,6 @@ alias dig="dig +noadditional +noquestion +nocomments +nocmd +nostats"
 alias notes:work="nvim +'cd ~/Documents|ZkNotes'"
 alias notes:learn="nvim +'cd ~/learnings|ZkNotes'"
 
-alias cfg:nvim="cd ~/.config/nvim"
-alias cfg:dots="cd ~/.dotfiles"
-
 # warriors
 alias tt="task"
 alias tcx="task context"

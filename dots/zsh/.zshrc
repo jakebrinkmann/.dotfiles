@@ -18,6 +18,7 @@ plugins=(
 	httpie
 	isodate
 	jira
+	jump
 	taskwarrior
 	you-should-use
 )
