@@ -21,6 +21,7 @@ plugins=(
 	jump
 	npm
 	per-directory-history
+	python
 	taskwarrior
 	you-should-use
 )

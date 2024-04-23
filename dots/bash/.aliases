@@ -57,7 +57,6 @@ alias DockerDesktop="open -a Docker"
 alias Obsidian="open 'obsidian://open'"
 
 # Python Environments
-alias mkenv='python3 -m venv .venv'
 alias po:in='poetry install --no-root'
 alias po:lk='poetry lock --no-update'
 alias po:st='source $(poetry env info --path)/bin/activate && which python3'

@@ -1,19 +1,4 @@
 #!/bin/bash
-if (sudo -nv &> /dev/null); then
-  sudocmd="sudo"
-else
-  sudocmd=""
-fi
-
-# Delete python leftovers
-pyclean() {
-  $sudocmd find "${PWD}" -iname '__pycache__' -print -delete;
-  $sudocmd find "${PWD}" -iname 'pytest_cache'-print -delete;
-  $sudocmd find "${PWD}" -iname '.pyc'        -print -delete;
-  $sudocmd find "${PWD}" -iname '.pyo'        -print -delete;
-  $sudocmd find "${PWD}" -iname '.mypy_cache' -print -delete;
-}
-
 # Change all IPs in a file to mine
 replaceIp() {
   local filename="$1"
