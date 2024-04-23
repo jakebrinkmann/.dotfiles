@@ -4,7 +4,7 @@
 ##############################################################################
 
 [general]
-targets = , 
+targets = gitlab.mywork.net, atlassian.somewhere.net
 log.level = ERROR
 shorten = False
 annotation_comments = False
@@ -15,28 +15,28 @@ static_fields = project
 inline_links = False
 
 # https://bugwarrior.readthedocs.io/en/latest/services/gitlab.html
-[]
+[gitlab.mywork.net]
 service = gitlab
 gitlab.login = jbrinkmann
-gitlab.token = 
-gitlab.host = 
+gitlab.token = XR2lGR14OKGOxCAG
+gitlab.host = gitlab.mywork.net
 gitlab.owned = False
 gitlab.membership = True
 gitlab.include_todos = False
 gitlab.include_all_todos = False
 gitlab.only_if_assigned = jbrinkmann
 gitlab.add_tags = {{'review' if gitlabtype == 'merge_request' else 'respond'}}
-gitlab.project_template = gitlab.{{gitlabrepo}}.{{gitlabtype}}
-gitlab.description_template = {{gitlaburl}} {{gitlabtitle}}
+gitlab.project_template = gitlab.{{gitlabrepo}}
+gitlab.description_template = {{gitlabtype|upper}}#{{gitlabnumber}} {{gitlabtitle}}
 
 # https://bugwarrior.readthedocs.io/en/latest/services/jira.html
-[]
+[atlassian.somewhere.net]
 service = jira
-jira.base_uri = http://
-jira.username = 
-jira.password = 
+jira.base_uri = http://atlassian.somewhere.net
+jira.username = oops@mycompany.net
+jira.password = vqy0SzyalcagmHRB
 jira.query = assignee = currentUser() AND sprint in openSprints() AND resolution is empty
-jira.project_template = jira.{{jiraparent}}.{{jiraissuetype | replace("-","_")}}
-jira.description_template = {{jiraurl}} {{jirasummary}}
+jira.project_template = jira.{{jiraparent}}
+jira.description_template = {{jiraissuetype|upper|replace("-","_")}}#{{jiraid}} {{jirasummary}}
 jira.import_sprints_as_tags = True
 jira.add_tags =
