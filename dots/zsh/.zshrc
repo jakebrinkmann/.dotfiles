@@ -1,14 +1,22 @@
 # https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/templates/zshrc.zsh-template
+export HOMEBREW_PREFIX="$(brew --prefix)"
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+# https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins
 plugins=(
-	git
-	aws
 	aliases
+	archlinux
+	aws
+	bgnotify
+	brew
 	docker
 	docker-compose
 	fzf
+	git
+	history
+	httpie
+	isodate
 	taskwarrior
 	you-should-use
 )

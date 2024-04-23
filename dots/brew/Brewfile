@@ -25,6 +25,7 @@ brew "zsh-autosuggestions"
 brew "powerlevel10k"
 brew "fortune"
 cask "alacritty"
+brew "terminal-notifier" # for bgnotify on OSX
 # ---------------------------------------------------------------------------------------------------
 brew "coreutils"
 brew "stow"
@@ -80,15 +81,12 @@ cask "xmind"
 brew "pgformatter"
 brew "postgresql@14"
 brew "libpq"
-brew "pyenv"
-# brew "poetry" # do not install outside pyenv
-# brew "python@3.10"
-# brew "python@3.9"
+brew "poetry"
+brew "black"
+brew "python@3"
 brew "cookiecutter"
 brew "rustup"
-brew "nvm" #nvm install v20
-# brew "node@20"
-# brew "asyncapi" #< prefer `npm install -g @asyncapi/cli`
+brew "node@20"
 brew "prettier"
 brew "yarn"
 brew "typescript"
