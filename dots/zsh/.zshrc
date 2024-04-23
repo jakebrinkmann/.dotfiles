@@ -19,6 +19,7 @@ plugins=(
 	isodate
 	jira
 	jump
+	npm
 	taskwarrior
 	you-should-use
 )
