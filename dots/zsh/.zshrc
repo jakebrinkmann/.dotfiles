@@ -20,6 +20,7 @@ plugins=(
 	jira
 	jump
 	npm
+	per-directory-history
 	taskwarrior
 	you-should-use
 )

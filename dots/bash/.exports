@@ -1,11 +1,7 @@
 #!/bin/bash
 
-# Eternal bash history.
-# ---------------------
-export HISTFILESIZE=
-export HISTSIZE=
-export HISTTIMEFORMAT="[%F %T] "
-export HISTFILE="$HOME/.bash_history_$(date '+%Y_%m')"
+# per-directory-history plugin
+export HISTORY_BASE="$HOME/.directory_history"
 export HISTCONTROL=ignorespace:ignoredups:erasedups
 export HISTIGNORE='pwd:exit:fg:bg:top:clear:history:ls:uptime:df:cd:logout:bh *'
 
