@@ -23,6 +23,7 @@ plugins=(
 	per-directory-history
 	python
 	taskwarrior
+	web-search
 	you-should-use
 )
 source $ZSH/oh-my-zsh.sh
