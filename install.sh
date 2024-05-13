@@ -15,7 +15,7 @@ git clone https://github.com/MichaelAquilina/zsh-you-should-use.git ~/.oh-my-zsh
 [ -f ~/.zshrc ] && mv ~/.zshrc{,.bak}
 
 cd "$HOME/.dotfiles/dots" || exit
-stow -t ~ bash git nvim brew ripgrep python psql zsh bin ssh task
+stow -t ~ bash git nvim brew ripgrep python psql zsh bin ssh task jq
 stow -t ~/.config/ vscode
 [[ "$OSTYPE" == "darwin"* ]] && stow -t ~/Library/Application\ Support vscode
 

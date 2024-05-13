@@ -62,6 +62,8 @@ brew "subversion"
 # ---------------------------------------------------------------------------------------------------
 brew "httpie"
 brew "jq"
+tap "noahgorstein/tap"
+brew "noahgorstein/tap/jqp"
 brew "yq"
 brew "speedtest-cli"
 brew "ffmpeg"
