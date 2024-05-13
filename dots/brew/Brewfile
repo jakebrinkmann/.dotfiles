@@ -60,6 +60,7 @@ brew "git-delta"
 brew "cvs"
 brew "subversion"
 # ---------------------------------------------------------------------------------------------------
+brew "w3m"
 brew "httpie"
 brew "jq"
 tap "noahgorstein/tap"
