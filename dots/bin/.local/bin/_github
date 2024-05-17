@@ -4,7 +4,7 @@ set -eou pipefail
 # NOTE: using 'blobless clone' to make it fast.
 gitcmd="git clone --filter=blob:none"
 
-SRC=~/dev/github.com/
+SRC=~/github.com/
 mkdir -p $SRC
 
 _gh_sync_starred() {
