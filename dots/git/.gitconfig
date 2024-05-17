@@ -83,6 +83,12 @@
 	smudge = ~/.local/bin/git-smudge-clean smudge
 	clean = ~/.local/bin/git-smudge-clean clean
 
+; [remote "origin"]
+; 	prune = true
+
+[fetch]
+	prune = true
+
 [secrets]
 	# git secrets --register-aws --global
 	providers = git secrets --aws-provider
