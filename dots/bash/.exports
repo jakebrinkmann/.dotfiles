@@ -61,6 +61,10 @@ export AWS_PAGER=""
 # I do not want homebrew to update everything
 export HOMEBREW_NO_AUTO_UPDATE=1
 
+# I like me some hidden python virtual envs
+# (used by `mkv` in ~/.oh-my-zsh/plugins/python/python.plugin.zsh)
+export PYTHON_VENV_NAME='.venv'
+
 # make poetry create the virtual environment in `.venv``
 # export POETRY_VIRTUALENVS_IN_PROJECT=true
 # export POETRY_NO_INTERACTION=1
