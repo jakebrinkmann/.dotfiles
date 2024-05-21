@@ -9,14 +9,14 @@
 
 declare -A mapArr
 
-mapArr["XR2lGR14OKGOxCAG"]="$GITLAB_PRIVATE_TOKEN"
-mapArr["gitlab.mywork.net"]="$GITLAB_SERVER"
-mapArr["cDmOpxuW2vX1WAz9"]="$GITLAB_TOKEN"
-mapArr["oops@mycompany.net"]="$JIRA_EMAIL"
-mapArr["atlassian.somewhere.net"]="$JIRA_SERVER"
-mapArr["vqy0SzyalcagmHRB"]="$JIRA_TOKEN"
-mapArr["9UdfWpz4k2Gk6Ufy"]="$SVN_PASSWORD"
-mapArr["mycompany"]="$WORK_NAME"
+mapArr["XR2lGR14OKGOxCAG"]="${GITLAB_PRIVATE_TOKEN:-XR2lGR14OKGOxCAG}"
+mapArr["gitlab.mywork.net"]="${GITLAB_SERVER:-gitlab.mywork.net}"
+mapArr["cDmOpxuW2vX1WAz9"]="${GITLAB_TOKEN:-cDmOpxuW2vX1WAz9}"
+mapArr["oops@mycompany.net"]="${JIRA_EMAIL:-oops@mycompany.net}"
+mapArr["atlassian.somewhere.net"]="${JIRA_SERVER:-atlassian.somewhere.net}"
+mapArr["vqy0SzyalcagmHRB"]="${JIRA_TOKEN:-vqy0SzyalcagmHRB}"
+mapArr["9UdfWpz4k2Gk6Ufy"]="${SVN_PASSWORD:-9UdfWpz4k2Gk6Ufy}"
+mapArr["mycompany"]="${WORK_NAME:-mycompany}"
 
 # mac users should use gsed instead of sed
 sedcmd="sed"
