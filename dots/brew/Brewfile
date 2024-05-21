@@ -98,6 +98,7 @@ brew "golang"
 brew "awscli", link: true
 brew "awslogs"
 brew "aws-sso-cli"
+brew "aws-nuke"
 cask "session-manager-plugin"
 tap "lucagrulla/tap"
 brew "lucagrulla/tap/cw" # CloudWatch logs
