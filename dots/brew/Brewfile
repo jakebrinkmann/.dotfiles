@@ -49,6 +49,7 @@ brew "netcat"
 brew "telnet"
 brew "nmap"
 # ---------------------------------------------------------------------------------------------------
+brew "lazygit"
 brew "gitlab-runner"
 brew "gitlab-ci-local"
 brew "glab"
