@@ -1,6 +1,3 @@
-# https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/templates/zshrc.zsh-template
-export HOMEBREW_PREFIX="$(brew --prefix)"
-
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 # https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins
@@ -30,13 +27,11 @@ source $ZSH/oh-my-zsh.sh
 source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme
 
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+[[ -f ~/.cargo/env ]] && source $HOME/.cargo/env
 
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
-[[ ! -f ~/.cargo/env ]] || source $HOME/.cargo/env
+[[ -d $PYENV_ROOT ]] && export PATH="$PYENV_ROOT/bin:$PATH" && eval "$(pyenv init -)"
+[[ -d ~/.local/share/bob/nvim-bin ]] && export PATH="${HOME}/.local/share/bob/nvim-bin:$PATH"
 # BEGIN_AWS_SSO_CLI
 
 # AWS SSO requires `bashcompinit` which needs to be enabled once and

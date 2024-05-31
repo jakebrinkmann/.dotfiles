@@ -9,8 +9,8 @@ export EMAIL=jakebrinkmann@gmail.com
 export EDITOR='nvim'
 export TERMINAL="alacritty"
 export BROWSER="chromium"
-[[ "$OSTYPE" == "darwin"* ]] \
-  && export BROWSER="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+[[ "$OSTYPE" == "darwin"* ]] &&
+	export BROWSER="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 export PAGER='less --chop-long-lines --RAW-CONTROL-CHARS'
 
 # Configure git commits through shell
@@ -43,9 +43,7 @@ export NODE_INSPECT_RESUME_ON_START=1
 export NODE_OPTION=--max_old_space_size=2048
 
 # Configure fzf for nomouse
-export FZF_DEFAULT_OPTS='--no-mouse --bind '\
-'shift-up:preview-up,shift-down:preview-down,'\
-'page-up:preview-page-up,page-down:preview-page-down'
+export FZF_DEFAULT_OPTS='--no-mouse --bind ''shift-up:preview-up,shift-down:preview-down,''page-up:preview-page-up,page-down:preview-page-down'
 export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
 # This is sometimes useful, consider also ~/.pg_service.conf
@@ -60,10 +58,15 @@ export AWS_PAGER=""
 
 # I do not want homebrew to update everything
 export HOMEBREW_NO_AUTO_UPDATE=1
+# https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/templates/zshrc.zsh-template
+export HOMEBREW_PREFIX="$(command -v brew >/dev/null && brew --prefix)"
+export HOMEBREW_BUNDLE_INSTALL_CLEANUP=TRUE
 
 # I like me some hidden python virtual envs
 # (used by `mkv` in ~/.oh-my-zsh/plugins/python/python.plugin.zsh)
 export PYTHON_VENV_NAME='.venv'
+
+export PYENV_ROOT="$HOME/.pyenv"
 
 # make poetry create the virtual environment in `.venv``
 # export POETRY_VIRTUALENVS_IN_PROJECT=true
