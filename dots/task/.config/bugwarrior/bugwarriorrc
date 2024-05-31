@@ -35,7 +35,7 @@ service = jira
 jira.base_uri = http://atlassian.somewhere.net
 jira.username = oops@mycompany.net
 jira.password = vqy0SzyalcagmHRB
-jira.query = assignee = currentUser() AND sprint in openSprints() AND resolution is empty
+jira.query = assignee = currentUser() AND sprint in openSprints() AND status not in (Closed)
 jira.project_template = jira.{{jiraparent}}
 jira.description_template = {{jiraissuetype|upper|replace("-","_")}}#{{jiraid}} {{jirasummary}}
 jira.import_sprints_as_tags = True
