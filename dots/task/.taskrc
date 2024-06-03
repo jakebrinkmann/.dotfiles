@@ -68,8 +68,8 @@ report.all.columns=uuid.short,project,tags,description.truncated
 report.all.labels=,Project,Tags,Description
 
 # Ready report: don't show annotations. Don't show depends.indicator (because not ready)
-report.ready.columns=id,project,estimate,priority,description.truncated,tags
-report.ready.labels=ID,Proj,Est,Pri,Description,Tags
+report.ready.columns=id,project,estimate,priority,description.truncated
+report.ready.labels=ID,Proj,Est,Pri,Description
 
 # Trust but verify
 report.triage.description=Recurring Triage
