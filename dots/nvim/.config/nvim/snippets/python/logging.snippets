@@ -1,0 +1,6 @@
+snippet basiclogging
+		import logging, os
+		def configure_log(level='WARNING'):
+				fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+				level=getattr(logging, level or os.getenv("LOG_LEVEL", "INFO"))
+				logging.basicConfig(level=level, format=fmt)

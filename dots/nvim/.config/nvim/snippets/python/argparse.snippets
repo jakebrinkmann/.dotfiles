@@ -1,0 +1,35 @@
+snippet argumentparser
+		import argparse
+    def parse_args(defaults=None):
+        defaults = defaults or dict()
+        parser = argparse.ArgumentParser()
+        parser.add_argument("command", choices=['run'])
+        defaults.update(vars(parser.parse_args()))
+        return defaults
+
+snippet advancedparser
+		def main(*_):
+				...
+		def cli():
+				import argparse
+				import sys
+				parser = argparse.ArgumentParser(description='Parse file')
+				required_named = parser.add_argument_group("Required named arguments")
+				required_named.add_argument("-u", dest="username", type=str, required=True, action="store",
+																		help="My user name")
+				parser.add_argument('infile', nargs='?', type=argparse.FileType('r'),
+														default=sys.stdin, help='input file or stdin')
+				parser.add_argument('outfile', nargs='?', type=argparse.FileType('w'),
+														default=sys.stdout, help='output file or stdout')
+				parser.add_argument("-e", "--environment", action="store", nargs=1, dest="environment",
+														choices=['prd', 'dev', 'tst'],
+														help="Environment to change credentials for")
+				parser.add_argument('--dry-run', '-n', action='store_true', default=False)
+				(args, extra) = parser.parse_known_args()
+				if not args.username:
+						parser.print_help()
+						sys.exit(1)
+
+				main(**vars(args))
+		if __name__ == '__main__':
+				cli()
