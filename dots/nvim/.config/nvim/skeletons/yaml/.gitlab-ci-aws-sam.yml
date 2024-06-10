@@ -1,0 +1,72 @@
+cfn:lint:
+  image: ""
+  stage: lint
+  script:
+    - cfn-lint template.yaml
+  tags:
+    - docker
+
+sam:build:
+  image: public.ecr.aws/sam/build-python3.8:latest
+  stage: build
+  tags: [docker]
+  variables:
+    AWS_DEFAULT_REGION: us-east-1
+  script:
+    - sam build
+    - tar zcf sam.tar .aws-sam
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - sam.tar
+
+.sam:deploy: &sam_deploy
+  image: public.ecr.aws/sam/build-python3.8:latest
+  stage: deploy
+  tags: [docker]
+  dependencies:
+    - sam:build
+  script:
+    - tar xf sam.tar
+    - sam deploy --s3-bucket ${bucket} --stack-name ${Stack} --role-arn ${role} --parameter-overrides AccountName=${AccountName} --capabilities CAPABILITY_IAM --no-fail-on-empty-changeset --tags StackName=${Stack}
+
+sam:dev:deploy:
+  <<: *sam_deploy
+  environment:
+    name: Development
+  only:
+    refs:
+      - development
+
+sam:stage:deploy:
+  #X.Y.Z-RC.N
+  <<: *sam_deploy
+  environment:
+    name: Staging
+  only:
+    variables:
+      - $CI_COMMIT_TAG =~ /^\d+.\d+.\d+-RC(?:[0-9]+)?$/
+  except:
+    - branches
+
+sam:canary:deploy:
+  #X.Y.Z-beta
+  <<: *sam_deploy
+  environment:
+    name: Canary
+  only:
+    variables:
+      - $CI_COMMIT_TAG =~ /^\d+.\d+.\d+-beta$/
+  except:
+    - branches
+
+sam:production:deploy:
+  #X.Y.Z
+  <<: *sam_deploy
+  environment:
+    name: Production
+  only:
+    variables:
+      - $CI_COMMIT_TAG =~ /^\d+.\d+.\d+$/
+  except:
+    - branches

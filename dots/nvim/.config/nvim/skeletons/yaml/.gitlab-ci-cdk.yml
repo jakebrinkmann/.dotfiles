@@ -1,0 +1,124 @@
+.cloud_deployment:
+  stage: deploy
+  image: aws-cdk:py39-slim-buster
+  before_script:
+    - cd cdk
+    # TODO: caching dependencies with npm is not straightforward, but would be nice
+    - npm install --include=dev
+  script:
+    - cdk bootstrap --role-arn $AWS_ROLE_ARN aws://$AWS_ACCOUNT_ID/$AWS_REGION
+    - cdk synth
+    - cdk deploy --all --require-approval=never
+
+cloud_deployment_dev:
+  extends: .cloud_deployment
+  environment:
+    name: dev
+    url: example-dev.website.cloud
+  variables:
+    RUNTIME_ENVIRONMENT: $CI_ENVIRONMENT_NAME
+    # AWS_PROFILE: dev
+    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID_DEV
+    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_DEV
+    AWS_ACCOUNT_ID: $AWS_ACCOUNT_DEV
+    AWS_ROLE_ARN: $AWS_ROLE_ARN_DEV
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^(dev(elop)?([\/-].*)?)$/'
+    - if: '$CI_COMMIT_REF_PROTECTED != "true"'
+      when: manual
+      allow_failure: true
+
+cloud_deployment_test:
+  extends: .cloud_deployment
+  environment:
+    name: test
+    url: example-test.website.cloud
+  variables:
+    RUNTIME_ENVIRONMENT: $CI_ENVIRONMENT_NAME
+    # AWS_PROFILE: test
+    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID_TEST
+    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_TEST
+    AWS_ACCOUNT_ID: $AWS_ACCOUNT_TEST
+    AWS_ROLE_ARN: $AWS_ROLE_ARN_TEST
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^(test(ing)?([\/-].*)?)$/'
+
+cloud_deployment_stage:
+  extends: .cloud_deployment
+  needs:
+    - cloud_build
+  environment:
+    name: stage
+    url: api-stage.health.cloud
+  variables:
+    RUNTIME_ENVIRONMENT: $CI_ENVIRONMENT_NAME
+    # AWS_PROFILE: stage
+    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID_STAGE
+    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_STAGE
+    AWS_ACCOUNT_ID: $AWS_ACCOUNT_STAGE
+    AWS_ROLE_ARN: $AWS_ROLE_ARN_STAGE
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^(stage|staging)([\/-].*)?)$/'
+
+cloud_deployment_prod:
+  extends: .cloud_deployment
+  needs:
+    - cloud_build
+  environment:
+    name: prod
+    url: api.health.cloud
+  variables:
+    RUNTIME_ENVIRONMENT: $CI_ENVIRONMENT_NAME
+    # AWS_PROFILE: prod
+    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID_PROD
+    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_PROD
+    AWS_ACCOUNT_ID: $AWS_ACCOUNT_PROD
+    AWS_ROLE_ARN: $AWS_ROLE_ARN_PROD
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^((prod(uction)?|(master|main))([\/-].*)?)$/'
+
+stack:deploy:
+  image: container-wrappers/aws-cdk:py39-slim-bullseye
+  stage: deploy
+  script:
+    - export
+    - pip install --no-cache-dir --requirement requirements.txt
+    - cdk deploy --all --require-approval=never --context ACCOUNT_ENVIRONMENT=${account}
+  variables:
+    CDK_DEFAULT_REGION: us-east-1
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: '$CI_COMMIT_REF_PROTECTED == "false"'
+      when: manual
+      variables:
+        CDK_DEFAULT_ACCOUNT: "123456789"
+        AWS_ACCESS_KEY_ID: ${CDK_ACCESS_KEY_ID_development}
+        AWS_SECRET_ACCESS_KEY: ${CDK_SECRET_ACCESS_KEY_development}
+        ACCOUNT_NAME: devel
+    - if: '$CI_COMMIT_REF_NAME == "development"'
+      variables:
+        CDK_DEFAULT_ACCOUNT: "123456789"
+        AWS_ACCESS_KEY_ID: ${CDK_ACCESS_KEY_ID_development}
+        AWS_SECRET_ACCESS_KEY: ${CDK_SECRET_ACCESS_KEY_development}
+        ACCOUNT_NAME: devel
+    - if: '$CI_COMMIT_REF_NAME == "testing"'
+      variables:
+        CDK_DEFAULT_ACCOUNT: "123456789"
+        AWS_ACCESS_KEY_ID: ${CDK_ACCESS_KEY_ID_testing}
+        AWS_SECRET_ACCESS_KEY: ${CDK_SECRET_ACCESS_KEY_testing}
+        ACCOUNT_NAME: test
+    - if: '$CI_COMMIT_REF_NAME == "staging"'
+      variables:
+        CDK_DEFAULT_ACCOUNT: "123456789"
+        AWS_ACCESS_KEY_ID: ${CDK_ACCESS_KEY_ID_staging}
+        AWS_SECRET_ACCESS_KEY: ${CDK_SECRET_ACCESS_KEY_staging}
+        ACCOUNT_NAME: stage
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      variables:
+        CDK_DEFAULT_ACCOUNT: "123456789"
+        AWS_ACCESS_KEY_ID: ${CDK_ACCESS_KEY_ID_production}
+        AWS_SECRET_ACCESS_KEY: ${CDK_SECRET_ACCESS_KEY_production}
+        ACCOUNT_NAME: prod
+  tags:
+    - arm
