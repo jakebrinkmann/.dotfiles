@@ -1,0 +1,25 @@
+# aws.database.RDS (Relational Data Service)
+snippet aws-rds-desc-postgres
+    aws rds describe-db-engine-versions --engine aurora-postgresql --query '*[].[EngineVersion]'
+
+snippet aws-rds-desc-maria
+    aws rds describe-engine-default-parameters --db-parameter-group-family mariadb10.6 \
+       --query 'EngineDefaults.Parameters[?IsModifiable==`true`]'
+
+snippet aws-rds-cluster-params
+    aws rds describe-db-cluster-parameters \
+        --db-cluster-parameter-group-name default.aurora-postgresql14
+
+snippet aws-rds-desc-clusters
+    aws rds describe-db-clusters | jq -r '.DBClusters[].DBClusterArn'
+
+snippet aws-rds-data-exec
+    aws rds-data execute-statement \
+      --resource-arn $DB_ARN \
+      --secret-arn $SECRET_ARN \
+      --database $DB_NAME \
+      --format-records-as "JSON" \
+      --sql "select * from schema.table;" | jq '.formattedRecords | fromjson'
+
+snippet ssh-rds-tunnel
+	ssh -n -L "5432:$PGHOST:5432" ssm-user@$AWS_HOST;

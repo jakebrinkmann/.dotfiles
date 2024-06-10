@@ -1,0 +1,21 @@
+# SAM(Serverless Application Model)
+snippet aws-sam-export
+	poetry export -f requirements.txt --without-hashes > requirements.txt
+
+snippet aws-sam-init
+	sam init --location https://github.com/aws-samples/cookiecutter-aws-sam-python
+
+snippet aws-sam-build
+	sam build --use-container
+
+snippet aws-sam-package
+	sam package --output-template-file packaged.yaml --s3-bucket $BUCKET
+
+snippet aws-sam-deploy
+	sam deploy --stack-name $STACK --tags StackName=$STACK --capabilities CAPABILITY_IAM --no-fail-on-empty-changeset --s3-bucket $BUCKET --confirm-changeset
+
+snippet aws-sam-logs
+	sam logs --stack-name $STACK --name $FUNCTION --tail
+
+snippet aws-sam-translate
+	python serverless-application-model/bin/sam-translate.py --template-file=packaged.yaml --output-template=cft.json

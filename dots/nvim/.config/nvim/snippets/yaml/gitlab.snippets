@@ -1,0 +1,198 @@
+snippet gitlab-ci-global
+	default:
+		tags:
+			- docker
+	variables:
+		VERSION: 22-13
+	workflow:
+		rules:
+			- if: $CI_MERGE_REQUEST_ID
+				when: never
+			- if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+				when: never
+			- when: on_success
+	services: []
+	before_script:
+		- export
+	stages:
+		- .pre
+		- lint
+		- test
+		- build
+		- deploy
+		- deliver
+		- .post
+
+snippet gitlab-ci-workflow
+	workflow:
+		rules:
+			- if: $CI_MERGE_REQUEST_IID
+			- if: $CI_COMMIT_TAG
+			- if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+			- if: '$CI_COMMIT_REF_PROTECTED == "false"'
+				when: manual
+				allow_failure: true
+			- if: '$CI_COMMIT_BRANCH =~ /^(dev(elop)?([\/-].*)?)$/'
+			- if: '$CI_COMMIT_BRANCH =~ /^(test(ing)?([\/-].*)?)$/'
+			- if: '$CI_COMMIT_TAG =~ /^\d+.\d+.\d+-RC(?:[0-9]+)?$/'
+			- if: '$CI_COMMIT_BRANCH =~ /^(stage|staging)([\/-].*)?)$/'
+			- if: '$CI_COMMIT_TAG =~ /^\d+.\d+.\d+-beta$/'
+			- if: '$CI_COMMIT_BRANCH =~ /^((prod(uction)?|(master|main))([\/-].*)?)$/'
+			- if: '$CI_COMMIT_TAG =~ /^\d+.\d+.\d+$/'
+			- if: '$AWS_ACCESS_KEY_ID && $AWS_SECRET_ACCESS_KEY && $AWS_DEFAULT_REGION && $CI_COMMIT_REF_PROTECTED == "false"'
+
+snippet gitlab-ci-spec
+	# https://docs.gitlab.com/ee/ci/yaml/inputs.html
+	spec:
+		inputs:
+			job-stage:
+			environment:
+	---
+
+	scan-website:
+		stage: $[[ inputs.job-stage ]]
+		script: ./scan-website $[[ inputs.environment ]]
+
+snippet gitlab-ci-rules-vars
+  rules:
+    - if: '$CI_COMMIT_REF_PROTECTED == "false"'
+      when: manual
+      variables:
+        CDK_DEFAULT_ACCOUNT: "123456789"
+        AWS_ACCESS_KEY_ID: ${CDK_ACCESS_KEY_ID_development}
+        AWS_SECRET_ACCESS_KEY: ${CDK_SECRET_ACCESS_KEY_development}
+        ACCOUNT_NAME: devel
+
+snippet gitlab-ci-coverage
+  coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
+  artifacts:
+    when: on_success
+    reports:
+      junit: report.xml
+      cobertura: coverage.xml
+
+snippet gitlab-ci-environ
+  stage: deploy
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG
+    url: https://$CI_ENVIRONMENT_SLUG.example.com/
+
+snippet gitlab-ci-staging
+	my-job:
+		stage: staging
+		environment:
+			name: review/$CI_JOB_STAGE/deploy
+		script:
+			- 'deploy staging'
+		rules:
+			- if: $STAGING_SECRET == 'something'
+
+snippet gitlab-ci-include
+	include:
+		- project: "namespace/project"
+			ref: main
+			file: "path/to/gitlab/ci/template.yml"
+
+		# workflow rules to prevent duplicate detached pipelines
+		- template: 'Workflows/Branch-Pipelines.gitlab-ci.yml'
+		# auto devops build
+		- template: 'Jobs/Build.gitlab-ci.yml'
+
+snippet gitlab-ci-include-all
+	include:
+		- template: Jobs/Build.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Build.gitlab-ci.yml
+		- template: Jobs/Test.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Test.gitlab-ci.yml
+		- template: Jobs/Code-Quality.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Code-Quality.gitlab-ci.yml
+		- template: Jobs/Code-Intelligence.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Code-Intelligence.gitlab-ci.yml
+		- template: Jobs/Deploy.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Deploy.gitlab-ci.yml
+		- template: Jobs/Deploy/ECS.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Deploy/ECS.gitlab-ci.yml
+		- template: Jobs/Deploy/EC2.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Deploy/EC2.gitlab-ci.yml
+		- template: Jobs/DAST-Default-Branch-Deploy.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/DAST-Default-Branch-Deploy.gitlab-ci.yml
+		- template: Jobs/Browser-Performance-Testing.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Browser-Performance-Testing.gitlab-ci.yml
+		- template: Jobs/Helm-2to3.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Helm-2to3.gitlab-ci.yml
+		- template: Security/DAST.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Security/DAST.gitlab-ci.yml
+		- template: Jobs/Container-Scanning.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Container-Scanning.gitlab-ci.yml
+		- template: Jobs/Dependency-Scanning.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Dependency-Scanning.gitlab-ci.yml
+		- template: Jobs/SAST.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/SAST.gitlab-ci.yml
+		- template: Jobs/Secret-Detection.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Secret-Detection.gitlab-ci.yml
+
+snippet gitlab-ci-cache
+	variables:
+		PIP_CACHE_DIR: "${CI_PROJECT_DIR}/.cache/pip"
+
+	cache:
+		key: "${CI_JOB_NAME}"
+		paths:
+			- .cache/pip
+			- .venv
+
+snippet gitlab-ci-release
+  stage: build
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  script:
+    - echo "Create release"
+  release:
+    tag_name: $CI_COMMIT_TAG
+    description: "./CHANGELOG.md"
+    tag_message: $CI_COMMIT_TAG_MESSAGE
+  rules:
+    # Matches v1.2.3 and v1.2.3-alpha.4
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(-\w+\.\d+)?$/'
+
+snippet gitlab-ci-sast
+	include:
+		- template: Security/SAST.gitlab-ci.yml
+	sast:
+		stage: test
+
+snippet gitlab-ci-poetry
+      image: python:310
+			before_script:
+				- pip install poetry
+				- poetry --version
+				- poetry config virtualenvs.in-project true
+				- poetry install -vv
+      script:
+        - pip install --upgrade poetry
+        - poetry lock -v --no-update
+      artifacts:
+				expire_in: 1 hour
+        paths:
+          - poetry.lock
+
+snippet gitlab-ci-bot
+  before_script:
+    - git config user.email 'gitlab-ci-bot@example.com'
+    - git config user.name 'gitlab-ci[bot]'
+    - mkdir -p /root/.ssh
+    - cp "$CI_USER_DEPLOY_TOKEN_FILE" /root/.ssh/id_rsa
+    - chmod 600 /root/.ssh/id_rsa
+    - ssh -T -o "StrictHostKeyChecking=no" git@git.example.com
+    - git remote set-url origin git@git.example.com:$CI_PROJECT_PATH.git
+  script:
+    - git add poetry.lock
+    - git commit -m "Update poetry pins"
+    - git push -o ci.skip origin HEAD:$CI_COMMIT_BRANCH
+  rules:
+    - if: ($CI_COMMIT_REF_PROTECTED == "true")
+
+snippet gitlab-ci-env
+  export CI_JOB_ID="50"
+  export CI_COMMIT_SHA="1ecfd275763eff1d6b4844ea3168962458c9f27a"
+  export CI_COMMIT_SHORT_SHA="1ecfd275"
+  export CI_COMMIT_REF_NAME="main"
+  export CI_REPOSITORY_URL="https://gitlab-ci-token:[masked]@example.com/gitlab-org/gitlab.git"
+  export CI_COMMIT_TAG="1.0.0"
+  export CI_JOB_NAME="spec:other"
+  export CI_JOB_STAGE="test"
+  export CI_JOB_MANUAL="true"
+  export CI_JOB_TRIGGERED="true"
+  export CI_JOB_TOKEN="[masked]"
+  export CI_PIPELINE_ID="1000"
+  export CI_PIPELINE_IID="10"
+  export CI_PAGES_DOMAIN="gitlab.io"
+  export CI_PAGES_URL="https://gitlab-org.gitlab.io/gitlab"
+  export CI_PROJECT_ID="34"
+  export CI_PROJECT_DIR="/builds/gitlab-org/gitlab"
+  export CI_PROJECT_NAME="gitlab"
+  export CI_PROJECT_TITLE="GitLab"

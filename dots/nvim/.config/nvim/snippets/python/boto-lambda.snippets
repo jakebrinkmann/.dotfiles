@@ -1,0 +1,18 @@
+snippet boto3-lambda
+    lambda_ = session.client('lambda', config=config)
+
+snippet boto3-lambda-list
+    response = lambda_.list_functions(
+        FunctionVersion='ALL',
+        MaxItems=50
+    )
+    response['Functions'][0]['FunctionName']
+
+snippet boto3-lambda-invoke
+    response = lambda_.invoke(
+        FunctionName=${1},
+        InvocationType='RequestResponse',
+        LogType='Tail',
+        Payload=b"{}",
+    )
+    response['StatusCode']

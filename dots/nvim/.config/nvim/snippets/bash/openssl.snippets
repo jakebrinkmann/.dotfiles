@@ -1,0 +1,29 @@
+snippet get-cert
+	echo | openssl s_client -servername google.com -connect google.com:443 |\
+		sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > certificate.crt
+
+snippet cheat-curl
+	curl -d "@data.txt" -X POST http://localhost:3000/data
+	curl --data-raw @$JSON
+	curl -s -u $USER:$PW "localhost:24817/api/v3/content?fields=name&limit=1000" | jq -r .
+	curl --request POST --form token=$TRIGGER_TOKEN
+	api() { curl --request "$1" --header "Authorization: Bearer $JWT" $URL/v1/$2 "${@:3}"; }
+
+snippet curl-wait
+	for x in $(seq 0 60); do printf '.'; sleep 1; done
+	until $(curl --output /dev/null --silent --head --fail http://localhost:9600); do
+			printf '.'
+			sleep 5
+	done
+
+snippet cheat-tcpdump
+	tcpdump ether host e8:2a:ea:44:55:66
+	tcpdump -i any -e
+
+snippet cheat-dig
+	dig +noadditional +noquestion +nocomments +nocmd +nostats api-dev.example.cloud
+	dig +nocmd @ns-111.awsdns-11.net. api.example.cloud +noall +answer any
+
+snippet cheat-http
+	http PUT httpbin.org/put X-API-Token:123 name=John
+	http httpbin.org/status/418

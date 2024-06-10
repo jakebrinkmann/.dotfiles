@@ -1,0 +1,22 @@
+# aws.integration.SNS (Simple Notification Service)
+snippet aws-sns-list
+    aws sns list-topics | jq -c '.Topics[].TopicArn'
+
+snippet aws-sns-list-tbl
+    aws sns list-topics --output table --query 'Topics[]'
+
+snippet aws-sns-list-select
+    aws sns list-topics --query "Topics[?contains($1, 'c')].TopicArn"
+
+snippet aws-sns-sub
+    aws sns subscribe \
+        --topic-arn <value> \
+        --protocol email \
+        --notification-endpoint <email>
+
+snippet aws-sns-list-subs
+    aws sns list-subscriptions \
+        | jq -c '.Subscriptions[] | select(.Protocol | test("email"))'
+
+snippet aws-sns-unsub
+    aws sns unsubscribe --subscription-arn <value>

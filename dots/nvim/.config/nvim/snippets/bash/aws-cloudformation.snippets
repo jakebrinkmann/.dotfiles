@@ -1,0 +1,59 @@
+# aws.management.CFN (CloudFormation Infrastructure Stack)
+snippet aws-cfn-list-exports
+    aws cloudformation list-exports | jq -c '.Exports[].Name'
+
+snippet aws-cfn-list-stacks
+    aws cloudformation describe-stacks | jq -c '.Stacks[].StackName'
+
+snippet aws-cfn-list-stacks-status
+    aws cloudformation describe-stacks \
+        --stack-name $STACK | jq -c '.Stacks[].StackStatus'
+
+snippet aws-cfn-list-stacks-outputs
+    aws cloudformation describe-stacks \
+        --stack-name $STACK | jq -c '.Stacks[].Outputs'
+
+snippet aws-cfn-list-stacks-outputs-select
+    aws cloudformation describe-stacks \
+        --stack-name CfgBucket \
+        --query "Stacks[0].Outputs[?OutputKey == 'BucketName'].OutputValue" \
+        --output text
+
+snippet aws-cfn-list-resources
+    aws cloudformation describe-stack-resources \
+        --stack-name $STACK | jq -c '.StackResources[].PhysicalResourceId'
+
+snippet aws-cfn-pkg
+    aws cloudformation package \
+        --template-file template.yaml \
+        --s3-bucket ${ARTIFACT_BUCKET} \
+        --output-template-file packaged.yaml
+
+snippet aws-cfn-pkg-deploy
+    aws cloudformation deploy \
+        --s3-bucket $BUCKET \
+        --template-file packaged.yaml \
+        --capabilities CAPABILITY_NAMED_IAM \
+        --stack-name $STACK
+
+snippet aws-cfn-delete-stack
+    aws cloudformation delete-stack --stack-name $STACK
+
+snippet aws-cfn-wait-delete-complete
+    aws cloudformation wait stack-delete-complete --stack-name $STACK
+
+snippet aws-cfn-continue-rollback
+    aws cloudformation continue-update-rollback --stack-name $STACK
+
+snippet aws-cfn-update-stack
+    aws cloudformation update-stack \
+        --stack-name $STACK \
+        --use-previous-template \
+        --parameters 'ParameterKey=FOO,ParameterValue=BAR'
+
+snippet aws-cfn-stack-drift
+    aws cloudformation detect-stack-drift --stack-name $STACK
+
+snippet aws-cfn-stack-drift-status
+    aws cloudformation describe-stack-drift-detection-status \
+        --stack-drift-detection-id "ID-FROM-PREVIOUS-RESULT"

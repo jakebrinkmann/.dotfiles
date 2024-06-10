@@ -1,0 +1,20 @@
+# https://gitlab.com/gitlab-org/cli/-/tree/main/docs/source/variable
+snippet glab-var-ls
+	glab variable list -R $GROUP_NAME/cloud-stack --group $GROUP_NAME
+
+snippet glab-var-set
+	glab variable set -g $GROUP_NAME AWS_ROLE_ARN_STAGE "$(aws iam list-roles | jq -r '.Roles[].Arn | select(test("cfn-exec-role"))')"
+	glab variable set -g $GROUP_NAME AWS_ACCOUNT_STAGE "$AWS_ACCOUNT_ID"
+
+snippet glab-var-get
+	glab variable get -g $GROUP_NAME AWS_ACCOUNT_STAGE
+
+snippet glab-mr-create
+	glab mr create -R $REPO -a <username> -s dev -b test -t "Push dev ⭆ test"
+
+# https://gitlab.com/gitlab-org/cli/-/blob/main/docs/source/repo/create.md
+snippet glab-repo-create
+	glab repo create --defaultBranch dev --public my-group/my-new-project
+
+snippet glab-clone
+	glab repo clone profclems/glab

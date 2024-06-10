@@ -1,0 +1,8 @@
+snippet devtools
+	node --inspect=0.0.0.0:9229 -e "setTimeout(function() { console.log('yes'); }, 3000)"
+	node inspect --port=9229 node_modules/.bin/react-scripts start --no-cache
+	# edge://inspect/#devices
+
+snippet v8-debugger
+	node --debug <file>
+	node debug <file>

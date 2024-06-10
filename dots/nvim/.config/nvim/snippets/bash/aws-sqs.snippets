@@ -1,0 +1,27 @@
+# aws.integration.SQS (Simple Queue Service)
+snippet aws-sqs-list
+    aws sqs list-queues | jq -c '.QueueUrls[]'
+
+snippet aws-sqs-list-select
+    QUEUE=$(aws sqs list-queues | jq -r '.QueueUrls[] | select(test("'$1'"))')
+
+snippet aws-sqs-send
+    aws sqs send-message \
+        --queue-url $QUEUE_URL \
+        --message-body file://$EVENT_PATH
+
+snippet aws-sqs-send-group
+    aws sqs send-message \
+        --message-group-id $1 \
+        --queue-url $QUEUE_URL \
+        --message-body "$MSG"
+
+snippet aws-sqs-get-queue-url
+	aws sqs get-queue-url --queue-name $QUEUE_NAME
+
+snippet aws-sqs-purge-queue
+	aws sqs purge-queue --queue-url $QUEUE_URL
+
+snippet aws-sqs-get-queue-attrs
+	aws sqs get-queue-attributes --queue-url $QUEUE_URL --attribute-names All | \
+		jq -r .Attributes.ApproximateNumberOfMessages

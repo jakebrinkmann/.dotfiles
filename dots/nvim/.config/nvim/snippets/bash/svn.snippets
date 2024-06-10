@@ -1,0 +1,9 @@
+snippet svn-cheatsheet
+	alias svn="svn --username=$SVN_USERNAME --password=$SVN_PASSWORD"
+	svn ls $SVN_REPO_URL/branches --verbose
+	svn list $SVN_REPO_URL/trunk/
+	svn list -R $SVN_REPO_URL/trunk | grep -i <search>
+	svn checkout $SVN_REPO_URL/trunk/doc trunk/doc
+	svn lock trunk/doc/FILENAME
+	svn diff
+	svn status

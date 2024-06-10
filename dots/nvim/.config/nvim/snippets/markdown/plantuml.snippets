@@ -1,0 +1,29 @@
+snippet plantuml
+    \`\`\`plantuml
+    Bob -> Alice : hello
+    Alice -> Bob : hi
+    \`\`\`
+
+snippet notes braindump
+    \`\`\`plantuml
+    @startmindmap
+
+    + **myThoughts**
+
+    ' +-bullets will be rendered as thoughts to the right
+    ++ Thought 1
+    +++_ Thought 1.1
+    +++_ Thought 1.2
+
+    ' underscore _ to omit the box
+    ++ Thought 2
+    ++ Thought 3
+
+    ' --bullets to the left,
+    -- Thought A
+    -- Thought B
+    -- Thought C
+
+    @endmindmap
+    \`\`\`
+

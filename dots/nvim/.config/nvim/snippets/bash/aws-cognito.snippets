@@ -1,0 +1,37 @@
+# aws.security.Cognito
+snippet aws-cognito-pool-create
+    aws cognito-idp create-user-pool \
+      --pool-name example-corp-prd-userpool
+
+snippet aws-cognito-pool-login-domain
+    aws cognito-idp create-user-pool-domain \
+      --domain example-corp-prd \
+      --user-pool-id <yourUserPoolID>
+
+snippet aws-cognito-update-client
+    aws cognito-idp update-user-pool-client --user-pool-id us-east-1_ABC \
+      --client-id ABC2s2 \
+      --allowed-o-auth-flows-user-pool-client \
+      --allowed-o-auth-flows "code" "implicit" \
+      --allowed-o-auth-scopes "openid" "profile" "email" \
+      --callback-urls "[\"http://localhost:3000/\"]" \
+      --supported-identity-providers "[\"MyIDP\"]"
+
+snippet aws-cognito-pool-list
+    aws cognito-idp list-user-pools --max-results 1 --query 'UserPools[0].Id' --output text
+
+snippet aws-cognito-describe-up
+	aws cognito-idp describe-user-pool --user-pool-id us-west-2_aaaaaaaaa
+
+snippet aws-cognito-client-list
+    aws cognito-idp list-user-pool-clients --user-pool-id $UserPoolId \
+      --query "UserPoolClients[?ClientName | contains(@, 'clientWeb')].ClientId"
+
+snippet aws-cognito-client-desc
+    aws cognito-idp describe-user-pool-client --user-pool-id $UserPoolId --client-id $ClientId
+
+snippet aws-cognito-initiate-auth
+	aws cognito-idp initiate-auth --region YOU_REGION --auth-flow USER_123456_AUTH --client-id YOUR_CLIENT_ID --auth-parameters jbrinkmann=YOUR_EMAIL@example.com,123456=YOUR_123456
+
+snippet aws-cognito-get-user
+	aws cognito-idp get-user --access-token $OAUTH_JWT_ACCESS_TOKEN

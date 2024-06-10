@@ -1,0 +1,128 @@
+snippet boto-config
+    from botocore.config import Config
+    # see: https://botocore.amazonaws.com/v1/documentation/api/latest/reference/config.html
+    config = Config(
+        region_name=os.environ['AWS_REGION'],
+        connect_timeout=1,
+        retries={"total_max_attempts": 2, "max_attempts": 5}
+    )
+
+snippet lambda-simple
+    import json
+
+    def handler(event, context):
+        print("Event: %s" % (json.dumps(event)))
+        return {"message": "hello world", "statusCode": 200}
+
+snippet powertools-layer-arm
+    !Sub arn:aws:lambda:${AWS::Region}:017000801446:layer:AWSLambdaPowertoolsPythonV2-Arm64:49
+
+snippet powertools-layer-x86
+    !Sub arn:aws:lambda:${AWS::Region}:017000801446:layer:AWSLambdaPowertoolsPythonV2:49
+
+snippet powertools-init
+    sam init --app-template hello-world-powertools-python \
+        --name sam-app --package-type Zip --runtime python3.11 --no-tracing
+
+snippet env-powertools
+    POWERTOOLS_SERVICE_NAME: payment
+    POWERTOOLS_LOG_LEVEL: INFO
+    POWERTOOLS_PARAMETERS_MAX_AGE: 60
+
+snippet lambda-powertools
+    from aws_lambda_powertools.utilities.typing import LambdaContext
+    def lambda_handler(event: dict, context: LambdaContext) -> str:
+        return "hello world"
+
+snippet logger-powertools
+    from aws_lambda_powertools import Logger
+    logger = Logger()
+    @logger.inject_lambda_context(log_event=True)
+    def lambda_handler(event: dict, context: LambdaContext) -> str:
+        logger.set_correlation_id(request.request_context.request_id)
+        logger.info({"operation": "collect_payment", "charge_id": event["charge_id"]})
+
+snippet params-powertools
+    from aws_lambda_powertools.utilities import parameters
+    comments: str = parameters.get_parameter("/lambda-powertools/endpoint_comments", force_fetch=True)
+    api_key: Any = parameters.get_secret("/lambda-powertools/api-key")
+    endpoint: Any = parameters.get_app_config(name="config", environment="dev", application="comments")
+
+snippet event-powertools
+    from aws_lambda_powertools.utilities.data_classes import event_source, EventBridgeEvent
+
+    # see: https://docs.powertools.aws.dev/lambda/python/latest/utilities/data_classes/
+    @event_source(data_class=EventBridgeEvent)
+    def lambda_handler(event: EventBridgeEvent, context):
+        do_something_with(event.detail)
+
+snippet appconfig-boto3
+    import boto3
+
+    appconfig = boto3.client('appconfig')
+
+    # create an application
+    application = appconfig.create_application(Name='MyDemoApp')
+
+    # create an environment
+    environment = appconfig.create_environment(
+        ApplicationId=application['Id'],
+        Name='MyEnvironment')
+
+    # create a configuration profile
+    config_profile = appconfig.create_configuration_profile(
+        ApplicationId=application['Id'],
+        Name='MyConfigProfile',
+        LocationUri='hosted',
+        Type='AWS.Freeform')
+
+    # create a hosted configuration version
+    hcv = appconfig.create_hosted_configuration_version(
+        ApplicationId=application['Id'],
+        ConfigurationProfileId=config_profile['Id'],
+        Content=b'my config data',
+        ContentType='text/plain')
+
+    # start a deployment
+    deployment = appconfig.start_deployment(
+        ApplicationId=application['Id'],
+        EnvironmentId=environment['Id'],
+        ConfigurationProfileId=config_profile['Id'],
+        ConfigurationVersion=str(hcv['VersionNumber']),
+        DeploymentStrategyId='AppConfig.Linear20PercentEvery6Minutes')
+
+snippet appconfig-read
+    # in this sample, we will retrieve configuration data from the AWS AppConfig Agent.
+    # the agent is a sidecar process that handles retrieving configuration data from AWS AppConfig
+    # for you in a way that implements best practices like configuration caching.
+    import requests
+
+    application_name = 'MyDemoApp'
+    environment_name = 'MyEnvironment'
+    config_profile_name = 'MyConfigProfile'
+    flag_key = 'MyFlag'
+
+    # retrieve a single flag's data by providing the "flag" query string parameter
+    # note: the configuration's type must be AWS.AppConfig.FeatureFlags
+    response = requests.get(f"http://localhost:2772/applications/{application_name}/environments/{environment_name}/configurations/{config_profile_name}?flag={flag_key}")
+    config = response.content
+
+snippet lambda-context
+    import pytest, uuid
+    from aws_lambda_powertools.utilities.typing import LambdaContext
+    @pytest.fixture
+    def FakeLambdaContext():
+        class LambdaTestContext(LambdaContext):
+            def __init__(self, name: str, version: int = 1, region: str = "us-east-1", account_id: str = "111122223333"):
+                self._function_name = name
+                self._function_version = str(version)
+                self._memory_limit_in_mb = 128
+                self._invoked_function_arn = f"arn:aws:lambda:{region}:{account_id}:function:{name}:{version}"
+                self._aws_request_id = str(uuid.uuid4())
+                self._log_group_name = f"/aws/lambda/{name}"
+                self._log_stream_name = str(uuid.uuid4())
+
+        def wrapper(name: str = "Test"):
+            return LambdaTestContext(name)
+
+        return wrapper

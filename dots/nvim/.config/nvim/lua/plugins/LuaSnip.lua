@@ -23,7 +23,7 @@ return {
     "nvim-telescope/telescope.nvim",
     keys = {
       {
-        "<leader>cc",
+        "<leader>sS",
         function()
           require("telescope").extensions.luasnip.luasnip({})
         end,

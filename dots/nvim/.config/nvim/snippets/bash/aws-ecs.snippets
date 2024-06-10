@@ -1,0 +1,20 @@
+# aws.compute.ECR (Elastic Container Registry)
+snippet aws-ecr-ls-repos
+  aws ecr describe-repositories | jq '.repositories[].repositoryName'
+
+# aws.compute.ECS (Elastic Container Service)
+snippet aws-ecs-list-clusters
+  aws ecs list-clusters | jq '.clusterArns[]'
+
+snippet aws-ecs-list-tasks
+  aws ecs list-tasks --cluster $CLUSTER | jq '.taskArns[]'
+
+snippet aws-ecs-describe-tasks
+  aws ecs describe-tasks --cluster $CLUSTER --tasks $TASK | jq '.tasks[].containers[].name'
+
+snippet aws-ecs-execute-command
+  aws ecs execute-command --cluster $CLUSTER \
+      --task $TASK \
+      --container $CONTAINER \
+      --interactive \
+      --command "/bin/sh"
