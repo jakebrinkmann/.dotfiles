@@ -47,6 +47,7 @@ brew "ripgrep"
 brew "bob" # neovim version manager
 brew "netcat"
 brew "telnet"
+brew "doggo"
 brew "nmap"
 # ---------------------------------------------------------------------------------------------------
 brew "lazygit"
@@ -75,6 +76,7 @@ cask "postman"
 cask "soapui"
 cask "devtoys"
 cask "docker"
+# brew "jmeter"
 # ---------------------------------------------------------------------------------------------------
 brew "plantuml"
 brew "graphviz"

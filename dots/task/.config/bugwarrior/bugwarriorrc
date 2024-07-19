@@ -22,12 +22,12 @@ gitlab.token = XR2lGR14OKGOxCAG
 gitlab.host = gitlab.mywork.net
 gitlab.owned = False
 gitlab.membership = True
-gitlab.include_todos = False
-gitlab.include_all_todos = False
+gitlab.include_todos = True
+gitlab.include_all_todos = True
 gitlab.only_if_assigned = jbrinkmann
 gitlab.add_tags = {{'review' if gitlabtype == 'merge_request' else 'respond'}}
-gitlab.project_template = gitlab.{{gitlabrepo}}
-gitlab.description_template = {{gitlabtype|upper}}#{{gitlabnumber}} {{gitlabtitle}}
+gitlab.project_template = gitlab.{{gitlabrepo}}.{{gitlabnumber}}
+gitlab.description_template = {{gitlabtitle}}
 
 # https://bugwarrior.readthedocs.io/en/latest/services/jira.html
 [atlassian.somewhere.net]
@@ -36,7 +36,7 @@ jira.base_uri = http://atlassian.somewhere.net
 jira.username = oops@mycompany.net
 jira.password = vqy0SzyalcagmHRB
 jira.query = assignee = currentUser() AND sprint in openSprints() AND status not in (Closed)
-jira.project_template = jira.{{jiraparent}}
-jira.description_template = {{jiraissuetype|title|replace("-","")|replace(" ","")}}#{{jiraid}} {{jirasummary}}
+jira.project_template = jira.{{jiraparent}}.{{jiraid}}
+jira.description_template = {{jirasummary}}
 jira.import_sprints_as_tags = True
 jira.add_tags =

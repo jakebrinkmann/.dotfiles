@@ -136,7 +136,10 @@ snippet cdk-apigw-route53
 
 snippet cdk-logs
     # see: https://docs.aws.amazon.com/cdk/api/v2/python/aws_cdk.aws_logs/README.html
-    log_group = logs.LogGroup(self, "DevLogs", retention=RetentionDays.ONE_WEEK)
+    log_group = logs.LogGroup(self, "DevLogs",
+            log_group_name="/aws/vendedlogs/states/sample-pipes-machine",
+            retention=logs.RetentionDays.ONE_WEEK,
+            removal_policy=RemovalPolicy.DESTROY)
     log_group.grant_write(iam.ServicePrincipal("es.amazonaws.com"))
     log_group.extract_metric("$.jsonField", "Namespace", "MetricName")  # Namespace/MetricName
 
@@ -204,4 +207,3 @@ snippet cdk-config-json
   "test":  { "name": "test"  },
   "stage": { "name": "stage" },
   "prod":  { "name": "prod"  }
-

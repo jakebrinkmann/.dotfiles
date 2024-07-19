@@ -25,8 +25,8 @@ alias bell="echo -e '\a'"
 alias wbell='for x in $(seq 1 60); do bell; sleep 1; done'
 
 # tmux and vim
-alias tmux='tmux -2'                   # force tmux to use 256 colors
-alias ta='tmux a'                      # attach to session
+alias tmux='tmux -2'                             # force tmux to use 256 colors
+alias ta='tmux a'                                # attach to session
 alias td='tmux attach -t dev || tmux new -s dev' # developer session
 
 # Easier navigation: .., ..., ...., ....., ~ and -
@@ -91,6 +91,7 @@ alias tcx="task context"
 alias tw="timew"
 alias tws="timew summary :ids"
 alias bwp="bugwarrior pull && task"
+alias tg="task _get"
 
 # crontab
 alias crontab-e='vi ~/.crontab && crontab ~/.crontab'

@@ -8,3 +8,10 @@ o.title = true
 o.titlestring = [[%f %h%m%r%w]]
 
 -- vim.opt.winbar = "%=%m %f" -- content at top right of every buffer (useful for splits)
+
+-- TODO: Disable mouse mode
+o.mouse = nil
+
+-- TODO: make all terminals login shells
+-- vim.opt.shell = "zsh"
+-- vim.opt.shellcmdflag = "--login"
