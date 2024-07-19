@@ -1,9 +1,16 @@
 -- https://github.com/akinsho/toggleterm.nvim
-
 return {
   {
     "akinsho/toggleterm.nvim",
     version = "*",
-    opts = function(_, opts) end,
+    opts = {
+      shade_terminals = false,
+      winbar = {
+        enabled = true,
+        name_formatter = function(term)
+          return term.dir
+        end,
+      },
+    },
   },
 }
