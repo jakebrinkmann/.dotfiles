@@ -5,7 +5,7 @@ local o = vim.opt
 
 -- set window title
 o.title = true
-o.titlestring = [[%f %h%m%r%w]]
+-- o.titlestring = [[%f %h%m%r%w]]
 
 -- vim.opt.winbar = "%=%m %f" -- content at top right of every buffer (useful for splits)
 
