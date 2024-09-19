@@ -13,10 +13,10 @@
 # }
 set -x
 clean() {
-  containers=$(docker ps -a -q -f status=dead -f status=paused -f status=exited )
+  containers=$(docker ps -a -q -f status=dead -f status=paused -f status=exited)
   nlines=$(echo "$containers" | wc -l)
   if [[ nlines -gt 1 ]]; then
-    docker rm -v $containers;
+    docker rm -v $containers
   fi
 
   images=$(docker images -f "dangling=true" -q)
@@ -33,41 +33,41 @@ clean() {
 }
 
 shutdown() {
-  docker rm --force $(docker ps -aq);
+  docker rm --force $(docker ps -aq)
 }
 
 rm_volumes() {
-  docker volume rm $(docker volume ls -q);
+  docker volume rm $(docker volume ls -q)
 }
 
 destroy() {
   shutdown
   rm_volumes
-  docker rmi -f $(docker images -q);
-  docker network rm $(docker network ls -q);
+  docker rmi -f $(docker images -q)
+  docker network rm $(docker network ls -q)
 }
 
 # ..... Archive
 _ls() {
-  ls -F --color=auto --show-control-chars -ltrh $DOCKERIMAGES;
+  ls -F --color=auto --show-control-chars -ltrh $DOCKERIMAGES
 }
 
 save() {
-  docker save $1 | bzip2 > $DOCKERIMAGES/$2;
+  docker save $1 | bzip2 >$DOCKERIMAGES/$2
 }
 
 load() {
-  bunzip2 -c $DOCKERIMAGES/$1 | docker load;
+  bunzip2 -c $DOCKERIMAGES/$1 | docker load
 }
 
 # ..... Pretty Print
 ps() {
-  docker ps --format "table {{.Names}} \t{{.ID}} \t{{.Status}} \t{{.Ports}}";
+  docker ps --format "table {{.Names}} \t{{.ID}} \t{{.Status}} \t{{.Ports}}"
 }
 
 imgs() {
- docker images --format \
-   "table {{.Repository}} \t{{.Tag}} \t{{.CreatedSince}}";
+  docker images --format \
+    "table {{.Repository}} \t{{.Tag}} \t{{.CreatedSince}}"
 }
 
 run() {
@@ -101,42 +101,46 @@ run() {
 }
 
 main() {
-  cmd=$1;
+  cmd=$1
 
   case $cmd in
-    clean)
-      clean
-      ;;
-    shutdown)
-      shutdown
-      ;;
-    rm_volumes)
-      rm_volumes
-      ;;
-    destroy)
-      destroy
-      ;;
-    ls)
-      _ls
-      ;;
-    save)
-      save
-      ;;
-    load)
-      load
-      ;;
-    ps)
-      ps
-      ;;
-    imgs)
-      imgs
-      ;;
-    run)
-      run "${@:2}"
-      ;;
-    *)
-      echo "Usage:"
-      echo "  _docker {clean,shutdown,rm_volumes,destroy,ls,save,load,ps,imgs,run}"
+  clean)
+    clean
+    ;;
+  shutdown)
+    shutdown
+    ;;
+  rm_volumes)
+    rm_volumes
+    ;;
+  destroy)
+    destroy
+    ;;
+  ls)
+    _ls
+    ;;
+  save)
+    save
+    ;;
+  load)
+    load
+    ;;
+  ps)
+    ps
+    ;;
+  imgs)
+    imgs
+    ;;
+  run)
+    run "${@:2}"
+    ;;
+  prune)
+    docker system prune -a --volumes
+    ;;
+  *)
+    echo "Usage:"
+    echo "  _docker {clean,shutdown,rm_volumes,destroy,ls,save,load,ps,imgs,run,prune}"
+    ;;
   esac
 }
 

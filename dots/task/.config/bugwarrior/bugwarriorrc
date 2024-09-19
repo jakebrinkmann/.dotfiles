@@ -24,10 +24,12 @@ gitlab.owned = False
 gitlab.membership = True
 gitlab.include_todos = True
 gitlab.include_all_todos = True
-gitlab.only_if_assigned = jbrinkmann
+# gitlab.only_if_assigned = jbrinkmann
+gitlab.issue_query = issues?assignee_username=jbrinikmann&state=opened&scope=all
+gitlab.merge_request_query = merge_requests?state=opened&scope=all&reviewer_username=jbrinkmann
 gitlab.add_tags = {{'review' if gitlabtype == 'merge_request' else 'respond'}}
-gitlab.project_template = gitlab.{{gitlabrepo}}.{{gitlabnumber}}
-gitlab.description_template = {{gitlabtitle}}
+gitlab.project_template = gitlab.{{gitlabrepo if gitlabtype == 'merge_request' else gitlabtype}}.{{gitlabnumber}}
+gitlab.description_template = {{'WIP:' if gitlabwip}}{{gitlabtitle}}
 
 # https://bugwarrior.readthedocs.io/en/latest/services/jira.html
 [atlassian.somewhere.net]

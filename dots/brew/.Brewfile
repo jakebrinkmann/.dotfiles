@@ -49,6 +49,7 @@ brew "netcat"
 brew "telnet"
 brew "doggo"
 brew "nmap"
+brew "ansifilter"
 # ---------------------------------------------------------------------------------------------------
 brew "lazygit"
 brew "gitlab-runner"
@@ -64,6 +65,7 @@ brew "subversion"
 # ---------------------------------------------------------------------------------------------------
 brew "w3m"
 brew "httpie"
+cask "httpie"  # httpie desktop
 brew "jq"
 tap "noahgorstein/tap"
 brew "noahgorstein/tap/jqp"
@@ -76,6 +78,7 @@ cask "postman"
 cask "soapui"
 cask "devtoys"
 cask "docker"
+brew "diffoci"
 # brew "jmeter"
 # ---------------------------------------------------------------------------------------------------
 brew "plantuml"

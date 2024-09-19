@@ -54,6 +54,7 @@ alias lick=touch
 alias help=man
 
 alias DockerDesktop="open -a Docker"
+alias docker-compose="docker compose"
 alias Obsidian="open 'obsidian://open'"
 
 # Python Environments
@@ -101,3 +102,7 @@ alias today='icalBuddy -npn -nc -ps "/: /" -iep "datetime,title" -po "datetime, 
 
 # Git aliases (not handled by oh-my-zsh)
 alias gpuc='ggpush -o ci.skip'
+
+# command that produces colors then paste into an application that supports rich text
+# (may need --color=always to work)
+alias pbcopy='ansifilter --rtf | pbcopy -Prefer rtf'
