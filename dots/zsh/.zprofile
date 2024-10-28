@@ -12,5 +12,5 @@ if [ ! -f /tmp/fortune-$(date +%y%m%d%p) ]; then
   rm -rf "/tmp/fortune-*" &> /dev/null || true
 	touch /tmp/fortune-$(date +%y%m%d%p)
 	fortune ~/.dotfiles/quotes/quotes
-  date "+%a %y%m%d"
 fi
+# date "+%a %y%m%d" | tr '[:lower:]' '[:upper:]'
