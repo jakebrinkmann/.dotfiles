@@ -25,8 +25,10 @@ brew bundle --global
 
 if grep -qE '^ID=(arch|manjaro)$' /etc/os-release; then
   sudo pacman --noconfirm -S \
-	base-devel \
-        alacritty
+    base-devel \
+    yay \
+    alacritty
+  yay -S ttf-hack-nerd --noconfirm
 else
   xcode-select --install
 fi
