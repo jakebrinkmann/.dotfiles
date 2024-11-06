@@ -15,7 +15,7 @@ NONINTERACTIVE=1 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebre
   git clone git@github.com:jakebrinkmann/.dotfiles.git ~/.dotfiles
 
 cd "$HOME/.dotfiles/dots" || exit
-stow --adopt -t ~ bash git nvim brew ripgrep python psql zsh bin ssh task jq
+stow --adopt -t ~ bash git nvim brew ripgrep python psql zsh bin ssh task jq alacritty
 stow --adopt -t ~/.config/ vscode
 [[ "$OSTYPE" == "darwin"* ]] && stow -t ~/Library/Application\ Support vscode
 
@@ -24,7 +24,9 @@ brew install --cask font-hack-nerd-font
 brew bundle --global
 
 if grep -qE '^ID=(arch|manjaro)$' /etc/os-release; then
-  sudo pacman -S base-devel
+  sudo pacman --noconfirm -S \
+	base-devel \
+        alacritty
 else
   xcode-select --install
 fi
