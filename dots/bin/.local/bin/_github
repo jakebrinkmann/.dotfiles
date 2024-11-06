@@ -16,7 +16,7 @@ _gh_sync_starred() {
 }
 
 _gh_sync_repos() {
-  for x in $(gh api user/repos --paginate | jq -r '.[].full_name'); do
+  for x in $(gh api user/repos --no-archived --paginate | jq -r '.[].full_name'); do
     if [ ! -d "$SRC/$x" ]; then
       $gitcmd "git@github.com:$x.git" "$SRC/$x"
     fi
@@ -25,9 +25,10 @@ _gh_sync_repos() {
 
 _gh_sync_gists() {
   USER=$(gh api user | jq -r '.login')
+  SRC2=~/gist.github.com/
   for x in $(gh api gists --paginate | jq -r '.[].id'); do
-    if [ ! -d "$SRC/$USER/$x" ]; then
-      $gitcmd "git@github.com:$x.git" "$SRC/$USER/$x"
+    if [ ! -d "$SRC2/$USER/$x" ]; then
+      $gitcmd "git@github.com:$x.git" "$SRC2/$USER/$x"
     fi
   done
 }
