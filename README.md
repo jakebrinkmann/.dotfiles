@@ -73,8 +73,8 @@ To Download/Install this project directly onto a host machine (helpful when I wa
 ```bash
 ssh-keygen -t ed25519 -a 100 -f ~/.ssh/id_ed25519 -C "jakebrinkmann@gmail.com"
 
-sh -c "$(curl -fsSL raw.github.com/jakebrinkmann/.dotfiles/main/install.sh)"
-sh -c "$(curl -fsSL raw.github.com/jakebrinkmann/.dotfiles/main/uninstall.sh)"
+bash -c "$(curl -fsSL raw.github.com/jakebrinkmann/.dotfiles/main/install.sh)"
+bash -c "$(curl -fsSL raw.github.com/jakebrinkmann/.dotfiles/main/uninstall.sh)"
 ```
 
 To build the Docker image locally:
