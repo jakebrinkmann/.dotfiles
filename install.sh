@@ -1,24 +1,24 @@
 set -eoux
 
-git clone git@github.com:jakebrinkmann/.dotfiles.git ~/.dotfiles
-
 # https://brew.sh/
-NONINTERACTIVE=1 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-cd "$HOME" || exit
-brew bundle install
-(cd ~/.dotfiles && git secrets --install)
+NONINTERACTIVE=1 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && \
+    brew install stow
 
 # https://ohmyz.sh/
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-git clone https://github.com/MichaelAquilina/zsh-you-should-use.git ~/.oh-my-zsh/custom/plugins/you-should-use
-[ -f ~/.zshrc ] && mv ~/.zshrc{,.bak}
+[ ! -e ~/.oh-my-zsh ] && \
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended && \
+    git clone https://github.com/MichaelAquilina/zsh-you-should-use.git ~/.oh-my-zsh/custom/plugins/you-should-use && \
+    [ -f ~/.zshrc ] && mv ~/.zshrc{,.bak}
+
+[ ! -e ~/.dotfiles ] && \
+    git clone git@github.com:jakebrinkmann/.dotfiles.git ~/.dotfiles 
 
 cd "$HOME/.dotfiles/dots" || exit
-stow -t ~ bash git nvim brew ripgrep python psql zsh bin ssh task jq
-stow -t ~/.config/ vscode
+stow --adopt -t ~ bash git nvim brew ripgrep python psql zsh bin ssh task jq
+stow --adopt -t ~/.config/ vscode
 [[ "$OSTYPE" == "darwin"* ]] && stow -t ~/Library/Application\ Support vscode
 
-git clone git@github.com:ralphbean/bugwarrior.git ~/dev/github.com/ralphbean/bugwarrior
-cd ~/dev/github.com/ralphbean/bugwarrior
-pip install --user -e '.[all]'
+cd "$HOME" || exit
+brew install --cask font-hack-nerd-font
+brew bundle --global
