@@ -71,6 +71,8 @@ make run
 To Download/Install this project directly onto a host machine (helpful when I want tofly native on a machine, without the additional overhead of containers... trading off for reproducibility in my environment, though):
 
 ```bash
+ssh-keygen -t ed25519 -a 100 -f ~/.ssh/id_ed25519 -C "jakebrinkmann@gmail.com"
+
 sh -c "$(curl -fsSL raw.github.com/jakebrinkmann/.dotfiles/main/install.sh)"
 sh -c "$(curl -fsSL raw.github.com/jakebrinkmann/.dotfiles/main/uninstall.sh)"
 ```
