@@ -4,6 +4,7 @@ return {
     "akinsho/toggleterm.nvim",
     version = "*",
     opts = {
+      shell = "zsh",
       shade_terminals = false,
       winbar = {
         enabled = true,
