@@ -53,6 +53,7 @@ brew "gitlab-runner"
 brew "gitlab-ci-local"
 brew "glab"
 brew "gh"
+brew "act" # github actions local runner
 brew "pre-commit"
 brew "git-secrets"
 brew "git-lfs"
