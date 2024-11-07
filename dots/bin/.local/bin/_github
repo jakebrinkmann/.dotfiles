@@ -16,7 +16,7 @@ _gh_sync_starred() {
 }
 
 _gh_sync_repos() {
-  for x in $(gh api user/repos --no-archived --paginate | jq -r '.[].full_name'); do
+  for x in $(gh api user/repos --paginate | jq -r '.[] | select(.archived == false) | .full_name'); do
     if [ ! -d "$SRC/$x" ]; then
       $gitcmd "git@github.com:$x.git" "$SRC/$x"
     fi
@@ -26,29 +26,37 @@ _gh_sync_repos() {
 _gh_sync_gists() {
   USER=$(gh api user | jq -r '.login')
   SRC2=~/gist.github.com/
-  for x in $(gh api gists --paginate | jq -r '.[].id'); do
-    if [ ! -d "$SRC2/$USER/$x" ]; then
-      $gitcmd "git@github.com:$x.git" "$SRC2/$USER/$x"
+  gh api gists --paginate | jq -r '.[] | "\(.id) \(.description)"' | while IFS= read -r line; do
+    gist_id=$(echo $line | awk '{print $1}')
+    description=$(echo "$line" | sed 's/^[^ ]* //')
+    gist_slug=$(echo "$description" | tr -s ' ' '-' | tr -d '()*,.' | tr '/' '-' | tr '[:upper:]' '[:lower:]')
+    gist_slug="${gist_id:0:8}-$gist_slug"
+    clone_dir="$SRC2/$USER/$gist_slug"
+    if [ ! -d "$clone_dir" ]; then
+      # Use the gist_id for the clone command
+      $gitcmd "git@github.com:$gist_id.git" "$clone_dir"
     fi
   done
+
 }
 
 main() {
-  cmd=${1:-help};
+  cmd=${1:-help}
 
   case $cmd in
-    repos)
-      _gh_sync_repos
-      ;;
-    starred)
-      _gh_sync_starred
-      ;;
-    gists)
-      _gh_sync_gists
-      ;;
-    *)
-      echo "Usage:"
-      echo "  _github {repos,starred,gists}"
+  repos)
+    _gh_sync_repos
+    ;;
+  starred)
+    _gh_sync_starred
+    ;;
+  gists)
+    _gh_sync_gists
+    ;;
+  *)
+    echo "Usage:"
+    echo "  _github {repos,starred,gists}"
+    ;;
   esac
 }
 

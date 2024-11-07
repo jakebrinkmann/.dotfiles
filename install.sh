@@ -27,10 +27,15 @@ if grep -qE '^ID=(arch|manjaro)$' /etc/os-release; then
   sudo pacman --noconfirm -S \
     base-devel \
     yay \
+    bind \
     alacritty
   yay -S ttf-hack-nerd --noconfirm
 else
   xcode-select --install
 fi
 
-bob use stable # install nvim
+echo '/home/linuxbrew/.linuxbrew/bin/zsh' | sudo tee -a /etc/shells >/dev/null &&
+  chsh -s /home/linuxbrew/.linuxbrew/bin/zsh
+
+bob use stable &&
+  nvim --version
