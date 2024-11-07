@@ -28,8 +28,12 @@ if grep -qE '^ID=(arch|manjaro)$' /etc/os-release; then
     base-devel \
     yay \
     bind \
-    alacritty
+    alacritty \
+    docker
   yay -S ttf-hack-nerd --noconfirm
+
+  sudo systemctl enable --now docker
+  sudo usermod -aG docker $USER
 else
   xcode-select --install
 fi
