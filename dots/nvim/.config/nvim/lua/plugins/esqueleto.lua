@@ -12,6 +12,7 @@ return {
       "plantuml",
       "python",
       "toml",
+      "vue",
       "yaml",
       --
       "pyproject.toml",
