@@ -28,12 +28,24 @@ if grep -qE '^ID=(arch|manjaro)$' /etc/os-release; then
     base-devel \
     yay \
     bind \
-    alacritty \
-    docker
-  yay -S ttf-hack-nerd --noconfirm
+    alacritty
+  yay -S --noconfirm \
+    ttf-nerd-fonts-symbols \
+    ttf-hack-nerd \
+    docker \
+    docker-compose
+
+  # ❯ fc-list : family | grep Nerd
 
   sudo systemctl enable --now docker
   sudo usermod -aG docker $USER
+
+  # Get hostname accessable on LAN
+  sudo hostnamectl set-hostname thinkpad-t490s
+  sudo pacman -S --noconfirm avahi nss-mdns
+  sudo systemctl enable --now avahi-daemon
+
+  ping thinkpad-t490s.local
 else
   xcode-select --install
 fi
