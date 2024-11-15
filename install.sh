@@ -51,6 +51,11 @@ if grep -qE '^ID=(arch|manjaro)$' /etc/os-release; then
   sudo hostnamectl set-hostname thinkpad-t490s
   sudo pacman -S --noconfirm avahi nss-mdns
   sudo systemctl enable --now avahi-daemon
+  sudo sed -i 's/mdns_minimal/mdns4_minimal/' /etc/nsswitch.conf
+  sudo sed -i 's/dns$/dns mdns4/' /etc/nsswitch.conf
+
+  sudo systemctl daemon-reload
+  sudo systemctl restart systemd-networkd
 
   ping thinkpad-t490s.local
 else
