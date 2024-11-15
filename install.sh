@@ -30,12 +30,6 @@ if grep -qE '^ID=(arch|manjaro)$' /etc/os-release; then
     bind \
     alacritty
 
-  # # Support for PC applications (:vomiting_face:)
-  # sudo pacman --noconfirm -S \
-  #   wine-staging \
-  #   winetricks
-
-  winetricks dotnet462
   yay -S --noconfirm \
     ttf-nerd-fonts-symbols \
     ttf-hack-nerd \
