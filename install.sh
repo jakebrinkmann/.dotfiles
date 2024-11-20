@@ -34,7 +34,8 @@ if grep -qE '^ID=(arch|manjaro)$' /etc/os-release; then
     ttf-nerd-fonts-symbols \
     ttf-hack-nerd \
     docker \
-    docker-compose
+    docker-compose \
+    zoom
 
   # ❯ fc-list : family | grep Nerd
 
@@ -45,6 +46,7 @@ if grep -qE '^ID=(arch|manjaro)$' /etc/os-release; then
   sudo hostnamectl set-hostname thinkpad-t490s
   sudo pacman -S --noconfirm avahi nss-mdns
   sudo systemctl enable --now avahi-daemon
+  sudo systemctl disable --now systemd-resolved
   sudo sed -i 's/mdns_minimal/mdns4_minimal/' /etc/nsswitch.conf
   sudo sed -i 's/dns$/dns mdns4/' /etc/nsswitch.conf
 
