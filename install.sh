@@ -24,39 +24,28 @@ brew install --cask font-hack-nerd-font
 brew bundle --global
 
 if grep -qE '^ID=(arch|manjaro)$' /etc/os-release; then
-  sudo pacman --noconfirm -S \
-    base-devel \
-    yay \
-    bind \
-    alacritty
 
-  # WebGPU Support
-  sudo pacman --noconfirm -S \
-    mesa \
-    vulkan-tools
+  while read -r pkg; do
 
-  yay -S --noconfirm \
-    chromium # --enable-unsafe-webgpu --enable-features=Vulkan
+    sudo pacman -Syu --noconfirm "$pkg"
 
-  yay -S --noconfirm \
-    ttf-nerd-fonts-symbols \
-    ttf-hack-nerd \
-    docker \
-    docker-compose \
-    zoom
+  done <install/arch/packages.txt
 
-  # ❯ fc-list : family | grep Nerd
+  while read -r pkg; do
+
+    yay -Syu --noconfirm "$pkg"
+
+  done <install/arch/AUR.txt
 
   sudo systemctl enable --now docker
   sudo usermod -aG docker $USER
 
   # Get hostname accessable on LAN
   sudo hostnamectl set-hostname thinkpad-t490s
-  sudo pacman -S --noconfirm avahi nss-mdns
   sudo systemctl enable --now avahi-daemon
   sudo systemctl disable --now systemd-resolved
-  sudo sed -i 's/mdns_minimal/mdns4_minimal/' /etc/nsswitch.conf
-  sudo sed -i 's/dns$/dns mdns4/' /etc/nsswitch.conf
+  # sudo sed -i 's/mdns_minimal/mdns4_minimal/' /etc/nsswitch.conf
+  # sudo sed -i 's/dns$/dns mdns4/' /etc/nsswitch.conf
 
   sudo systemctl daemon-reload
   sudo systemctl restart systemd-networkd
