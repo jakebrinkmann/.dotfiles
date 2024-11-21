@@ -30,6 +30,14 @@ if grep -qE '^ID=(arch|manjaro)$' /etc/os-release; then
     bind \
     alacritty
 
+  # WebGPU Support
+  sudo pacman --noconfirm -S \
+    mesa \
+    vulkan-tools
+
+  yay -S --noconfirm \
+    chromium # --enable-unsafe-webgpu --enable-features=Vulkan
+
   yay -S --noconfirm \
     ttf-nerd-fonts-symbols \
     ttf-hack-nerd \
