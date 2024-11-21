@@ -1,3 +1,4 @@
+#   sudo pacman -Syu --noconfirm $(grep -v ^# install/arch/packages.txt | xargs)
 base-devel
 yay
 alacritty

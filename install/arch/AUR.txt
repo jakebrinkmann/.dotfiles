@@ -1,6 +1,8 @@
+#   yay -Syu --noconfirm "$pkg" $(grep -v ^# install/arch/AUR.txt | xargs)
 ttf-nerd-fonts-symbols
 ttf-hack-nerd
 docker
 docker-compose
 zoom
 chromium
+caffeinate
