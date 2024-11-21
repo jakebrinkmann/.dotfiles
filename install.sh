@@ -25,17 +25,8 @@ brew bundle --global
 
 if grep -qE '^ID=(arch|manjaro)$' /etc/os-release; then
 
-  while read -r pkg; do
-
-    sudo pacman -Syu --noconfirm "$pkg"
-
-  done <install/arch/packages.txt
-
-  while read -r pkg; do
-
-    yay -Syu --noconfirm "$pkg"
-
-  done <install/arch/AUR.txt
+  sudo pacman -Syu --noconfirm $(grep -v ^# install/arch/packages.txt | xargs)
+  yay -Syu --noconfirm "$pkg" $(grep -v ^# install/arch/AUR.txt | xargs)
 
   sudo systemctl enable --now docker
   sudo usermod -aG docker $USER

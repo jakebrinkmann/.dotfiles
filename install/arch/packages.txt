@@ -1,8 +1,12 @@
 base-devel
 yay
 alacritty
+
+# WebGPU Support
 mesa
 vulkan-tools
+
+# hostname accessable on LAN
 bind
 avahi
 nss-mdns
