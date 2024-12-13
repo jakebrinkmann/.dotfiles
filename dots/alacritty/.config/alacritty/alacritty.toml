@@ -1,7 +1,4 @@
 # https://alacritty.org/config-alacritty.html
-[shell]
-program = "/bin/zsh"
-args = ["--login"]
 
 [window]
 dimensions = { columns = 132, lines = 43 }
@@ -30,3 +27,9 @@ bindings = [
 	{ key = "Left", mods = "Control", action = "SelectPreviousTab" },
 	{ key = "Right", mods = "Control", action = "SelectNextTab" },
 ]
+
+[terminal]
+
+[terminal.shell]
+program = "/bin/zsh"
+args = ["--login"]
