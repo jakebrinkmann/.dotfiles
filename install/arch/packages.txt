@@ -2,6 +2,8 @@
 base-devel
 yay
 alacritty
+cockpit
+cockpit-pcp
 
 # WebGPU Support
 mesa

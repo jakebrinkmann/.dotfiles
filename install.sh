@@ -31,6 +31,9 @@ if grep -qE '^ID=(arch|manjaro)$' /etc/os-release; then
   sudo systemctl enable --now docker
   sudo usermod -aG docker $USER
 
+  # Mouse mode for systemctl (browser resource explorer)
+  sudo systemctl enable --now cockpit.socket
+
   # Get hostname accessable on LAN
   sudo hostnamectl set-hostname thinkpad-t490s
   sudo systemctl enable --now avahi-daemon

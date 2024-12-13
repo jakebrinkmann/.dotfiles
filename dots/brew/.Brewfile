@@ -47,6 +47,7 @@ brew "telnet"
 brew "doggo"
 brew "nmap"
 brew "ansifilter"
+brew "ncdu"
 # ------------------------------------------------------------------------------
 brew "lazygit"
 brew "gitlab-runner"
