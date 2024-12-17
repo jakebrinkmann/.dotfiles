@@ -29,6 +29,10 @@ if grep -qE '^ID=(arch|manjaro)$' /etc/os-release; then
   yay -Syu --noconfirm "$pkg" $(grep -v ^# install/arch/AUR.txt | xargs)
 
   sudo systemctl enable --now docker
+  # # add resource limits to a Docker service using systemd
+  # [Service]
+  # MemoryLimit=10G
+  # CPUShares=50
   sudo usermod -aG docker $USER
 
   # Mouse mode for systemctl (browser resource explorer)

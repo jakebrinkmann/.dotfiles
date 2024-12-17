@@ -7,17 +7,18 @@ const ddb = new DynamoDB.DocumentClient({ region: REGION });
 
 export const handler = async (event: any, context: any) => {
   try {
-    const pathParameters = event.pathParameters;
+    const { pathParameters } = event;
+
     if (!pathParameters) {
       return { statusCode: 400, body: "Missing path parameters" };
     }
 
-    const orderId = pathParameters.order_id;
+    const { order_id: orderId, store_id: storeId } = pathParameters;
+
     if (!orderId) {
       return { statusCode: 400, body: "Missing order_id" };
     }
 
-    const storeId = pathParameters.store_id;
     if (!storeId) {
       return { statusCode: 400, body: "Missing store_id" };
     }
