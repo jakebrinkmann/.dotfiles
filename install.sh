@@ -1,3 +1,6 @@
+# Make sure we can sudo, to install homebrew
+sudo whoami 
+
 set -eoux
 
 # https://brew.sh/
