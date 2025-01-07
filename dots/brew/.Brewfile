@@ -102,7 +102,7 @@ brew "prettier"
 brew "yarn"
 brew "typescript"
 brew "golang"
-brew "dotnet"
+# brew "dotnet"
 # ------------------------------------------------------------------------------
 brew "awscli", link: true
 brew "awslogs"

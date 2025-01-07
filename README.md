@@ -1,4 +1,5 @@
 # dotfiles
+
 > I'm going to lay this brick as perfectly as a brick can be laid 🧱
 
 [![Build Status][travis-image]][travis-url]
@@ -20,21 +21,21 @@ sensible hacker defaults focused towards a reusable Debian ([Stretch][deb-rel-ur
 
 #### Contents
 
-* [About](#about-)
-* [Dependencies](#dependencies-)
-* [Usage](#usage-)
-* [Development](#development-)
-* [Contributing](#contributing-)
-* [Meta](#meta-)
+- [About](#about-)
+- [Dependencies](#dependencies-)
+- [Usage](#usage-)
+- [Development](#development-)
+- [Contributing](#contributing-)
+- [Meta](#meta-)
 
 ## About [&#x219F;](#contents)
 
 The project has multiple main topics, summarized here:
 
-* `dotfiles`: the "[runcoms](https://en.wikipedia.org/wiki/Run_commands)" (init configs) of the tools I use
-* `setups`: scripts to bootstrap the installation of tools
-* `docker`: pre-existing environment with all tools installed
-* `ci`: run builds after every pushed commit
+- `dotfiles`: the "[runcoms](https://en.wikipedia.org/wiki/Run_commands)" (init configs) of the tools I use
+- `setups`: scripts to bootstrap the installation of tools
+- `docker`: pre-existing environment with all tools installed
+- `ci`: run builds after every pushed commit
 
 It is expected that this project only contains generic tools.
 Other language-specific environments are then children of this base project.
@@ -45,9 +46,9 @@ However, the `dotfiles` and `setups` should work on any debian system, and not b
 
 These tools must first be installed on the system:
 
-* [Docker](https://docs.docker.com/install/), create, deploy, and run applications by using containers.
-* [Brew](https://brew.sh/), manage software dependencies and installation.
-* [GNU stow](http://www.gnu.org/software/stow/), a free, portable, lightweight symlink farm manager.
+- [Docker](https://docs.docker.com/install/), create, deploy, and run applications by using containers.
+- [Brew](https://brew.sh/), manage software dependencies and installation.
+- [GNU stow](http://www.gnu.org/software/stow/), a free, portable, lightweight symlink farm manager.
 
 ## Usage [&#x219F;](#contents)
 
@@ -65,13 +66,17 @@ This project has a quick-start to jump into the latest image:
 make run
 ```
 
-
-## Development  [&#x219F;](#contents)
+## Development [&#x219F;](#contents)
 
 To Download/Install this project directly onto a host machine (helpful when I want tofly native on a machine, without the additional overhead of containers... trading off for reproducibility in my environment, though):
 
 ```bash
 ssh-keygen -t ed25519 -a 100 -f ~/.ssh/id_ed25519 -C "jakebrinkmann@gmail.com"
+
+sudo visudo '''
+# Allow timeout
+Defaults	timestamp_timeout=300
+'''
 
 bash -c "$(curl -fsSL raw.github.com/jakebrinkmann/.dotfiles/main/install.sh)"
 bash -c "$(curl -fsSL raw.github.com/jakebrinkmann/.dotfiles/main/uninstall.sh)"
@@ -84,8 +89,7 @@ To build the Docker image locally:
 make image
 ```
 
-
-## Contributing  [&#x219F;](#contents)
+## Contributing [&#x219F;](#contents)
 
 No contribution is too small!
 
@@ -93,13 +97,14 @@ No contribution is too small!
 
 Jake Brinkmann – [@jakebrinkmann](https://twitter.com/jakebrinkmann) – jakebrinkmann@gmail.com
 
-Distributed under the MIT license. See ``LICENSE.txt`` for more information.
+Distributed under the MIT license. See `LICENSE.txt` for more information.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) and [Conventional Commit Messages](https://www.conventionalcommits.org/en/v1.0.0-beta.2/#summary).
 
 [https://github.com/jakebrinkmann/dotfiles](https://github.com/jakebrinkmann//dotfiles)
 
 ---
+
 ---
 
 [&#x219F; Back to Top &#x219F;](#readme)
