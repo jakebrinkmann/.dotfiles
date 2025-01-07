@@ -5,7 +5,7 @@ set -eoux
 
 # https://brew.sh/
 NONINTERACTIVE=1 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" &&
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" || eval "$(/opt/homebrew/bin/brew shellenv)" &&
+  (eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" || eval "$(/opt/homebrew/bin/brew shellenv)") &&
   brew install stow
 
 # https://ohmyz.sh/
