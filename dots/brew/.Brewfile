@@ -58,7 +58,7 @@ brew "git-delta"
 # ------------------------------------------------------------------------------
 brew "w3m"
 brew "httpie"
-cask "httpie"  # httpie desktop
+# cask "httpie"  # httpie desktop
 brew "jq"
 tap "noahgorstein/tap"
 brew "noahgorstein/tap/jqp"
