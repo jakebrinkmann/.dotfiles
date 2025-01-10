@@ -1,0 +1,14 @@
+{
+  "azureResourceGroups.selectedSubscriptions": [],
+  "@azure.argTenant": "",
+  "git.autofetch": true,
+  "editor.inlayHints.enabled": "offUnlessPressed",
+  "editor.fontFamily": "Fira Code, Menlo, Monaco, 'Courier New', monospace",
+  "editor.fontLigatures": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
