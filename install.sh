@@ -1,5 +1,5 @@
 # Make sure we can sudo, to install homebrew
-sudo whoami 
+sudo whoami
 
 set -eoux
 
@@ -23,8 +23,7 @@ stow --adopt -t ~/.config/ vscode
 [[ "$OSTYPE" == "darwin"* ]] && stow -t ~/Library/Application\ Support vscode
 
 cd "$HOME" || exit
-brew install --cask font-hack-nerd-font
-brew bundle --global
+brew bundle --file ~/.Brewfile --file ~/.Brewfile-work
 
 if grep -qE '^ID=(arch|manjaro)$' /etc/os-release; then
 

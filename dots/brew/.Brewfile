@@ -24,6 +24,10 @@ brew "fortune"
 cask "alacritty"
 brew "terminal-notifier" # for bgnotify on OSX
 # ------------------------------------------------------------------------------
+# tap "homebrew/cask-fonts"
+cask "font-fira-code"
+cask "font-hack-nerd-font"
+# ------------------------------------------------------------------------------
 brew "coreutils"
 brew "stow"
 brew "cmake"
@@ -92,31 +96,31 @@ brew "typescript"
 brew "golang"
 # brew "dotnet-sdk"
 # ------------------------------------------------------------------------------
-brew "awscli", link: true
-brew "awslogs"
-brew "aws-sso-cli"
-brew "aws-nuke"
-cask "session-manager-plugin"
-tap "lucagrulla/tap"
-brew "lucagrulla/tap/cw" # CloudWatch logs
-brew "cfn-lint"
+# brew "awscli", link: true
+# brew "awslogs"
+# brew "aws-sso-cli"
+# brew "aws-nuke"
+# cask "session-manager-plugin"
+# tap "lucagrulla/tap"
+# brew "lucagrulla/tap/cw" # CloudWatch logs
+# brew "cfn-lint"
 # ------------------------------------------------------------------------------
 brew "stylua"
 brew "yamllint"
 brew "codespell"
 brew "shellcheck"
 # ------------------------------------------------------------------------------
-brew "task"
-brew "timewarrior"
+# brew "task"
+# brew "timewarrior"
 # ------------------------------------------------------------------------------
 brew "scrcpy"
 cask "android-platform-tools"
 # ------------------------------------------------------------------------------
 brew "zk", args: ["HEAD"]
-cask "obsidian"
-cask "vscodium"
-cask "chromium"
-cask "keepingyouawake"
+# cask "obsidian"
+# cask "vscodium"
+# cask "chromium"
+# cask "keepingyouawake"
 
 # brew remove --force $(brew list --formula)
 # brew remove --cask --force $(brew list)
