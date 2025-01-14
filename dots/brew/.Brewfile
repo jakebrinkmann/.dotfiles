@@ -22,6 +22,7 @@ brew "zsh-autosuggestions"
 brew "powerlevel10k"
 brew "fortune"
 cask "alacritty"
+cask "spotify"
 brew "terminal-notifier" # for bgnotify on OSX
 # ------------------------------------------------------------------------------
 # tap "homebrew/cask-fonts"
