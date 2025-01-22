@@ -20,7 +20,10 @@ NONINTERACTIVE=1 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebre
 cd "$HOME/.dotfiles/dots" || exit
 stow --adopt -t ~ bash git nvim brew ripgrep python psql zsh bin ssh task jq alacritty act
 stow --adopt -t ~/.config/ vscode
-[[ "$OSTYPE" == "darwin"* ]] && stow -t ~/Library/Application\ Support vscode
+[[ "$OSTYPE" == "darwin"* ]] &&
+  stow -t ~/Library/Application\ Support vscode &&
+  defaults write com.apple.finder AppleShowAllFiles TRUE &&
+  defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerTapGesture -int 2
 
 cd "$HOME" || exit
 brew bundle --file ~/.Brewfile --file ~/.Brewfile-work
