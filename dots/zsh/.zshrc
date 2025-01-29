@@ -78,3 +78,6 @@ compdef __aws_sso_profile_complete aws-sso-profile
 complete -C /opt/homebrew/bin/aws-sso aws-sso
 
 # END_AWS_SSO_CLI
+export PATH=$PATH:"/opt/homebrew/opt/php@8.2/bin"
+export PATH=$PATH:"/opt/homebrew/opt/php@8.2/sbin"
+export PATH=$PATH:$HOME/.composer/vendor/bin

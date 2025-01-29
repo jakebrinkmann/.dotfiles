@@ -75,6 +75,7 @@ alias svn="svn --username=$SVN_USERNAME --password=$SVN_PASSWORD"
 # AWS/NodeJS
 alias aws:li="aws sso login"
 alias cdk="npx aws-cdk"
+alias suitecloud='npx @oracle/suitecloud-cli'
 alias yarn="npx yarn"
 alias prettier="npx prettier --single-quote --print-width 120 --write"
 

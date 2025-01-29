@@ -1,10 +1,13 @@
 # Don't let ripgrep vomit really long lines to my terminal, and show a preview.
---max-columns=150
+--max-columns=250
 
 # Search hidden files / directories (e.g. dotfiles) by default
 --hidden
 
 # Because who cares about case!?
 --smart-case
+
+# Don't ignore files in .gitignore
+--no-ignore
 
 # vim: set filetype=bash:

@@ -1,6 +1,6 @@
 {
   "azureResourceGroups.selectedSubscriptions": [],
-  "@azure.argTenant": "",
+  "@azure.argTenant": "9a81f46c-68a4-4f86-ae4c-896238e2a011",
   "git.autofetch": true,
   "editor.inlayHints.enabled": "offUnlessPressed",
   "editor.fontFamily": "Fira Code, Menlo, Monaco, 'Courier New', monospace",
@@ -10,5 +10,38 @@
   },
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "todohighlight.keywords": [
+    {
+      "text": "FIX:",
+      "color": "rgb(255, 0, 0)",
+      "backgroundColor": "rgba(255, 0, 0, 0.2)"
+    },
+    {
+      "text": "NOTE:",
+      "color": "rgb(0, 255, 0)",
+      "backgroundColor": "rgba(0, 255, 0, 0.2)"
+    },
+    {
+      "text": "TODO:",
+      "color": "rgb(255, 255, 255)",
+      "backgroundColor": "rgba(128, 0, 128, 0.5)"
+    },
+    {
+      "text": "XXX:",
+      "color": "rgb(255, 255, 0)",
+      "backgroundColor": "rgba(255, 255, 0, 0.2)"
+    }
+  ],
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.formatOnSave": false,
+  "editor.formatOnPaste": false,
+  "editor.formatOnSaveMode": "modificationsIfAvailable",
+  "editor.minimap.enabled": false,
+  "editor.unicodeHighlight.nonBasicASCII": false,
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
   }
 }

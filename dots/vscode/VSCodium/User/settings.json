@@ -104,4 +104,5 @@
   "files.associations": {
     "Pipfile": "ini"
   },
+  "security.workspace.trust.untrustedFiles": "open",
 }
