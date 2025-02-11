@@ -7,6 +7,13 @@ gitcmd="git clone --filter=blob:none"
 SRC=~/github.com/
 mkdir -p $SRC
 
+_gh_snag() {
+  set -x
+  if [ ! -d "$SRC/$1" ]; then
+    $gitcmd "git@github.com:$1.git" "$SRC/$1"
+  fi
+}
+
 _gh_sync_starred() {
   for x in $(gh api user/starred --paginate | jq -r '.[].full_name'); do
     if [ ! -d "$SRC/$x" ]; then
@@ -52,6 +59,10 @@ main() {
     ;;
   gists)
     _gh_sync_gists
+    ;;
+  snag)
+    shift
+    _gh_snag "$@"
     ;;
   *)
     echo "Usage:"

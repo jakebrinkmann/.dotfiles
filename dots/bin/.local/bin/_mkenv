@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-PYTHON="${PYTHON:-python3.9}"
+PYTHON="${PYTHON:-python3}"
 PREFIX="${PREFIX:-.venv}"
 
 DEV_DEPS='
@@ -27,7 +27,7 @@ DEV_DEPS='
         vulture=*
         '
 
-DEV_DEPS='
+POETRY_DEV_DEPS='
         black=*
         flake8=*
         isort=*
@@ -35,14 +35,23 @@ DEV_DEPS='
         pytest-cov=*
         pytest-mock=*
         '
+PIP_DEV_DEPS='
+        black
+        flake8
+        isort
+        pytest
+        pytest-cov
+        pytest-mock
+        '
 
 ##### Use Poetry
-if [ ! -z "$(poetry --version)" ]; then
+if false; then
+  # if [ ! -z "$(poetry --version)" ]; then
   if [ -f pyproject.toml ]; then
-    poetry install  --no-root || exit $?
+    poetry install --no-root || exit $?
   else
     poetry init --no-interaction || exit $?
-    poetry add --group dev $DEV_DEPS || exit $?
+    poetry add --group dev $POETRY_DEV_DEPS || exit $?
   fi
 
 ##### Use VirtualEnv and pip
@@ -50,12 +59,15 @@ else
   # Make a python virtualenv
   ${PYTHON} -m venv ${PREFIX}
   PATH=${PREFIX}:$PATH
-  # Install useful tools
-  ${PREFIX}/bin/${PYTHON} -m \
-      pip install $DEV_DEPS || exit $?
 
-  [[ -f requirements.txt ]] &&  \
-      ${PREFIX}/bin/${PYTHON} -m \
-          pip install -r requirements.txt || exit $?
+  if [ -f requirements.txt ]; then
+    ${PREFIX}/bin/${PYTHON} -m \
+      pip install -r requirements.txt || exit $?
+  else
+    # Install useful tools
+    ${PREFIX}/bin/${PYTHON} -m \
+      pip install $PIP_DEV_DEPS || exit $?
+    ${PREFIX}/bin/${PYTHON} -m \
+      pip freeze >requirements.txt
+  fi
 fi
-
