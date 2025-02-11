@@ -20,6 +20,9 @@ alias grep="grep --color=auto"
 alias m="find . \( ! -regex '.*/\..*' \) -printf '%T@ %Tc %p\n' | sort -n | tail -n 25"
 alias first="head -n1"
 
+# Always find everything
+alias fd='fd -HI'
+
 # flash red on bell
 alias bell="echo -e '\a'"
 alias wbell='for x in $(seq 1 60); do bell; sleep 1; done'
@@ -106,4 +109,4 @@ alias gpuc='ggpush -o ci.skip'
 
 # command that produces colors then paste into an application that supports rich text
 # (may need --color=always to work)
-alias pbcopy='ansifilter --rtf | pbcopy -Prefer rtf'
+# alias pbcopy='ansifilter --rtf | pbcopy -Prefer rtf'
