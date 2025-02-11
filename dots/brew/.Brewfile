@@ -24,6 +24,7 @@ brew "fortune"
 cask "alacritty"
 cask "spotify"
 brew "terminal-notifier" # for bgnotify on OSX
+brew "fswatch"
 # ------------------------------------------------------------------------------
 # tap "homebrew/cask-fonts"
 cask "font-fira-code"
