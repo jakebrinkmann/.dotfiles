@@ -41,7 +41,17 @@ __ci_run() {
   az pipelines run \
     --open \
     --name "$name" \
-    --branch "$branch"
+    --branch "$branch" \
+    | grep -v 'Opening in' \
+    | jq '{
+        buildNumber,
+        name: .definition.name,
+        project: .project.name,
+        requestedBy: .requestedBy.displayName,
+        sourceBranch,
+        status,
+        url
+      }'
 }
 
 __ci_status() {
