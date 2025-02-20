@@ -22,12 +22,21 @@ __pr_create() {
     --target-branch "$target_branch" \
     --title "$title" \
     --draft "true" \
-    --description "$description"
+    --description "$description" | jq '{
+      pullRequestId: .pullRequestId,
+      title: .title,
+      status: .status,
+      createdBy: .createdBy.displayName,
+      creationDate: .creationDate,
+      sourceBranch: .sourceRefName,
+      targetBranch: .targetRefName,
+      url: .url
+    }'
 }
 
 __ci_run() {
-  local name=${1:-$(basename $(pwd))}
-  local branch=${2:-$(git rev-parse --abbrev-ref HEAD)}
+  local branch=${1:-$(git rev-parse --abbrev-ref HEAD)}
+  local name=${2:-$(basename $(pwd))}
 
   az pipelines run \
     --open \
@@ -36,11 +45,11 @@ __ci_run() {
 }
 
 __ci_status() {
-  local name=${1:-$(basename $(pwd))}
-  local branch=${2:-$(git rev-parse --abbrev-ref HEAD)}
+  local branch=${1:-$(git rev-parse --abbrev-ref HEAD)}
+  local name=${2:-$(basename $(pwd))}
 
   az pipelines runs list \
-    --branch $(git rev-parse --abbrev-ref HEAD) \
+    --branch "$branch" \
     --query "[?repository.name=='$name']" \
     --top 1 | jq '.[0] | {
         buildNumber: .buildNumber,
@@ -73,8 +82,18 @@ __clone_all() {
   done <<<"$REPOS"
 }
 
-command="$1"
-shift
+list_commands() {
+  declare -F | awk '{print $3}' | grep '^__' | sed 's/^__//'
+}
+
+command="${1:-}"
+shift || true
+
+if [ -z "$command" ]; then
+  echo "No command provided. Available commands are:"
+  list_commands
+  exit 1
+fi
 
 case "$command" in
   setup)
@@ -93,7 +112,8 @@ case "$command" in
     __clone_all "$@"
     ;;
   *)
-    echo "Unknown command: $command"
+    echo "Unknown command: $command. Available commands are:"
+    list_commands
     exit 1
     ;;
 esac
