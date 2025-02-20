@@ -1,0 +1,99 @@
+# vim: set filetype=sh
+set -u
+
+__setup() {
+  az login --allow-no-subscriptions
+  az extension add --name azure-devops
+  az devops configure --defaults organization=https://dev.azure.com/$AZ_ORGANIZATION_NAME project=$AZ_PROJECT_NAME
+  ssh -T git@ssh.dev.azure.com
+}
+
+__pr_create() {
+  local repo_name=$(basename $(pwd))
+  local current_branch=$(git rev-parse --abbrev-ref HEAD)
+  local target_branch="main"
+  local title="$(git log -1 --pretty=%s)"
+  local description="$(git log -1 --pretty=%b)"
+
+  az repos pr create \
+    --open \
+    --repository "$repo_name" \
+    --source-branch "$current_branch" \
+    --target-branch "$target_branch" \
+    --title "$title" \
+    --draft "true" \
+    --description "$description"
+}
+
+__ci_run() {
+  local name=${1:-$(basename $(pwd))}
+  local branch=${2:-$(git rev-parse --abbrev-ref HEAD)}
+
+  az pipelines run \
+    --open \
+    --name "$name" \
+    --branch "$branch"
+}
+
+__ci_status() {
+  local name=${1:-$(basename $(pwd))}
+  local branch=${2:-$(git rev-parse --abbrev-ref HEAD)}
+
+  az pipelines runs list \
+    --branch $(git rev-parse --abbrev-ref HEAD) \
+    --query "[?repository.name=='$name']" \
+    --top 1 | jq '.[0] | {
+        buildNumber: .buildNumber,
+        status: .status,
+        result: .result,
+        sourceBranch: .sourceBranch,
+        startTime: .startTime,
+        finishTime: .finishTime,
+        requestedBy: .requestedBy.displayName,
+        repository: .repository.name,
+      }'
+}
+
+__clone_all() {
+  BASE_DIR="$HOME/dev.azure.com/${AZ_ORGANIZATION_NAME}/${AZ_PROJECT_NAME}"
+  mkdir -p $BASE_DIR
+
+  REPOS=$(az repos list --project $AZ_PROJECT_NAME --query "[].{name:name, sshUrl:sshUrl}" -o tsv)
+  while IFS=$'\t' read -r REPO_NAME SSH_URL; do
+    REPO_DIR="${BASE_DIR}/${REPO_NAME}"
+    mkdir -p "$REPO_DIR"
+
+    if [ ! -d "${REPO_DIR}/.git" ]; then
+      echo "Cloning $SSH_URL into $REPO_DIR..."
+      git clone "$SSH_URL" "$REPO_DIR"
+    else
+      echo "Repository $REPO_NAME already exists in $REPO_DIR. Fetching..."
+      (cd $REPO_DIR && git fetch origin)
+    fi
+  done <<<"$REPOS"
+}
+
+command="$1"
+shift
+
+case "$command" in
+  setup)
+    __setup "$@"
+    ;;
+  pr_create)
+    __pr_create "$@"
+    ;;
+  ci_run)
+    __ci_run "$@"
+    ;;
+  ci_status)
+    __ci_status "$@"
+    ;;
+  clone_all)
+    __clone_all "$@"
+    ;;
+  *)
+    echo "Unknown command: $command"
+    exit 1
+    ;;
+esac
