@@ -5,4 +5,5 @@ docker
 docker-compose
 zoom
 chromium
+google-chrome
 caffeinate

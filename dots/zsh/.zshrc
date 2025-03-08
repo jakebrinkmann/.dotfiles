@@ -81,3 +81,4 @@ complete -C /opt/homebrew/bin/aws-sso aws-sso
 export PATH=$PATH:"/opt/homebrew/opt/php@8.2/bin"
 export PATH=$PATH:"/opt/homebrew/opt/php@8.2/sbin"
 export PATH=$PATH:$HOME/.composer/vendor/bin
+export PATH="/opt/warden/bin:$PATH"
