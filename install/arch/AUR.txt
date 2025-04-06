@@ -7,3 +7,4 @@ zoom
 chromium
 google-chrome
 caffeinate
+minecraft-launcher
