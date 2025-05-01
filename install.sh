@@ -26,7 +26,7 @@ stow --adopt -t ~/.config/ vscode
   defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerTapGesture -int 2
 
 cd "$HOME" || exit
-brew bundle --file ~/.Brewfile --file ~/.Brewfile-work
+brew bundle --file ~/.Brewfile
 
 if grep -qE '^ID=(arch|manjaro)$' /etc/os-release; then
 
@@ -54,12 +54,12 @@ if grep -qE '^ID=(arch|manjaro)$' /etc/os-release; then
   sudo systemctl restart systemd-networkd
 
   ping thinkpad-t490s.local
+  echo '/home/linuxbrew/.linuxbrew/bin/zsh' | sudo tee -a /etc/shells >/dev/null &&
+    chsh -s /home/linuxbrew/.linuxbrew/bin/zsh
 else
-  xcode-select --install
+  xcode-select --install || true
 fi
 
-echo '/home/linuxbrew/.linuxbrew/bin/zsh' | sudo tee -a /etc/shells >/dev/null &&
-  chsh -s /home/linuxbrew/.linuxbrew/bin/zsh
 
 bob use stable &&
   nvim --version
