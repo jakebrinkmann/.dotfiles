@@ -121,9 +121,9 @@ cask "android-platform-tools"
 # ------------------------------------------------------------------------------
 brew "zk", args: ["HEAD"]
 # cask "obsidian"
-# cask "vscodium"
-# cask "chromium"
-# cask "keepingyouawake"
+cask "vscodium"
+cask "chromium"
+cask "keepingyouawake"
 
 # brew remove --force $(brew list --formula)
 # brew remove --cask --force $(brew list)
