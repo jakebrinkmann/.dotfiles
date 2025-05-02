@@ -60,6 +60,7 @@ else
   xcode-select --install || true
 fi
 
-
 bob use stable &&
   nvim --version
+nvm install --lts &&
+  node --version
