@@ -56,5 +56,134 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "security.workspace.trust.untrustedFiles": "open",
-  "redhat.telemetry.enabled": false
+  "redhat.telemetry.enabled": false,
+  "mssql.connectionGroups": [
+    {
+      "name": "ROOT",
+      "id": "E717B3CF-34E2-4AF3-BC2E-EDE5D1281C8A"
+    }
+  ],
+  "mssql.connections": [
+    {
+      "authenticationType": "SqlLogin",
+      "connectTimeout": 30,
+      "applicationName": "vscode-mssql",
+      "profileName": "localhost",
+      "server": "localhost",
+      "user": "sa",
+      "password": "",
+      "savePassword": true,
+      "database": "eforms-dev",
+      "trustServerCertificate": true,
+      "groupId": "E717B3CF-34E2-4AF3-BC2E-EDE5D1281C8A",
+      "id": "DEBB488A-493D-41AE-BF53-8D6DE08D5A77"
+    },
+    {
+      "authenticationType": "SqlLogin",
+      "connectTimeout": 30,
+      "applicationName": "vscode-mssql",
+      "applicationIntent": "ReadWrite",
+      "profileName": "localhost-api-dev",
+      "server": "localhost",
+      "trustServerCertificate": true,
+      "user": "sa",
+      "password": "",
+      "database": "api-dev",
+      "savePassword": true,
+      "groupId": "E717B3CF-34E2-4AF3-BC2E-EDE5D1281C8A",
+      "id": "77475CAE-6748-4738-8944-F04D48C8D21A"
+    },
+    {
+      "authenticationType": "SqlLogin",
+      "connectTimeout": 30,
+      "applicationName": "vscode-mssql",
+      "applicationIntent": "ReadWrite",
+      "profileName": "",
+      "server": "silencercentral-sql-production.database.windows.net",
+      "database": "sc-api",
+      "user": "sc-admin",
+      "password": "",
+      "savePassword": true,
+      "groupId": "E717B3CF-34E2-4AF3-BC2E-EDE5D1281C8A",
+      "id": "CACF01B0-F079-4DEB-8776-4B3E81CE2540",
+      "profileSource": 0
+    },
+    {
+      "authenticationType": "SqlLogin",
+      "connectTimeout": 30,
+      "applicationName": "vscode-mssql",
+      "server": "silencercentral-sql-production.database.windows.net",
+      "database": "eforms-staging",
+      "user": "eforms-user",
+      "password": "",
+      "savePassword": true,
+      "groupId": "E717B3CF-34E2-4AF3-BC2E-EDE5D1281C8A",
+      "id": "E123797B-DA2C-44E6-90B3-060A72F7D2CB",
+      "profileSource": 0
+    },
+    {
+      "authenticationType": "SqlLogin",
+      "connectTimeout": 30,
+      "applicationName": "vscode-mssql",
+      "profileName": "",
+      "server": "silencercentral-sql-stg.database.windows.net",
+      "database": "sc-api-stg",
+      "user": "sc-admin",
+      "password": "",
+      "savePassword": true,
+      "groupId": "E717B3CF-34E2-4AF3-BC2E-EDE5D1281C8A",
+      "id": "62F081FD-6871-481B-BFEC-5B091A3E04E5",
+      "profileSource": 0
+    },
+    {
+      "authenticationType": "SqlLogin",
+      "connectTimeout": 30,
+      "applicationName": "vscode-mssql",
+      "applicationIntent": "ReadWrite",
+      "profileName": "",
+      "server": "silencercentral-sql-production.database.windows.net",
+      "database": "eforms",
+      "user": "sc-admin",
+      "password": "",
+      "savePassword": true,
+      "groupId": "E717B3CF-34E2-4AF3-BC2E-EDE5D1281C8A",
+      "id": "7EDF1E86-0B1F-4442-8494-4FE60F581A3D",
+      "profileSource": 0
+    }
+  ],
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "plantuml.render": "Local",
+  "plantuml.server": "https://www.plantuml.com/plantuml",
+  // ls -l /opt/homebrew/Cellar/plantuml/*/libexec/plantuml.jar
+  "plantuml.jar": "/opt/homebrew/Cellar/plantuml/1.2025.7/libexec/plantuml.jar",
+  // ls -l /opt/homebrew/Cellar/openjdk/**/libexec/openjdk.jdk/Contents/Home/bin/java
+  "plantuml.java": "/opt/homebrew/Cellar/openjdk/25/libexec/openjdk.jdk/Contents/Home/bin/java",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "chat.editing.confirmEditRequestRemoval": false,
+  "geminicodeassist.project": "manifest-surge-ncz16",
+  "[dockercompose]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": false,
+      "strings": true
+    },
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[github-actions-workflow]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "geminicodeassist.displayInlineContextHint": false,
+  "diffEditor.codeLens": true,
+  "chat.tools.terminal.autoApprove": {
+    "npx": true
+  },
+  "playwright.reuseBrowser": false
 }

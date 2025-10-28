@@ -22,6 +22,7 @@ brew "powerlevel10k"
 brew "fortune"
 cask "alacritty"
 cask "spotify"
+cask "asana"
 brew "terminal-notifier" # for bgnotify on OSX
 brew "fswatch"
 # ------------------------------------------------------------------------------

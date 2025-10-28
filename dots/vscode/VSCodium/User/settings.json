@@ -105,4 +105,12 @@
     "Pipfile": "ini"
   },
   "security.workspace.trust.untrustedFiles": "open",
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "plantuml.render": "Local",
+  "plantuml.server": "https://www.plantuml.com/plantuml",
+  "plantuml.jar": "/opt/homebrew/Cellar/plantuml/1.2025.4/libexec/plantuml.jar",
+  // ls -l /opt/homebrew/Cellar/openjdk/**/libexec/openjdk.jdk/Contents/Home/bin/java
+  "plantuml.java": "/opt/homebrew/Cellar/openjdk/24.0.2/libexec/openjdk.jdk/Contents/Home/bin/java",
 }

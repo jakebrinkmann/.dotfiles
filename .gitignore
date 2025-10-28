@@ -5,3 +5,4 @@ dots/vim/.vim/plugged
 dots/bin/.local/
 dots/task/.timewarrior/data/
 **/.DS_Store
+**/vscode/VSCodium
