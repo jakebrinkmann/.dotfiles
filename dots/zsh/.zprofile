@@ -7,6 +7,7 @@ for file in ~/.{aliases,functions,path,exports,extra}; do
 	fi
 done
 unset file
+source ~/.dotfiles/dots/ai/ai.sh
 
 # if [ ! -f /tmp/fortune-$(date +%y%m%d%p) ]; then
 #   rm -rf "/tmp/fortune-*" &> /dev/null || true
