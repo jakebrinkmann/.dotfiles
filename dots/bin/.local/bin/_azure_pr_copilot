@@ -1,0 +1,163 @@
+#!/bin/bash
+
+# Description: Review open PRs in Azure DevOps repos, check feedback, compare branches, and print review suggestions.
+# Requirements: Azure CLI (az), jq, @github/copilot-cli
+
+# Set your Azure DevOps organization and project
+ORG="$AZ_ORGANIZATION_NAME"
+PROJECT="$AZ_PROJECT_NAME"
+DEV_BRANCH="dev"
+MAIN_BRANCH="main"
+
+GUIDELINES_FILE="$HOME/.copilot/CODE_REVIEW_GUIDELINES.md"
+REVIEW_GUIDELINES=""
+
+if [ -f "$GUIDELINES_FILE" ]; then
+  echo "Loading review guidelines from $GUIDELINES_FILE..."
+  REVIEW_GUIDELINES=$(cat "$GUIDELINES_FILE")
+else
+  echo "Warning: Review guidelines file not found at $GUIDELINES_FILE."
+  echo "Copilot will use the default prompt only."
+fi
+
+# List all open PRs
+open_prs=$(az repos pr list --organization "https://dev.azure.com/$ORG" --project "$PROJECT" --status active --output json)
+# Remove control characters from JSON to avoid jq parse errors
+open_prs_clean=$(echo "$open_prs" | perl -pe 's/[\x00-\x1F]//g')
+
+pr_count=$(echo "$open_prs_clean" | jq '. | length')
+if [ "$pr_count" -eq 0 ]; then
+  echo "No open pull requests found."
+  exit 0
+fi
+
+echo "Found $pr_count open pull requests."
+
+# Get all repos in the project
+repos=$(az repos list --organization "https://dev.azure.com/$ORG" --project "$PROJECT" --output tsv --query "[].name")
+
+# Use a temporary file to store PR metadata and list output
+PR_META_FILE=$(mktemp)
+PR_LIST_FILE=$(mktemp)
+
+for repo in $repos; do
+  if [ "$repo" = "$PROJECT" ]; then
+    continue
+  fi
+  prs=$(az repos pr list --organization "https://dev.azure.com/$ORG" --project "$PROJECT" --repository "$repo" --status active --output json)
+  pr_count_repo=$(echo "$prs" | jq '. | length')
+  for ((i = 0; i < pr_count_repo; i++)); do
+    pr_json=$(echo "$prs" | jq -c ".[$i]")
+    pr_id=$(echo "$pr_json" | jq -r '.pullRequestId')
+    pr_title=$(echo "$pr_json" | jq -r '.title')
+    pr_author=$(echo "$pr_json" | jq -r '.createdBy.displayName')
+    pr_source_branch=$(echo "$pr_json" | jq -r '.sourceRefName' | sed 's#refs/heads/##')
+    pr_target_branch=$(echo "$pr_json" | jq -r '.targetRefName' | sed 's#refs/heads/##')
+    pr_ui_url="https://dev.azure.com/$ORG/$PROJECT/_git/$repo/pullrequest/$pr_id"
+    REPO_DIR="$HOME/dev.azure.com/$ORG/$PROJECT/$repo"
+
+    # Get reviewer votes for this PR
+    pr_status="→"
+    reviewers_json=$(az repos pr reviewer list --organization "https://dev.azure.com/$ORG" --id "$pr_id" --output json 2>/dev/null)
+    vote=""
+    if [ -n "$reviewers_json" ] && [ "$reviewers_json" != "[]" ]; then
+      vote=$(echo "$reviewers_json" | jq -r '.[].vote' | sort -n | tail -n1)
+      case "$vote" in
+      10) pr_status="✅" ;;
+      5) pr_status="🔵" ;;
+      -10) pr_status="🆘" ;;
+      -5) pr_status="🟨" ;;
+      0 | "") pr_status="→" ;;
+      esac
+    fi
+
+    # Write PR meta info and list output to files
+    echo "$repo|$pr_id|$pr_title|$pr_author|$pr_source_branch|$pr_target_branch|$pr_ui_url|$REPO_DIR|$pr_status" >>"$PR_META_FILE"
+    echo "$pr_status|$repo|$pr_id|$pr_title|$pr_author|$pr_ui_url" >>"$PR_LIST_FILE"
+  done
+done
+
+# List all PRs up front
+echo -e "\nOpen Pull Requests:"
+echo -e "Status | Repo | PR ID | Title | Author | URL"
+cat "$PR_LIST_FILE"
+
+# Prompt user for PRs to review
+echo "Enter PRs to review as repo|PRID (comma-separated, e.g. repo1|123,repo2|456):"
+read -p "PRs to review: " pr_selection </dev/tty
+
+IFS=',' read -ra selected_prs <<<"$pr_selection"
+for pr_key in "${selected_prs[@]}"; do
+  repo="${pr_key%%|*}"
+  pr_id="${pr_key##*|}"
+  # Find the matching PR meta line from the file
+  meta_line=$(grep "^$repo|$pr_id|" "$PR_META_FILE")
+  if [ -z "$meta_line" ]; then
+    echo "Skipping invalid selection: $pr_key"
+    continue
+  fi
+
+  pr_title="$(echo "$meta_line" | cut -d'|' -f3)"
+  pr_author="$(echo "$meta_line" | cut -d'|' -f4)"
+  pr_source_branch="$(echo "$meta_line" | cut -d'|' -f5)"
+  pr_target_branch="$(echo "$meta_line" | cut -d'|' -f6)"
+  pr_ui_url="$(echo "$meta_line" | cut -d'|' -f7)"
+  REPO_DIR="$(echo "$meta_line" | cut -d'|' -f8)"
+  pr_status="$(echo "$meta_line" | cut -d'|' -f9)"
+
+  echo -e "\nReviewing PR #$pr_id in $repo: $pr_title (Author: $pr_author)"
+  echo "    PR URL: $pr_ui_url"
+  echo "    Status: $pr_status"
+
+  echo -e "\nReviewing PR #$pr_id in $repo: $pr_title (Author: $pr_author)"
+  echo "    PR URL: $pr_ui_url"
+  pushd "$REPO_DIR" >/dev/null
+  git fetch origin --prune &>/dev/null
+  git checkout "$pr_target_branch" &>/dev/null
+  git pull origin "$pr_target_branch" &>/dev/null
+  git checkout "$pr_source_branch" &>/dev/null
+  git pull origin "$pr_source_branch" &>/dev/null
+
+  while true; do
+    echo "    Do you want to run a Copilot code review for this PR?"
+    read -p "    [n/y/...]: " user_input </dev/tty
+    if [ "$user_input" = "n" ]; then
+      echo "    Skipping Copilot review for this PR."
+      break
+    elif [ "$user_input" = "y" ] || [ -n "$user_input" ]; then
+      local_prompt=""
+      if [ "$user_input" = "y" ]; then
+        local_prompt="Please act as a senior code reviewer. Review the code changes on the current branch ('$pr_source_branch') by comparing it against the '$pr_target_branch' branch. Look for potential bugs, logical errors, bad practices, or style issues."
+      else
+        local_prompt="$user_input"
+      fi
+      PROMPT=$(
+        cat <<EOF
+Here are my code review guidelines. You MUST follow them strictly.
+--- GUIDELINES START ---
+$REVIEW_GUIDELINES
+--- GUIDELINES END ---
+
+Now, using ONLY those guidelines, please review the code.
+
+My specific request is:
+$local_prompt
+EOF
+      )
+      echo "    Asking Copilot to review diff between $pr_source_branch and $pr_target_branch..."
+      FEEDBACK=$(copilot -p "$PROMPT" --allow-tool 'shell(git)' 2>/dev/null)
+      echo "    --- FEEDBACK ---"
+      echo "$FEEDBACK"
+      echo "    --- END FEEDBACK ---"
+      break
+    else
+      echo "    Input cannot be blank. Please enter 'y', 'n', or a custom prompt."
+    fi
+  done
+  echo ""
+  git checkout "$pr_target_branch"
+  popd >/dev/null
+done
+
+echo "Review script finished."
+

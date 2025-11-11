@@ -1,3 +1,7 @@
 {
-    "geminicodeassist.project": "manifest-surge-ncz16"
+    "geminicodeassist.project": "manifest-surge-ncz16",
+    "geminicodeassist.displayInlineContextHint": false,
+    "[markdown]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
 }

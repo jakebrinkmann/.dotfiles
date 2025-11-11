@@ -1,0 +1,23 @@
+{
+  "banner": "never",
+  "last_logged_in_user": {
+    "host": "https://github.com",
+    "login": "jbrinkmann-sc"
+  },
+  "logged_in_users": [
+    {
+      "host": "https://github.com",
+      "login": "jbrinkmann-sc"
+    }
+  ],
+  "render_markdown": true,
+  "screen_reader": false,
+  "theme": "auto",
+  "trusted_folders": [
+    "/Users/jakebrinkmann/dev.azure.com/silencercentral/technology",
+    "/Users/jakebrinkmann/.dotfiles"
+  ],
+  "asked_setup_terminals": [
+    "vscode"
+  ]
+}
