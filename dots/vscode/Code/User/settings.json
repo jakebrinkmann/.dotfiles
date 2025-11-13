@@ -3,5 +3,9 @@
     "geminicodeassist.displayInlineContextHint": false,
     "[markdown]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "git.blame.editorDecoration.enabled": true,
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     }
 }
