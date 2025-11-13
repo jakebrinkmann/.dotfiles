@@ -72,7 +72,6 @@ You will follow this workflow for every task.
     * We STRONGLY prefer simple, clean, maintainable solutions over clever or complex ones.
     * You MUST WORK HARD to reduce code duplication.
     * You MUST MATCH the style and formatting of surrounding code.
-    * If a patch is not applied correctly, attempt to reapply it.
 * **Naming:**
     * Names MUST tell what code does, not how it's implemented or its history.
     * NEVER use implementation details in names (e.g., `ZodValidator`, `MCPWrapper`).
