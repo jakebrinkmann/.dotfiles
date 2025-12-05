@@ -2,6 +2,7 @@
 
 # Description: Review open PRs in Azure DevOps repos, check feedback, compare branches, and print review suggestions.
 # Requirements: Azure CLI (az), jq, @github/copilot-cli
+COPILOT_MODEL="claude-haiku-4.5"
 
 # Set your Azure DevOps organization and project
 ORG="$AZ_ORGANIZATION_NAME"
@@ -113,10 +114,8 @@ for pr_key in "${selected_prs[@]}"; do
   echo "    PR URL: $pr_ui_url"
   pushd "$REPO_DIR" >/dev/null
   git fetch origin --prune &>/dev/null
-  git checkout "$pr_target_branch" &>/dev/null
-  git pull origin "$pr_target_branch" &>/dev/null
-  git checkout "$pr_source_branch" &>/dev/null
-  git pull origin "$pr_source_branch" &>/dev/null
+  git checkout "origin/$pr_target_branch" -B "$pr_target_branch" &>/dev/null
+  git checkout "origin/$pr_source_branch" -B "$pr_source_branch" &>/dev/null
 
   while true; do
     echo "    Do you want to run a Copilot code review for this PR?"
@@ -145,7 +144,7 @@ $local_prompt
 EOF
       )
       echo "    Asking Copilot to review diff between $pr_source_branch and $pr_target_branch..."
-      FEEDBACK=$(copilot -p "$PROMPT" --allow-tool 'shell(git)' 2>/dev/null)
+      FEEDBACK=$(copilot --model $COPILOT_MODEL -p "$PROMPT" --allow-tool 'shell(git)' 2>/dev/null)
       echo "    --- FEEDBACK ---"
       echo "$FEEDBACK"
       echo "    --- END FEEDBACK ---"
@@ -160,4 +159,3 @@ EOF
 done
 
 echo "Review script finished."
-

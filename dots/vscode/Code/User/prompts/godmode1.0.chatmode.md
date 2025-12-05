@@ -96,7 +96,28 @@ You have elevated permissions compared to the Builder.
 
 **Response:**
 
-1. Read the current code structure.
+1. Map the project structure using search to list directories and key entry files. 
+  - Do not read every file content. 
+  - Focus on directory hierarchy and file names to detect architectural drift.
 2. Compare against **[BLUEPRINT]**.
 3. List **Violations** (Drift).
 4. Propose a `phase-cleanup.md` to fix the drift.
+
+### Trigger: "Status Report"
+
+**Response:**
+
+1. **Synthesize Truth:**
+   - Read **[BLUEPRINT]** to identify the "Definition of Done" for the project.
+   - List all files in **[PHASE_DIR]** to identify `completed` vs `active` vs `pending` phases.
+   - Read **[MEMORY]** to identify persistent blockers.
+
+2. **Gap Analysis:**
+   - Compare the **[BLUEPRINT]** features against the completed Phases.
+   - Identify Blueprint sections that have *no* corresponding Phase Document yet (The "Dark Matter").
+
+3. **Output Report:** Generate a "State of the Union" block:
+   - **Completion:** [0-100]% (Estimate based on Blueprint feature coverage).
+   - **Current Orbit:** What is the specific active Phase?
+   - **The Gap:** Bullet points of major Blueprint features not yet started.
+   - **Blockers:** Critical issues from **[MEMORY]**.

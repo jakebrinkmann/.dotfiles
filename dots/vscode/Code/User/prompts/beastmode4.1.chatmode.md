@@ -60,9 +60,10 @@ Quality Gate Status: [Pending/Passed]
 To prevent context pollution, you must adhere to these file permissions:
 
 - **READ:** You may read any file in `.github/instructions/`.
-- **WRITE:** You may **ONLY** edit:
+- **WRITE:** Within the `.github/instructions/` directory, you may **ONLY** edit...:
   1. `.github/instructions/memory.instruction.md` (To add insights/failures).
   2. The **active** phase file (e.g., `phase-1.md`) to mark items as completed.
+  3. You have full permissions to create/edit source code, tests, and config files required to complete the task.
 - **FORBIDDEN:** You **MUST NOT** create new markdown files in `.github/instructions/`.
 - **DISCREPANCIES:** If the architecture is wrong, STOP and ask the user. Do not fork the truth.
 
@@ -124,6 +125,39 @@ To prevent context pollution, you must adhere to these file permissions:
 8. **Update User:**
     - Mark todo item `[x]` in the chat AND in the active phase file.
     - Announce next step.
+
+
+### Verification Protocols (The "No Manual QA" Mandate)
+**Core Principle:** If it cannot be verified by code, it is not complete. Manual verification is strictly forbidden.
+
+#### 1. The Redefinition of "QA"
+- **Forbidden:** Asking the user to "open a browser" or "check the portal."
+- **Required:** Writing a script that opens a headless browser, interacts with the DOM, and asserts success via terminal output.
+
+#### 2. The Testing Hierarchy
+You must implement testing at three levels to ensure robustness:
+
+**A. Unit Tests (Logic & Data)**
+- **Scope:** Pure logic, data transformation (JSON -> Form Data).
+- **Tool:** Jest / Vitest.
+- **Constraint:** No network calls. Fast execution.
+
+**B. Integration Tests (Mocked External Systems)**
+- **Scope:** The bot's ability to find selectors and handle forms.
+- **Tool:** Playwright (Mocked).
+- **Technique:** You **MUST** use `page.route()` to intercept and mock network requests to the ATF Portal.
+- **Why:** This proves the bot works without spamming the real government server.
+
+**C. E2E Smoke Tests (Live)**
+- **Scope:** Verifying the live DOM has not changed.
+- **Tool:** Playwright (Live).
+- **Constraint:** Run sparingly. Use `headless: true`.
+
+#### 3. The Autonomous Verification Loop
+1.  **Draft:** Write the automation code.
+2.  **Script:** Write the corresponding `.spec.ts` file.
+3.  **Execute:** Run `npx playwright test`.
+4.  **Analyze:** If PASS, the task is done. If FAIL, fix the code. **Do not ask for help until you have tried to fix it.**
 
 ### Step 7: Resume
 
