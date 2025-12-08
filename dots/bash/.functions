@@ -3,18 +3,27 @@
 replaceIp() {
   local filename="$1"
   IPADDR=$(ifconfig -l | xargs -n1 ipconfig getifaddr)
-  [ "1" -ne "$(wc -l <<< "$IPADDR")" ] && echo "TOO MANY INTERNET CONNECTIONS!" && return 1
+  [ "1" -ne "$(wc -l <<<"$IPADDR")" ] && echo "TOO MANY INTERNET CONNECTIONS!" && return 1
   sed -i '' 's/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/'"$IPADDR"'/g' "$filename"
 }
 
 # Flash the screen after 25mins (1500s)
 pomo() {
-  sleep 1500; for x in $(seq 1 60); do printf '\a'; sleep 1; done
+  sleep 1500
+  for x in $(seq 1 60); do
+    printf '\a'
+    sleep 1
+  done
 }
 
 # Flash the screen after 5mins (300s)
 mikado() {
-  sleep 300; say ${1:-done}; for x in $(seq 1 60); do printf '\a'; sleep 1; done
+  sleep 300
+  say ${1:-done}
+  for x in $(seq 1 60); do
+    printf '\a'
+    sleep 1
+  done
 }
 
 # Cheatsheet
@@ -33,12 +42,57 @@ __fonts() {
   fc-list : family | sort -f
 }
 
-
 __wait_port() {
   URI="http://localhost:${1:-8080}"
   echo "$URI"
   until (curl --output /dev/null --silent --head --fail "$URI"); do
-      printf '.'
-      sleep 5
+    printf '.'
+    sleep 5
   done
+}
+
+# ==========================================================
+#  GOD MODE: THE ARCHITECT
+#  - Model: Claude Opus 4.5 (Best for reasoning/planning)
+#  - Permissions: READ ONLY. Can read files/search, but CANNOT edit code or run shell commands.
+# ==========================================================
+function _ai_architect() {
+  # _ai_architect "Review the current architecture.md and generate a phase-3-auth.md plan."
+
+  # 1. Set the Architect Model
+  local COPILOT_MODEL=claude-sonnet-4.5
+
+  # 2. Load the Architect Persona
+  local GOD_PROMPT=$(cat ~/Library/Application\ Support/Code/User/prompts/godmode1.0.chatmode.md)
+
+  # 3. Execute in 'Plan Only' mode
+  #    --deny-tool "edit" prevents file changes.
+  #    --deny-tool "shell" prevents running commands.
+  copilot \
+    --model $COPILOT_MODEL \
+    --prompt "$GOD_PROMPT \n\n CURRENT OBJECTIVE: $@" \
+    --deny-tool "edit" \
+    --deny-tool "shell"
+}
+
+# ==========================================================
+#  BEAST MODE: THE BUILDER
+#  - Model: GPT-5.1-Codex-Max (Best for syntax/TDD loops)
+#  - Permissions: FULL AUTONOMY. Can edit files and run tests.
+# ==========================================================
+function _ai_builder() {
+  # _ai_builder "Execute the plan in phase-3-auth.md. Start with the login form."
+
+  # 1. Set the Builder Model
+  local COPILOT_MODEL=gpt-5
+
+  # 2. Load the Builder Persona
+  local BEAST_PROMPT=$(cat ~/Library/Application\ Support/Code/User/prompts/beastmode4.1.chatmode.md)
+
+  # 3. Execute in 'Agent' mode
+  #    --allow-all-tools lets it loop red/green without nagging you.
+  copilot \
+    --model $COPILOT_MODEL \
+    --prompt "$BEAST_PROMPT \n\n CURRENT TASK: $@" \
+    --allow-all-tools
 }

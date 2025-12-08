@@ -9,7 +9,12 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "chat.tools.terminal.autoApprove": {
-        "mkdir": true
+        "curl": true,
+        "az": true,
+        "mkdir": true,
+        "find": true,
+        "grep": true,
+        "bash": true,
     },
     "[javascript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
