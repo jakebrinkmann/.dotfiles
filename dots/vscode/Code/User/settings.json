@@ -15,6 +15,10 @@
         "find": true,
         "grep": true,
         "bash": true,
+        "git": true,
+        "true": true,
+        "npm": true,
+        "npx": true
     },
     "[javascript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -23,5 +27,8 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "github.copilot.nextEditSuggestions.enabled": true,
-    "explorer.confirmDragAndDrop": false
+    "explorer.confirmDragAndDrop": false,
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
 }

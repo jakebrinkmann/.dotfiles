@@ -15,8 +15,7 @@
   "screen_reader": false,
   "theme": "auto",
   "trusted_folders": [
-    "/Users/jakebrinkmann/dev.azure.com/silencercentral/technology",
-    "/Users/jakebrinkmann/.dotfiles"
+    "/Users/jakebrinkmann/"
   ],
   "asked_setup_terminals": [
     "vscode"
