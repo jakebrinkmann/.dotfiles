@@ -10,15 +10,10 @@ PROJECT="$AZ_PROJECT_NAME"
 DEV_BRANCH="dev"
 MAIN_BRANCH="main"
 
-GUIDELINES_FILE="$HOME/.copilot/CODE_REVIEW_GUIDELINES.md"
-REVIEW_GUIDELINES=""
-
-if [ -f "$GUIDELINES_FILE" ]; then
-  echo "Loading review guidelines from $GUIDELINES_FILE..."
-  REVIEW_GUIDELINES=$(cat "$GUIDELINES_FILE")
-else
-  echo "Warning: Review guidelines file not found at $GUIDELINES_FILE."
-  echo "Copilot will use the default prompt only."
+GUIDELINES_FILE="$COPILOT_CUSTOM_INSTRUCTIONS_DIRS/pull-request-reviewer.agent.md"
+if [ ! -f "$GUIDELINES_FILE" ]; then
+  echo "Error: Review guidelines file not found at $GUIDELINES_FILE."
+  exit 1
 fi
 
 # List all open PRs
@@ -126,19 +121,14 @@ for pr_key in "${selected_prs[@]}"; do
     elif [ "$user_input" = "y" ] || [ -n "$user_input" ]; then
       local_prompt=""
       if [ "$user_input" = "y" ]; then
-        local_prompt="Please act as a senior code reviewer. Review the code changes on the current branch ('$pr_source_branch') by comparing it against the '$pr_target_branch' branch. Look for potential bugs, logical errors, bad practices, or style issues."
+        local_prompt="Review the code changes on the current branch ('$pr_source_branch') by comparing it against the '$pr_target_branch' branch."
       else
         local_prompt="$user_input"
       fi
       PROMPT=$(
         cat <<EOF
-Here are my code review guidelines. You MUST follow them strictly.
---- GUIDELINES START ---
-$REVIEW_GUIDELINES
---- GUIDELINES END ---
-
-Now, using ONLY those guidelines, please review the code.
-
+Use code review guidelines from $GUIDELINES_FILE. You MUST follow them strictly.
+Using ONLY those guidelines, please review the code.
 My specific request is:
 $local_prompt
 EOF

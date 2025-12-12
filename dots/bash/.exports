@@ -18,6 +18,9 @@ export GIT_AUTHOR_NAME="Jake Brinkmann"
 export GIT_AUTHOR_EMAIL=$EMAIL
 export GIT_COMMITTER_EMAIL=$EMAIL
 
+# Configure github copilot CLI
+export COPILOT_CUSTOM_INSTRUCTIONS_DIRS="$HOME/Library/Application Support/Code/User/prompts/"
+
 ### NOT NEEDED WITH WSL 2
 #### # To connect from WSL to Docker4windows Daemon
 #### # (requires exposing daemon over tcp without TLS...)
