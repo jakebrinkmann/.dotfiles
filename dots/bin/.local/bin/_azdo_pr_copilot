@@ -134,10 +134,14 @@ $local_prompt
 EOF
       )
       echo "    Asking Copilot to review diff between $pr_source_branch and $pr_target_branch..."
-      FEEDBACK=$(copilot --model $COPILOT_MODEL -p "$PROMPT" --allow-tool 'shell(git)' 2>/dev/null)
-      echo "    --- FEEDBACK ---"
+      FEEDBACK=$(copilot --allow-all-paths --allow-tool 'shell(git)' --model $COPILOT_MODEL -p "$PROMPT")
+      BLUE='\033[0;34m'
+      NC='\033[0m'
+
+      # Print the block
+      echo -e "${BLUE}    --- FEEDBACK ---"
       echo "$FEEDBACK"
-      echo "    --- END FEEDBACK ---"
+      echo -e "    --- END FEEDBACK ---${NC}"
       break
     else
       echo "    Input cannot be blank. Please enter 'y', 'n', or a custom prompt."
