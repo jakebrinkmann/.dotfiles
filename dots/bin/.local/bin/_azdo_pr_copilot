@@ -2,6 +2,7 @@
 
 # Description: Review open PRs in Azure DevOps repos, check feedback, compare branches, and print review suggestions.
 # Requirements: Azure CLI (az), jq, @github/copilot-cli
+# Usage: _azdo_pr_copilot [repo1|pr_id1,repo2|pr_id2,...]
 COPILOT_MODEL="claude-haiku-4.5"
 
 # Set your Azure DevOps organization and project
@@ -16,35 +17,110 @@ if [ ! -f "$GUIDELINES_FILE" ]; then
   exit 1
 fi
 
-# List all open PRs
-open_prs=$(az repos pr list --organization "https://dev.azure.com/$ORG" --project "$PROJECT" --status active --output json)
-# Remove control characters from JSON to avoid jq parse errors
-open_prs_clean=$(echo "$open_prs" | perl -pe 's/[\x00-\x1F]//g')
+# Check if PR selection is provided as command-line argument
+if [ -n "$1" ]; then
+  # Use command-line argument directly
+  pr_selection="$1"
+  echo "Using provided PR selection: $pr_selection"
+else
+  # List all open PRs
+  open_prs=$(az repos pr list --organization "https://dev.azure.com/$ORG" --project "$PROJECT" --status active --output json)
+  # Remove control characters from JSON to avoid jq parse errors
+  open_prs_clean=$(echo "$open_prs" | perl -pe 's/[\x00-\x1F]//g')
 
-pr_count=$(echo "$open_prs_clean" | jq '. | length')
-if [ "$pr_count" -eq 0 ]; then
-  echo "No open pull requests found."
-  exit 0
+  pr_count=$(echo "$open_prs_clean" | jq '. | length')
+  if [ "$pr_count" -eq 0 ]; then
+    echo "No open pull requests found."
+    exit 0
+  fi
+
+  echo "Found $pr_count open pull requests."
+
+  # Get all repos in the project
+  repos=$(az repos list --organization "https://dev.azure.com/$ORG" --project "$PROJECT" --output tsv --query "[].name")
+
+  # Use a temporary file to store PR metadata and list output
+  PR_META_FILE=$(mktemp)
+  PR_LIST_FILE=$(mktemp)
+
+  for repo in $repos; do
+    if [ "$repo" = "$PROJECT" ]; then
+      continue
+    fi
+    prs=$(az repos pr list --organization "https://dev.azure.com/$ORG" --project "$PROJECT" --repository "$repo" --status active --output json)
+    pr_count_repo=$(echo "$prs" | jq '. | length')
+    for ((i = 0; i < pr_count_repo; i++)); do
+      pr_json=$(echo "$prs" | jq -c ".[$i]")
+      pr_id=$(echo "$pr_json" | jq -r '.pullRequestId')
+      pr_title=$(echo "$pr_json" | jq -r '.title')
+      pr_author=$(echo "$pr_json" | jq -r '.createdBy.displayName')
+      pr_source_branch=$(echo "$pr_json" | jq -r '.sourceRefName' | sed 's#refs/heads/##')
+      pr_target_branch=$(echo "$pr_json" | jq -r '.targetRefName' | sed 's#refs/heads/##')
+      pr_ui_url="https://dev.azure.com/$ORG/$PROJECT/_git/$repo/pullrequest/$pr_id"
+      REPO_DIR="$HOME/dev.azure.com/$ORG/$PROJECT/$repo"
+
+      # Get reviewer votes for this PR
+      pr_status="→"
+      reviewers_json=$(az repos pr reviewer list --organization "https://dev.azure.com/$ORG" --id "$pr_id" --output json 2>/dev/null)
+      vote=""
+      if [ -n "$reviewers_json" ] && [ "$reviewers_json" != "[]" ]; then
+        vote=$(echo "$reviewers_json" | jq -r '.[].vote' | sort -n | tail -n1)
+        case "$vote" in
+        10) pr_status="✅" ;;
+        5) pr_status="🔵" ;;
+        -10) pr_status="🆘" ;;
+        -5) pr_status="🟨" ;;
+        0 | "") pr_status="→" ;;
+        esac
+      fi
+
+      # Write PR meta info and list output to files
+      echo "$repo|$pr_id|$pr_title|$pr_author|$pr_source_branch|$pr_target_branch|$pr_ui_url|$REPO_DIR|$pr_status" >>"$PR_META_FILE"
+      echo "$pr_status|$repo|$pr_id|$pr_title|$pr_author|$pr_ui_url" >>"$PR_LIST_FILE"
+    done
+  done
+
+  # List all PRs up front
+  echo -e "\nOpen Pull Requests:"
+  echo -e "Status | Repo | PR ID | Title | Author | URL"
+  cat "$PR_LIST_FILE"
+
+  # Prompt user for PRs to review
+  echo "Enter PRs to review as repo|PRID (comma-separated, e.g. repo1|123,repo2|456):"
+  read -p "PRs to review: " pr_selection </dev/tty
 fi
 
-echo "Found $pr_count open pull requests."
+IFS=',' read -ra selected_prs <<<"$pr_selection"
+for pr_key in "${selected_prs[@]}"; do
+  repo="${pr_key%%|*}"
+  pr_id="${pr_key##*|}"
 
-# Get all repos in the project
-repos=$(az repos list --organization "https://dev.azure.com/$ORG" --project "$PROJECT" --output tsv --query "[].name")
+  # If PR meta file exists (interactive mode), use it
+  if [ -n "$PR_META_FILE" ] && [ -f "$PR_META_FILE" ]; then
+    # Find the matching PR meta line from the file
+    meta_line=$(grep "^$repo|$pr_id|" "$PR_META_FILE")
+    if [ -z "$meta_line" ]; then
+      echo "Skipping invalid selection: $pr_key"
+      continue
+    fi
 
-# Use a temporary file to store PR metadata and list output
-PR_META_FILE=$(mktemp)
-PR_LIST_FILE=$(mktemp)
+    pr_title="$(echo "$meta_line" | cut -d'|' -f3)"
+    pr_author="$(echo "$meta_line" | cut -d'|' -f4)"
+    pr_source_branch="$(echo "$meta_line" | cut -d'|' -f5)"
+    pr_target_branch="$(echo "$meta_line" | cut -d'|' -f6)"
+    pr_ui_url="$(echo "$meta_line" | cut -d'|' -f7)"
+    REPO_DIR="$(echo "$meta_line" | cut -d'|' -f8)"
+    pr_status="$(echo "$meta_line" | cut -d'|' -f9)"
+  else
+    # Fetch PR details directly from Azure DevOps (command-line mode)
+    echo "Fetching details for PR #$pr_id in $repo..."
+    pr_json=$(az repos pr show --organization "https://dev.azure.com/$ORG" --id "$pr_id" --output json 2>/dev/null)
 
-for repo in $repos; do
-  if [ "$repo" = "$PROJECT" ]; then
-    continue
-  fi
-  prs=$(az repos pr list --organization "https://dev.azure.com/$ORG" --project "$PROJECT" --repository "$repo" --status active --output json)
-  pr_count_repo=$(echo "$prs" | jq '. | length')
-  for ((i = 0; i < pr_count_repo; i++)); do
-    pr_json=$(echo "$prs" | jq -c ".[$i]")
-    pr_id=$(echo "$pr_json" | jq -r '.pullRequestId')
+    if [ -z "$pr_json" ] || [ "$pr_json" = "null" ]; then
+      echo "Error: Could not fetch PR #$pr_id. Skipping."
+      continue
+    fi
+
     pr_title=$(echo "$pr_json" | jq -r '.title')
     pr_author=$(echo "$pr_json" | jq -r '.createdBy.displayName')
     pr_source_branch=$(echo "$pr_json" | jq -r '.sourceRefName' | sed 's#refs/heads/##')
@@ -52,10 +128,9 @@ for repo in $repos; do
     pr_ui_url="https://dev.azure.com/$ORG/$PROJECT/_git/$repo/pullrequest/$pr_id"
     REPO_DIR="$HOME/dev.azure.com/$ORG/$PROJECT/$repo"
 
-    # Get reviewer votes for this PR
+    # Get reviewer votes
     pr_status="→"
     reviewers_json=$(az repos pr reviewer list --organization "https://dev.azure.com/$ORG" --id "$pr_id" --output json 2>/dev/null)
-    vote=""
     if [ -n "$reviewers_json" ] && [ "$reviewers_json" != "[]" ]; then
       vote=$(echo "$reviewers_json" | jq -r '.[].vote' | sort -n | tail -n1)
       case "$vote" in
@@ -66,40 +141,7 @@ for repo in $repos; do
       0 | "") pr_status="→" ;;
       esac
     fi
-
-    # Write PR meta info and list output to files
-    echo "$repo|$pr_id|$pr_title|$pr_author|$pr_source_branch|$pr_target_branch|$pr_ui_url|$REPO_DIR|$pr_status" >>"$PR_META_FILE"
-    echo "$pr_status|$repo|$pr_id|$pr_title|$pr_author|$pr_ui_url" >>"$PR_LIST_FILE"
-  done
-done
-
-# List all PRs up front
-echo -e "\nOpen Pull Requests:"
-echo -e "Status | Repo | PR ID | Title | Author | URL"
-cat "$PR_LIST_FILE"
-
-# Prompt user for PRs to review
-echo "Enter PRs to review as repo|PRID (comma-separated, e.g. repo1|123,repo2|456):"
-read -p "PRs to review: " pr_selection </dev/tty
-
-IFS=',' read -ra selected_prs <<<"$pr_selection"
-for pr_key in "${selected_prs[@]}"; do
-  repo="${pr_key%%|*}"
-  pr_id="${pr_key##*|}"
-  # Find the matching PR meta line from the file
-  meta_line=$(grep "^$repo|$pr_id|" "$PR_META_FILE")
-  if [ -z "$meta_line" ]; then
-    echo "Skipping invalid selection: $pr_key"
-    continue
   fi
-
-  pr_title="$(echo "$meta_line" | cut -d'|' -f3)"
-  pr_author="$(echo "$meta_line" | cut -d'|' -f4)"
-  pr_source_branch="$(echo "$meta_line" | cut -d'|' -f5)"
-  pr_target_branch="$(echo "$meta_line" | cut -d'|' -f6)"
-  pr_ui_url="$(echo "$meta_line" | cut -d'|' -f7)"
-  REPO_DIR="$(echo "$meta_line" | cut -d'|' -f8)"
-  pr_status="$(echo "$meta_line" | cut -d'|' -f9)"
 
   echo -e "\nReviewing PR #$pr_id in $repo: $pr_title (Author: $pr_author)"
   echo "    PR URL: $pr_ui_url"
