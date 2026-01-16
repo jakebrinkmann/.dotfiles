@@ -176,7 +176,7 @@ $local_prompt
 EOF
       )
       echo "    Asking Copilot to review diff between $pr_source_branch and $pr_target_branch..."
-      FEEDBACK=$(copilot --allow-all-paths --allow-tool 'shell(git)' --model $COPILOT_MODEL -p "$PROMPT")
+      FEEDBACK=$(copilot --allow-all-paths --allow-all-tools --model $COPILOT_MODEL -p "$PROMPT")
       BLUE='\033[0;34m'
       NC='\033[0m'
 
