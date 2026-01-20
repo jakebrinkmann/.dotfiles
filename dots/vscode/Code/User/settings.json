@@ -31,5 +31,16 @@
     "[json]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "workbench.iconTheme": "material-icon-theme"
+    "workbench.iconTheme": "material-icon-theme",
+    "[yaml]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "diffEditor.ignoreTrimWhitespace": false,
+    "chat.viewSessions.orientation": "stacked",
+    // PlantUML configuration'
+    // ls /opt/homebrew/Cellar/plantuml/*/libexec/plantuml.jar
+    // ls /opt/homebrew/Cellar/openjdk/**/libexec/openjdk.jdk/Contents/Home/bin/java
+    "plantuml.render": "Local",
+    "plantuml.jar": "/opt/homebrew/Cellar/plantuml/1.2025.9/libexec/plantuml.jar",
+    "plantuml.java": "/opt/homebrew/Cellar/openjdk/25.0.1/libexec/openjdk.jdk/Contents/Home/bin/java"
 }
