@@ -110,7 +110,7 @@
   },
   "plantuml.render": "Local",
   "plantuml.server": "https://www.plantuml.com/plantuml",
-  "plantuml.jar": "/opt/homebrew/Cellar/plantuml/1.2025.4/libexec/plantuml.jar",
+  "plantuml.jar": "/opt/homebrew/Cellar/plantuml/1.2025.9/libexec/plantuml.jar",
   // ls -l /opt/homebrew/Cellar/openjdk/**/libexec/openjdk.jdk/Contents/Home/bin/java
-  "plantuml.java": "/opt/homebrew/Cellar/openjdk/24.0.2/libexec/openjdk.jdk/Contents/Home/bin/java",
+  "plantuml.java": "/opt/homebrew/Cellar/openjdk/25.0.1/libexec/openjdk.jdk/Contents/Home/bin/java",
 }
