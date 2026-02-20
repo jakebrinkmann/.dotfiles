@@ -92,18 +92,54 @@ __clone_all() {
   done <<<"$REPOS"
 }
 
-list_commands() {
-  declare -F | awk '{print $3}' | grep '^__' | sed 's/^__//'
+__pull_main() {
+  local target_repo="${1:-.}"
+  local BASE_DIR="$HOME/dev.azure.com/${AZ_ORGANIZATION_NAME}/${AZ_PROJECT_NAME}"
+  local REPO_DIR="$BASE_DIR/$target_repo"
+
+  if [ ! -d "$REPO_DIR/.git" ]; then
+    echo "Error: Repository not found at $REPO_DIR"
+    return 1
+  fi
+
+  echo "Pulling main from $target_repo..."
+  (cd "$REPO_DIR" && git switch main && git pull) || {
+    echo "Error: Failed to pull main from $target_repo"
+    return 1
+  }
+  echo "Successfully pulled main from $target_repo"
 }
 
-command="${1:-}"
-shift || true
+__pull_main_all() {
+  local BASE_DIR="$HOME/dev.azure.com/${AZ_ORGANIZATION_NAME}/${AZ_PROJECT_NAME}"
 
-if [ -z "$command" ]; then
-  echo "No command provided. Available commands are:"
-  list_commands
+  if [ ! -d "$BASE_DIR" ]; then
+    echo "Error: Base directory not found at $BASE_DIR"
+    return 1
+  fi
+
+  echo "Pulling main from all repositories..."
+  for REPO_DIR in "$BASE_DIR"/*; do
+    if [ -d "$REPO_DIR/.git" ]; then
+      local REPO_NAME=$(basename "$REPO_DIR")
+      echo ""
+      echo "=== $REPO_NAME ==="
+      (cd "$REPO_DIR" && git switch main && git pull) || {
+        echo "Warning: Failed to pull main from $REPO_NAME"
+      }
+    fi
+  done
+  echo ""
+  echo "Finished pulling main from all repositories"
+}
+
+if [ $# -lt 1 ]; then
+  echo "Usage: _azure <command> [options]"
   exit 1
 fi
+
+command="$1"
+shift
 
 case "$command" in
   setup)
@@ -121,9 +157,14 @@ case "$command" in
   clone_all)
     __clone_all "$@"
     ;;
+  pull_main)
+    __pull_main "$@"
+    ;;
+  pull_main_all)
+    __pull_main_all "$@"
+    ;;
   *)
-    echo "Unknown command: $command. Available commands are:"
-    list_commands
+    echo "Unknown command: $command"
     exit 1
     ;;
 esac
