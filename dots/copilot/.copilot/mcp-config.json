@@ -1,0 +1,29 @@
+{
+  "mcpServers": {
+    "azure-cloud": {
+      "type": "local",
+      "command": "npx",
+      "tools": [
+        "*"
+      ],
+      "args": [
+        "-y",
+        "@azure/mcp@latest",
+        "server",
+        "start"
+      ]
+    },
+    "azure-devops": {
+      "type": "local",
+      "command": "npx",
+      "tools": [
+        "*"
+      ],
+      "args": [
+        "-y",
+        "@azure-devops/mcp",
+        "silencercentral"
+      ]
+    }
+  }
+}

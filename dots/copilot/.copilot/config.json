@@ -10,7 +10,6 @@
       "login": "jbrinkmann-sc"
     }
   ],
-  "model": "claude-sonnet-4.5",
   "render_markdown": true,
   "screen_reader": false,
   "theme": "auto",
@@ -19,5 +18,8 @@
   ],
   "asked_setup_terminals": [
     "vscode"
-  ]
+  ],
+  "firstLaunchAt": "2026-03-11T00:00:00.000Z",
+  "model": "claude-sonnet-4.6",
+  "reasoning_effort": "high"
 }
