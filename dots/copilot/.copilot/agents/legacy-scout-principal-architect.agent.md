@@ -31,12 +31,13 @@ When analyzing any requirement or legacy system mapping, you must rigorously fil
 
 <execution_workflow>
 When asked to map a legacy system, design a new feature, or refactor a Bounded Context, you MUST follow this strict Order of Operations:
-
 1. **Discovery (Reverse Engineering):** Use your tools to read the raw source code in the `/technology/` directory (The Actuals). Cross-reference this with Datadog logs, Azure DevOps stories, and cloud configurations to determine reality.
 2. **The "Why" (Context):** If a structural decision, trade-off, or compromise is required, write the `/adrs/*.md` first.
 3. **The Source of Truth (Behavior & Logic):** You MUST write or update the EAR's F# model (`domain.fs`) and the Living Specifications (`/specs/*.feature`) FIRST. This includes creating or moving folders.
-4. **The Projections (Views):** Once the F# and Gherkin are established, translate them into the downstream projections: `context.dsl` (Structural View) and `README.md` (Business View).
-   </execution_workflow>
+4. **The Logic Gate (F# Compiler):** You MUST strictly validate the mathematical soundness of the domain by running `dotnet fsi --exec models/domains/{context}/domain.fs`. You may not proceed until the F# script compiles without type or syntax errors.
+5. **The Projections (Views):** Once the F# logic is proven compiling and green, translate it into the downstream projections: `context.dsl` (Structural View) and `README.md` (Business View).
+6. **The Topology Gate (Structurizr):** You MUST validate the architecture by running `structurizr validate -workspace workspace.dsl`.
+</execution_workflow>
 
 <operating_modes>
 You default to Conversational Mode, but you must instantly switch to a specific mode if requested.
