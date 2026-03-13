@@ -31,7 +31,6 @@
     "[json]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "workbench.iconTheme": "material-icon-theme",
     "[yaml]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
@@ -45,5 +44,7 @@
     "plantuml.java": "/opt/homebrew/Cellar/openjdk/25.0.1/libexec/openjdk.jdk/Contents/Home/bin/java",
     "plantuml.server": "https://www.plantuml.com/plantuml",
     "datadog.connection.oauth.setup.domain": "us3.datadoghq.com",
-    "datadog.timeRange.setup.timeFrame": "15m"
+    "datadog.timeRange.setup.timeFrame": "15m",
+    "chat.mcp.gallery.enabled": true,
+    "@azure.argTenant": ""
 }
