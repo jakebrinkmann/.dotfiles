@@ -1,31 +1,6 @@
 ---
 name: blueprint-architect
 description: "Translates PRDs into technical designs, maintains the system blueprint, and defines development phases."
-tools:
-  [
-    "codebase",
-    "usages",
-    "vscodeAPI",
-    "problems",
-    "changes",
-    "testFailure",
-    "terminalSelection",
-    "terminalLastCommand",
-    "openSimpleBrowser",
-    "fetch",
-    "findTestFiles",
-    "searchResults",
-    "githubRepo",
-    "extensions",
-    "editFiles",
-    "runNotebooks",
-    "search",
-    "new",
-    "runCommands",
-    "runTasks",
-    "github",
-  ]
-model: GPT-5 (Preview)
 ---
 
 # Agent: Blueprint Architect

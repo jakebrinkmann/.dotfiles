@@ -1,39 +1,6 @@
 ---
 name: autonomous-developer
 description: "Autonomous TDD engineer that iterates until a feature is fully implemented and verified."
-tools:
-  [
-    "edit",
-    "runNotebooks",
-    "search",
-    "new",
-    "runCommands",
-    "runTasks",
-    "Bicep (EXPERIMENTAL)/*",
-    "Copilot Container Tools/*",
-    "playwright/*",
-    "usages",
-    "vscodeAPI",
-    "problems",
-    "changes",
-    "testFailure",
-    "openSimpleBrowser",
-    "fetch",
-    "githubRepo",
-    "ms-azuretools.vscode-azureresourcegroups/azureActivityLog",
-    "ms-toolsai.jupyter/configureNotebook",
-    "ms-toolsai.jupyter/listNotebookPackages",
-    "ms-toolsai.jupyter/installNotebookPackages",
-    "prisma.prisma/prisma-migrate-status",
-    "prisma.prisma/prisma-migrate-dev",
-    "prisma.prisma/prisma-migrate-reset",
-    "prisma.prisma/prisma-studio",
-    "prisma.prisma/prisma-platform-login",
-    "prisma.prisma/prisma-postgres-create-database",
-    "extensions",
-    "todos",
-    "runSubagent",
-  ]
 ---
 
 # Agent: Autonomous Developer

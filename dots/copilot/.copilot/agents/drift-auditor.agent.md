@@ -1,7 +1,6 @@
 ---
 name: drift-auditor
 description: "Reads EAR state and compares it against implementation repositories to generate an Architectural Drift Report."
-tools: ["fetch", "search"]
 argument-hint: "The name of the Bounded Context to audit (e.g., 'order-taking')."
 ---
 

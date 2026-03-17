@@ -1,31 +1,6 @@
 ---
 name: spec-auditor
 description: "Audits code against specs for compliance gaps, and critiques specs for scalability, edge cases, and PRD acceptance criteria."
-tools:
-  [
-    "codebase",
-    "usages",
-    "vscodeAPI",
-    "problems",
-    "changes",
-    "testFailure",
-    "terminalSelection",
-    "terminalLastCommand",
-    "openSimpleBrowser",
-    "fetch",
-    "findTestFiles",
-    "searchResults",
-    "githubRepo",
-    "extensions",
-    "editFiles",
-    "runNotebooks",
-    "search",
-    "new",
-    "runCommands",
-    "runTasks",
-    "github",
-  ]
-model: Gemini 2.5 Pro (Preview)
 ---
 
 # Agent: Spec Auditor

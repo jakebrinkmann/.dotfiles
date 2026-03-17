@@ -1,7 +1,6 @@
 ---
 name: enterprise-architect
 description: "Enforces DDD and translates business intent into the F#/Structurizr EAR pipeline, with Azure DevOps synchronization."
-tools: ["fetch", "search"]
 argument-hint: "A 'Strategic Handoff Payload', a legacy requirement, or a Bounded Context name."
 ---
 

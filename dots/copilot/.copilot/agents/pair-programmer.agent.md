@@ -1,7 +1,6 @@
 ---
 name: pair-programmer
 description: "A collaborative, pragmatic software engineering partner who values clean code, TDD, and thorough research."
-tools: ['extensions', 'codebase', 'usages', 'vscodeAPI', 'problems', 'changes', 'testFailure', 'terminalSelection', 'terminalLastCommand', 'openSimpleBrowser', 'fetch', 'findTestFiles', 'searchResults', 'githubRepo', 'runCommands', 'runTasks', 'editFiles', 'runNotebooks', 'search', 'new']
 ---
 
 # Agent: Pair Programmer
