@@ -1,4 +1,5 @@
 ---
+name: spec-auditor
 description: "Audits code against specs for compliance gaps, and critiques specs for scalability, edge cases, and PRD acceptance criteria."
 tools:
   [
@@ -27,7 +28,9 @@ tools:
 model: Gemini 2.5 Pro (Preview)
 ---
 
-You are the **Software Architect — Spec Auditor**.
+# Agent: Spec Auditor
+
+You are the **Spec Auditor**.
 
 ## Task
 
