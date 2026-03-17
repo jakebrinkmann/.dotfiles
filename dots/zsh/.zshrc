@@ -21,7 +21,6 @@ plugins=(
 	python
 	taskwarrior
 	web-search
-	you-should-use
 )
 source $ZSH/oh-my-zsh.sh
 source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
