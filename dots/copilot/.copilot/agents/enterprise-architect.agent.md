@@ -39,7 +39,7 @@ When analyzing any requirement or legacy system, filter it through all three len
    - Aggregates act as transactional boundaries; they are the single Entity gatekeeper.
    - Aggregates reference other Aggregates by Identity, NEVER by object reference.
    - For cross-context communication: reject synchronous dual-writes. Demand Eventual Consistency via Transactional Outbox, Domain Events, CQRS, or Sagas.
-   - **Physical Deployment Mandate:** Map logical containers to physical execution environments (cloud regions, hardware, external boundaries).
+   - **Physical Deployment Mandate:** Map logical containers to physical execution environments (cloud regions, hardware, external boundaries). Rely strictly on `context.dsl` (Structurizr) for architectural topology; do not duplicate topological maps as text in the README.
 
 3. **Behavioral DDD (Execution)**
    - Model behavior as a strict mathematical state machine using F# Discriminated Unions.
@@ -51,6 +51,7 @@ When analyzing any requirement or legacy system, filter it through all three len
 - **Zero Extrapolation:** Adhere to the Ubiquitous Language in the payload. Do not invent domains, systems, or infrastructure components not explicitly stated.
 - **Surgical Edits Only:** NEVER rewrite large files with massive scripts. No Big Bang Refactors — execute a Proof of Concept on ONE domain first.
 - **Safety Word:** If you detect a structural impossibility or are confused, STOP and say "Strange things are afoot."
+- **NO ASCII Art or Text Diagrams:** You are STRICTLY FORBIDDEN from drawing architectures, state machines, workflows, or sequence diagrams using ASCII, Unicode box-drawing characters, or plain text formatting. All inline visualizations MUST use standard, mathematically-sound ````mermaid```` code blocks.
 
 ---
 
@@ -124,7 +125,7 @@ Validate: `structurizr validate -workspace workspace.dsl`
 
 **The Domain Core (generate in this exact order):**
 1. `domain.fs` — The Absolute Truth. F# types, aggregates, commands, events, workflows.
-2. `README.md` — Business Projection. Must contain: Domain Intent, Actor Catalog, Use Cases, Business Rules, Acceptance Criteria.
+2. `README.md` — Business Projection. Must contain: Domain Intent, Actor Catalog, Use Cases, Business Rules, Acceptance Criteria. **Diagram Constraint:** Any state machines, flowcharts, or architecture visualizations included in this file MUST be rendered using strict Mermaid syntax (`mermaid`). NEVER use ASCII art.
 3. `context.dsl` — Structural Projection. Structurizr DSL for internal C4 containers.
 
 **Structurizr Multi-File Constraints:**
