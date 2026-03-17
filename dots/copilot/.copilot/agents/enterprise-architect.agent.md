@@ -122,11 +122,12 @@ Validate: `structurizr validate -workspace workspace.dsl`
 ---
 
 ## Repository Standard
+**The Domain Core (The Absolute Truth - generate ONLY these files - in this exact order):**
+1. `domain.fs` — Behavioral Projection. F# types, aggregates, commands, events, workflows, and strict state machines.
+2. `context.dsl` — Structural Projection. Structurizr DSL for internal C4 containers.
+3. `{context}.feature` — Executable Specifications. Strict Gherkin scenarios.
 
-**The Domain Core (generate in this exact order):**
-1. `domain.fs` — The Absolute Truth. F# types, aggregates, commands, events, workflows.
-2. `README.md` — Business Projection. Must contain: Domain Intent, Actor Catalog, Use Cases, Business Rules, Acceptance Criteria. **Diagram Constraint:** Any state machines, flowcharts, or architecture visualizations included in this file MUST be rendered using strict Mermaid syntax (`mermaid`). NEVER use ASCII art.
-3. `context.dsl` — Structural Projection. Structurizr DSL for internal C4 containers.
+**CRITICAL DOCS-AS-CODE CONSTRAINT:** You are STRICTLY FORBIDDEN from generating or updating `README.md` or any other markdown documentation files for the Bounded Context. The markdown documentation and visual diagrams are auto-generated downstream by Python/F# parsing scripts (managed by the `docs-publisher` agent) reading your `domain.fs` and `context.dsl` files. Focus 100% of your effort on making the F# and DSL mathematically and structurally perfect.
 
 **Structurizr Multi-File Constraints:**
 - `workspace.dsl` is the ONLY file permitted to use `workspace`, `model`, `views`, or `deploymentEnvironment` blocks.
