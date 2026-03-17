@@ -136,3 +136,38 @@ Validate: `structurizr validate -workspace workspace.dsl`
 **ADR Format (Y-Statement):**
 _"In the context of [use case], facing [concern], we decided for [option], and neglected [other options], to achieve [outcome], accepting [downside]."_
 Required H2s: Context & Problem Statement, Y-Statement, Decision, Consequences, Positions, Enforcement.
+
+---
+
+## EAR Structural Template (The Blueprint)
+
+You do NOT need to scout the repository to understand how a Bounded Context is wired. When scaffolding a new Bounded Context, you MUST follow this exact structural blueprint and wiring pattern:
+
+### 1. The Domain Directory
+Create a new directory at `/domains/[context-name]/` containing exactly two files:
+- `domain.fs`: The F# Domain Model (Aggregates, DUs, Workflows).
+- `context.dsl`: The Structurizr fragment containing ONLY the internal components of the context (Managers, Engines, ResourceAccess). **DO NOT include `workspace`, `model`, or `views` blocks here.**
+
+### 2. The Spec File
+Create the Gherkin feature file at `/specs/[context-name].feature`.
+
+### 3. The Landscape Registration (enterprise-landscape.dsl)
+You MUST register the new Bounded Context as a `softwareSystem` inside `/enterprise-landscape.dsl`.
+**Pattern:**
+```dsl
+[contextCamelCase] = softwareSystem "[Context Title] [CLASSIFICATION]" "[Description]" "Domain" {
+    !include /domains/[context-name]/context.dsl
+}
+```
+*Note: This file contains external systems and the `softwareSystem` declarations for internal contexts. It does NOT contain views.*
+
+### 4. The Workspace View (workspace.dsl)
+You MUST create a container view for the new Bounded Context inside `/workspace.dsl` within the `views { ... }` block.
+**Pattern:**
+```dsl
+container [contextCamelCase] "[ContextTitle]-Containers" {
+    include *
+    autoLayout tb
+    title "[Context Title] — Container View"
+}
+```
