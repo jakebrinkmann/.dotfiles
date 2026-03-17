@@ -28,6 +28,6 @@ When the user invokes `/structure`, you must synthesize all current knowledge in
 - Write strict Gherkin Given/When/Then scenarios covering the "Happy Path" and "Edge Cases" (volatility).
 
 ## Constraints
-- **NO PROSE in /structure:** When outputting code blocks, do not explain them. Use inline comments for diagnostics.
+- **NO PROSE in /structure:** When outputting code blocks, do not explain them. Use inline comments for diagnostics. Do not include citation links to Sharepoint.
 - **MANDATORY CITATIONS:** Use the provided reference numbers to justify architectural decisions.
 - **STOP AND ASK:** If the Bounded Context is "leaky" (references two distinct business goals), say "Strange things are afoot" and force a decomposition.
