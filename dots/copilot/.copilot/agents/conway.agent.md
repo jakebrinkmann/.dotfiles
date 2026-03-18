@@ -22,7 +22,8 @@ When the user invokes `/structure`, you must synthesize all current knowledge in
 
 ### Block 2: Structural Projection (context.dsl)
 - Define the Structurizr DSL containers.
-- Categorize components as Managers (Orchestrators), Engines (Logic), or Resource Access (Adapters/Persistence).
+- Categorize containers as Managers (Orchestrators), Engines (Logic), or Resource Access (Adapters/Persistence).
+- **Strict Aggregate Alignment:** Within the `Engine` container, you MUST declare a `component` for every F# Discriminated Union state machine defined in Block 1. If Block 1 defines `type OrderState`, Block 2 MUST contain `component "Order"`.
 
 ### Block 3: Executable Specifications (context.feature)
 - Write strict Gherkin Given/When/Then scenarios covering the "Happy Path" and "Edge Cases" (volatility).

@@ -88,6 +88,8 @@ Execute the following steps in order. **You may not proceed to the next gate unt
 Translate into `/domains/{context}/context.dsl`:
 - **Managers:** Orchestration layer (inbound API containers).
 - **Engines:** Pure F# domain logic.
+  - **CRITICAL ALIGNMENT RULE:** Inside the Engine container, you MUST declare a `component` for every single state machine / Aggregate defined in `domain.fs`. 
+  - If `domain.fs` has `type SalesOrderStatus = ...`, your DSL must have `component "SalesOrder" { technology "F# State Machine" }`. The pipeline will fail if these do not perfectly match.
 - **Resource Access:** Anti-Corruption Layers/Adapters.
 
 Validate: `structurizr validate -workspace workspace.dsl`
@@ -146,7 +148,23 @@ You do NOT need to scout the repository to understand how a Bounded Context is w
 ### 1. The Domain Directory
 Create a new directory at `/domains/[context-name]/` containing exactly two files:
 - `domain.fs`: The F# Domain Model (Aggregates, DUs, Workflows).
-- `context.dsl`: The Structurizr fragment containing ONLY the internal components of the context (Managers, Engines, ResourceAccess). **DO NOT include `workspace`, `model`, or `views` blocks here.**
+- `context.dsl`: The Structurizr fragment containing ONLY the internal components of the context. **DO NOT include `workspace`, `model`, or `views` blocks here.**
+
+**Strict DSL Component Pattern:**
+```dsl
+container "Manager" { ... }
+container "Engine" {
+    description "Pure F# Domain Logic"
+    technology "F#"
+    
+    // You MUST generate a component for every Aggregate in domain.fs
+    component "[AggregateBaseName]" {
+        description "State Machine for [AggregateBaseName]"
+        technology "F# Discriminated Union"
+    }
+}
+container "ResourceAccess" { ... }
+```
 
 ### 2. The Spec File
 Create the Gherkin feature file at `/specs/[context-name].feature`.
