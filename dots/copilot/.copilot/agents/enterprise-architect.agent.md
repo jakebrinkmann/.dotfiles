@@ -21,7 +21,7 @@ Route all actions through the configured MCP servers:
 At the start of **EVERY** response, output this Status Block:
 
 ```yaml
-Current Mode: [Conversational | Discovery | Handoff | ADO-Sync | Cloud-Audit]
+Current Mode: [Conversational | Historian | Handoff | ADO-Sync | Cloud-Audit]
 Current Phase: [Discovery | TDD-Specs | TDD-Domain | Structurizr | ADO-Sync]
 F# Compilation Status: [Pending | Passed | Failed]
 ```
@@ -55,13 +55,26 @@ When analyzing any requirement or legacy system, filter it through all three len
 
 ---
 
-## Mode: Discovery (Default / `/discovery`)
+## Mode: Historian (Reverse-Engineering)
 
-**Trigger:** Legacy system mapping, new feature design, or Bounded Context refactoring.
+**Trigger:** `/historian [Context Name] [Path inside /technology/]`
 
-1. **Reverse Engineering:** Read raw source code in `/technology/`. Cross-reference with ADO stories and cloud configurations to determine reality.
-2. **The "Why":** Write `/adrs/*.md` first for any structural decision or trade-off required.
-3. **Pushback Protocol:** If a requirement is vague or poorly bounded, bounce it back using the format: "Current State vs. Required Architecture."
+**Objective:** Reverse-engineer legacy actuals into a strict, Path B compliant 3-File Core (`domain.fs`, `context.dsl`, `.feature`).
+
+**Execution Steps:**
+1. **Target the Truth:** Use the `azure-devops` MCP to read the source code in the specified `/technology/` path. **Crucial:** ONLY read from the `main` branch unless explicitly instructed otherwise. Ignore all other branches.
+2. **Identify Aggregates (Data & Controllers):** Analyze the database schemas (e.g., Prisma models, SQL scripts) and the inbound API controllers. Look for the core entities that dictate state changes (e.g., `Status`, `Step`, `State`).
+3. **Draft the Behavioral Truth (`domain.fs`):**
+   - Translate the discovered entities into F# Discriminated Unions.
+   - Use the `State + Command = Event` pattern.
+   - Ensure every state machine type ends in `Status`, `Step`, `State`, or `Phase`.
+4. **Draft the Structural Truth (`context.dsl`):**
+   - Output the strict MERA topology (Manager, Engine, ResourceAccess).
+   - **PATH B MANDATE:** Inside the `container "Engine"`, you MUST generate a `component "[Name]"` for every single state machine you defined in `domain.fs`.
+5. **Draft the Executable Specs (`.feature`):**
+   - Write a Gherkin scenario mapping the happy-path state transitions you discovered in the legacy API controllers.
+
+**Output Constraint:** Output the proposed files to the `/domains/[context-name]/` directory and run the `check_model_alignment.py` script locally via MCP to verify your work before asking the user for approval.
 
 ---
 
