@@ -11,7 +11,7 @@
 # brew bundle cleanup --force
 
 # set arguments for all "brew install --cask" commands
-cask_args appdir: "/Applications", no_quarantine: true
+cask_args appdir: "/Applications"
 
 # ---------------------------------------------------------------------------------------------------
 tap "buo/cask-upgrade"
