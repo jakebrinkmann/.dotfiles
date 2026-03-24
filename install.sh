@@ -4,9 +4,10 @@ sudo whoami
 set -eoux
 
 # https://brew.sh/
-NONINTERACTIVE=1 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" &&
-  (eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" || eval "$(/opt/homebrew/bin/brew shellenv)") &&
-  brew install stow
+NONINTERACTIVE=1 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" || true
+eval "$(/opt/homebrew/bin/brew shellenv)" || true
+brew install stow
 
 # https://ohmyz.sh/
 [ ! -e ~/.oh-my-zsh ] &&
