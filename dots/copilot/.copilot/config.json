@@ -21,5 +21,5 @@
   ],
   "firstLaunchAt": "2026-03-11T00:00:00.000Z",
   "model": "claude-sonnet-4.6",
-  "reasoning_effort": "high"
+  "effortLevel": "high"
 }

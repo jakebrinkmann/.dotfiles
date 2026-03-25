@@ -65,6 +65,11 @@ __clone_all() {
   REPOS=$(az repos list --project $AZ_PROJECT_NAME --query "[].{name:name, sshUrl:sshUrl}" -o tsv)
   while IFS=$'\t' read -r REPO_NAME SSH_URL; do
     REPO_DIR="${BASE_DIR}/${REPO_NAME}"
+    # FIXME: this is only for one project...
+    if [ "$REPO_NAME" == "technology" ]; then
+      REPO_DIR+=".wiki"
+      SSH_URL+=".wiki"
+    fi
     mkdir -p "$REPO_DIR"
 
     if [ ! -d "${REPO_DIR}/.git" ]; then
