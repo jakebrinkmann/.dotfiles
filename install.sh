@@ -3,6 +3,15 @@ sudo whoami
 
 set -eoux
 
+confirm() {
+  local msg="$1" default="${2:-Y}"
+  local prompt
+  [[ "$default" == "Y" ]] && prompt="[Y/n]" || prompt="[y/N]"
+  read -r -p "  --> $msg $prompt " response
+  response="${response:-$default}"
+  [[ "$response" =~ ^[Yy]$ ]]
+}
+
 # https://brew.sh/
 NONINTERACTIVE=1 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" || true
@@ -28,6 +37,12 @@ stow --adopt -t ~/.config/ vscode
 
 cd "$HOME" || exit
 brew bundle --file ~/.Brewfile
+
+confirm "Install global Python packages (virtualenv, pip, strip-tags)?" && \
+  bash ~/.dotfiles/install/brew-python.sh
+
+confirm "Install AWS tooling (awscli, sam, cfn-lint)?" "n" && \
+  bash ~/.dotfiles/install/brew-aws.sh
 
 if grep -qE '^ID=(arch|manjaro)$' /etc/os-release; then
 
@@ -61,7 +76,9 @@ else
   xcode-select --install || true
 fi
 
-bob use stable &&
+confirm "Set up Neovim via bob?" && \
+  bob use stable && \
   nvim --version
-nvm install --lts &&
+confirm "Install Node.js LTS via nvm?" && \
+  nvm install --lts && \
   node --version

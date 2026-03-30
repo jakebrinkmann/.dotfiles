@@ -7,7 +7,7 @@ brew upgrade python
 python3 --version
 
 # Install Python environment manager.
-pip3 install --upgrade virtualenv pip wheel setuptools
+pip3 install --upgrade virtualenv pip wheel setuptools strip-tags
 echo "VirtualEnv Version: $(virtualenv --version)"
 
 #### NOTE:
