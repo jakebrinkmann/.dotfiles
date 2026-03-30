@@ -6,8 +6,10 @@ brew upgrade python
 # Do I have a Python 3 installed?
 python3 --version
 
-# Install Python environment manager.
-pip3 install --upgrade virtualenv pip wheel setuptools strip-tags
+# Install Python CLI tools via pipx (installed via Brewfile)
+pipx ensurepath
+pipx install virtualenv
+pipx install strip-tags
 echo "VirtualEnv Version: $(virtualenv --version)"
 
 #### NOTE:

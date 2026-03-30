@@ -92,6 +92,7 @@ cask "docker-desktop"
 # brew "postgresql@14"
 # brew "libpq"
 #brew "pyenv" # python version manager
+brew "pipx"
 # brew "uv"
 # brew "poetry"
 # brew "ruff"
