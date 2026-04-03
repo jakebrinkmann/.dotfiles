@@ -10,8 +10,8 @@
       "login": "jbrinkmann-sc"
     }
   ],
-  "render_markdown": true,
-  "screen_reader": false,
+  "renderMarkdown": true,
+  "screenReader": false,
   "theme": "auto",
   "trusted_folders": [
     "/Users/jakebrinkmann/"

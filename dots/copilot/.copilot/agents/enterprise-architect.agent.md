@@ -147,6 +147,7 @@ Validate: `structurizr validate -workspace workspace.dsl`
 **Structurizr Multi-File Constraints:**
 - `workspace.dsl` is the ONLY file permitted to use `workspace`, `model`, `views`, or `deploymentEnvironment` blocks.
 - All other `.dsl` files must be pure structural fragments without wrappers.
+- **View Title Standard:** All `title` values in `workspace.dsl` MUST follow `"[Canonical Name] — [Level Prefix]-[Type]"` (e.g., `"Order Management — 1-System Context"`, `"Order Management — 2-Container View"`). See EAR Structural Template §4 for the full level table.
 
 **ADR Format (Y-Statement):**
 _"In the context of [use case], facing [concern], we decided for [option], and neglected [other options], to achieve [outcome], accepting [downside]."_
@@ -193,13 +194,40 @@ You MUST register the new Bounded Context as a `softwareSystem` inside `/enterpr
 *Note: This file contains external systems and the `softwareSystem` declarations for internal contexts. It does NOT contain views.*
 
 ### 4. The Workspace View (workspace.dsl)
-You MUST create a container view for the new Bounded Context inside `/workspace.dsl` within the `views { ... }` block.
+You MUST create views for the new Bounded Context inside `/workspace.dsl` within the `views { ... }` block.
+
+**C4 View Title Standard (MANDATORY):**
+All view `title` values MUST follow this exact pattern:
+```
+[Canonical Name] — [C4 Level Prefix]-[View Type]
+```
+Where the C4 level prefix and view type are locked to this table:
+
+| Structurizr keyword | Required title suffix |
+|---|---|
+| `systemLandscape` | (no suffix — use `— System Landscape`) |
+| `systemContext` | `— 1-System Context` |
+| `container` | `— 2-Container View` |
+| `component` | `— 3-Component View` |
+| (code/dynamic) | `— 4-Code` |
+
+**Rules:**
+- The **Canonical Name** MUST match the display name of the `softwareSystem` as declared in `enterprise-landscape.dsl` (strip the `[CLASSIFICATION]` tag).
+- Extra context (scout source, phase labels, implementation notes) belongs in `description`, NEVER in `title`.
+- The `[ContextTitle]-Containers` view key suffix convention is unchanged.
+
 **Pattern:**
 ```dsl
+systemContext [contextCamelCase] "[ContextTitle]-Context" {
+    include *
+    autoLayout lr
+    title "[Context Title] — 1-System Context"
+}
+
 container [contextCamelCase] "[ContextTitle]-Containers" {
     include *
     autoLayout tb
-    title "[Context Title] — Container View"
+    title "[Context Title] — 2-Container View"
 }
 ```
 

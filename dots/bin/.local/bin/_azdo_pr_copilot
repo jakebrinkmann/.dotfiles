@@ -11,7 +11,7 @@ PROJECT="$AZ_PROJECT_NAME"
 DEV_BRANCH="dev"
 MAIN_BRANCH="main"
 
-GUIDELINES_FILE="$COPILOT_CUSTOM_INSTRUCTIONS_DIRS/pull-request-reviewer.agent.md"
+GUIDELINES_FILE="$HOME/.copilot/agents/pr-reviewer.agent.md"
 if [ ! -f "$GUIDELINES_FILE" ]; then
   echo "Error: Review guidelines file not found at $GUIDELINES_FILE."
   exit 1
