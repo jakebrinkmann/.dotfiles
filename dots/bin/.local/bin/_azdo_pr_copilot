@@ -2,8 +2,22 @@
 
 # Description: Review open PRs in Azure DevOps repos, check feedback, compare branches, and print review suggestions.
 # Requirements: Azure CLI (az), jq, @github/copilot-cli
-# Usage: _azdo_pr_copilot [repo1|pr_id1,repo2|pr_id2,...]
+# Usage: _azdo_pr_copilot [--scheduled] [repo1|pr_id1,repo2|pr_id2,...]
+#   --scheduled  Run non-interactively; auto-selects all open PRs, skips unchanged ones,
+#                appends Markdown reports to ~/Downloads/pr-reviews/
 COPILOT_MODEL="claude-haiku-4.5"
+
+# Report and state directories (created harmlessly in both modes)
+REPORT_DIR="$HOME/Downloads/pr-reviews"
+STATE_DIR="$HOME/.cache/_azdo_pr_copilot"
+mkdir -p "$REPORT_DIR" "$STATE_DIR"
+
+# Parse --scheduled flag before positional arg check
+SCHEDULED_MODE=false
+if [ "$1" = "--scheduled" ]; then
+  SCHEDULED_MODE=true
+  shift
+fi
 
 # Set your Azure DevOps organization and project
 ORG="$AZ_ORGANIZATION_NAME"
@@ -85,9 +99,14 @@ else
   echo -e "Status | Repo | PR ID | Title | Author | URL"
   cat "$PR_LIST_FILE"
 
-  # Prompt user for PRs to review
-  echo "Enter PRs to review as repo|PRID (comma-separated, e.g. repo1|123,repo2|456):"
-  read -p "PRs to review: " pr_selection </dev/tty
+  # Prompt user for PRs to review (auto-select all in scheduled mode)
+  if [ "$SCHEDULED_MODE" = true ]; then
+    pr_selection=$(awk -F'|' 'NR>1{printf ","} {printf "%s|%s", $1, $2}' "$PR_META_FILE")
+    echo "Scheduled mode: auto-selected PRs: $pr_selection"
+  else
+    echo "Enter PRs to review as repo|PRID (comma-separated, e.g. repo1|123,repo2|456):"
+    read -p "PRs to review: " pr_selection </dev/tty
+  fi
 fi
 
 IFS=',' read -ra selected_prs <<<"$pr_selection"
@@ -154,9 +173,25 @@ for pr_key in "${selected_prs[@]}"; do
   git checkout "origin/$pr_target_branch" -B "$pr_target_branch" &>/dev/null
   git checkout "origin/$pr_source_branch" -B "$pr_source_branch" &>/dev/null
 
+  # Capture current commit SHA for change detection in scheduled mode
+  CURRENT_SHA=$(git rev-parse HEAD)
+  STATE_FILE="$STATE_DIR/${repo}-${pr_id}.sha"
+  STORED_SHA=$(cat "$STATE_FILE" 2>/dev/null || echo "")
+
+  if [ "$SCHEDULED_MODE" = true ] && [ "$CURRENT_SHA" = "$STORED_SHA" ]; then
+    echo "  PR #$pr_id ($repo): no new commits since last review, skipping."
+    git checkout "$pr_target_branch" &>/dev/null
+    popd >/dev/null
+    continue
+  fi
+
   while true; do
-    echo "    Do you want to run a Copilot code review for this PR?"
-    read -p "    [n/y/...]: " user_input </dev/tty
+    if [ "$SCHEDULED_MODE" = true ]; then
+      user_input="y"
+    else
+      echo "    Do you want to run a Copilot code review for this PR?"
+      read -p "    [n/y/...]: " user_input </dev/tty
+    fi
     if [ "$user_input" = "n" ]; then
       echo "    Skipping Copilot review for this PR."
       break
@@ -177,13 +212,32 @@ EOF
       )
       echo "    Asking Copilot to review diff between $pr_source_branch and $pr_target_branch..."
       FEEDBACK=$(copilot --allow-all-paths --allow-all-tools --model $COPILOT_MODEL -p "$PROMPT")
-      BLUE='\033[0;34m'
-      NC='\033[0m'
 
-      # Print the block
-      echo -e "${BLUE}    --- FEEDBACK ---"
-      echo "$FEEDBACK"
-      echo -e "    --- END FEEDBACK ---${NC}"
+      if [ "$SCHEDULED_MODE" = true ]; then
+        # Append a timestamped review section to the per-PR report file
+        REPORT_FILE="$REPORT_DIR/${repo}-${pr_id}.md"
+        if [ ! -f "$REPORT_FILE" ]; then
+          printf '# PR Review: %s #%s\n\n> %s\n> **Author:** %s | [View PR](%s)\n' \
+            "$repo" "$pr_id" "$pr_title" "$pr_author" "$pr_ui_url" > "$REPORT_FILE"
+        fi
+        {
+          printf '\n---\n\n## Review: %s\n\n' "$(date '+%Y-%m-%d %H:%M:%S')"
+          printf '**Branch:** `%s` → `%s` | **Status:** %s | **Commit:** `%s`\n\n' \
+            "$pr_source_branch" "$pr_target_branch" "$pr_status" "$CURRENT_SHA"
+          printf '### Copilot Feedback\n\n%s\n' "$FEEDBACK"
+        } >> "$REPORT_FILE"
+        echo "  Report: $REPORT_FILE"
+        # Persist SHA so next scheduled run skips this PR if unchanged
+        echo "$CURRENT_SHA" > "$STATE_FILE"
+      else
+        BLUE='\033[0;34m'
+        NC='\033[0m'
+
+        # Print the block
+        echo -e "${BLUE}    --- FEEDBACK ---"
+        echo "$FEEDBACK"
+        echo -e "    --- END FEEDBACK ---${NC}"
+      fi
       break
     else
       echo "    Input cannot be blank. Please enter 'y', 'n', or a custom prompt."
