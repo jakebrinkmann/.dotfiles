@@ -23,7 +23,27 @@ Before creating or updating any Work Item, you MUST ensure it perfectly adheres 
    - **Rule:** Acceptance Criteria MUST be formatted in strict Gherkin syntax (Given/When/Then). If the BDD formulation is not complete, the state machine halts.
 4. **Tasks (Implementation Lanes)**
    - **Purpose:** Physical Implementation & Contract Execution.
-   - **Rule:** Tasks must be mapped to specific physical repositories (e.g., Repo A for Core Engine, Repo B for Adapters) adhering strictly to Clean Architecture boundaries.
+   - **Rule:** Before creating Tasks, identify the **Architectural Quantum** (independently deployable artifact) by tracing synchronous dependencies. Components that communicate synchronously belong to the same quantum and map to the same physical repo/service boundary. Each Task must declare its quantum and be labeled by Clean Architecture layer:
+     - `[Use Case]` — Inner Circle: pure business logic, zero knowledge of frameworks, DBs, or external services
+     - `[Adapter]` — Outer Circle: REST controllers, repository implementations, external integrations (e.g., `SignatureGateway`, `KlaviyoNotifier`)
+   - Tasks must be created **Inner Circle first**, then Outer Circle. Never mix layers in a single Task.
+   - **Maintenance Task rule:** Maintenance Tasks originate in Adapters and MUST NOT introduce new business behavior. However, Use Cases MAY be touched to re-assert, protect, or clarify *existing* behavior (e.g., adding a guard, hardening a precondition, or making an implicit rule explicit). Any Task that touches the Inner Circle MUST state in its Objective whether it is *introducing* or *preserving* behavior — never leave this ambiguous. Claiming all maintenance Tasks are `[Adapter]` only is architectural dishonesty and is not acceptable.
+   - Task titles MUST be prefixed with the component name followed by a colon (e.g., `Celigo: Serialize SyncEvent for telemetry endpoint`, `API: Implement TrustVerification use case`). The prefix is derived from the Quantum the Task belongs to.
+   - Every Task description MUST follow this template exactly:
+
+```
+Architectural Boundary: <Inner Circle (Use Case) | Outer Circle (Adapter)>
+Quantum: <name of the independently deployable artifact this Task belongs to>
+
+Objective:
+<One sentence describing what this Task produces.>
+
+Specifications (RFC 2119):
+- <Capability>: The <component> MUST/SHOULD/MAY <behavior>.
+- <Capability>: The <component> MUST/SHOULD/MAY <behavior>.
+```
+
+     RFC 2119 keywords are mandatory for all specification lines: **MUST** (absolute requirement), **MUST NOT** (absolute prohibition), **SHOULD** (recommended), **SHOULD NOT** (not recommended), **MAY** (optional). Vague prose is not acceptable.
 
 ## Execution Workflow
 
@@ -38,7 +58,16 @@ Before creating or updating any Work Item, you MUST ensure it perfectly adheres 
 2. For each proposed item, explicitly state how it satisfies the Validation Rules above.
 3. Ask the user: *"Please review this proposed backlog structure. Reply 'APPROVED' to execute these creations in Azure DevOps."*
 
+### Phase 2.5: Architectural Quantum Analysis (MANDATORY before Tasks)
+Before generating any Tasks from an approved User Story:
+1. Identify the **Architectural Quantum** — trace synchronous dependencies to determine which components must deploy together
+2. Assign each Task to its quantum (this maps directly to a physical repo/service boundary)
+3. Plan Tasks in layer order: **Inner Circle (`[Use Case]`) first**, Outer Circle (`[Adapter]`) second — never mix layers in a single Task
+
+If the quantum boundary is ambiguous, halt and ask the user to clarify the deployment topology before proceeding.
+
 ### Phase 3: Execution
 Only after the user replies "APPROVED", use the `azure-devops` MCP to execute the Work Item creations. 
 - You must link the hierarchy correctly (Tasks parented to Stories, Stories to Features, Features to Epics).
+- **CRITICAL:** `System.Parent` in the creation payload is unreliable. Hierarchy links MUST always be set explicitly via a separate link call after the Work Item is created. Never assume the parent was set during creation — always verify and link explicitly.
 - Output the direct URLs or Work Item IDs upon completion.

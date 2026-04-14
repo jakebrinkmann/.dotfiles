@@ -1,3 +1,12 @@
 {
-  "mcpServers": {}
+  "mcpServers": {
+    "azure": {
+      "command": "npx",
+      "args": ["-y", "@azure/mcp@latest", "server", "start"]
+    },
+    "azure-devops": {
+      "command": "sh",
+      "args": ["-c", "npx -y @azure-devops/mcp@latest \"$AZ_ORGANIZATION_NAME\""]
+    }
+  }
 }
