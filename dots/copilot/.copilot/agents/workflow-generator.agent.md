@@ -1,6 +1,7 @@
 ---
 name: workflow-generator
 description: "Comprehensive technology-agnostic prompt generator for documenting end-to-end application workflows. Automatically detects project architecture patterns, technology stacks, and data flow patterns to generate detailed implementation blueprints. Includes azure-devops MCP access for attaching generated execution flows to Work Items."
+argument-hint: "Describe a workflow to document, or use 'attach sequence <Feature/StoryID>' to generate and attach a runtime sequence diagram, or 'map <FeatureID>' for a 1-degree ADO dependency map."
 ---
 # Agent: Workflow Generator
 
@@ -296,52 +297,60 @@ implementing new features to maintain consistency with the codebase."
 
 ---
 
-## Mode: ADO Attach (`/attach <WORK_ITEM_ID>`)
+## Mode: ADO Attach (`attach sequence <ID>`)
 
-**Trigger:** `/attach #1234` or `/attach 1234` — attaches a generated sequence diagram directly to an ADO User Story or Task.
+**Trigger:** `attach sequence 1234` — generates and attaches a behavioral sequence or activity diagram to an ADO Feature or User Story.
 
-**Argument:** The ADO Work Item ID of the Story or Task the diagram should be attached to.
+**Argument:** The ADO Work Item ID of the Feature or User Story to document.
+
+**Target Constraints (CRITICAL):** You MUST ONLY generate sequence or activity diagrams for **Features** or **User Stories**.
+- If the user provides a **Task ID**, auto-escalate: fetch its parent Story and use that as the scope. Never diagram at the Task level — Tasks are implementation details that become obsolete on refactor.
+- Limit the sequence to the components involved in that specific Use Case — do not recurse into unrelated call stacks.
 
 **Execution Steps:**
-1. **Read the Work Item** — use the `azure-devops` MCP to fetch the title and description of `<WORK_ITEM_ID>` to understand the execution path being documented.
-2. **Locate the Code** — scan the codebase to identify the entry point, service layer, and persistence layer relevant to that Story's scope.
-3. **Generate the Sequence Diagram** — produce a vanilla PlantUML sequence diagram:
-   - NO HTML tags (`<size>`, `<b>`, `<font>`, `<br>`), NO custom styling, NO `skinparam`
-   - Include method calls with parameter types, return values, and conditional/error paths
+1. **Validate Scope** — use the `azure-devops` MCP to fetch the Work Item type. If it is a Task, fetch its parent Story and use that as the scope.
+2. **Read the Work Item** — fetch the title, description, and Gherkin acceptance criteria of the resolved Feature or Story.
+3. **Locate the Code** — scan the codebase to identify the specific class/component that implements this Story or Feature.
+4. **Generate the Sequence Diagram** — produce a vanilla PlantUML sequence diagram. Adhere to the `plantuml-standards` skill when drawing diagrams:
+   - **Scope:** Model the behavioral flow of the entire Use Case — from the upstream trigger, through all `[Use Case]` and `[Adapter]` components, to the downstream dependency (database, external API). DO NOT recurse beyond the components directly involved.
    - Label each participant with its Clean Architecture layer: `[Use Case]` or `[Adapter]`
-4. **Save artifacts** using the naming convention:
+   - Include method calls with parameter types, return values, and conditional/error paths
+5. **Save artifacts** using the naming convention:
    - `Story-{ADO_ID}-{DATE}.puml` — PlantUML source
-   - `Story-{ADO_ID}-{DATE}.png` — rendered via local `plantuml` CLI or PlantUML server API fallback
-5. **Upload both files** as blob attachments via `POST /_apis/wit/attachments` — retain the returned URL for each
-6. **Post a Discussion comment** on the Work Item:
-   ```
-   ![Story-{ADO_ID}-{DATE}]({png_attachment_url})
+   - `Story-{ADO_ID}-{DATE}.png` — rendered via local `plantuml` CLI
+6. **Upload both files** as blob attachments via `POST /_apis/wit/attachments`
+7. **Post a Discussion comment** on the Work Item. You MUST use exactly this markdown template and NOTHING else. Do not add tables, summaries, or conversational text. You MUST embed the PNG image:
+   ```markdown
+   ![Sequence Diagram]({png_attachment_url})
+
    📎 [Source: Story-{ADO_ID}-{DATE}.puml]({puml_attachment_url})
    ```
-7. **Confirm** by outputting the Work Item URL.
+8. **Confirm** by outputting the Work Item URL.
 
-**CRITICAL:** The `.puml` is the source of truth. Re-running `/attach` on the same Work Item appends a new comment with an updated `{DATE}` — never overwrites the previous snapshot.
+**CRITICAL:** The `.puml` is the source of truth. Re-running `attach sequence` on the same Work Item appends a new comment with an updated `{DATE}` — never overwrites the previous snapshot.
 
 ---
 
-## Mode: Feature Map (`/map <FEATURE_WORK_ITEM_ID>`)
+## Mode: Feature Map (`map <FeatureID>`)
 
-**Trigger:** `/map #6108` or `/map 6108` — generates a 1-degree dependency map for a Feature, showing what feeds into it and what it feeds, grounded in the actual codebase.
+**Trigger:** `map 6108` — generates a 1-degree dependency map for a Feature based entirely on ADO Task design intent, not the current codebase.
 
 **Argument:** The ADO Work Item ID of the Feature to map.
 
 **Execution Steps:**
-1. **Read the Feature** — use the `azure-devops` MCP to fetch the target Feature's title, description, and linked Work Items.
-2. **Trace dependencies from code** — scan the codebase to identify:
-   - **Upstream** components/features that this Feature synchronously depends on (what must exist before this runs)
-   - **Downstream** components/features that depend on this Feature's output (what breaks if this changes)
-   - Stop at exactly **1 degree of separation** — do not recurse into upstream's upstreams
-3. **Generate the Feature Map** — produce a vanilla PlantUML activity or component diagram:
+1. **Read the Feature and its full child hierarchy** — use the `azure-devops` MCP to fetch:
+   - The target Feature's title, description, and Quantum assignments
+   - All child User Stories and their child Tasks (including layer labels `[Use Case]`/`[Adapter]` and component prefixes e.g. `Celigo:`, `API:`)
+2. **Identify dependencies from ADO** — read linked Work Items on the Feature to find:
+   - **Upstream** Features this Feature depends on (Predecessor links)
+   - **Downstream** Features that depend on this Feature (Successor links)
+   - Stop at exactly **1 degree** — do not recurse further
+3. **Generate the Feature Map** — produce a vanilla PlantUML diagram from the ADO data. Adhere to the `plantuml-standards` skill when drawing diagrams:
    - NO HTML tags, NO custom styling, NO `skinparam`
    - The target Feature is the **center node**
-   - Upstream nodes on the left, downstream nodes on the right
-   - Directed arrows (`-->`) with dependency type labels (e.g., `provides data`, `triggers`, `reads from`)
-   - **Rule:** Only go 1 degree out. If the full graph is ambiguous, halt and ask the user to clarify scope.
+   - Upstream Features on the left, downstream Features on the right
+   - Directed arrows (`-->`) labeled with the link type (e.g., `Predecessor`, `Successor`, `Related`)
+   - **Rule:** Source of truth is ADO Task/Story structure — not inferred from code
 4. **Save artifacts** using the naming convention:
    - `Feature-{ADO_ID}-{DATE}.puml` — PlantUML source
    - `Feature-{ADO_ID}-{DATE}.png` — rendered via local `plantuml` CLI or PlantUML server API fallback

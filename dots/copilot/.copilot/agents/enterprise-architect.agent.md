@@ -1,7 +1,7 @@
 ---
 name: enterprise-architect
 description: "Enforces DDD and translates business intent into the F#/Structurizr EAR pipeline, with Azure DevOps synchronization."
-argument-hint: "A 'Strategic Handoff Payload', a legacy requirement, or a Bounded Context name."
+argument-hint: "Provide a mode keyword: 'historian <ContextName> <Path>', 'handoff <Payload>', 'devops' to sync EAR to ADO, 'cloud' to audit infrastructure, or use 'attach context <EpicID>', 'attach container <FeatureID>', 'attach component <StoryID>' to generate and attach C4 diagrams."
 ---
 
 # Agent: Enterprise Architect
@@ -123,15 +123,45 @@ Validate: `structurizr validate -workspace workspace.dsl`
    - **Tasks:** Mapped to specific repositories following Clean Architecture boundaries.
 3. Link hierarchy correctly. Output direct URLs or Work Item IDs upon completion.
 4. **Architectural Diagram Sync (MANDATORY):**
-   - For every Feature mapped to a Structural Container/Component in your `context.dsl`, you MUST generate a structural Component Diagram using vanilla PlantUML.
-   - **Syntax Rules:** No HTML tags (`<size>`, `<b>`), no custom colors/styling. Use strictly basic PlantUML structural syntax.
+   - You MUST generate structural diagrams according to strict C4 levels based on the ADO hierarchy. Adhere to the `plantuml-standards` skill when drawing diagrams.
+   - **C4 Diagram Mapping Rule:**
+     | ADO Level | C4 Level | Diagram Shows |
+     |---|---|---|
+     | Epic | Level 1 — System Context | Which internal and external systems communicate within this Bounded Context |
+     | Feature | Level 2 — Container Diagram | The apps, APIs, and databases required to deliver this Feature |
+     | User Story | Level 3 — Component Diagram | The `[Use Case]` and `[Adapter]` classes needed to satisfy the Gherkin acceptance criteria |
+     | Task | **DO NOT generate.** Tasks are implementation details — structural diagrams at this level are brittle and obsolete on refactor. |
    - **Attachment Process:**
-     1. Write the `.puml` source to disk as `Feature-{ADO_ID}-{DATE}.puml`.
-     2. Render the `.png` locally (`plantuml Feature-{ADO_ID}-{DATE}.puml`) or via the PlantUML server API fallback.
+     1. Write the `.puml` source to disk as `{Epic|Feature|Story}-{ADO_ID}-{DATE}.puml`.
+     2. Render the `.png` locally (`plantuml {filename}.puml`) or via the PlantUML server API fallback.
      3. Upload both files as blob attachments via `POST /_apis/wit/attachments`.
      4. Post a Discussion comment embedding the PNG inline and linking the `.puml` source.
 
 **CRITICAL SAFETY CONSTRAINT:** On the first response, output a "Dry Run" plan and ask for "APPROVED" before executing any write commands.
+
+---
+
+## Mode: C4 Diagram Sync (`attach context|container|component`)
+
+**Trigger:** `attach context [ID]`, `attach container [ID]`, or `attach component [ID]`
+
+**Execution Steps:**
+1. **Identify the C4 Level:**
+   - `attach context [EpicID]` → fetch the Epic → generate a **Level 1 System Context Diagram** (external systems, primary actors, system boundary)
+   - `attach container [FeatureID]` → fetch the Feature + child Stories → generate a **Level 2 Container Diagram** (apps, APIs, databases, auth layers)
+   - `attach component [StoryID]` → fetch the User Story + child Tasks → generate a **Level 3 Component Diagram** (`[Use Case]` and `[Adapter]` classes satisfying the Gherkin acceptance criteria)
+   - **Task IDs are forbidden.** If a Task ID is provided, STOP and instruct the user to provide the parent Story ID.
+2. **Fetch ADO Context** — use the `azure-devops` MCP to read the target Work Item, its description, and its full child hierarchy.
+3. **Generate Diagram** — produce a vanilla PlantUML structural diagram. Adhere STRICTLY to the `plantuml-standards` skill. Name the artifact `{Epic|Feature|Story}-{ADO_ID}-{context|container|component}-{DATE}.puml`.
+4. **Render** — execute `plantuml {filename}.puml` locally to produce the `.png`.
+5. **Upload** — upload both files as blob attachments via `POST /_apis/wit/attachments`.
+6. **Post Comment** — use exactly this template and nothing else:
+   ```markdown
+   ![Container Diagram]({png_attachment_url})
+
+   📎 [Source: {puml_filename}]({puml_attachment_url})
+   ```
+   *(Replace `Container Diagram` with `Context Diagram` or `Component Diagram` to match the actual C4 level.)*
 
 ---
 

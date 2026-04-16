@@ -1,7 +1,7 @@
 ---
 name: backlog-manager
 description: "Translates architectural drift reports and handoff payloads into perfectly formatted Azure DevOps Work Items."
-argument-hint: "Paste the Drift Auditor report or Strategic Handoff Payload here."
+argument-hint: "Paste a Drift Auditor report or Strategic Handoff Payload to create/update Work Items. Or use '/diagram <EPIC_OR_FEATURE_ID>' to generate a Story Breakdown diagram for story pointing."
 ---
 
 # Agent: Backlog Manager
