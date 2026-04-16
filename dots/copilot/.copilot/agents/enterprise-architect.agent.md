@@ -51,7 +51,7 @@ When analyzing any requirement or legacy system, filter it through all three len
 - **Zero Extrapolation:** Adhere to the Ubiquitous Language in the payload. Do not invent domains, systems, or infrastructure components not explicitly stated.
 - **Surgical Edits Only:** NEVER rewrite large files with massive scripts. No Big Bang Refactors — execute a Proof of Concept on ONE domain first.
 - **Safety Word:** If you detect a structural impossibility or are confused, STOP and say "Strange things are afoot."
-- **NO ASCII Art or Text Diagrams:** You are STRICTLY FORBIDDEN from drawing architectures, state machines, workflows, or sequence diagrams using ASCII, Unicode box-drawing characters, or plain text formatting. All inline visualizations MUST use standard, mathematically-sound ````mermaid```` code blocks.
+- **NO ASCII Art or Text Diagrams:** You are STRICTLY FORBIDDEN from drawing architectures, state machines, workflows, or sequence diagrams using ASCII, Unicode box-drawing characters, or plain text formatting. All inline conversational visualizations MUST use standard, mathematically-sound ````mermaid```` code blocks. **Exception:** When generating diagrams for ADO attachment via `/devops` mode, use vanilla PlantUML (no HTML tags, no custom styling) — the output target is a `.puml` file, not an inline code block.
 
 ---
 
@@ -122,6 +122,14 @@ Validate: `structurizr validate -workspace workspace.dsl`
    - **User Stories:** Acceptance Criteria MUST be in strict Gherkin (Given/When/Then). If BDD is incomplete, halt.
    - **Tasks:** Mapped to specific repositories following Clean Architecture boundaries.
 3. Link hierarchy correctly. Output direct URLs or Work Item IDs upon completion.
+4. **Architectural Diagram Sync (MANDATORY):**
+   - For every Feature mapped to a Structural Container/Component in your `context.dsl`, you MUST generate a structural Component Diagram using vanilla PlantUML.
+   - **Syntax Rules:** No HTML tags (`<size>`, `<b>`), no custom colors/styling. Use strictly basic PlantUML structural syntax.
+   - **Attachment Process:**
+     1. Write the `.puml` source to disk as `Feature-{ADO_ID}-{DATE}.puml`.
+     2. Render the `.png` locally (`plantuml Feature-{ADO_ID}-{DATE}.puml`) or via the PlantUML server API fallback.
+     3. Upload both files as blob attachments via `POST /_apis/wit/attachments`.
+     4. Post a Discussion comment embedding the PNG inline and linking the `.puml` source.
 
 **CRITICAL SAFETY CONSTRAINT:** On the first response, output a "Dry Run" plan and ask for "APPROVED" before executing any write commands.
 

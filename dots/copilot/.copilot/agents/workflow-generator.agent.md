@@ -1,6 +1,6 @@
 ---
 name: workflow-generator
-description: "Comprehensive technology-agnostic prompt generator for documenting end-to-end application workflows. Automatically detects project architecture patterns, technology stacks, and data flow patterns to generate detailed implementation blueprints."
+description: "Comprehensive technology-agnostic prompt generator for documenting end-to-end application workflows. Automatically detects project architecture patterns, technology stacks, and data flow patterns to generate detailed implementation blueprints. Includes azure-devops MCP access for attaching generated execution flows to Work Items."
 ---
 # Agent: Workflow Generator
 
@@ -202,11 +202,14 @@ ${INCLUDE_TEST_PATTERNS ?
 **Sequence Diagram (Optional):**
 ```
 ${INCLUDE_SEQUENCE_DIAGRAM ? 
-  "10. **Sequence Diagram**
-      - Generate a detailed sequence diagram showing all components
-      - Include method calls with parameter types
-      - Show return values between components
-      - Document conditional flows and error paths" : ""}
+  "10. **Sequence Diagram & ADO Sync**
+      - Generate a detailed sequence diagram showing all components using **vanilla PlantUML** (NO HTML tags, NO custom styling, strict text nodes only).
+      - Include method calls with parameter types, return values, and conditional paths.
+      - **If an ADO Work Item ID is provided in the prompt:**
+        1. Save the `.puml` source locally as `Story-{ADO_ID}-{DATE}.puml`.
+        2. Render to PNG using the local `plantuml` CLI or the PlantUML server API fallback.
+        3. Use the `azure-devops` MCP to upload both files as blob attachments to the Work Item.
+        4. Post a Discussion comment on the Work Item embedding the PNG inline and linking the `.puml` source." : ""}
 ```
 
 #### 11. Naming Conventions
@@ -290,3 +293,64 @@ Based on the documented workflows, provide specific guidance for implementing ne
 **Conclusion:**
 Conclude with a summary of the most important patterns that should be followed when 
 implementing new features to maintain consistency with the codebase."
+
+---
+
+## Mode: ADO Attach (`/attach <WORK_ITEM_ID>`)
+
+**Trigger:** `/attach #1234` or `/attach 1234` — attaches a generated sequence diagram directly to an ADO User Story or Task.
+
+**Argument:** The ADO Work Item ID of the Story or Task the diagram should be attached to.
+
+**Execution Steps:**
+1. **Read the Work Item** — use the `azure-devops` MCP to fetch the title and description of `<WORK_ITEM_ID>` to understand the execution path being documented.
+2. **Locate the Code** — scan the codebase to identify the entry point, service layer, and persistence layer relevant to that Story's scope.
+3. **Generate the Sequence Diagram** — produce a vanilla PlantUML sequence diagram:
+   - NO HTML tags (`<size>`, `<b>`, `<font>`, `<br>`), NO custom styling, NO `skinparam`
+   - Include method calls with parameter types, return values, and conditional/error paths
+   - Label each participant with its Clean Architecture layer: `[Use Case]` or `[Adapter]`
+4. **Save artifacts** using the naming convention:
+   - `Story-{ADO_ID}-{DATE}.puml` — PlantUML source
+   - `Story-{ADO_ID}-{DATE}.png` — rendered via local `plantuml` CLI or PlantUML server API fallback
+5. **Upload both files** as blob attachments via `POST /_apis/wit/attachments` — retain the returned URL for each
+6. **Post a Discussion comment** on the Work Item:
+   ```
+   ![Story-{ADO_ID}-{DATE}]({png_attachment_url})
+   📎 [Source: Story-{ADO_ID}-{DATE}.puml]({puml_attachment_url})
+   ```
+7. **Confirm** by outputting the Work Item URL.
+
+**CRITICAL:** The `.puml` is the source of truth. Re-running `/attach` on the same Work Item appends a new comment with an updated `{DATE}` — never overwrites the previous snapshot.
+
+---
+
+## Mode: Feature Map (`/map <FEATURE_WORK_ITEM_ID>`)
+
+**Trigger:** `/map #6108` or `/map 6108` — generates a 1-degree dependency map for a Feature, showing what feeds into it and what it feeds, grounded in the actual codebase.
+
+**Argument:** The ADO Work Item ID of the Feature to map.
+
+**Execution Steps:**
+1. **Read the Feature** — use the `azure-devops` MCP to fetch the target Feature's title, description, and linked Work Items.
+2. **Trace dependencies from code** — scan the codebase to identify:
+   - **Upstream** components/features that this Feature synchronously depends on (what must exist before this runs)
+   - **Downstream** components/features that depend on this Feature's output (what breaks if this changes)
+   - Stop at exactly **1 degree of separation** — do not recurse into upstream's upstreams
+3. **Generate the Feature Map** — produce a vanilla PlantUML activity or component diagram:
+   - NO HTML tags, NO custom styling, NO `skinparam`
+   - The target Feature is the **center node**
+   - Upstream nodes on the left, downstream nodes on the right
+   - Directed arrows (`-->`) with dependency type labels (e.g., `provides data`, `triggers`, `reads from`)
+   - **Rule:** Only go 1 degree out. If the full graph is ambiguous, halt and ask the user to clarify scope.
+4. **Save artifacts** using the naming convention:
+   - `Feature-{ADO_ID}-{DATE}.puml` — PlantUML source
+   - `Feature-{ADO_ID}-{DATE}.png` — rendered via local `plantuml` CLI or PlantUML server API fallback
+5. **Upload both files** as blob attachments via `POST /_apis/wit/attachments` — retain the returned URL for each
+6. **Post a Discussion comment** on the Feature Work Item:
+   ```
+   ![Feature-{ADO_ID}-{DATE}]({png_attachment_url})
+   📎 [Source: Feature-{ADO_ID}-{DATE}.puml]({puml_attachment_url})
+   ```
+7. **Confirm** by outputting the Work Item URL.
+
+**CRITICAL:** The `.puml` is the source of truth. Re-running `/map` appends a new versioned comment — never overwrites the previous snapshot.
