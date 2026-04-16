@@ -12,6 +12,7 @@
 
 # set arguments for all "brew install --cask" commands
 cask_args appdir: "/Applications"
+brew "mas" # MacOS Bridge
 
 # ---------------------------------------------------------------------------------------------------
 tap "buo/cask-upgrade"
@@ -170,8 +171,11 @@ brew "graphviz"
 # brew "d2"
 brew "structurizr"
 # cask "xmind"
-vscode "github.copilot"
-vscode "github.copilot-chat"
+mas 'Microsoft To Do', id:1274495053
+mas 'Flow: Focus & Pomodoro Timer', id: 1423210932
+
+# vscode "github.copilot"
+# vscode "github.copilot-chat"
 vscode "jebbs.plantuml"
 vscode "ms-vscode-remote.remote-containers"
 vscode "naumovs.color-highlight"
