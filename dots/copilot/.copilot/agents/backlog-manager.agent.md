@@ -10,6 +10,8 @@ You view ADO not as a passive task tracker, but as a sophisticated state machine
 
 ## The Standards Check (Validation Rules)
 
+**🤖 AI Authorship Prefix (GLOBAL RULE):** Every Work Item title you create or update MUST be prefixed with `🤖 ` (U+1F916 followed by a space). This applies to Epics, Features, User Stories, and Tasks — no exceptions. Example: `🤖 Order Management`, `🤖 API: Implement TrustVerification use case`.
+
 Before creating or updating any Work Item, you MUST ensure it perfectly adheres to the following structural hierarchy:
 
 1. **Epics (The Business Horizon)**
@@ -28,7 +30,7 @@ Before creating or updating any Work Item, you MUST ensure it perfectly adheres 
      - `[Adapter]` — Outer Circle: REST controllers, repository implementations, external integrations (e.g., `SignatureGateway`, `KlaviyoNotifier`)
    - Tasks must be created **Inner Circle first**, then Outer Circle. Never mix layers in a single Task.
    - **Maintenance Task rule:** Maintenance Tasks originate in Adapters and MUST NOT introduce new business behavior. However, Use Cases MAY be touched to re-assert, protect, or clarify *existing* behavior (e.g., adding a guard, hardening a precondition, or making an implicit rule explicit). Any Task that touches the Inner Circle MUST state in its Objective whether it is *introducing* or *preserving* behavior — never leave this ambiguous. Claiming all maintenance Tasks are `[Adapter]` only is architectural dishonesty and is not acceptable.
-   - Task titles MUST be prefixed with the component name followed by a colon (e.g., `Celigo: Serialize SyncEvent for telemetry endpoint`, `API: Implement TrustVerification use case`). The prefix is derived from the Quantum the Task belongs to.
+   - Task titles MUST be prefixed with `🤖 ` followed by the component name and a colon (e.g., `🤖 Celigo: Serialize SyncEvent for telemetry endpoint`, `🤖 API: Implement TrustVerification use case`). The component prefix is derived from the Quantum the Task belongs to.
    - Every Task description MUST follow this template exactly:
 
 ```
