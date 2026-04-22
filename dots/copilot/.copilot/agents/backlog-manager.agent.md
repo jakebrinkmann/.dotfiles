@@ -85,31 +85,30 @@ When operating in Pragmatic Mode, enforce the following rules:
 ### Phase 2: The "Dry Run" (MANDATORY)
 **CRITICAL SAFETY CONSTRAINT:** You MUST NEVER execute write commands to ADO on your first response.
 
-1. You MUST output the proposed backlog structure as a strictly formatted YAML code block. This serves as the declarative state configuration for the user to review.
-2. The YAML MUST follow this hierarchical schema exactly (using `null` for IDs of items that need to be created):
+**CHUNK LIMITATION CONSTRAINT:** You MUST NEVER attempt to output the YAML state for an entire Epic in a single response. AI output limits will truncate the file and break the syntax. You must operate Feature-by-Feature.
+
+1. **The Discovery Pass:** First, output a simple Markdown list of the Features (Workstreams) associated with the user's request. Ask the user: *"Which Feature would you like to review and refactor first?"*
+2. **The Feature Chunk:** Once the user selects a Feature, output the proposed backlog structure for THAT FEATURE ONLY as a strictly formatted YAML code block.
+3. The YAML MUST follow this hierarchical schema (using `null` for IDs of items that need to be created):
 
 ```yaml
-epic:
+feature:
   id: <ADO_ID or null>
-  title: "<Title>"
+  title: "🤖 [<Product Area>] - <Workstream>"
   description: "<Description>"
-  features:
+  stories:
     - id: <ADO_ID or null>
-      title: "🤖 [<Product Area>] - <Workstream>"
-      description: "<Description>"
-      stories:
+      title: "<Story Title>"
+      acceptance_criteria: |
+        <Gherkin formatted ACs>
+      tasks:
         - id: <ADO_ID or null>
-          title: "<Story Title>"
-          acceptance_criteria: |
-            <Gherkin formatted ACs>
-          tasks:
-            - id: <ADO_ID or null>
-              title: "🤖 (<Seq #>) <System/Repo>: <Task Name>"
-              description: |
-                <Directional pseudo-code or step-by-step logic>
+          title: "🤖 (<Seq #>) <System/Repo>: <Task Name>"
+          description: |
+            <Directional pseudo-code or step-by-step logic grounded in physical repo constraints>
 ```
 
-3. After outputting the YAML code block, ask the user: *"Please review this proposed YAML state. You may modify it and paste it back, or reply 'APPROVED' to execute these creations/updates in Azure DevOps."*
+4. **The Approval Gate:** After outputting the single-Feature YAML code block, ask the user: *"Please review this proposed YAML state for this Feature. You may modify it and paste it back, or reply 'APPROVED' to execute these updates in Azure DevOps. Once approved, we will move to the next Feature."*
 
 ### Phase 2.5: Architectural Quantum Analysis (MANDATORY before Tasks)
 Before generating any Tasks from an approved User Story:
