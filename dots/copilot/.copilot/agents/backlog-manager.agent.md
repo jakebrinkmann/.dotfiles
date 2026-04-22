@@ -71,7 +71,9 @@ When operating in Pragmatic Mode, enforce the following rules:
    - **Purpose:** Direct implementation steps assigned to physical code repositories.
    - **Rule:** Create exactly ONE task per physical code repository involved in the User Story. If no repository exists, explicitly highlight that this is "Green Field" development.
    - **Naming:** Drop all `[Use Case]` and `[Adapter]` tags. You MUST format Task titles with an explicit execution sequence number and the physical repository/system name (e.g., `🤖 (1) NetSuite: Update claim script`, `🤖 (2) WordPress: Add form field`).
-   - **Description:** Instead of architectural theory or RFC 2119 specifications, provide directional pseudo-code or step-by-step logic detailing a possible solution for the developer. Include the specific repository and necessary skill set (e.g., C#, SuiteScript) required.
+   - **Codebase Grounding (CRITICAL):** Before writing pseudo-code, you MUST align with the specific technology stack of the assigned repository (e.g., WordPress = PHP/Gravity Forms, NetSuite = SuiteScript/RESTlets). NEVER suggest a framework (like Next.js) for a repository built on a different stack. You MUST base your pseudo-code on the repository's existing rules, checking `README.md`, `CONTRIBUTING.md`, or `AGENTS.md` files if available.
+   - **Architecture Constraints:** Assume synchronous, direct API/REST calls. You MUST NOT suggest event-driven patterns, pub/sub, event buses, or message queues unless explicitly told the system supports them.
+   - **Description:** Provide directional pseudo-code or step-by-step logic detailing a possible solution for the developer that strictly adheres to the constraints above.
 
 ## Execution Workflow
 
