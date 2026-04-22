@@ -44,7 +44,17 @@ You must execute one Gate at a time and then HALT.
 2. For the approved Feature, draft the User Stories.
 3. Write strict Gherkin Acceptance Criteria that define the business rules.
 4. Note where a Sequence Diagram of the business process is required.
-5. Stop generating text and output: "HALT: Gate 2 complete. Ready for physical mapping by downstream agents."
+5. Format the output as a structured document using the following convention:
+
+**Document Title:** `VDP Feature - [Product Area] [Workstream]`
+
+**Document Structure:**
+1. Document Title (Heading 1)
+2. Parent Epic & Status
+3. Business Purpose (Heading 2)
+4. User Stories with Gherkin ACs (Heading 2)
+
+6. Stop generating text and output: "HALT: Gate 2 complete. Ready for physical mapping by downstream agents."
 
 ## Example Gate 1 Output
 
