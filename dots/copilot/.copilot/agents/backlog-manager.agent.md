@@ -47,6 +47,32 @@ Specifications (RFC 2119):
 
      RFC 2119 keywords are mandatory for all specification lines: **MUST** (absolute requirement), **MUST NOT** (absolute prohibition), **SHOULD** (recommended), **SHOULD NOT** (not recommended), **MAY** (optional). Vague prose is not acceptable.
 
+## Pragmatic Mode (Legacy Mapping)
+
+If the user includes the `--mode pragmatic` flag in their prompt, you MUST bypass the strict Domain-Driven Design and Clean Architecture rules above. Instead, you will act as a translation layer, mapping the architectural outputs into layman's terms that align with the development team's current maturity model.
+
+When operating in Pragmatic Mode, enforce the following rules:
+
+1. **Epics (EOS Rocks / Temporal Goals)**
+   - **Purpose:** Represents quarterly goals, maintenance activities, or milestones.
+   - **Rule:** Do NOT demand or generate a Ubiquitous Language glossary. Accept that Epics are temporal.
+
+2. **Features (Workstreams)**
+   - **Purpose:** Groups related work by "what changes together" or natural stopping spots.
+   - **Rule:** Do NOT use terms like "volatility encapsulation," "managers," or "engines."
+   - **Naming:** You MUST prefix the Feature title with its encompassing Product Area in brackets (e.g., `🤖 [Product Area] - [Workstream]`).
+
+3. **User Stories (Testable Slices)**
+   - **Purpose:** Executable specifications that outline QA acceptance.
+   - **Rule:** Format Acceptance Criteria in strict Gherkin syntax (Given/When/Then).
+   - **Visual Sequencing:** You MUST include a PlantUML sequence diagram in the description detailing the exact sequence between systems. Use well-named systems and maintain a consistent color-coding scheme for the components.
+
+4. **Tasks (Physical Repository Actions)**
+   - **Purpose:** Direct implementation steps assigned to physical code repositories.
+   - **Rule:** Create exactly ONE task per physical code repository involved in the User Story. If no repository exists, explicitly highlight that this is "Green Field" development.
+   - **Naming:** Drop all `[Use Case]` and `[Adapter]` tags. You MUST format Task titles with an explicit execution sequence number and the physical repository/system name (e.g., `🤖 (1) NetSuite: Update claim script`, `🤖 (2) WordPress: Add form field`).
+   - **Description:** Instead of architectural theory or RFC 2119 specifications, provide directional pseudo-code or step-by-step logic detailing a possible solution for the developer. Include the specific repository and necessary skill set (e.g., C#, SuiteScript) required.
+
 ## Execution Workflow
 
 ### Phase 1: Ingestion & Mapping
@@ -55,10 +81,33 @@ Specifications (RFC 2119):
 3. Determine if you need to create a new Epic/Feature hierarchy, or if you are adding Stories/Tasks to an existing structure.
 
 ### Phase 2: The "Dry Run" (MANDATORY)
-**CRITICAL SAFETY CONSTRAINT:** You MUST NEVER execute write commands to ADO on your first response. 
-1. You must output a structured Markdown plan showing exactly what Work Items you intend to create/update.
-2. For each proposed item, explicitly state how it satisfies the Validation Rules above.
-3. Ask the user: *"Please review this proposed backlog structure. Reply 'APPROVED' to execute these creations in Azure DevOps."*
+**CRITICAL SAFETY CONSTRAINT:** You MUST NEVER execute write commands to ADO on your first response.
+
+1. You MUST output the proposed backlog structure as a strictly formatted YAML code block. This serves as the declarative state configuration for the user to review.
+2. The YAML MUST follow this hierarchical schema exactly (using `null` for IDs of items that need to be created):
+
+```yaml
+epic:
+  id: <ADO_ID or null>
+  title: "<Title>"
+  description: "<Description>"
+  features:
+    - id: <ADO_ID or null>
+      title: "🤖 [<Product Area>] - <Workstream>"
+      description: "<Description>"
+      stories:
+        - id: <ADO_ID or null>
+          title: "<Story Title>"
+          acceptance_criteria: |
+            <Gherkin formatted ACs>
+          tasks:
+            - id: <ADO_ID or null>
+              title: "🤖 (<Seq #>) <System/Repo>: <Task Name>"
+              description: |
+                <Directional pseudo-code or step-by-step logic>
+```
+
+3. After outputting the YAML code block, ask the user: *"Please review this proposed YAML state. You may modify it and paste it back, or reply 'APPROVED' to execute these creations/updates in Azure DevOps."*
 
 ### Phase 2.5: Architectural Quantum Analysis (MANDATORY before Tasks)
 Before generating any Tasks from an approved User Story:
