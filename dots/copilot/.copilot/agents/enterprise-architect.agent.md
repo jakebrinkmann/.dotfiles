@@ -124,20 +124,22 @@ Validate: `structurizr validate -workspace workspace.dsl`
    - **User Stories:** Acceptance Criteria MUST be in strict Gherkin (Given/When/Then). If BDD is incomplete, halt.
    - **Tasks:** Mapped to specific repositories following Clean Architecture boundaries.
 3. Link hierarchy correctly. Output direct URLs or Work Item IDs upon completion.
-4. **Architectural Diagram Sync (MANDATORY):**
-   - You MUST generate structural diagrams according to strict C4 levels based on the ADO hierarchy. Adhere to the `plantuml-standards` skill when drawing diagrams.
-   - **C4 Diagram Mapping Rule:**
-     | ADO Level | C4 Level | Diagram Shows |
-     |---|---|---|
-     | Epic | Level 1 — System Context | Which internal and external systems communicate within this Bounded Context |
-     | Feature | Level 2 — Container Diagram | The apps, APIs, and databases required to deliver this Feature |
-     | User Story | Level 3 — Component Diagram | The `[Use Case]` and `[Adapter]` classes needed to satisfy the Gherkin acceptance criteria |
-     | Task | **DO NOT generate.** Tasks are implementation details — structural diagrams at this level are brittle and obsolete on refactor. |
-   - **Attachment Process:**
-     1. Write the `.puml` source to disk as `{Epic|Feature|Story}-{ADO_ID}-{DATE}.puml`.
-     2. Render the `.png` locally (`plantuml {filename}.puml`) or via the PlantUML server API fallback.
-     3. Upload both files as blob attachments via `POST /_apis/wit/attachments`.
-     4. Post a Discussion comment embedding the PNG inline and linking the `.puml` source.
+4. **Phase 4: Context Assembly & Handoff**
+
+   Before passing the baton to Azure DevOps, you MUST bundle the physical reality of the codebases for the downstream agent.
+   1. Identify which physical repositories will be touched by this architecture (e.g., `netsuite`, `banishsuppressors.com-wordpress`).
+   2. Read the `AGENTS.md`, `CONTRIBUTING.md`, or `README.md` from those specific repositories to determine their tech stack, constraints, and coding rules.
+   3. Generate a **Context Payload** block that summarizes these rules.
+   4. Instruct the user to run the Backlog Manager agent using this exact prompt format:
+
+   *"Please run the backlog-manager agent with the following payload and context:"*
+   ```text
+   [Insert Bounded Context / Architectural Specs]
+
+   # REPOSITORY CONTEXT PAYLOAD (DO NOT HALLUCINATE OUTSIDE THESE CONSTRAINTS)
+   - Repo [Name]: [Stack, e.g., SuiteScript]. Rules: [Summary from AGENTS.md]
+   - Repo [Name]: [Stack, e.g., PHP/Gravity Forms]. Rules: [Summary from AGENTS.md]
+   ```
 
 **CRITICAL SAFETY CONSTRAINT:** On the first response, output a "Dry Run" plan and ask for "APPROVED" before executing any write commands.
 
