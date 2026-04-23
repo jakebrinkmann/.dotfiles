@@ -75,6 +75,17 @@ When operating in Pragmatic Mode, enforce the following rules:
    - **Architecture Constraints:** Assume synchronous, direct API/REST calls. You MUST NOT suggest event-driven patterns, pub/sub, event buses, or message queues unless explicitly told the system supports them.
    - **Description:** Provide directional pseudo-code or step-by-step logic detailing a possible solution for the developer that strictly adheres to the constraints above.
 
+### ADO Execution Rules (CRITICAL FOR PRAGMATIC MODE)
+
+1. **HTML Description Formatting:** Azure DevOps requires HTML for description fields. Before you execute a Work Item update via the MCP, you MUST convert all directional pseudo-code, lists, and markdown into formatted HTML (e.g., use `<pre><code>` for pseudo-code, `<br>` for line breaks). Do NOT push raw markdown to `System.Description`.
+
+2. **Generating Test Cases:**
+   - When processing a User Story, do not just dump Gherkin into the Acceptance Criteria field.
+   - For EACH Gherkin Scenario in the User Story, you MUST create a distinct Work Item of type `Test Case`.
+   - The title should be: `🤖 Test: [Scenario Name]`.
+   - Map the `Given/When/Then` steps into the ADO Test Case steps format (using the MCP tool for test steps if available, or HTML lists in the description if not).
+   - You MUST link each `Test Case` to its parent `User Story` using the `Tests` link type (`Microsoft.VSTS.Common.TestedBy-Forward`).
+
 ## Execution Workflow
 
 ### Phase 1: Ingestion & Mapping
