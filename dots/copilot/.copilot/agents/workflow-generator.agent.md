@@ -204,7 +204,7 @@ ${INCLUDE_TEST_PATTERNS ?
 ```
 ${INCLUDE_SEQUENCE_DIAGRAM ? 
   "10. **Sequence Diagram & ADO Sync**
-      - Generate a detailed sequence diagram showing all components using **vanilla PlantUML** (NO HTML tags, NO custom styling, strict text nodes only). The diagram `title` MUST be prefixed with `🤖 `.
+      - Generate a detailed sequence diagram showing all components using **vanilla PlantUML** (NO HTML tags, NO custom styling, strict text nodes only). The diagram `title` MUST be prefixed with ``.
       - Include method calls with parameter types, return values, and conditional paths.
       - **If an ADO Work Item ID is provided in the prompt:**
         1. Save the `.puml` source locally as `Story-{ADO_ID}-{DATE}.puml`.
@@ -311,7 +311,7 @@ implementing new features to maintain consistency with the codebase."
 1. **Validate Scope** — use the `azure-devops` MCP to fetch the Work Item type. If it is a Task, fetch its parent Story and use that as the scope.
 2. **Read the Work Item** — fetch the title, description, and Gherkin acceptance criteria of the resolved Feature or Story.
 3. **Locate the Code** — scan the codebase to identify the specific class/component that implements this Story or Feature.
-4. **Generate the Sequence Diagram** — produce a vanilla PlantUML sequence diagram. Adhere to the `plantuml-standards` skill when drawing diagrams. The diagram `title` MUST be prefixed with `🤖 `.
+4. **Generate the Sequence Diagram** — produce a vanilla PlantUML sequence diagram. Adhere to the `plantuml-standards` skill when drawing diagrams. The diagram `title` MUST be prefixed with ``.
    - **Scope:** Model the behavioral flow of the entire Use Case — from the upstream trigger, through all `[Use Case]` and `[Adapter]` components, to the downstream dependency (database, external API). DO NOT recurse beyond the components directly involved.
    - Label each participant with its Clean Architecture layer: `[Use Case]` or `[Adapter]`
    - Include method calls with parameter types, return values, and conditional/error paths
@@ -345,7 +345,7 @@ implementing new features to maintain consistency with the codebase."
    - **Upstream** Features this Feature depends on (Predecessor links)
    - **Downstream** Features that depend on this Feature (Successor links)
    - Stop at exactly **1 degree** — do not recurse further
-3. **Generate the Feature Map** — produce a vanilla PlantUML diagram from the ADO data. Adhere to the `plantuml-standards` skill when drawing diagrams. The diagram `title` MUST be prefixed with `🤖 `.
+3. **Generate the Feature Map** — produce a vanilla PlantUML diagram from the ADO data. Adhere to the `plantuml-standards` skill when drawing diagrams. The diagram `title` MUST be prefixed with ``.
    - NO HTML tags, NO custom styling, NO `skinparam`
    - The target Feature is the **center node**
    - Upstream Features on the left, downstream Features on the right

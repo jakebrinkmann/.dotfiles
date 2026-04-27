@@ -35,7 +35,7 @@ You must execute one Gate at a time and then HALT.
 ### GATE 1: Ideation (Epic & Feature)
 
 1. Propose the Epic.
-2. List the required Features using the strict format: `🤖 [Product Area] - [Workstream]`.
+2. List the required Features using the strict format: `[Product Area] - [Workstream]`.
 3. Stop generating text and output: "HALT: Awaiting human approval for Gate 1."
 
 ### GATE 2: Business Logic (User Stories)
@@ -61,8 +61,8 @@ You must execute one Gate at a time and then HALT.
 ```
 **Epic:** Q3 Vendor Integration Overhaul
 **Features:**
-🤖 [TrustManagement] - US Law Shield API Intake
-🤖 [TrustManagement] - Entity Mapping Verification
+[TrustManagement] - US Law Shield API Intake
+[TrustManagement] - Entity Mapping Verification
 
 HALT: Awaiting human approval for Gate 1.
 ```

@@ -115,7 +115,7 @@ Validate: `structurizr validate -workspace workspace.dsl`
 
 **Trigger:** Translate a verified EAR into Azure DevOps execution.
 
-**🤖 AI Authorship Prefix (MANDATORY):** Every Work Item title you create or update via ADO Sync MUST be prefixed with `🤖 ` (U+1F916 followed by a space). This applies to Epics, Features, User Stories, and Tasks without exception.
+**AI Authorship Prefix (MANDATORY):** Every Work Item title you create or update via ADO Sync MUST be prefixed with `` (U+1F916 followed by a space). This applies to Epics, Features, User Stories, and Tasks without exception.
 
 1. Read the EAR F# and Gherkin models.
 2. Use `azure-devops` MCP to create/update Work Items in the correct hierarchy:
@@ -156,7 +156,7 @@ Validate: `structurizr validate -workspace workspace.dsl`
    - `attach component [StoryID]` → fetch the User Story + child Tasks → generate a **Level 3 Component Diagram** (`[Use Case]` and `[Adapter]` classes satisfying the Gherkin acceptance criteria)
    - **Task IDs are forbidden.** If a Task ID is provided, STOP and instruct the user to provide the parent Story ID.
 2. **Fetch ADO Context** — use the `azure-devops` MCP to read the target Work Item, its description, and its full child hierarchy.
-3. **Generate Diagram** — produce a vanilla PlantUML structural diagram. Adhere STRICTLY to the `plantuml-standards` skill. The diagram `title` MUST be prefixed with `🤖 `. Name the artifact `{Epic|Feature|Story}-{ADO_ID}-{context|container|component}-{DATE}.puml`.
+3. **Generate Diagram** — produce a vanilla PlantUML structural diagram. Adhere STRICTLY to the `plantuml-standards` skill. The diagram `title` MUST be prefixed with ``. Name the artifact `{Epic|Feature|Story}-{ADO_ID}-{context|container|component}-{DATE}.puml`.
 4. **Render** — execute `plantuml {filename}.puml` locally to produce the `.png`.
 5. **Upload** — upload both files as blob attachments via `POST /_apis/wit/attachments`.
 6. **Post Comment** — use exactly this template and nothing else:
@@ -189,7 +189,7 @@ Validate: `structurizr validate -workspace workspace.dsl`
 **Structurizr Multi-File Constraints:**
 - `workspace.dsl` is the ONLY file permitted to use `workspace`, `model`, `views`, or `deploymentEnvironment` blocks.
 - All other `.dsl` files must be pure structural fragments without wrappers.
-- **View Title Standard:** All `title` values in `workspace.dsl` MUST follow `"🤖 [Canonical Name] — [Level Prefix]-[Type]"` (e.g., `"🤖 Order Management — 1-System Context"`, `"🤖 Order Management — 2-Container View"`). See EAR Structural Template §4 for the full level table.
+- **View Title Standard:** All `title` values in `workspace.dsl` MUST follow `"[Canonical Name] — [Level Prefix]-[Type]"` (e.g., `"Order Management — 1-System Context"`, `"Order Management — 2-Container View"`). See EAR Structural Template §4 for the full level table.
 
 **ADR Format (Y-Statement):**
 _"In the context of [use case], facing [concern], we decided for [option], and neglected [other options], to achieve [outcome], accepting [downside]."_
@@ -241,7 +241,7 @@ You MUST create views for the new Bounded Context inside `/workspace.dsl` within
 **C4 View Title Standard (MANDATORY):**
 All view `title` values MUST follow this exact pattern:
 ```
-🤖 [Canonical Name] — [C4 Level Prefix]-[View Type]
+[Canonical Name] — [C4 Level Prefix]-[View Type]
 ```
 Where the C4 level prefix and view type are locked to this table:
 
@@ -263,13 +263,13 @@ Where the C4 level prefix and view type are locked to this table:
 systemContext [contextCamelCase] "[ContextTitle]-Context" {
     include *
     autoLayout lr
-    title "🤖 [Context Title] — 1-System Context"
+    title "[Context Title] — 1-System Context"
 }
 
 container [contextCamelCase] "[ContextTitle]-Containers" {
     include *
     autoLayout tb
-    title "🤖 [Context Title] — 2-Container View"
+    title "[Context Title] — 2-Container View"
 }
 ```
 
