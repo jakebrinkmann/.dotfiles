@@ -57,7 +57,7 @@ alias lick=touch
 alias help=man
 
 alias DockerDesktop="open -a Docker"
-alias docker-compose="docker compose"
+# alias docker-compose="docker compose"
 alias Obsidian="open 'obsidian://open'"
 
 # Python Environments
