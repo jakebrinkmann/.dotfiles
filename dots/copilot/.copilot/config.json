@@ -1,5 +1,6 @@
+// User settings belong in settings.json.
+// This file is managed automatically.
 {
-  "banner": "never",
   "lastLoggedInUser": {
     "host": "https://github.com",
     "login": "jbrinkmann-sc"
@@ -10,16 +11,11 @@
       "login": "jbrinkmann-sc"
     }
   ],
-  "renderMarkdown": true,
-  "screenReader": false,
-  "theme": "auto",
   "trustedFolders": [
     "/Users/jakebrinkmann/"
   ],
   "askedSetupTerminals": [
     "vscode"
   ],
-  "firstLaunchAt": "2026-03-11T00:00:00.000Z",
-  "effortLevel": "high",
-  "show_reasoning": false
+  "firstLaunchAt": "2026-03-11T00:00:00.000Z"
 }
