@@ -6,7 +6,14 @@
     },
     "azure-devops": {
       "command": "sh",
-      "args": ["-c", "npx -y @azure-devops/mcp@latest \"$AZ_ORGANIZATION_NAME\""]
+      "args": [
+        "-c",
+        "npx -y @azure-devops/mcp@latest \"$AZ_ORGANIZATION_NAME\""
+      ]
+    },
+    "gitnexus": {
+      "command": "gitnexus",
+      "args": ["mcp"]
     }
   }
 }
