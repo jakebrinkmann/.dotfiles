@@ -38,10 +38,10 @@ stow --adopt -t ~/.config/ vscode
 cd "$HOME" || exit
 brew bundle --file ~/.Brewfile
 
-confirm "Install global Python packages (virtualenv, pip, strip-tags)?" && \
+confirm "Install global Python packages (virtualenv, pip, strip-tags)?" &&
   bash ~/.dotfiles/install/brew-python.sh
 
-confirm "Install AWS tooling (awscli, sam, cfn-lint)?" "n" && \
+confirm "Install AWS tooling (awscli, sam, cfn-lint)?" "n" &&
   bash ~/.dotfiles/install/brew-aws.sh
 
 if grep -qE '^ID=(arch|manjaro)$' /etc/os-release; then
@@ -76,9 +76,10 @@ else
   xcode-select --install || true
 fi
 
-confirm "Set up Neovim via bob?" && \
-  bob use stable && \
+confirm "Set up Neovim via bob?" &&
+  bob use stable &&
   nvim --version
-confirm "Install Node.js LTS via nvm?" && \
-  nvm install --lts && \
-  node --version
+confirm "Install Node.js LTS via nvm?" &&
+  nvm install --lts &&
+  node --version &&
+  npm install -g gitnexus
