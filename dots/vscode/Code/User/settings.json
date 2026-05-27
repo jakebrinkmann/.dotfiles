@@ -30,13 +30,12 @@
     "github.copilot.nextEditSuggestions.enabled": true,
     "explorer.confirmDragAndDrop": false,
     "[json]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
+        "editor.defaultFormatter": "vscode.json-language-features"
     },
     "[yaml]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "diffEditor.ignoreTrimWhitespace": false,
-    "chat.viewSessions.orientation": "stacked",
     // PlantUML configuration'
     // ls /opt/homebrew/Cellar/plantuml/*/libexec/plantuml.jar
     // ls /opt/homebrew/Cellar/openjdk/**/libexec/openjdk.jdk/Contents/Home/bin/java
@@ -47,5 +46,6 @@
     "datadog.connection.oauth.setup.domain": "us3.datadoghq.com",
     "datadog.timeRange.setup.timeFrame": "15m",
     "chat.mcp.gallery.enabled": true,
-    "@azure.argTenant": ""
+    "@azure.argTenant": "",
+    "chat.viewSessions.orientation": "stacked"
 }

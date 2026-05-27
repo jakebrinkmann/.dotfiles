@@ -1079,3 +1079,129 @@ dynamic mySystem "L2D_Epic3_Checkout" {
 - Tag expressions (`element.tag==...`) — not permitted
 - Adding relationships that don't exist in the static model
 - `autoLayout` direction is the only layout option (no manual layout for dynamic views)
+
+---
+
+## 22. Azure as a Deployment Node — Two-Layer Model
+
+**Azure is a deployment node, not a container.** This is the single most common
+modelling error when generating EAR DSL from an infrastructure inventory.
+
+### The two-layer rule
+
+| C4 layer | What it models | Azure example |
+|---|---|---|
+| **Logical** (`softwareSystem` / `container`) | Business capabilities — what the system does | "Customer Portal API" |
+| **Deployment** (`deploymentNode` / `containerInstance`) | Where it runs — Azure infrastructure topology | `as-sc-api` App Service |
+
+These two layers are **always separate**. Never put Azure resource names as
+container display names or `"Azure App Service"` as a container's `technology`
+field. The `technology` field on a logical container must be the **production
+runtime** (e.g., `"C# / ASP.NET Core"`, `"Node.js"`, `"React / TypeScript"`).
+
+### What the Stage-00 survey maps to
+
+When harvesting from `az webapp list`, each App Service maps to:
+
+| Azure field | C4 destination |
+|---|---|
+| `name` (e.g., `as-sc-api`) | `deploymentNode` name inside `deploymentEnvironment` |
+| `resourceGroup` | parent `deploymentNode` (Azure Resource Group) |
+| BoundedContext (from map file) | `softwareSystem` identifier + display name |
+| MERA tag (from map file) | `tags` on the logical `container` |
+| `BusinessName` (from map file) | logical `container` display name |
+| `Technology` (from map file) | logical `container` `technology` field |
+
+### Correct DSL pattern
+
+```dsl
+// ── Logical model (L2) ────────────────────────────────────────────────
+customerPortal = softwareSystem "Customer Portal" {
+    // Business name, production runtime — NO Azure infrastructure names here
+    api = container "Customer Portal API" "Handles customer requests." "C# / ASP.NET Core" {
+        tags "Manager" "Existing Internal"
+    }
+}
+
+// ── Deployment model (DEP_) ───────────────────────────────────────────
+production = deploymentEnvironment "Production" {
+    deploymentNode "Microsoft Azure" "" "Cloud" {
+        deploymentNode "rg-sc-api" "" "Azure Resource Group" {
+            deploymentNode "as-sc-api" "" "Azure App Service" {
+                containerInstance customerPortal.api
+            }
+        }
+    }
+}
+
+// ── DEP_ view ─────────────────────────────────────────────────────────
+views {
+    deployment * production "DEP_Production" "Production deployment topology" {
+        include *
+        autoLayout lr
+    }
+}
+```
+
+### ❌ Anti-patterns to reject
+
+```dsl
+// ❌ WRONG — Azure name as container display name
+container "as-sc-api" "..." "Azure App Service" { ... }
+
+// ❌ WRONG — deployment platform as technology field
+container "Customer Portal API" "..." "Azure App Service" { ... }
+
+// ❌ WRONG — no deploymentEnvironment at all (logical containers only)
+// (This produces L2 views but misses the entire DEP_ layer)
+```
+
+### `infrastructureNode` for managed services
+
+Azure managed services that are not instances of logical containers (SQL, Service Bus,
+Blob Storage, Key Vault, etc.) use `infrastructureNode` inside `deploymentNode`:
+
+```dsl
+production = deploymentEnvironment "Production" {
+    deploymentNode "Microsoft Azure" "" "Cloud" {
+        deploymentNode "rg-sc-api" "" "Azure Resource Group" {
+            deploymentNode "as-sc-api" "" "Azure App Service" {
+                containerInstance customerPortal.api
+            }
+            infrastructureNode "sc-api-sql" "Customer Portal database." "Azure SQL"
+            infrastructureNode "sc-api-sb" "Async messaging." "Azure Service Bus"
+        }
+    }
+}
+```
+
+### `ear_resource_map.json` — required fields for DSL generation
+
+Each entry in `resources.app_services` must carry two additional optional fields
+so the Stage-00 agent can generate a correct logical container:
+
+```json
+"as-sc-api": {
+    "BoundedContext": "CustomerPortal",
+    "MERA": "Manager",
+    "BusinessName": "Customer Portal API",
+    "Technology": "C# / ASP.NET Core"
+}
+```
+
+- **`BusinessName`** — display name for the logical `container`. If absent, the
+  generation agent derives it from `BoundedContext` + `MERA`
+  (e.g., `"CustomerPortal"` + `"Manager"` → `"Customer Portal Manager"`).
+- **`Technology`** — production runtime. If absent, defaults to `"Unknown / TBD"`.
+- Neither field appears in the `deploymentNode` — they belong on the logical container only.
+
+### Lifecycle tag on surveyed App Services
+
+All resources discovered via `az webapp list` are live in production.
+Every generated logical container must carry `"Existing Internal"`:
+
+```dsl
+container "Customer Portal API" "..." "C# / ASP.NET Core" {
+    tags "Manager" "Existing Internal"
+}
+```

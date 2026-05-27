@@ -14,6 +14,10 @@
     "gitnexus": {
       "command": "gitnexus",
       "args": ["mcp"]
+    },
+    "structurizr": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "http://localhost:3000/mcp"]
     }
   }
 }
