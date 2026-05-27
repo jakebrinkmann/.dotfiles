@@ -7,12 +7,12 @@ description: "Best practices, schema constraints, and hard-won patterns for auth
 
 ## 1. Agent Types — Constraints Matrix
 
-| `type` | `output:` block | Inside `parallel:` | Notes |
-|---|---|---|---|
-| `agent` (LLM) | ✅ required | ✅ allowed | Default for LLM calls |
-| `script` | ❌ **forbidden** | ❌ **forbidden** | Output captured from stdout JSON |
-| `workflow` | ✅ optional | ✅ allowed | Sub-workflow call |
-| `human_gate` | ❌ | ✅ allowed | Options use `route:` (singular) |
+| `type` | `output:` block | Inside `parallel:` | `input_mapping:` | Notes |
+|---|---|---|---|---|
+| `agent` (LLM) | ✅ required | ✅ allowed | ❌ | Default for LLM calls |
+| `script` | ❌ **forbidden** | ❌ **forbidden** | ❌ | Output captured from stdout JSON |
+| `workflow` | ✅ optional | ✅ allowed | ✅ **required for sub-workflow inputs** | Sub-workflow call |
+| `human_gate` | ❌ | ✅ allowed | ❌ | Options use `route:` (singular) |
 
 **`type: script` output contract:**
 - Print a single JSON object on stdout: `print(json.dumps({...}))`
@@ -42,6 +42,31 @@ for_each:
 - `source` must be an array of objects (not strings) if you use `{{ item.field }}`
 - `routes:` on the `for_each` block fires **after all iterations complete**
 - Never put `routes:` on the inline `agent:` inside `for_each`
+
+**Sub-workflow inside `for_each` — use `input_mapping:`** (not `input:`):
+
+```yaml
+for_each:
+  - name: per_epic_arch
+    source: select_epic.output.epics
+    as: epic_data
+    agent:
+      name: run_per_epic
+      type: workflow
+      workflow: "per-epic.yaml"
+      input_mapping:                       # ← dict, NOT a list!
+        epic_data: "{{ epic_data }}"       # loop var → named sub-workflow input
+        ear_path: "{{ workflow.input.ear_path }}"
+    routes:
+      - to: $end
+```
+
+> ⚠️ **`input:` (list) ≠ `input_mapping:` (dict).**
+> - `input:` is for declaring LLM context dependencies (list of dotpath strings).
+> - `input_mapping:` is for passing **named inputs to sub-workflows** (dict of name → Jinja2 expr).
+> - Without `input_mapping`, the runtime forwards the **parent's** `workflow.input.*` as-is —
+>   it does NOT pass the loop variable. This causes:
+>   `TemplateError: 'dict object' has no attribute '<expected_key>'`
 
 ---
 
@@ -199,7 +224,76 @@ This warning fires when `$output` references a script/agent that can be skipped 
 
 ---
 
-## 11. Output Schema — LLM Agents
+## 12. `human_gate` — When to Use (Anti-pattern Guide)
+
+**Only add a `human_gate` for one of these two reasons:**
+
+### ✅ A — Fan-out blast radius protection
+The gate sits immediately before a `for_each` loop that fans into many
+parallel LLM agents (each expensive in time + tokens). A bad upstream
+assumption would otherwise waste minutes and API budget across every iteration.
+
+```yaml
+# ✅ CORRECT: gate before wildcard for_each fan-out
+- name: architect_review         # gate sits before 6-epic Opus loop
+  type: human_gate
+  ...
+for_each:
+  - name: per_epic_arch
+    source: epics.output.items   # N concurrent Opus agents
+```
+
+### ✅ B — IDE injection point
+The gate pauses the workflow so the Architect can **open the generated file
+in their editor, make manual corrections, and then approve**. The next agent
+reads the edited file off disk and treats it as ground truth.
+
+```yaml
+# ✅ CORRECT: gate so architect can edit decomposition.json before fan-out
+- name: architect_review
+  type: human_gate
+  prompt: |
+    Open {{ workspace_root }}/decomposition.json and edit as needed.
+    Press Approve when the file reflects your intent.
+```
+
+### ✅ C — Irreversible remote mutation
+The gate sits immediately before a step that **writes to an external system**
+(Git remote, ADO, Slack, etc.). These side-effects cannot be undone by
+re-running the pipeline.
+
+```yaml
+# ✅ CORRECT: gate before MCP write to ADO / EAR repo
+- name: ado_blast_radius_gate
+  type: human_gate
+  ...
+- name: ado_writer           # creates real work items — irreversible
+```
+
+### ❌ Anti-pattern: safety gate for local `.artifacts/` writes
+**Never add a `human_gate` solely to "check" output before it is written
+to `.artifacts/`.** `.artifacts/` is an ephemeral, `.gitignore`d scratch
+space — bad output there has zero consequences. The Architect can always
+open the file in their IDE, fix it, and re-run (or just move on to 3x
+publisher which is the real gate).
+
+```yaml
+# ❌ WRONG — pure safety gate with only $end routes
+- name: human_review
+  type: human_gate
+  prompt: "Review the Trinity files. Approve when satisfied."
+  options:
+    - label: "Approve"
+      route: $end         # only route is $end — adds friction, no value
+```
+
+**Decision rule:**
+> If removing the gate would cause the pipeline to write the SAME files to
+> the SAME place (`.artifacts/`) — remove it. The 3x Publisher series owns
+> the real gates before remote mutations.
+
+---
+
 
 Every LLM agent that produces data used downstream **must** declare `output:`:
 
