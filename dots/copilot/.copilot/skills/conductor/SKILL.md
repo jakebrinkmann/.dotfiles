@@ -170,6 +170,22 @@ Add `output: { field: type }` to every LLM agent or `agent.output.field` will th
       to: error_agent
 ```
 
+> ⚠️ **`when:` expressions are evaluated as Python — use Python literals.**
+> - Booleans: `True` / `False` (NOT `true` / `false`)
+> - Integers: `exit_code == 0` (as before)
+> - Agent boolean output: `when: "requires_architect_review == False"`
+>
+> ```yaml
+> # ❌ WRONG — 'false' is undefined in Python
+> routes:
+>   - when: "my_flag == false"
+>
+> # ✅ CORRECT — Python boolean literal
+> routes:
+>   - when: "my_flag == False"
+>   - when: "my_flag == True"
+> ```
+
 > ⚠️ **Never use a bare `- to: <node>` fallthrough on script nodes.**
 > A bare fallthrough (no `when:` condition) is treated as **always-true** and
 > is evaluated top-to-bottom — it will fire even when `exit_code == 0`, causing
