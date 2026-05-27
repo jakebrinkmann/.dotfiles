@@ -55,7 +55,7 @@ for_each:
       type: workflow
       workflow: "per-epic.yaml"
       input_mapping:                       # ← dict, NOT a list!
-        epic_data: "{{ epic_data }}"       # loop var → named sub-workflow input
+        epic_data: "{{ epic_data | tojson }}"   # tojson required for objects!
         ear_path: "{{ workflow.input.ear_path }}"
     routes:
       - to: $end
@@ -67,6 +67,13 @@ for_each:
 > - Without `input_mapping`, the runtime forwards the **parent's** `workflow.input.*` as-is —
 >   it does NOT pass the loop variable. This causes:
 >   `TemplateError: 'dict object' has no attribute '<expected_key>'`
+>
+> ⚠️ **Always use `| tojson` for object/array values in `input_mapping`.**
+> Jinja2 renders dicts via Python's `str()` (single quotes). The runtime attempts
+> `json.loads()` for type coercion — single-quoted dicts fail, falling back to a
+> raw string. `| tojson` emits valid JSON so the parse succeeds.
+> - Object values: `"{{ my_obj | tojson }}"`  → parsed back as dict ✅
+> - String values: `"{{ workflow.input.name }}"` → no filter needed (already a string)
 
 ---
 
