@@ -121,6 +121,80 @@ The aggregator (`workspace.dsl` or `enterprise-landscape.dsl`) wraps every fragm
 
 ---
 
+## 2a. Variable Scoping — The Definitive Reference
+
+Variables in Structurizr DSL are **block-local**. A variable declared inside `container { }` or `component { }` dies when that block closes. **Sibling blocks cannot see each other's variables.**
+
+### Three relationship patterns
+
+**Pattern A — same-container (component → sibling component):**
+Use `this ->` inside the component block. Declare the target sibling *first* in the same container:
+
+```dsl
+partnersApiApp = container "..." "..." "..." {
+    entitlementService = component "EntitlementService" "..." "..." { }   // declared first
+    dealerAccessGateway = component "DealerAccessGateway" "..." "..." {
+        this -> entitlementService "Checks entitlement" "In-process"   // ✅ sibling in scope
+        this -> entraId "Validates SSO session" "OIDC"                 // ✅ external in outer scope
+    }
+}
+```
+
+**Pattern B — cross-container (component → component in another container):**
+Use full dot-notation **outside all blocks** after all `!element` / container / component blocks have closed:
+
+```dsl
+// After all !element blocks:
+partnerApi.partnersApiApp.dealerAccessGateway -> partnerApi.partnersEngine.launchSession "Delegates" "In-process"
+```
+
+> Note: a component→component cross-container relationship also implicitly creates the
+> container→container relationship used by dynamic views.
+
+**Pattern C — external actor initiates (actor/system → component):**
+Declare with `actor -> this` inside the component block:
+
+```dsl
+dealerAccessGateway = component "..." "..." "..." {
+    ffl -> this "Requests access" "HTTPS"   // ✅ ffl declared before !element block
+}
+```
+
+### ❌ Never do these
+
+```dsl
+// ❌ Variables out of scope after block closes
+!element partnerApi {
+    partnersApiApp = container "..." {
+        dealerAccessGateway = component "..." { }
+    }
+    partnersEngine = container "..." {
+        launchSession = component "..." { }
+    }
+    dealerAccessGateway -> launchSession "..."   // BOTH out of scope — ERROR
+}
+
+// ❌ Referencing sibling container's variable inside nested block
+partnersApiApp = container "..." {
+    dealerAccessGateway = component "..." {
+        this -> launchSession "..."   // launchSession is in partnersEngine, not here — ERROR
+    }
+}
+```
+
+### Ordering rule
+Declare dependencies **before** the element that references them. If container A's component references container B's component, declare container B first in the `!element` block.
+
+### Validation
+Always run before declaring success:
+```bash
+docker compose run --rm structurizr validate -workspace /usr/local/structurizr/workspace.dsl
+```
+
+
+
+---
+
 ## 3. `workspace extends` for Specs / Overlay Workspaces
 
 Specs and target-state overlays must use `workspace extends`, not `!include` coupling into the base workspace.
