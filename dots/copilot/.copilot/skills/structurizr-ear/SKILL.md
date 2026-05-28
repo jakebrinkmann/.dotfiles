@@ -909,14 +909,24 @@ This also means you cannot create the same relationship twice across `!include`d
 
 ## 17. Tag Expressions in View `include`/`exclude`
 
-When filtering elements in a view by tag, **quote expressions that contain whitespace**:
+When filtering elements in a view by tag, **always use `element.tag==` (not `tag==`) and quote expressions that contain whitespace**:
 
 ```dsl
 systemLandscape "L1_Landscape" {
-    include "element.tag==Existing Internal"   # CORRECT — quoted
-    exclude "element.tag==Legacy"
+    include "element.tag==Existing Internal"   # ✅ CORRECT
+    exclude "element.tag==Legacy"              # ✅ CORRECT (no space — quotes optional but safe)
     autoLayout
 }
+```
+
+**Common wrong forms that cause parser errors:**
+
+```dsl
+# ❌ WRONG — "tag==" is not a valid expression; parser reports element does not exist
+include tag=="New Internal"
+
+# ❌ WRONG — unquoted expression with spaces splits at the space
+include element.tag==New Internal
 ```
 
 Without quotes, the DSL parser splits the expression at the space — a silent bug. Tag expressions:
@@ -994,6 +1004,21 @@ See section 3 for the full `workspace extends` reference including `!element`, `
 
 Dynamic views show **ordered instances** of relationships to describe how a specific use case or feature works. They are scoped to a C4 level and use existing static-model relationships — you cannot add a relationship in a dynamic view that doesn't exist in the static model.
 
+> ⚠️ **CRITICAL: Every arrow in a dynamic view MUST have a backing static relationship.**
+> Before writing `dynamic.dsl`, scan `container.dsl` for every `->` line. For every arrow
+> you want to draw — including return arrows (`B -> A`) — verify it exists in the static model.
+> If it does NOT exist, add it to `container.dsl` first, then write `dynamic.dsl`.
+>
+> ❌ Arrow in dynamic view with no static backing → _"A relationship between X and Y does not exist in model"_
+> ✅ Add the relationship to `container.dsl` at the bottom (outside any block), then use it in the dynamic view.
+>
+> **Implicit container relationships**: When a Component declares `this -> externalSystem`,
+> Structurizr **implicitly creates a Container→externalSystem relationship**. Do NOT also add
+> an explicit container-level `container -> externalSystem` line — that causes:
+> _"A relationship between Container://X and SoftwareSystem://Y already exists"_
+> Use `docker compose run --rm structurizr validate -workspace /usr/local/structurizr/workspace.dsl`
+> to verify before committing.
+
 ### Scope parameter determines element visibility
 
 ```
@@ -1005,8 +1030,36 @@ dynamic <*|softwareSystem|container> [key] [description] {
 | Scope | Elements allowed in the view |
 |-------|------------------------------|
 | `*` | People + softwareSystems |
-| `<softwareSystem>` | People, softwareSystems, containers |
+| `<softwareSystem>` | People, softwareSystems, **containers only** |
 | `<container>` | People, softwareSystems, containers, components |
+
+> ⚠️ **CRITICAL: softwareSystem-scoped dynamic views cannot include Components.**
+> If your scope is a softwareSystem, every participant must be a Container path
+> (e.g. `systemA.appContainer`). Appending the component name
+> (`systemA.appContainer.managerComponent`) causes a hard compiler error:
+> _"Components can't be added to a dynamic view when the scope is a software system."_
+>
+> To show component-level interactions, scope the view to the **Container** that
+> contains them — but then all participants must live in that one container.
+> If the flow crosses two containers, stay at the container level.
+
+```dsl
+// ✅ CORRECT — system scope, container-level participants
+dynamic partnerApi "DV_01" "Dealer launch flow" {
+    autoLayout
+    ffl -> partnerApi.partnersApiApp "Request launch token"
+    partnerApi.partnersApiApp -> entraId "Validate SSO session"
+    partnerApi.partnersApiApp -> partnerApi.partnersEngine "Delegate token issuance"
+    partnerApi.partnersEngine -> partnerApi.partnersApiApp "Return signed token"
+    partnerApi.partnersApiApp -> ffl "Return signed launch token"
+}
+
+// ❌ WRONG — system scope but component-level paths — compiler error
+dynamic partnerApi "DV_01" "Dealer launch flow" {
+    autoLayout
+    ffl -> partnerApi.partnersApiApp.dealerAccessGateway "Request launch token"  // ← ILLEGAL
+}
+```
 
 ### Basic syntax — enumerate relationships explicitly
 
