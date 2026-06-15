@@ -49,7 +49,6 @@ brew "git-delta"
 brew "llm"
 brew "ollama"
 cask "copilot-cli"
-cask "github-copilot-app"
 # ------------------------------------------------------------------------------
 brew "httpie"
 brew "jq"
