@@ -1,26 +1,15 @@
 # Window configuration
-window-initial-cols = 132
-window-initial-rows = 43
+window-width = 132
+window-height = 43
 
 # Selection configuration
-selection-clipboard-behavior = copy
+copy-on-select = clipboard
+
 # Ghostty splits semantic words using native behavior; explicit custom characters are rarely needed
 
 # Font configuration
-font-family = "Hack Nerd Font Mono"
+#font-family = "Hack Nerd Font Mono"
 font-size = 12
-
-# Keybindings
-keybind = ctrl+0=reset_font_size
-keybind = ctrl+equal=increase_font_size
-keybind = ctrl+shift+plus=increase_font_size
-keybind = ctrl+minus=decrease_font_size
-keybind = ctrl+shift+underscore=decrease_font_size
-keybind = ctrl+shift+n=new_window
-keybind = ctrl+shift+p=new_window
-keybind = ctrl+shift+t=new_tab
-keybind = ctrl+left=previous_tab
-keybind = ctrl+right=next_tab
 
 # Shell configuration
 command = /bin/zsh --login
