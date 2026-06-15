@@ -22,8 +22,8 @@ brew "zsh-autosuggestions"
 brew "powerlevel10k"
 cask "ghostty"
 # ------------------------------------------------------------------------------
-cask "font-fira-code"
-cask "font-hack-nerd-font"
+cask "font-fira-code"  # Fira Code
+cask "font-hack-nerd-font" # Hack Nerd Font Mono
 # ------------------------------------------------------------------------------
 brew "coreutils"
 brew "stow"

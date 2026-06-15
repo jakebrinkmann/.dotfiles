@@ -8,7 +8,7 @@ copy-on-select = clipboard
 # Ghostty splits semantic words using native behavior; explicit custom characters are rarely needed
 
 # Font configuration
-#font-family = "Hack Nerd Font Mono"
+font-family = "Fira Code"
 font-size = 12
 
 # Shell configuration
