@@ -4,6 +4,7 @@ window-height = 43
 
 # Selection configuration
 copy-on-select = clipboard
+quit-after-last-window-closed = true
 
 # Ghostty splits semantic words using native behavior; explicit custom characters are rarely needed
 

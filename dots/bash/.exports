@@ -20,6 +20,8 @@ export GIT_COMMITTER_EMAIL=$EMAIL
 
 # Configure github copilot CLI
 export COPILOT_CUSTOM_INSTRUCTIONS_DIRS="$HOME/Library/Application Support/Code/User/prompts/"
+export OLLAMA_API_BASE=http://127.0.0.1:11434
+export OLLAMA_CONTEXT_LENGTH=8192
 
 ### NOT NEEDED WITH WSL 2
 #### # To connect from WSL to Docker4windows Daemon

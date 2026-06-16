@@ -49,6 +49,7 @@ brew "git-delta"
 brew "llm"
 brew "ollama"
 cask "copilot-cli"
+vscode "Continue.continue"
 # ------------------------------------------------------------------------------
 brew "httpie"
 brew "jq"
@@ -61,8 +62,10 @@ cask "devtoys"
 cask "docker-desktop"
 brew "docker-compose"
 # ------------------------------------------------------------------------------
+brew "python@3.11"
 brew "pipx"
 brew "uv"
+# ------------------------------------------------------------------------------
 brew "nvm"
 brew "prettier"
 brew "yarn"
