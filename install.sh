@@ -84,18 +84,9 @@ confirm "Install Node.js LTS via nvm?" &&
   node --version &&
   npm install -g gitnexus
 
-# LLM SETUP
-brew install ollama llm
-brew services start ollama
-
-llm install llm-ollama llm-model-gateway
-pip3 install mlx-lm aider-chat open-interpreter openai
-
-npm install -g gitnexus@rc --loglevel silly
-ollama pull qwen2.5-coder:7b
-ollama pull deepseek-r1:8b
-ollama pull qwen2.5-coder:14b
-ollama pull deepseek-r1:14b
-ollama pull qwen2.5-coder:32b
-ollama pull deepseek-r1:70b
-ollama pull gemma4:26b
+confirm "Install Ollama?" &&
+  brew install ollama llm &&
+  brew services start ollama &&
+  ollama pull qwen3.6:27b &&
+  ollama pull qwen3.6:35b &&
+  ollama pull deepseek-r1:70b

@@ -21,6 +21,7 @@ brew "zsh"
 brew "zsh-autosuggestions"
 brew "powerlevel10k"
 cask "ghostty"
+cask "stats"
 # ------------------------------------------------------------------------------
 cask "font-fira-code"  # Fira Code
 cask "font-hack-nerd-font" # Hack Nerd Font Mono
@@ -51,6 +52,7 @@ brew "llm"
 brew "ollama"
 cask "copilot-cli"
 vscode "Continue.continue"
+brew "pi-coding-agent"
 # ------------------------------------------------------------------------------
 brew "httpie"
 brew "jq"
