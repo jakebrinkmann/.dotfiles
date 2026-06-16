@@ -24,6 +24,7 @@ cask "ghostty"
 # ------------------------------------------------------------------------------
 cask "font-fira-code"  # Fira Code
 cask "font-hack-nerd-font" # Hack Nerd Font Mono
+cask 'font-jetbrains-mono-nerd-font'  # JetBrainsMono Nerd Font
 # ------------------------------------------------------------------------------
 brew "coreutils"
 brew "stow"

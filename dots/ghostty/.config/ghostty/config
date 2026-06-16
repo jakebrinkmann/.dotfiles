@@ -9,8 +9,10 @@ quit-after-last-window-closed = true
 # Ghostty splits semantic words using native behavior; explicit custom characters are rarely needed
 
 # Font configuration
-font-family = "Fira Code"
+font-family = "JetBrainsMono Nerd"
 font-size = 12
+font-thicken = true
+adjust-cell-height = 10%
 
 # Shell configuration
 command = /bin/zsh --login
