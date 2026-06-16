@@ -98,3 +98,4 @@ ollama pull qwen2.5-coder:14b
 ollama pull deepseek-r1:14b
 ollama pull qwen2.5-coder:32b
 ollama pull deepseek-r1:70b
+ollama pull gemma4:26b
