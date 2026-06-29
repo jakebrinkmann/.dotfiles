@@ -28,7 +28,7 @@ brew install stow
   git clone git@github.com:jakebrinkmann/.dotfiles.git ~/.dotfiles
 
 cd "$HOME/.dotfiles/dots" || exit
-stow --adopt -t ~ bash git nvim brew ripgrep python psql zsh bin ssh task jq ghostty act copilot
+stow --adopt -t ~ bash git nvim brew ripgrep python psql zsh bin ssh task jq ghostty act copilot ollama
 stow --adopt -t ~/.config/ vscode
 [[ "$OSTYPE" == "darwin"* ]] &&
   stow -t ~/Library/Application\ Support vscode &&
@@ -88,7 +88,5 @@ confirm "Install Node.js LTS via nvm?" &&
 confirm "Install Ollama?" &&
   brew install ollama llm &&
   brew services start ollama &&
-  ollama pull qwen3.6:27b &&
-  ollama pull qwen3.6:35b &&
-  ollama pull deepseek-r1:70b &&
-  uv tool install strip-tags
+  uv tool install strip-tags &&
+  bash ~/.ollama/sync_models.sh
