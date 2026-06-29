@@ -81,6 +81,7 @@ confirm "Set up Neovim via bob?" &&
   nvim --version
 confirm "Install Node.js LTS via nvm?" &&
   nvm install --lts &&
+  nvm alias default lts/jod &&
   node --version &&
   npm install -g gitnexus
 
@@ -89,4 +90,5 @@ confirm "Install Ollama?" &&
   brew services start ollama &&
   ollama pull qwen3.6:27b &&
   ollama pull qwen3.6:35b &&
-  ollama pull deepseek-r1:70b
+  ollama pull deepseek-r1:70b &&
+  uv tool install strip-tags

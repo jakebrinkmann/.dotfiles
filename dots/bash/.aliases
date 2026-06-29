@@ -19,6 +19,7 @@ alias d='date "+%j/%Y [%m/%d] %H:%M:%S (%I:%M%p) %Z"'
 alias grep="grep --color=auto"
 alias m="find . \( ! -regex '.*/\..*' \) -printf '%T@ %Tc %p\n' | sort -n | tail -n 25"
 alias first="head -n1"
+alias tcat="tail -n1000000"
 
 # Always find everything
 alias fd='fd -HI'
