@@ -1,4 +1,4 @@
-FROM llama3.3:70b-instruct-q5_K_M
+FROM qwen3.6:35b
 
 # Allow slight variance for conversational brainstorming, but keep it grounded
 PARAMETER temperature 0.4
