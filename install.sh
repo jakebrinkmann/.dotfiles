@@ -90,3 +90,4 @@ confirm "Install Ollama?" &&
   brew services start ollama &&
   uv tool install strip-tags &&
   bash ~/.ollama/sync_models.sh
+# brew update && brew upgrade ollama && brew services restart ollama

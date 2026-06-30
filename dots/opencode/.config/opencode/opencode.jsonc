@@ -26,5 +26,29 @@
         }
       }
     }
+  },
+  "permission": {
+    "*": "ask",
+    "edit": "ask",
+    "bash": {
+      "git status*": "allow",
+      "git diff*": "allow",
+      "git log*": "allow",
+      "ls *": "allow",
+      "pwd": "allow",
+      "*": "ask"
+    }
+  },
+  "mcp": {
+    "azure": {
+      "type": "local",
+      "enabled": false,
+      "command": ["npx","-y", "@azure/mcp@latest", "server", "start"]
+    },
+    "azure-devops": {
+      "type": "local",
+      "enabled": false,
+      "command": ["npx", "-y", "@azure-devops/mcp@latest", "{env:AZ_ORGANIZATION_NAME}"]
+    }
   }
 }

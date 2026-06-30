@@ -20,6 +20,7 @@ alias grep="grep --color=auto"
 alias m="find . \( ! -regex '.*/\..*' \) -printf '%T@ %Tc %p\n' | sort -n | tail -n 25"
 alias first="head -n1"
 alias tcat="tail -n1000000"
+alias tf_ollama="tail -f /opt/homebrew/var/log/ollama.log | grep -iE --color=always 'truncated | error | warn | fail | exception | $'"
 
 # Always find everything
 alias fd='fd -HI'
