@@ -1,0 +1,30 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama",
+      "options": {
+        "baseURL": "http://127.0.0.1:11434/v1"
+      },
+      "models": {
+        "collab_partner:latest": {
+          "name": "collab_partner:latest",
+          "contextWindow": 65536
+        },
+        "debugger:latest": {
+          "name": "debugger:latest",
+          "contextWindow": 65536
+        },
+        "drift_auditor:latest": {
+          "name": "drift_auditor:latest",
+          "contextWindow": 131072
+        },
+        "spec_auditor:latest": {
+          "name": "spec_auditor:latest",
+          "contextWindow": 131072
+        }
+      }
+    }
+  }
+}
