@@ -1,7 +1,36 @@
-dots/aws.symlink
-dots/vim/.vim/autoload
-dots/vim/.vim/plugged
-.netrwhist
+# =============================================================================
+# VS Code VSCodium - Browser/runtime cache artifacts (Chromium-based)
+# These are process-generated, machine-specific, and not configuration
+# Ignore everything under userData except the few config files we track
+# =============================================================================
+
+dots/vscode/Code/*
+!dots/vscode/Code/User/settings.json
+!dots/vscode/Code/User/extensions.json
+!*.code-workspace
+
+
+
+# =============================================================================
+# GitHub Copilot  Runtime/session/cache artifacts (not configuration)
+# =============================================================================
+
+dots/copilot/.copilot/data.db*
+dots/copilot/.copilot/command-history-state.json
+dots/copilot/.copilot/ide/
+dots/copilot/.copilot/logs/
+dots/copilot/.copilot/run/
+dots/copilot/.copilot/settings.json
+dots/copilot/.copilot/session-state/
+dots/copilot/.copilot/session-store.db*
+dots/copilot/.copilot/vscode.session.metadata.cache.json
+
+
+# =============================================================================
+# Misc
+# =============================================================================
+
+.Netrwhist
 dots/bin/.local/
 dots/task/.timewarrior/data/
 **/.DS_Store
