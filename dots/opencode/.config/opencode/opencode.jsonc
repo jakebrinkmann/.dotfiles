@@ -10,7 +10,7 @@
       "models": {
         "collab_partner:latest": {
           "name": "collab_partner:latest",
-          "contextWindow": 65536
+          "contextWindow": 131072
         },
         "debugger:latest": {
           "name": "debugger:latest",
