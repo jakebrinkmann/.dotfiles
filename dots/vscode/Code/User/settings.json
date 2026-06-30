@@ -47,5 +47,10 @@
     "datadog.timeRange.setup.timeFrame": "15m",
     "chat.mcp.gallery.enabled": true,
     "@azure.argTenant": "",
-    "chat.viewSessions.orientation": "stacked"
+    "chat.viewSessions.orientation": "stacked",
+    "yaml.schemas": {
+        "file:///Users/JakeBrinkmann/.vscode/extensions/continue.continue-2.0.0-darwin-arm64/config-yaml-schema.json": [
+            ".continue/**/*.yaml"
+        ]
+    }
 }

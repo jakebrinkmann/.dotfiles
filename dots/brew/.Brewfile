@@ -51,9 +51,9 @@ brew "git-delta"
 # ------------------------------------------------------------------------------
 brew "llm"
 brew "anomalyco/tap/opencode"
+cask "opencode-desktop"
 brew "ollama"
 cask "copilot-cli"
-vscode "Continue.continue"
 brew "pi-coding-agent"
 cask "antigravity-cli"
 # ------------------------------------------------------------------------------
