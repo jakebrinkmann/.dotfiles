@@ -40,8 +40,8 @@
     // ls /opt/homebrew/Cellar/plantuml/*/libexec/plantuml.jar
     // ls /opt/homebrew/Cellar/openjdk/**/libexec/openjdk.jdk/Contents/Home/bin/java
     "plantuml.render": "Local",
-    "plantuml.jar": "/opt/homebrew/Cellar/plantuml/1.2026.2/libexec/plantuml.jar",
-    "plantuml.java": "/opt/homebrew/Cellar/openjdk/25.0.2/libexec/openjdk.jdk/Contents/Home/bin/java",
+    "plantuml.jar": "/opt/homebrew/Cellar/plantuml/1.2026.6/libexec/plantuml.jar",
+    "plantuml.java": "/opt/homebrew/Cellar/openjdk/26.0.1/libexec/openjdk.jdk/Contents/Home/bin/java",
     "plantuml.server": "https://www.plantuml.com/plantuml",
     "datadog.connection.oauth.setup.domain": "us3.datadoghq.com",
     "datadog.timeRange.setup.timeFrame": "15m",

@@ -1,5 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "lsp": true,
   "provider": {
     "ollama": {
       "npm": "@ai-sdk/openai-compatible",
@@ -23,19 +24,36 @@
         "spec_auditor:latest": {
           "name": "spec_auditor:latest",
           "contextWindow": 131072
+        },
+        "ornith_test:latest": {
+          "name": "ornith_test:latest",
+          "contextWindow": 131072
         }
       }
     }
   },
   "permission": {
     "*": "ask",
-    "edit": "ask",
+    "read": {
+      "/**": "allow",
+      "~/.?*": "deny"
+    },
+    "edit": {
+      "src/**": "allow",
+      "test/**": "allow",
+      "tests/**": "allow",
+      "docs/**": "allow",
+      "*.md": "allow",
+      "*": "ask"
+    },
     "bash": {
-      "git status*": "allow",
-      "git diff*": "allow",
-      "git log*": "allow",
-      "ls *": "allow",
-      "pwd": "allow",
+      "npm test": "allow",
+      "npm run *": "allow",
+      "cargo *": "allow",
+      "make *": "allow",
+      "git status": "allow",
+      "git diff": "allow",
+      "git log": "allow",
       "*": "ask"
     }
   },
