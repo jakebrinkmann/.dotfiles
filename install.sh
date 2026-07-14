@@ -89,5 +89,6 @@ confirm "Install Ollama?" &&
   brew install ollama llm &&
   brew services start ollama &&
   uv tool install strip-tags &&
+  npx agentic-awesome-skills --path ~/.config/opencode/skills &&
   bash ~/.ollama/sync_models.sh
 # brew update && brew upgrade ollama && brew services restart ollama
