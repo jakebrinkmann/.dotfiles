@@ -36,34 +36,6 @@
       }
     }
   },
-  "permission": {
-    "*": "ask",
-    "read": {
-      "**/*": "allow",
-      "**/.*": "ask",
-      "**/.*/**": "ask"
-    },
-    "edit": {
-      "src/**": "allow",
-      "test/**": "allow",
-      "tests/**": "allow",
-      "docs/**": "allow",
-      "*.md": "allow",
-      "*": "ask"
-    },
-    "bash": {
-      "npm test": "allow",
-      "npm run *": "allow",
-      "cargo *": "allow",
-      "make *": "allow",
-      "git *": "allow",
-      "find *": "allow",
-      "head *": "allow",
-      "tail *": "allow",
-      "ls *": "allow",
-      "*": "ask"
-    }
-  },
   "mcp": {
     "azure": {
       "type": "local",
